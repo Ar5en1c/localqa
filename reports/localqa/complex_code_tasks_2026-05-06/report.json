@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-06T17:01:33.510Z",
+  "generatedAt": "2026-05-06T17:17:51.468Z",
   "sourceOssBenchDir": "/Users/kuldeepsingh/MyProjects/localqa/reports/localqa/opencode_oss_codebases_2026-05-05",
   "outDir": "/Users/kuldeepsingh/MyProjects/localqa/reports/localqa/complex_code_tasks_2026-05-06",
   "budgets": [
@@ -30,7 +30,7 @@
       "singlePasses": [
         {
           "budget": 800,
-          "durationMs": 79.06,
+          "durationMs": 86.11,
           "selectedMode": "context_cleanup",
           "telemetry": {
             "internalStepCount": 1,
@@ -109,7 +109,7 @@
         },
         {
           "budget": 1600,
-          "durationMs": 78.33,
+          "durationMs": 81.35,
           "selectedMode": "context_cleanup",
           "telemetry": {
             "internalStepCount": 1,
@@ -190,7 +190,7 @@
         },
         {
           "budget": 3200,
-          "durationMs": 77.7,
+          "durationMs": 96.29,
           "selectedMode": "context_cleanup",
           "telemetry": {
             "internalStepCount": 1,
@@ -304,7 +304,7 @@
       "singlePasses": [
         {
           "budget": 800,
-          "durationMs": 94.91,
+          "durationMs": 104.78,
           "selectedMode": "context_cleanup",
           "telemetry": {
             "internalStepCount": 1,
@@ -397,7 +397,7 @@
         },
         {
           "budget": 1600,
-          "durationMs": 95.65,
+          "durationMs": 97.31,
           "selectedMode": "context_cleanup",
           "telemetry": {
             "internalStepCount": 1,
@@ -491,7 +491,7 @@
         },
         {
           "budget": 3200,
-          "durationMs": 99.39,
+          "durationMs": 98.28,
           "selectedMode": "context_cleanup",
           "telemetry": {
             "internalStepCount": 1,
@@ -616,7 +616,7 @@
       "singlePasses": [
         {
           "budget": 800,
-          "durationMs": 94.63,
+          "durationMs": 94.71,
           "selectedMode": "context_cleanup",
           "telemetry": {
             "internalStepCount": 1,
@@ -703,7 +703,7 @@
         },
         {
           "budget": 1600,
-          "durationMs": 98.27,
+          "durationMs": 99.14,
           "selectedMode": "context_cleanup",
           "telemetry": {
             "internalStepCount": 1,
@@ -793,7 +793,7 @@
         },
         {
           "budget": 3200,
-          "durationMs": 98.43,
+          "durationMs": 97.08,
           "selectedMode": "context_cleanup",
           "telemetry": {
             "internalStepCount": 1,

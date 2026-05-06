@@ -1,6 +1,6 @@
 # LocalQA Agent Layer Real-Env Benchmark
 
-Date: 2026-05-06T17:01:29.562Z
+Date: 2026-05-06T17:17:47.290Z
 
 ## Scope
 
@@ -18,11 +18,11 @@ This validates the new LocalQA agent layer in this actual repo environment. It t
 
 | Test | OK | Control | Mode | Runtime ms | Raw toks | Compact toks | Saved toks | Reduction | Memory | Note |
 |---|---:|---|---|---:|---:|---:|---:|---:|---:|---|
-| record_memory | yes | record | record_work | 64.67 | n/a | 204 | n/a | n/a% | yes | writes local daily memory |
-| directed_memory_plus_codebase_cleanup | yes | directed | directed | 81.38 | 41857 | 843 | 41014 | 97.99% | yes | frontier model specifies exact local steps |
-| strict_rejects_unknown_tool | no | strict | directed | 68.71 | n/a | 21 | n/a | n/a% | yes | rejected as expected |
-| directed_handoff_redaction | yes | directed | directed | 69.16 | 35 | 65 | 0 | 0% | yes | no runner-output leak |
-| query_project_memory | yes | memory | memory | 73.72 | 1282 | 538 | 744 | 58.03% | no | reads local memory ledger |
+| record_memory | yes | record | record_work | 65.51 | n/a | 204 | n/a | n/a% | yes | writes local daily memory |
+| directed_memory_plus_codebase_cleanup | yes | directed | directed | 88.24 | 41857 | 843 | 41014 | 97.99% | yes | frontier model specifies exact local steps |
+| strict_rejects_unknown_tool | no | strict | directed | 62.07 | n/a | 21 | n/a | n/a% | yes | rejected as expected |
+| directed_handoff_redaction | yes | directed | directed | 74.52 | 35 | 65 | 0 | 0% | yes | no runner-output leak |
+| query_project_memory | yes | memory | memory | 86.63 | 3842 | 1185 | 2657 | 69.16% | no | reads local memory ledger |
 
 ## Findings
 

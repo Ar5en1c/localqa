@@ -1,6 +1,6 @@
 # LocalQA Launch Check
 
-Date: 2026-05-06T17:01:33.519Z
+Date: 2026-05-06T17:17:51.477Z
 
 ## Verdict
 
@@ -10,18 +10,18 @@ PASS: launch evidence is reproducible in this local environment.
 
 | Check | Result | Runtime ms | Command |
 |---|---:|---:|---|
-| syntax | pass | 61.61 | `node --check localqa/core/project-memory-core.mjs` |
-| core syntax | pass | 62.46 | `node --check localqa/core/local-agent-core.mjs` |
-| runner syntax | pass | 60.02 | `node --check scripts/localqa-opencode-runner.mjs` |
-| agent benchmark syntax | pass | 61.89 | `node --check scripts/bench_localqa_agent_layer.mjs` |
-| opencode redaction | pass | 508.49 | `npm run localqa:opencode:redaction` |
-| mcp validation | pass | 899.52 | `npm run localqa:validate` |
-| test suite | pass | 400.6 | `npm test` |
-| agent layer benchmark | pass | 734.67 | `npm run localqa:bench:agent-layer` |
-| agentic workflow benchmark | pass | 893.63 | `npm run localqa:bench:agentic-workflows` |
-| ab agent workflow benchmark | pass | 659.98 | `npm run localqa:bench:ab-agent-workflows` |
-| long horizon 300k benchmark | pass | 1251.92 | `npm run localqa:bench:long-horizon-300k` |
-| complex code benchmark | pass | 1142.76 | `npm run localqa:bench:complex-code-tasks` |
+| syntax | pass | 65.82 | `node --check localqa/core/project-memory-core.mjs` |
+| core syntax | pass | 66.51 | `node --check localqa/core/local-agent-core.mjs` |
+| runner syntax | pass | 64.69 | `node --check scripts/localqa-opencode-runner.mjs` |
+| agent benchmark syntax | pass | 59.58 | `node --check scripts/bench_localqa_agent_layer.mjs` |
+| opencode redaction | pass | 556.8 | `npm run localqa:opencode:redaction` |
+| mcp validation | pass | 1026.04 | `npm run localqa:validate` |
+| test suite | pass | 432.14 | `npm test` |
+| agent layer benchmark | pass | 699.81 | `npm run localqa:bench:agent-layer` |
+| agentic workflow benchmark | pass | 898.24 | `npm run localqa:bench:agentic-workflows` |
+| ab agent workflow benchmark | pass | 722.42 | `npm run localqa:bench:ab-agent-workflows` |
+| long horizon 300k benchmark | pass | 1335.6 | `npm run localqa:bench:long-horizon-300k` |
+| complex code benchmark | pass | 1221.81 | `npm run localqa:bench:complex-code-tasks` |
 
 ## Public numbers reproduced
 
@@ -37,10 +37,10 @@ PASS: launch evidence is reproducible in this local environment.
 
 - Real evidence approx tokens: 41848
 - Directed local evidence compression: raw=41857, compact=843, saved=41014, reduction=97.99%
-- Directed runtime: 81.38ms
+- Directed runtime: 88.24ms
 - Strict unknown-tool rejection: pass
 - Synthetic secret leak check: pass
-- Memory query: raw=1282, compact=538, saved=744, reduction=58.03%
+- Memory query: raw=3842, compact=1185, saved=2657, reduction=69.16%
 
 ### Agentic multi-step workflows
 
@@ -52,9 +52,9 @@ PASS: launch evidence is reproducible in this local environment.
 
 | Workflow | Raw toks | Compact toks | Saved toks | Reduction | Runtime ms | Quality | Label | Memory |
 |---|---:|---:|---:|---:|---:|---:|---|---:|
-| Fastify validation/error contract investigation | 41848 | 1912 | 39936 | 95.43% | 107.2 | 1 | strong | yes |
-| Express router/middleware investigation | 23936 | 1873 | 22063 | 92.17% | 99.1 | 0.888 | usable | yes |
-| Zod schema/parser investigation | 35140 | 1900 | 33240 | 94.59% | 112.77 | 0.959 | strong | yes |
+| Fastify validation/error contract investigation | 41848 | 1912 | 39936 | 95.43% | 100.67 | 1 | strong | yes |
+| Express router/middleware investigation | 23936 | 1873 | 22063 | 92.17% | 112.18 | 0.888 | usable | yes |
+| Zod schema/parser investigation | 35140 | 1900 | 33240 | 94.59% | 113.84 | 0.894 | usable | yes |
 
 ### A/B proxy vs targeted normal-agent evidence
 

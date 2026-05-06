@@ -1,10 +1,13 @@
 Launching LocalQA v0.1 alpha.
 
-LocalQA is a local evidence + memory layer for frontier coding agents.
+Agent for your agents.
 
-It uses Bonsai as the local worker model for evidence triage, cleanup, memory, and handoff preparation.
+A local Bonsai-backed sidecar that helps frontier coding agents handle logs, browser evidence, project memory, and context cleanup before spending cloud tokens.
 
-The frontier model still plans and writes code. Bonsai handles noisy local evidence before the frontier model sees a compact verified report.
+MCP-first, with an OpenCode plugin for deeper workflows.
+
+The frontier model still plans and writes code.
+Bonsai handles noisy local evidence and returns compact verified context.
 
 Launch proof:
 - 53.39% fewer fresh input tokens in one real OpenCode provider telemetry A/B test
@@ -13,4 +16,4 @@ Launch proof:
 
 Repo: https://github.com/Ar5en1c/localqa
 
-Not a frontier-model replacement. Not magic privacy. A practical local layer to help coding agents waste less context.
+Not a frontier-model replacement. A local helper layer for better agent context.

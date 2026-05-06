@@ -1,6 +1,6 @@
 # LocalQA Long-Horizon 300k Benchmark
 
-Date: 2026-05-06T17:01:32.367Z
+Date: 2026-05-06T17:17:50.244Z
 
 ## Purpose
 
@@ -20,8 +20,8 @@ This benchmark targets roughly 300k total raw evidence tokens.
 - Reduction: 97.08%
 - Average quality score: 0.976
 - Passing phases: 9/9
-- Total runtime: 900.02ms
-- Average runtime per phase: 100ms
+- Total runtime: 972.37ms
+- Average runtime per phase: 108.04ms
 - Memory-writing phases: 9/9
 
 ## Project summaries
@@ -36,15 +36,15 @@ This benchmark targets roughly 300k total raw evidence tokens.
 
 | Project | Phase | Raw toks | Compact toks | Saved toks | Reduction | Runtime ms | Quality | Label | Memory |
 |---|---|---:|---:|---:|---:|---:|---:|---|---:|
-| Fastify validation/error contract migration | Day 1 orientation | 41848 | 938 | 40910 | 97.76% | 88.08 | 1 | strong | yes |
-| Fastify validation/error contract migration | Day 2 implementation plan | 41848 | 1001 | 40847 | 97.61% | 85.54 | 1 | strong | yes |
-| Fastify validation/error contract migration | Day 3 regression review | 41848 | 1040 | 40808 | 97.51% | 100.6 | 1 | strong | yes |
-| Express router/middleware behavior change | Day 1 orientation | 23936 | 935 | 23001 | 96.09% | 95.52 | 0.928 | strong | yes |
-| Express router/middleware behavior change | Day 2 implementation plan | 23936 | 976 | 22960 | 95.92% | 104.35 | 0.928 | strong | yes |
-| Express router/middleware behavior change | Day 3 regression review | 23936 | 1027 | 22909 | 95.71% | 112.43 | 0.928 | strong | yes |
-| Zod schema/parser type-surface change | Day 1 orientation | 35140 | 921 | 34219 | 97.38% | 108.22 | 1 | strong | yes |
-| Zod schema/parser type-surface change | Day 2 implementation plan | 35140 | 976 | 34164 | 97.22% | 92.07 | 1 | strong | yes |
-| Zod schema/parser type-surface change | Day 3 regression review | 35140 | 1028 | 34112 | 97.07% | 113.21 | 1 | strong | yes |
+| Fastify validation/error contract migration | Day 1 orientation | 41848 | 938 | 40910 | 97.76% | 98.68 | 1 | strong | yes |
+| Fastify validation/error contract migration | Day 2 implementation plan | 41848 | 1001 | 40847 | 97.61% | 100.86 | 1 | strong | yes |
+| Fastify validation/error contract migration | Day 3 regression review | 41848 | 1040 | 40808 | 97.51% | 102.29 | 1 | strong | yes |
+| Express router/middleware behavior change | Day 1 orientation | 23936 | 935 | 23001 | 96.09% | 110.59 | 0.928 | strong | yes |
+| Express router/middleware behavior change | Day 2 implementation plan | 23936 | 976 | 22960 | 95.92% | 105.79 | 0.928 | strong | yes |
+| Express router/middleware behavior change | Day 3 regression review | 23936 | 1027 | 22909 | 95.71% | 108.85 | 0.928 | strong | yes |
+| Zod schema/parser type-surface change | Day 1 orientation | 35140 | 921 | 34219 | 97.38% | 119.32 | 1 | strong | yes |
+| Zod schema/parser type-surface change | Day 2 implementation plan | 35140 | 976 | 34164 | 97.22% | 111.99 | 1 | strong | yes |
+| Zod schema/parser type-surface change | Day 3 regression review | 35140 | 1028 | 34112 | 97.07% | 114 | 1 | strong | yes |
 
 ## Interpretation
 

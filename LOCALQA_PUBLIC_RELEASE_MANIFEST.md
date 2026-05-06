@@ -1,6 +1,6 @@
 # LocalQA Public Release Manifest
 
-This repo is launchable today as a LocalQA alpha, but it also contains older browser-model lab work. Use this manifest to keep the public story clean.
+This repo is launchable today as a LocalQA alpha. Use this manifest to keep the public story, included files, and excluded local artifacts clear.
 
 ## Public launch surfaces
 

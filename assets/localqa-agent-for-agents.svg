@@ -1,0 +1,82 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="820" viewBox="0 0 1400 820" role="img" aria-labelledby="title desc">
+  <title id="title">LocalQA: Agent for your agents</title>
+  <desc id="desc">A visual comparison of LocalQA MCP and OpenCode plugin workflows for frontier coding agents.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#f7f1df"/>
+      <stop offset="0.48" stop-color="#eef6ee"/>
+      <stop offset="1" stop-color="#e8f0ff"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="18" stdDeviation="20" flood-color="#162017" flood-opacity="0.16"/>
+    </filter>
+    <style>
+      .title { font: 800 58px Georgia, 'Times New Roman', serif; fill: #142015; }
+      .subtitle { font: 500 25px Georgia, 'Times New Roman', serif; fill: #334036; }
+      .eyebrow { font: 700 17px ui-monospace, SFMono-Regular, Menlo, monospace; fill: #5d4b22; letter-spacing: 1.8px; }
+      .h2 { font: 800 31px Georgia, 'Times New Roman', serif; fill: #152018; }
+      .body { font: 500 21px ui-sans-serif, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; fill: #263129; }
+      .small { font: 500 17px ui-sans-serif, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; fill: #3f4a42; }
+      .mono { font: 700 20px ui-monospace, SFMono-Regular, Menlo, monospace; fill: #17321e; }
+      .card { fill: rgba(255,255,255,0.78); stroke: rgba(20,32,21,0.12); stroke-width: 1.5; }
+      .dark { fill: #142015; }
+      .green { fill: #315f3a; }
+      .blue { fill: #365b8c; }
+      .gold { fill: #b87b1f; }
+      .line { stroke: #263129; stroke-width: 3; fill: none; marker-end: url(#arrow); opacity: 0.72; }
+      .dash { stroke: #365b8c; stroke-width: 3; fill: none; stroke-dasharray: 9 8; marker-end: url(#arrowBlue); opacity: 0.85; }
+    </style>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M2,2 L10,6 L2,10 Z" fill="#263129"/>
+    </marker>
+    <marker id="arrowBlue" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M2,2 L10,6 L2,10 Z" fill="#365b8c"/>
+    </marker>
+  </defs>
+  <rect width="1400" height="820" fill="url(#bg)"/>
+  <circle cx="1210" cy="120" r="170" fill="#e7c46d" opacity="0.23"/>
+  <circle cx="115" cy="700" r="190" fill="#719e70" opacity="0.16"/>
+  <text class="eyebrow" x="70" y="72">LOCALQA V0.1 ALPHA</text>
+  <text class="title" x="70" y="142">Agent for your agents.</text>
+  <text class="subtitle" x="72" y="188">A Bonsai-backed local sidecar for frontier coding agents.</text>
+  <text class="subtitle" x="72" y="224">It keeps noisy evidence local and returns compact verified context.</text>
+
+  <rect class="card" x="70" y="280" width="360" height="230" rx="28" filter="url(#shadow)"/>
+  <text class="h2" x="105" y="330">Frontier model</text>
+  <text class="body" x="105" y="372">Plans, reasons, and writes code.</text>
+  <text class="small" x="105" y="415">GPT / Claude / Codex / OpenCode</text>
+  <rect x="105" y="448" width="210" height="38" rx="19" fill="#dfe9d8"/>
+  <text class="mono" x="124" y="474">planner</text>
+
+  <rect class="card" x="520" y="250" width="360" height="290" rx="28" filter="url(#shadow)"/>
+  <text class="h2" x="555" y="300">LocalQA sidecar</text>
+  <text class="body" x="555" y="342">Collects and compresses local evidence.</text>
+  <text class="small" x="555" y="382">logs / browser / repo / docs / memory</text>
+  <rect x="555" y="422" width="245" height="38" rx="19" fill="#d8e8ff"/>
+  <text class="mono" x="574" y="448">local_agent_run</text>
+  <text class="small" x="555" y="495">Bonsai handles evidence triage.</text>
+
+  <rect class="card" x="970" y="280" width="360" height="230" rx="28" filter="url(#shadow)"/>
+  <text class="h2" x="1005" y="330">Compact report</text>
+  <text class="body" x="1005" y="372">Verified findings, risks, next reads.</text>
+  <text class="small" x="1005" y="415">No raw dump unless explicitly needed.</text>
+  <rect x="1005" y="448" width="215" height="38" rx="19" fill="#f1dfb6"/>
+  <text class="mono" x="1024" y="474">less context</text>
+
+  <path class="line" d="M430 395 C465 395 485 395 520 395"/>
+  <path class="line" d="M880 395 C915 395 935 395 970 395"/>
+
+  <rect class="card" x="70" y="590" width="600" height="150" rx="26"/>
+  <text class="h2" x="105" y="635">MCP mode</text>
+  <text class="body" x="105" y="675">Portable default. One strict tool: local_agent_run.</text>
+  <text class="small" x="105" y="712">Best for MCP-compatible coding agents.</text>
+
+  <rect class="card" x="730" y="590" width="600" height="150" rx="26"/>
+  <text class="h2" x="765" y="635">OpenCode plugin mode</text>
+  <text class="body" x="765" y="675">Deeper host integration with tools, rules, hooks, and vault handles.</text>
+  <text class="small" x="765" y="712">Best for OpenCode users who want stronger local workflows.</text>
+
+  <path class="dash" d="M700 540 C700 560 700 570 700 590"/>
+
+  <text class="small" x="70" y="790">Does not replace frontier models. Does not intercept text pasted directly into cloud chat. It is local context infrastructure for better agents.</text>
+</svg>

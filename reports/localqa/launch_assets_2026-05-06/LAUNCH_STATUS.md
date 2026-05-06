@@ -11,6 +11,10 @@ Status: passed after launch assets were created.
 
 ## Assets ready
 
+Primary social image: `assets/localqa-agent-for-agents.png`
+Benchmark image: `assets/localqa-benchmark-chart.png`
+
+
 - `LOCALQA_LAUNCH_PACKET_2026-05-06.md`
 - `LOCALQA_PUBLIC_ALPHA_README.md`
 - `reports/localqa/launch_assets_2026-05-06/localqa-alpha-launch-proof.mov`
@@ -25,8 +29,8 @@ Status: passed after launch assets were created.
 
 1. Run `npm run localqa:launch-check` once.
 2. Optional: run `reports/localqa/launch_assets_2026-05-06/terminal_demo.sh` for a live terminal demo.
-3. Post X.
-4. Post LinkedIn.
+3. Post X with `assets/localqa-agent-for-agents.png`.
+4. Post LinkedIn with `assets/localqa-agent-for-agents.png`.
 5. Post HN/Reddit only if public repo/link is ready.
 6. Track replies in `reports/localqa/LAUNCH_FEEDBACK_2026-05-06.md`.
 

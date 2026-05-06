@@ -6,7 +6,7 @@
   "rawTokens": 35140,
   "record": {
     "ok": true,
-    "runtimeMs": 74.06,
+    "runtimeMs": 79.27,
     "memoryWritten": true
   },
   "normalBaseline": {
@@ -28,7 +28,7 @@
     "reductionRatio": 94.59,
     "internalLocalProcessingReductionRatio": 97.3,
     "memoryWritten": true,
-    "runtimeMs": 112.77
+    "runtimeMs": 113.84
   },
   "signalScore": {
     "score": 0.925,
@@ -54,8 +54,8 @@
     "mustMissing": []
   },
   "actionabilityScore": {
-    "score": 1,
-    "passed": 7,
+    "score": 0.857,
+    "passed": 6,
     "total": 7,
     "paths": [
       "packages/docs/package.json",
@@ -82,22 +82,17 @@
       "type",
       "migration",
       "parser",
-      "router",
-      "middleware",
-      "compatibility",
-      "validation",
-      "generated",
-      "integrity"
+      "TypeScript"
     ],
     "hasSource": true,
-    "hasTests": true,
+    "hasTests": false,
     "hasMemory": true,
     "hasNextReads": true
   },
   "quality": {
-    "score": 0.959,
-    "label": "strong",
+    "score": 0.894,
+    "label": "usable",
     "pass": true
   },
-  "compactPreview": "## Step 1: memory_query\nTask: Frontier agent task: plan a safe Zod schema parsing behavior change. Use local evidence to identify package/source areas, type-surface risks, tests, docs/migration areas, and next exact reads before implementation.\nMode: memory\nStatus: ok\nProject memory query: What has already been recorded for Zod schema/parser investigation? Memory dir: /Users/kuldeepsingh/MyProjects/localqa/reports/localqa/agentic_workflows_2026-05-06/memory Matched entries: 5/5 1. 2026-05-06T17:01:30.263Z | directed_plan | completed | directed task: Frontier agent task: plan a safe Express router or middleware behavior change. Use local evidence to identify source areas, test areas, package scripts, compatibility risks, and next exact reads before implementation. summary: ## Step 1: memory_query Task: Frontier agent task: plan a safe Express router or middleware behavior change. Use local evidence to identify source areas, test areas, package scripts, compatibility risks, and next exact reads before implementation. Mode: memory Status: ok Project memory query: What has already been recorded for Express router/middleware investigation? Memory dir: /Users/kuldeepsingh/MyProjects/localqa tokens: raw=47892 compact=1873 saved=46019 reduction=96.09% 2. 2026-05-06T17:01:30.091Z | directed_plan | completed | directed task: Frontier agent task: plan a safe Fastify validation/error response change. Use local evidence to identify likely files, test commands, generated/integrity risks, TypeScript checks, and next exact reads before implementation. summary: ## Step 1: memory_query Task: Frontier agent task: plan a safe Fastify validation/error response change. Use local evidence to identify likely files, test commands, generated/integrity risks, TypeScript checks, and next exact reads before implementation. Mode: memory Status: ok Project memory query: What has already been recorded for Fastify validation/error contract investigation? Memory dir: /Users/kuldeepsingh/MyP tokens: raw=83714 compact=1912 saved=81802 reduction=97.72% 3. 2026-05-06T17:\n\n## Step 2: context_cleanup\nTask: Frontier agent task: plan a safe Zod schema parsing behavior change. Use local evidence to identify package/source areas, type-surface risks, tests, docs/migration areas, and next exact reads before implementation.\nMode: context_cleanup\nStatus: ok\nToken savings: raw=35149 compact=963 saved=34186 reduction=97.26%\nTask: Frontier agent task: plan a safe Zod schema parsing behavior change. Use local evidence to identify package/source areas, type-surface risks, tests, docs/migration areas, and n"
+  "compactPreview": "## Step 1: memory_query\nTask: Frontier agent task: plan a safe Zod schema parsing behavior change. Use local evidence to identify package/source areas, type-surface risks, tests, docs/migration areas, and next exact reads before implementation.\nMode: memory\nStatus: ok\nProject memory query: What has already been recorded for Zod schema/parser investigation? Memory dir: /Users/kuldeepsingh/MyProjects/localqa/reports/localqa/agentic_workflows_2026-05-06/memory Matched entries: 12/17 1. 2026-05-06T17:16:57.918Z | directed_plan | completed | directed task: Frontier agent task: plan a safe Zod schema parsing behavior change. Use local evidence to identify package/source areas, type-surface risks, tests, docs/migration areas, and next exact reads before implementation. summary: ## Step 1: memory_query Task: Frontier agent task: plan a safe Zod schema parsing behavior change. Use local evidence to identify package/source areas, type-surface risks, tests, docs/migration areas, and next exact reads before implementation. Mode: memory Status: ok Project memory query: What has already been recorded for Zod schema/parser investigation? Memory dir: /Users/kuldeepsingh/MyProjects/localqa/reports/lo tokens: raw=70298 compact=1900 saved=68398 reduction=97.3% 2. 2026-05-06T17:01:30.450Z | directed_plan | completed | directed task: Frontier agent task: plan a safe Zod schema parsing behavior change. Use local evidence to identify package/source areas, type-surface risks, tests, docs/migration areas, and next exact reads before implementation. summary: ## Step 1: memory_query Task: Frontier agent task: plan a safe Zod schema parsing behavior change. Use local evidence to identify package/source areas, type-surface risks, tests, docs/migration areas, and next exact reads before implementation. Mode: memory Status: ok Project memory query: What has already been recorded for Zod schema/parser investigation? Memory dir: /Users/kuldeepsingh/MyProjects/localqa/reports/lo tokens: raw=70298 compact=1900 saved=68398 reduction=97.3% 3. 2026-05-06T17:16:57.705Z | \n\n## Step 2: context_cleanup\nTask: Frontier agent task: plan a safe Zod schema parsing behavior change. Use local evidence to identify package/source areas, type-surface risks, tests, docs/migration areas, and next exact reads before implementation.\nMode: context_cleanup\nStatus: ok\nToken savings: raw=35149 compact=963 saved=34186 reduction=97.26%\nTask: Frontier agent task: plan a safe Zod schema parsing behavior change. Use local evidence to identify package/source areas, type-surface risks, tests, docs/migration areas, and n"
 }

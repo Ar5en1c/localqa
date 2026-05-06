@@ -1,25 +1,31 @@
 # LocalQA Public Alpha
 
-LocalQA is a local evidence and memory layer for frontier coding agents.
+## Agent for your agents
 
-It does not replace GPT, Claude, Codex, or other frontier models. It helps them work better by running noisy evidence work locally: browser QA, log cleanup, repo evidence compression, project memory, handoff redaction, and targeted context packaging.
+LocalQA is a Bonsai-backed local sidecar for frontier coding agents.
 
-For the initial alpha, LocalQA is designed around Bonsai as the local worker model for evidence triage, cleanup, project memory, and handoff preparation. The frontier model still plans and writes code. Bonsai handles noisy local evidence before the frontier model sees a compact verified report.
+The frontier model still plans and writes code. LocalQA handles noisy local evidence: logs, browser QA, repo context, docs, project memory, handoff redaction, and context cleanup.
 
-## Why this exists
+## Launch surfaces
 
-Normal coding agents waste context on low-value evidence work:
+| Surface | Role | Use when |
+|---|---|---|
+| MCP server | Primary public interface | You want a portable one-tool local assistant for any MCP-compatible agent |
+| OpenCode plugin | Advanced integration | You use OpenCode and want native tools, rules, hooks, vault handles, and automatic compaction |
 
-- raw logs
-- browser console dumps
-- network traces
-- DOM/a11y snapshots
-- repeated repo scans
-- repeated documentation extracts
-- forgotten prior attempts
-- noisy terminal output
+Positioning:
 
-LocalQA turns that into compact local evidence before the frontier model reasons or implements.
+```text
+LocalQA is MCP-first, with an OpenCode plugin integration.
+```
+
+## The model split
+
+| Layer | Responsibility |
+|---|---|
+| Frontier model | Plan, reason, implement, decide final changes |
+| Bonsai | Local evidence triage, cleanup, memory, handoff prep |
+| LocalQA | Tooling layer that connects local files/browser/repo evidence to the agent workflow |
 
 ## What is launch-ready
 
@@ -39,46 +45,28 @@ LocalQA turns that into compact local evidence before the frontier model reasons
 
 ## Defensible benchmark numbers
 
-Latest launch check:
-
-```bash
-npm run localqa:launch-check
-```
-
-Current reproduced numbers from this repo:
-
-- Complex OSS code tasks: `100,952` raw tokens -> `2,606` compact tokens at 800-token scout profile.
-- Complex OSS reduction: `97.42%`.
-- Complex OSS frontier-ready orientation gates: `3/3` tasks.
-- Multi-step agentic workflows: `100,924` raw tokens -> `5,685` compact tokens.
-- Multi-step agentic reduction: `94.37%`.
-- Multi-step agentic quality gates: `3/3` passing, average quality score `0.927`.
-- A/B proxy vs targeted normal-agent evidence: `25,829` baseline tokens -> `6,704` LocalQA tokens.
-- A/B proxy reduction: `74.04%`, with quality gates passing on `3/3` LocalQA tasks.
-- OpenCode provider telemetry A/B: raw-attachment baseline used `25,850` input tokens; LocalQA-directed run used `12,048` input tokens.
-- OpenCode provider telemetry input reduction: `53.39%` on one controlled Fastify evidence task. Total-token reduction was `14.88%` because OpenCode reported `9,728` cache-read tokens on the LocalQA run.
-- Long-horizon 300k simulation: `302,772` raw tokens -> `8,842` compact tokens.
-- Long-horizon reduction: `97.08%`, with quality gates passing on `9/9` phases and memory written on `9/9` phases.
-- Directed Fastify evidence path: `41,857` raw tokens -> `843` compact tokens.
-- Directed Fastify reduction: `97.99%`.
-- Directed local runtime: about `110ms` in the last real-env run.
-- Full test suite: `81/81` passing in the last launch check.
+| Benchmark | Raw/baseline | LocalQA | Reduction | Quality |
+|---|---:|---:|---:|---|
+| OpenCode provider telemetry A/B | `25,850` input tokens | `12,048` input tokens | `53.39%` | One controlled Fastify task |
+| A/B proxy vs targeted normal-agent evidence | `25,829` tokens | `6,704` tokens | `74.04%` | `3/3` quality gates |
+| Multi-step agentic workflows | `100,924` tokens | `5,685` tokens | `94.37%` | `3/3` passing |
+| Long-horizon 300k simulation | `302,772` tokens | `8,842` tokens | `97.08%` | `9/9` quality gates, `9/9` memory writes |
+| Complex OSS code tasks | `100,952` tokens | `2,606` tokens | `97.42%` | `3/3` frontier-ready |
 
 Reports:
 
-- `reports/localqa/launch_check_2026-05-05/LOCALQA_LAUNCH_CHECK.md`
+- `reports/localqa/launch_check_2026-05-06/LOCALQA_LAUNCH_CHECK.md`
 - `reports/localqa/provider_telemetry_2026-05-05/OPENCODE_PROVIDER_TELEMETRY_AB.md`
 - `reports/localqa/long_horizon_300k_2026-05-05/LONG_HORIZON_300K_BENCHMARK.md`
 - `reports/localqa/ab_agent_workflows_2026-05-05/AB_AGENT_WORKFLOW_BENCHMARK.md`
 - `reports/localqa/agentic_workflows_2026-05-05/AGENTIC_WORKFLOW_BENCHMARK.md`
-- `reports/localqa/agent_layer_real_env_2026-05-05/AGENT_LAYER_REAL_ENV_BENCHMARK.md`
 - `reports/localqa/complex_code_tasks_2026-05-05/COMPLEX_CODE_TASK_BENCHMARK.md`
 
 ## Quickstart: MCP
 
-Run the MCP server:
-
 ```bash
+npm install
+npx playwright install chromium
 LOCALQA_PUBLIC_SURFACE=agent-strict npm run localqa:mcp
 ```
 
@@ -88,118 +76,57 @@ In strict public mode, the main agent sees one tool:
 local_agent_run
 ```
 
-Use short prompts that point LocalQA at local files or URLs instead of pasting raw evidence into cloud chat.
-
-Good:
+Good user prompt:
 
 ```text
 Use LocalQA to analyze ./logs/dev.log and return only verified auth/session errors.
 ```
 
-Bad:
+Bad user prompt:
 
 ```text
-Here are 50,000 characters of logs pasted directly into the cloud chat...
+Here are 50,000 characters of logs pasted directly into cloud chat...
 ```
 
-If the user pastes raw evidence into cloud chat, it has already gone to the cloud. LocalQA prevents future raw evidence collection and repeated dumps when given paths, URLs, or tasks.
+If the user pastes raw evidence into cloud chat, it has already gone to the cloud. LocalQA works best when given paths, URLs, tasks, or local evidence handles.
 
 ## Quickstart: OpenCode plugin
 
 The repo includes:
 
-- `opencode.json`
-- `.opencode/plugins/localqa.ts`
-- `.opencode/tools/local_agent_run.ts`
-- `.opencode/tools/answer_from_handle.ts`
-- `.opencode/LOCALQA_RULES.md`
-
-The plugin gives OpenCode a local evidence layer and rules for using it before large reads, browser QA, raw logs, or memory-sensitive tasks.
-
-## Best agent prompt
-
-Use this with a frontier coding agent:
-
 ```text
-Use LocalQA as the local evidence and memory layer. You remain responsible for planning and implementation. Before reading large logs, browser evidence, DOM dumps, screenshots, network traces, or repeated repo context, call local_agent_run. Prefer directed mode for complex work: specify exact directedSteps, budgets, and outputContract. Query LocalQA memory before repeating project work. Record meaningful results after work is completed.
+opencode.json
+.opencode/plugins/localqa.ts
+.opencode/tools/local_agent_run.ts
+.opencode/tools/answer_from_handle.ts
+.opencode/LOCALQA_RULES.md
 ```
 
-## Directed execution example
+Run OpenCode from the repo root so it loads the LocalQA plugin and rules.
 
-```json
-{
-  "controlMode": "directed",
-  "task": "Investigate login QA failures and return verified evidence only.",
-  "directedSteps": [
-    {
-      "tool": "browser_qa",
-      "url": "http://localhost:3000/login",
-      "task": "Collect screenshot, console, network, accessibility, and form-state evidence."
-    },
-    {
-      "tool": "log_analysis",
-      "filePath": "./logs/dev.log",
-      "task": "Find auth, session, csrf, 401, 500, and stack-trace evidence."
-    }
-  ],
-  "outputContract": {
-    "maxTokens": 1600,
-    "include": ["verified_findings", "evidence", "likely_files", "risks", "next_actions"],
-    "exclude": ["raw_dom", "full_logs", "screenshot_metadata"]
-  }
-}
-```
+OpenCode adds:
 
-## Memory examples
-
-Query local project memory:
-
-```json
-{
-  "controlMode": "memory",
-  "question": "What did we already try for browser QA and what failed?",
-  "maxEntries": 8
-}
-```
-
-Record work:
-
-```json
-{
-  "controlMode": "record",
-  "task": "Record today's LocalQA work.",
-  "whatChanged": "Added directed execution and project memory.",
-  "testsRun": "npm run localqa:launch-check",
-  "workResult": "Launch check passed with reproduced benchmark numbers.",
-  "next": ["Record a short demo video", "Publish alpha docs"],
-  "tags": ["localqa", "launch", "alpha"]
-}
-```
+| Feature | Value |
+|---|---|
+| `local_agent_run` | Native local sidecar agent tool |
+| `answer_from_handle` | Ask scoped questions over local vault handles |
+| plugin hooks | Compact large/noisy tool output |
+| rules file | Pushes the main model toward LocalQA before raw evidence handling |
+| env hook | Injects Bonsai/LocalQA runtime settings |
 
 ## Safe public claim
 
-LocalQA helps frontier coding agents use less context by collecting, compressing, remembering, and verifying local evidence before the model reasons or implements. In the initial alpha, Bonsai is the local worker model used for the local evidence path.
+LocalQA helps frontier coding agents use less context by collecting, compressing, remembering, and verifying local evidence before the model reasons or implements.
 
-The compression ratios compare reproducible local evidence bundles against LocalQA compact output. The A/B proxy compares against a targeted normal-agent evidence path rather than a full dump. Real per-session billed savings depend on how many files, logs, browser traces, or commands the frontier agent would have read without LocalQA.
-
-Provider telemetry can be tested with:
-
-```bash
-npm run localqa:bench:provider-telemetry
-```
-
-This command runs real OpenCode provider sessions, so it is intentionally not part of the default launch check.
+In the initial alpha, Bonsai is the local worker model used for the local evidence path.
 
 ## Claims to avoid
 
 Do not claim:
 
 - LocalQA replaces frontier models.
+- Bonsai replaces frontier models.
 - LocalQA intercepts the first cloud prompt.
 - LocalQA prevents data leakage if the user pastes raw data directly into cloud chat.
 - LocalQA proves patch correctness.
 - Browser QA is permission-free on every machine.
-
-## Launch posture
-
-Ship as `v0.1 alpha` / technical preview for developers who already use coding agents and understand token/context waste.

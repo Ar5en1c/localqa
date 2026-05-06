@@ -1,6 +1,6 @@
 # LocalQA Agentic Workflow Benchmark
 
-Date: 2026-05-06T17:01:30.456Z
+Date: 2026-05-06T17:17:48.189Z
 
 ## Purpose
 
@@ -15,7 +15,7 @@ It compares a normal raw-context agent path against LocalQA as a local evidence/
 - LocalQA compact context: 5685 tokens
 - Saved: 95239 tokens
 - Reduction: 94.37%
-- Average quality score: 0.949
+- Average quality score: 0.927
 - Passing quality workflows: 3/3
 - Main-agent tool calls: 3 LocalQA calls instead of exposing 100924 raw tokens to the main model.
 
@@ -23,9 +23,9 @@ It compares a normal raw-context agent path against LocalQA as a local evidence/
 
 | Workflow | Raw toks | LocalQA compact toks | Saved toks | Reduction | Runtime ms | Signal | Actionability | Quality | Label | Memory |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|---|---:|
-| Fastify validation/error contract investigation | 41848 | 1912 | 39936 | 95.43% | 107.2 | 1 | 1 | 1 | strong | yes |
-| Express router/middleware investigation | 23936 | 1873 | 22063 | 92.17% | 99.1 | 0.914 | 0.857 | 0.888 | usable | yes |
-| Zod schema/parser investigation | 35140 | 1900 | 33240 | 94.59% | 112.77 | 0.925 | 1 | 0.959 | strong | yes |
+| Fastify validation/error contract investigation | 41848 | 1912 | 39936 | 95.43% | 100.67 | 1 | 1 | 1 | strong | yes |
+| Express router/middleware investigation | 23936 | 1873 | 22063 | 92.17% | 112.18 | 0.914 | 0.857 | 0.888 | usable | yes |
+| Zod schema/parser investigation | 35140 | 1900 | 33240 | 94.59% | 113.84 | 0.925 | 0.857 | 0.894 | usable | yes |
 
 ## Normal agent path vs LocalQA path
 

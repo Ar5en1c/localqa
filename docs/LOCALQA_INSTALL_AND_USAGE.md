@@ -1,9 +1,13 @@
 # LocalQA Install and Usage
 
-LocalQA v0.1 alpha has two launch surfaces:
+LocalQA is an agent for your agents: a local Bonsai-backed sidecar for frontier coding agents.
 
-- MCP-first public interface: recommended starting point.
-- OpenCode plugin: advanced integration for OpenCode users.
+It has two launch surfaces:
+
+| Surface | Role | Start here if |
+|---|---|---|
+| MCP server | Primary public interface | You want portable LocalQA support in an MCP-compatible coding agent |
+| OpenCode plugin | Advanced integration | You use OpenCode and want native tools, rules, hooks, and local vault queries |
 
 ## Requirements
 
@@ -102,11 +106,13 @@ Use OpenCode from the repo root. The plugin/rules are loaded from `opencode.json
 
 OpenCode integration is for stronger local-agent workflows:
 
-- `local_agent_run` as a native tool
-- `answer_from_handle` for querying local evidence vault handles
-- LocalQA rules that instruct the model to use LocalQA before raw evidence handling
-- large tool-output compaction hooks
-- project-local memory and evidence handles
+| OpenCode feature | Value |
+|---|---|
+| `local_agent_run` | Native local sidecar agent tool |
+| `answer_from_handle` | Query local evidence vault handles without dumping raw artifacts |
+| LocalQA rules | Instruct the model to use LocalQA before raw evidence handling |
+| tool-output compaction hook | Compact large/noisy output before it stays in context |
+| shell env hook | Inject Bonsai/LocalQA runtime settings |
 
 ## Bonsai role
 

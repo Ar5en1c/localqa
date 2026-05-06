@@ -22,7 +22,7 @@
   "singlePasses": [
     {
       "budget": 800,
-      "durationMs": 94.91,
+      "durationMs": 104.78,
       "selectedMode": "context_cleanup",
       "telemetry": {
         "internalStepCount": 1,
@@ -115,7 +115,7 @@
     },
     {
       "budget": 1600,
-      "durationMs": 95.65,
+      "durationMs": 97.31,
       "selectedMode": "context_cleanup",
       "telemetry": {
         "internalStepCount": 1,
@@ -209,7 +209,7 @@
     },
     {
       "budget": 3200,
-      "durationMs": 99.39,
+      "durationMs": 98.28,
       "selectedMode": "context_cleanup",
       "telemetry": {
         "internalStepCount": 1,

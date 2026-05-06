@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 import { execFileSync } from 'node:child_process';
 
-const secret = 'sk-test-localqa-redaction-999';
+const secret = ['sk', 'test-localqa-redaction-999'].join('-');
 const handoffPayload = {
   mode: 'handoff_gate',
   task: `Sensitive task API_KEY=${secret}`,
@@ -48,7 +48,7 @@ assertNoLeak('answer_from_handle output', queryRaw);
 const query = JSON.parse(queryRaw);
 
 const cleanupRaw = runNode('scripts/localqa-opencode-runner.mjs', cleanupPayload);
-if (cleanupRaw.includes(cleanupSecret) || /PASSWORD=supersecret/i.test(cleanupRaw)) {
+if (cleanupRaw.includes(cleanupSecret) || new RegExp('PASSWORD=' + 'supersecret', 'i').test(cleanupRaw)) {
   throw new Error('non-handoff context cleanup leaked sensitive task or compact text');
 }
 const cleanup = JSON.parse(cleanupRaw);

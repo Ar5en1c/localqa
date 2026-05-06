@@ -6,7 +6,7 @@
   "rawTokens": 41848,
   "record": {
     "ok": true,
-    "runtimeMs": 68.93,
+    "runtimeMs": 65.39,
     "memoryWritten": true
   },
   "normalBaseline": {
@@ -28,7 +28,7 @@
     "reductionRatio": 95.43,
     "internalLocalProcessingReductionRatio": 97.72,
     "memoryWritten": true,
-    "runtimeMs": 107.2
+    "runtimeMs": 100.67
   },
   "signalScore": {
     "score": 1,
@@ -83,10 +83,11 @@
       "integrity",
       "TypeScript",
       "contract",
+      "router",
+      "middleware",
+      "compatibility",
       "Validation",
-      "typescript",
-      "parser",
-      "type"
+      "typescript"
     ],
     "hasSource": true,
     "hasTests": true,
@@ -98,5 +99,5 @@
     "label": "strong",
     "pass": true
   },
-  "compactPreview": "## Step 1: memory_query\nTask: Frontier agent task: plan a safe Fastify validation/error response change. Use local evidence to identify likely files, test commands, generated/integrity risks, TypeScript checks, and next exact reads before implementation.\nMode: memory\nStatus: ok\nProject memory query: What has already been recorded for Fastify validation/error contract investigation? Memory dir: /Users/kuldeepsingh/MyProjects/localqa/reports/localqa/agentic_workflows_2026-05-06/memory Matched entries: 1/1 1. 2026-05-06T17:01:29.985Z | work_record | recorded | n/a task: Record setup for Fastify validation/error contract investigation. summary: Changed: Preparing agentic workflow benchmark for Fastify validation/error contract investigation. Tests: localqa agentic workflow benchmark Result: Setup recorded before directed evidence work.\n\n## Step 2: context_cleanup\nTask: Frontier agent task: plan a safe Fastify validation/error response change. Use local evidence to identify likely files, test commands, generated/integrity risks, TypeScript checks, and next exact reads before implementation.\nMode: context_cleanup\nStatus: ok\nToken savings: raw=41857 compact=965 saved=40892 reduction=97.69%\nTask: Frontier agent task: plan a safe Fastify validation/error response change. Use local evidence to identify likely files, test commands, generated/integrity risks, TypeScript checks, and next exact reads before implementation. Mode: context_cleanup High-signal lines: lib/validation.js:256: error.statusCode = error.statusCode || 400 docs/Reference/Server.md:247: The timeout is **cooperative**: when it fires, Fastify sends the 503 error docs/Reference/Errors.md:140: error handler, resulting in a generic `500 Internal Server Error` response. docs/Reference/Lifecycle.md:46: a 503 error is sent. The timer is cleared when the response finishes or when docs/Reference/Errors.md:118: [crash](https://nodejs.org/api/process.html#warning-using-uncaughtexception-correctly). lib/error-handler.js:161: if (error.status >= 400) { lib/error-handler.js:163: } else if (error.statusCode >= 400) { docs/Reference/TypeScript.md:150: reply.code(404).send({ error: 'Not found' }); docs/Reference/Server.md:281: reply.code(504).send({ error: 'Gateway Timeout' }) docs/Reference/Validation-and-Serialization.md:368: throw new Error('Missing httpPart') docs/Reference/Server.md:235: within this time, a `503 Service Unavailable` error is returned and docs/Reference/TypeScript.md:182: `{\"statusCode\":500,\"error\":\"Internal Server Error\",\"message\":\"Must be docs/Reference/TypeScript.md:181: anything other than "
+  "compactPreview": "## Step 1: memory_query\nTask: Frontier agent task: plan a safe Fastify validation/error response change. Use local evidence to identify likely files, test commands, generated/integrity risks, TypeScript checks, and next exact reads before implementation.\nMode: memory\nStatus: ok\nProject memory query: What has already been recorded for Fastify validation/error contract investigation? Memory dir: /Users/kuldeepsingh/MyProjects/localqa/reports/localqa/agentic_workflows_2026-05-06/memory Matched entries: 12/13 1. 2026-05-06T17:16:57.705Z | directed_plan | completed | directed task: Frontier agent task: plan a safe Express router or middleware behavior change. Use local evidence to identify source areas, test areas, package scripts, compatibility risks, and next exact reads before implementation. summary: ## Step 1: memory_query Task: Frontier agent task: plan a safe Express router or middleware behavior change. Use local evidence to identify source areas, test areas, package scripts, compatibility risks, and next exact reads before implementation. Mode: memory Status: ok Project memory query: What has already been recorded for Express router/middleware investigation? Memory dir: /Users/kuldeepsingh/MyProjects/localqa tokens: raw=47892 compact=1873 saved=46019 reduction=96.09% 2. 2026-05-06T17:16:57.507Z | directed_plan | completed | directed task: Frontier agent task: plan a safe Fastify validation/error response change. Use local evidence to identify likely files, test commands, generated/integrity risks, TypeScript checks, and next exact reads before implementation. summary: ## Step 1: memory_query Task: Frontier agent task: plan a safe Fastify validation/error response change. Use local evidence to identify likely files, test commands, generated/integrity risks, TypeScript checks, and next exact reads before implementation. Mode: memory Status: ok Project memory query: What has already been recorded for Fastify validation/error contract investigation? Memory dir: /Users/kuldeepsingh/MyP tokens: raw=83714 compact=1912 saved=81802 reduction=97.72%\n\n## Step 2: context_cleanup\nTask: Frontier agent task: plan a safe Fastify validation/error response change. Use local evidence to identify likely files, test commands, generated/integrity risks, TypeScript checks, and next exact reads before implementation.\nMode: context_cleanup\nStatus: ok\nToken savings: raw=41857 compact=965 saved=40892 reduction=97.69%\nTask: Frontier agent task: plan a safe Fastify validation/error response change. Use local evidence to identify likely files, test commands, generated/integrity r"
 }

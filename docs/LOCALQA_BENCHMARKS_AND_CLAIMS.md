@@ -1,6 +1,22 @@
 # LocalQA Benchmarks and Public Claims
 
+LocalQA is an agent for your agents: a local Bonsai-backed sidecar that helps frontier coding agents use less context on evidence, memory, and cleanup work.
+
 This document separates claim-safe launch numbers from things LocalQA does not prove yet.
+
+## Benchmark summary
+
+| Benchmark | Baseline/raw | LocalQA compact | Saved | Reduction | What it proves |
+|---|---:|---:|---:|---:|---|
+| Real OpenCode provider telemetry A/B | `25,850` input tokens | `12,048` input tokens | `13,802` | `53.39%` | Provider-observed fresh input reduction on one controlled task |
+| A/B workflow proxy | `25,829` tokens | `6,704` tokens | `19,125` | `74.04%` | Compact evidence preserved `3/3` task quality gates |
+| Agentic workflows | `100,924` tokens | `5,685` tokens | `95,239` | `94.37%` | Multi-step workflow evidence compression with `3/3` passing quality |
+| Long-horizon 300k | `302,772` tokens | `8,842` tokens | `293,930` | `97.08%` | Long-task memory/evidence compression with `9/9` quality gates |
+| Complex OSS scout | `100,952` tokens | `2,606` tokens | `98,346` | `97.42%` | Source/test/risk orientation survived compacting on `3/3` OSS tasks |
+
+## Visual chart
+
+![LocalQA benchmark chart](../assets/localqa-benchmark-chart.svg)
 
 ## Final launch check
 
@@ -75,7 +91,7 @@ This proves LocalQA can compress and preserve structured long-task memory. It do
 Use:
 
 ```text
-LocalQA helps frontier coding agents use less context by collecting, compressing, remembering, and verifying local evidence before reasoning or implementation.
+LocalQA is an agent for your agents: a local Bonsai-backed sidecar that helps frontier coding agents collect, compress, remember, and verify local evidence before reasoning or implementation.
 ```
 
 Use:

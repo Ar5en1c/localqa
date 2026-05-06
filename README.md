@@ -1,73 +1,80 @@
-# LocalQA v0.1 Alpha
+# LocalQA: Agent for your agents
 
-LocalQA is a Bonsai-backed local evidence and memory layer for frontier coding agents.
+![LocalQA: Agent for your agents](./assets/localqa-agent-for-agents.svg)
 
-It is MCP-first, with an OpenCode plugin integration for stronger host-layer workflows.
+LocalQA is a Bonsai-backed local sidecar for frontier coding agents.
 
-The frontier model still plans and writes code. LocalQA uses Bonsai as the local worker model for evidence triage, cleanup, project memory, and handoff preparation, then returns compact verified context instead of raw logs, repo dumps, browser traces, or forgotten prior work.
-
-## What LocalQA is for
-
-Coding agents waste context on low-value evidence work:
-
-- long logs and stack traces
-- repeated repo scans
-- browser console/network/DOM dumps
-- docs and page extraction
-- prior work rediscovery
-- noisy tool output
-- pre-handoff cleanup and redaction
-
-LocalQA gives the frontier model one local worker surface:
+Your main coding agent should plan, reason, and write code. LocalQA handles the noisy local work around it: logs, browser evidence, repo context, docs, previous work memory, redaction, and context cleanup. It returns compact verified evidence so the frontier model spends less context on raw dumps.
 
 ```text
-local_agent_run
+Frontier model = planner and implementer
+Bonsai = local worker model
+LocalQA = sidecar layer for evidence, memory, and handoff cleanup
 ```
 
-The main model can either ask LocalQA to route automatically or use directed mode and specify the exact local steps to run.
+## What we are launching
 
-## MCP vs OpenCode
+LocalQA launches with two surfaces:
 
-Launch surface:
+| Surface | Role | Who should use it first? |
+|---|---|---|
+| MCP server | Primary public interface | Anyone using an MCP-compatible coding agent |
+| OpenCode plugin | Deeper native integration | OpenCode users who want rules, hooks, vault handles, and automatic compaction |
 
-- MCP: primary public interface. Use this first. It exposes one strict tool, `local_agent_run`, for agent hosts that support MCP.
-- OpenCode plugin: advanced integration. It adds OpenCode rules/tools/hooks so LocalQA can compact large tool output, expose vault handles, and preserve local memory through longer sessions.
+The short version:
 
-In short: LocalQA is MCP-first; OpenCode is the stronger native-agent workflow.
-
-## Launch proof
-
-Latest launch check:
-
-```bash
-npm run localqa:launch-check
+```text
+LocalQA is MCP-first, with an OpenCode plugin integration.
 ```
 
-Defensible launch numbers:
+## Why this exists
 
-- Real OpenCode provider telemetry A/B: `25,850` baseline input tokens vs `12,048` LocalQA input tokens, saving `13,802` fresh input tokens, `53.39%` reduction.
-- Controlled A/B workflow proxy: `25,829 -> 6,704` tokens, `74.04%` reduction, `3/3` quality gates maintained.
-- Long-horizon benchmark: `302,772 -> 8,842` tokens, `97.08%` reduction, `9/9` quality gates, `9/9` memory writes.
+Coding agents are powerful, but they waste context on low-value evidence work:
 
-Proof assets:
+| Noisy input | What LocalQA does locally |
+|---|---|
+| Long logs and stack traces | Dedupes, ranks root-cause lines, returns compact evidence |
+| Browser console/network/DOM dumps | Runs local Playwright QA and summarizes verified issues |
+| Repo scans and repeated file reads | Compresses codebase evidence into source/test/risk signals |
+| Prior work rediscovery | Writes and queries project-local memory |
+| Raw handoff payloads | Redacts and prepares compact payloads before cloud reasoning |
+| Tool-output bloat | In OpenCode plugin mode, can compact large tool outputs before they stay in context |
 
-- [Launch packet](./LOCALQA_LAUNCH_PACKET_2026-05-06.md)
-- [Public alpha README](./LOCALQA_PUBLIC_ALPHA_README.md)
-- [Install guide](./docs/LOCALQA_INSTALL_AND_USAGE.md)
-- [Benchmarks and claims](./docs/LOCALQA_BENCHMARKS_AND_CLAIMS.md)
-- [Security and privacy boundary](./docs/LOCALQA_SECURITY_AND_PRIVACY.md)
-- [Demo transcript](./reports/localqa/launch_assets_2026-05-06/terminal_demo_transcript.txt)
+## MCP vs OpenCode plugin
 
-## Quick start: MCP
+| Dimension | MCP mode | OpenCode plugin mode |
+|---|---|---|
+| Positioning | Portable default | Advanced native workflow |
+| Main interface | MCP server over stdio | OpenCode plugin + native tools |
+| Primary tool | `local_agent_run` | `local_agent_run` |
+| Extra tool | Hidden in strict mode | `answer_from_handle` for local vault queries |
+| Host support | Any MCP-compatible agent | OpenCode only |
+| Tool surface | One strict public tool | Native tools plus plugin hooks |
+| Enforcement strength | Agent chooses to call MCP | Stronger rules/hooks inside the host |
+| Large tool-output compaction | Only when routed through LocalQA | Can happen automatically through plugin hook |
+| Long-session memory | Returned as tool output | Rules/compaction can preserve vault/memory reminders |
+| First-prompt privacy | No | No full first-prompt firewall |
+| Best use case | Broad launch and easy adoption | Power users who want deeper local workflows |
 
-Install dependencies:
+MCP says: the main agent can call LocalQA.
 
-```bash
-npm install
-npx playwright install chromium
+OpenCode plugin says: the agent host knows LocalQA exists and can help keep noisy tool output out of context.
+
+## How the MCP flow works
+
+```mermaid
+flowchart LR
+  U[User gives short task or file/url pointer] --> A[Frontier coding agent]
+  A --> M[LocalQA MCP server]
+  M --> T[local_agent_run]
+  T --> E[Local files, browser, repo, docs, memory]
+  E --> B[Bonsai local worker]
+  B --> C[Compact verified report]
+  C --> A
+  A --> P[Plan, patch, or answer]
 ```
 
-Start LocalQA MCP in strict one-tool mode:
+Use MCP when you want the portable one-tool local assistant.
 
 ```bash
 LOCALQA_PUBLIC_SURFACE=agent-strict npm run localqa:mcp
@@ -79,31 +86,79 @@ Tell your coding agent:
 Use LocalQA as the local evidence and memory layer. Before reading large logs, browser evidence, DOM dumps, screenshots, network traces, or repeated repo context, call local_agent_run. Prefer directed mode for complex work.
 ```
 
-## Quick start: OpenCode
+## How the OpenCode plugin works
 
-This repo includes:
-
-```text
-opencode.json
-.opencode/plugins/localqa.ts
-.opencode/tools/local_agent_run.ts
-.opencode/tools/answer_from_handle.ts
-.opencode/LOCALQA_RULES.md
+```mermaid
+flowchart LR
+  U[User in OpenCode] --> O[OpenCode host]
+  O --> R[LocalQA rules]
+  O --> H[Plugin hooks]
+  O --> LT[Native tools]
+  H --> K[Compact large tool output]
+  LT --> L[local_agent_run]
+  LT --> Q[answer_from_handle]
+  L --> B[Bonsai local worker]
+  B --> V[Local vault and memory]
+  V --> O
 ```
 
-Use OpenCode from this repo root so it loads the LocalQA plugin and rules.
+Use OpenCode mode when you want deeper integration:
 
-## Bonsai runtime
+| Feature | What it gives you |
+|---|---|
+| `.opencode/LOCALQA_RULES.md` | Agent instructions for when to use LocalQA |
+| `.opencode/tools/local_agent_run.ts` | Local sidecar agent as a native OpenCode tool |
+| `.opencode/tools/answer_from_handle.ts` | Scoped follow-up questions over local evidence handles |
+| `.opencode/plugins/localqa.ts` | Hooks for tool-output compaction, env injection, and compaction reminders |
+| `opencode.json` | Loads the plugin and LocalQA rules from this repo |
 
-Initial alpha reference path is Bonsai as the local worker model.
+Run OpenCode from this repo root so it discovers `opencode.json`.
 
-Start Bonsai manually if needed:
+## Launch proof
+
+![LocalQA benchmark chart](./assets/localqa-benchmark-chart.svg)
+
+Latest launch check:
 
 ```bash
-npm run localqa:bonsai:serve
+npm run localqa:launch-check
 ```
 
-Or let LocalQA attempt autostart in MCP/OpenCode environments:
+| Benchmark | Baseline/raw | LocalQA compact | Saved | Reduction | Quality gate |
+|---|---:|---:|---:|---:|---|
+| Real OpenCode provider telemetry A/B | `25,850` input tokens | `12,048` input tokens | `13,802` | `53.39%` | One controlled Fastify task |
+| A/B workflow proxy | `25,829` tokens | `6,704` tokens | `19,125` | `74.04%` | `3/3` maintained |
+| Long-horizon 300k benchmark | `302,772` tokens | `8,842` tokens | `293,930` | `97.08%` | `9/9` quality gates, `9/9` memory writes |
+
+More detailed reports:
+
+- [Benchmarks and claims](./docs/LOCALQA_BENCHMARKS_AND_CLAIMS.md)
+- [Provider telemetry A/B](./reports/localqa/provider_telemetry_2026-05-05/OPENCODE_PROVIDER_TELEMETRY_AB.md)
+- [A/B workflow benchmark](./reports/localqa/ab_agent_workflows_2026-05-05/AB_AGENT_WORKFLOW_BENCHMARK.md)
+- [Long-horizon benchmark](./reports/localqa/long_horizon_300k_2026-05-05/LONG_HORIZON_300K_BENCHMARK.md)
+
+## Quick start
+
+Install dependencies:
+
+```bash
+npm install
+npx playwright install chromium
+```
+
+Run validation:
+
+```bash
+npm run localqa:launch-check
+```
+
+Start MCP strict mode:
+
+```bash
+LOCALQA_PUBLIC_SURFACE=agent-strict npm run localqa:mcp
+```
+
+Optional Bonsai autostart environment:
 
 ```bash
 LOCALQA_DEFAULT_LLM=bonsai \
@@ -115,124 +170,66 @@ LOCALQA_PUBLIC_SURFACE=agent-strict \
 npm run localqa:mcp
 ```
 
-## Caveats
+## Example tasks
 
-Do not overread the claims:
+Good prompt:
 
-- LocalQA does not replace frontier models.
-- Bonsai does not replace frontier models.
-- LocalQA does not intercept text pasted directly into cloud chat.
-- LocalQA does not prove final patch correctness.
-- Browser QA can be environment-specific because local browser permissions vary.
-- The `97.08%` long-horizon number is a local evidence compression benchmark, not a provider-billed token claim.
-
----
-
-## Original browser-model lab context
-
-This repository also contains the older WebLLM/MLC browser inference and TurboQuant research lab that led to LocalQA. That historical context remains below.
-
-# WebLLM Bench: Browser-Native GPU Inference & Compilation Harness
-
-**WebLLM Bench** is a rigorous evaluation harness and custom context compiler for on-device Large Language Models. It enables deterministic benchmarking, mathematical A/B comparison, and custom context window compilation (up to 8192 tokens) entirely within the browser via **WebGPU** and **WASM**—requiring zero server-side inference.
-
-### 🏗️ Core Infrastructure & Technical Impact
-- ⚡ **Large Context Compilation:** Engineered a custom compilation pipeline to deploy an 8192-context `Qwen2.5-1.5B` model, proving mathematical performance parity with standard 4k baselines on constrained browser hardware.
-- 🔬 **Deterministic A/B Benchmarking:** Architected a reactive test harness to measure prefill TPS, decode TPS, TTFT, and token-generation latency (avg + P95) across 136+ dynamically loaded MLC models.
-- 🔒 **Zero-Trust Architecture:** Models are securely fetched, cached via IndexedDB/Cache API, and executed natively on the client's local GPU, guaranteeing absolute data privacy (PII never leaves the DOM).
-
-Maintained by **Kuldeep Singh** ([LinkedIn](https://www.linkedin.com/in/kuldeep-5ingh/)). Originally developed as the core inference technology powering **[YouxAI](https://youxai.app)**.
-
-**Live Infrastructure Demo:** [https://ar5en1c.github.io/webllm-bench/](https://ar5en1c.github.io/webllm-bench/)
-
----
-
-## Current Truth (April 2026)
-
-If you want the current state of the repo rather than older exploratory docs, start here:
-
-- `docs/CURRENT_STATUS_2026-04-06.md` — authoritative summary of what is proven, what failed, and what is useful to YouxAI now
-- `reports/browser_benchmark_summary.md` — real browser benchmark baseline vs TurboQuant results
-- `reports/honest_retrospective.md` — correction of earlier optimistic assumptions
-- `reports/turboquant_fix_findings.md` — latest KV-cache quantization findings for Qwen3
-- `reports/launch_8k_batch_validation_2026-03-28.md` — claim-safe 8k validation evidence
-
-Short version:
-
-- standard MLC/WebLLM is the reliable shipping path
-- 8k custom context is validated
-- Qwen3 TurboQuant INT3/INT4 is not shippable
-- real INT8 KV storage is promising for memory reduction, but not yet a latency win
-
----
-
-## 🚀 Quick Start (Local Deployment)
-
-No build step required for the core engine. Serve the application locally to prevent CORS blockages during WebAssembly instantiation:
-
-```bash
-npm run serve:root
+```text
+Use LocalQA to analyze ./logs/dev.log and return only verified auth/session errors. Do not paste raw logs into cloud context.
 ```
 
-Navigate to `http://localhost:8765/bench.html` to access the engineering console:
-- **⚡ Bench:** Isolate and benchmark a single model's WebGPU performance.
-- **📊 Compare:** Execute deterministic side-by-side prompt ingestion and measure rendering deltas.
-- **🏆 Best Model:** Filter the registry by VRAM constraints and execute multi-model sweeps.
+Good directed task shape:
 
----
-
-## 🛠️ The 8K Validation & Compilation Protocol
-
-A critical focus of this repository is pushing the boundaries of browser VRAM. Standard WebLLM models are capped at 4k context limits. 
-
-We established a reproducible protocol for compiling custom context windows. For publishable 8k claims on consumer hardware, utilize the official pipeline:
-
-1. **Review the Compilation Guide:** [CUSTOM_CONTEXT_GUIDE.md](docs/CUSTOM_CONTEXT_GUIDE.md) provides step-by-step instructions for utilizing Python 3.12 and the Emscripten SDK to compile custom MLC configurations.
-2. **Execute the Harness:** See [VALIDATION_PROTOCOL_8K.md](docs/VALIDATION_PROTOCOL_8K.md).
-3. **Generate the Report:**
-   ```bash
-   npm run report:8k:validation -- --in /absolute/path/to/extracted-telemetry.json
-   ```
-
-## 🖥️ Modern Product UI Migration
-The legacy infrastructure (`bench.html`) runs on pure JS. We are currently migrating the evaluation arena to a scalable React 19 + Tailwind architecture.
-
-```bash
-cd apps/web
-npm install
-cd ../..
-npm run dev:web
+```json
+{
+  "controlMode": "directed",
+  "task": "Investigate login QA failures and return verified evidence only.",
+  "directedSteps": [
+    {
+      "tool": "browser_qa",
+      "url": "http://localhost:3000/login",
+      "task": "Collect screenshot, console, network, accessibility, and form-state evidence."
+    },
+    {
+      "tool": "log_analysis",
+      "filePath": "./logs/dev.log",
+      "task": "Find auth, session, csrf, 401, 500, and stack-trace evidence."
+    }
+  ],
+  "outputContract": {
+    "maxTokens": 1600,
+    "include": ["verified_findings", "evidence", "likely_files", "risks", "next_actions"],
+    "exclude": ["raw_dom", "full_logs", "screenshot_metadata"]
+  }
+}
 ```
 
----
+Bad prompt:
 
-## 📂 System Architecture & Repository Structure
-
-The repository is modularized to separate the React product shell, the benchmarking extension, and the underlying inference shims.
-
-```
-├── bench.html / bench.js          # Standalone legacy WebGPU benchmark harness
-├── apps/web/                      # React 19 + Tailwind product shell (Arena UI)
-├── webllm-lab/                    # Runtime engine, WebLLM client, ABI shims
-├── extension-lab/                 # Manifest V3 Chrome extension for isolated A/B testing
-├── scripts/                       # CI/CD, build, and automated JS reporting scripts
-├── docs/                          
-│   ├── CUSTOM_CONTEXT_GUIDE.md    # WASM compilation logic for 8k/16k/32k limits
-│   └── EXPERIMENTAL_TURBOQUANT.md # Research logs on KV cache quantization kernels
-├── mlc-fork/                      # Experimental MLC patches mapping to CoreML/WebGPU
-└── tests/                         # Vitest integration suites
+```text
+Here are 50,000 characters of logs pasted directly into cloud chat...
 ```
 
----
+If you paste raw data into cloud chat, it already went to the cloud before MCP can help.
 
-## 🧪 Experimental R&D: TurboQuant KV Caching
-This repository contains experimental research into implementing [TurboQuant](https://openreview.net/forum?id=tO3ASKZlok) (ICLR 2026) logic for KV cache quantization. While the kernels successfully compile and execute in our test harness, measurable latency speedups are currently bottlenecked by WebGPU shader dispatch overhead. Technical status and mitigation paths are logged in [docs/EXPERIMENTAL_TURBOQUANT.md](docs/EXPERIMENTAL_TURBOQUANT.md).
+## What LocalQA is not
 
-## ⚙️ Hardware & Environment Requirements
-- **Browser:** Chrome 113+ or Edge 113+ (WebGPU flag enabled if required).
-- **Hardware:** Integrated or discrete GPU supporting minimum FP16 shader ops.
-- **Build Environment (Custom Contex):** Python 3.12+, Emscripten SDK.
+| Not this | Actual boundary |
+|---|---|
+| A frontier-model replacement | The frontier model still plans and writes code |
+| A guarantee that pasted chat data stays local | Pasted cloud-chat text is already sent to the cloud |
+| A patch-correctness proof system | Compression benchmarks are not patch correctness benchmarks |
+| A formal DLP/security product | Redaction exists, but this is alpha software |
+| Browser QA that works identically everywhere | Local browser permissions vary by machine |
 
-## Acknowledgements
-- [WebLLM](https://github.com/mlc-ai/web-llm) & [MLC-LLM](https://github.com/mlc-ai/mlc-llm) by MLC AI
-- Infrastructure insights derived from **YouxAI** production deployments.
+## Public alpha docs
+
+- [Install and usage](./docs/LOCALQA_INSTALL_AND_USAGE.md)
+- [MCP vs OpenCode usage](./docs/LOCALQA_OPENCODE_USAGE.md)
+- [Benchmarks and claims](./docs/LOCALQA_BENCHMARKS_AND_CLAIMS.md)
+- [Security and privacy boundary](./docs/LOCALQA_SECURITY_AND_PRIVACY.md)
+- [Launch packet](./LOCALQA_LAUNCH_PACKET_2026-05-06.md)
+
+## License
+
+MIT

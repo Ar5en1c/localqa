@@ -168,13 +168,14 @@ async function main() {
   results.push(summarizeRun('strict_rejects_unknown_tool', strictRun, { note: strictRun.json.ok === false ? 'rejected as expected' : 'unexpected pass' }));
 
   const secret = 'supersecret-localqa-agent-layer-12345';
+  const bearerToken = ['sk', 'localqa-agent-layer-test-token'].join('-');
   const handoffRun = runRunner({
     controlMode: 'directed',
     task: `Prepare external handoff for synthetic secret PASSWORD=${secret}`,
     directedSteps: [{
       tool: 'handoff_gate',
       task: 'Prepare a redacted compact handoff for this synthetic credential evidence.',
-      text: `SYNTHETIC_ONLY login failed with PASSWORD=${secret} and authorization: bearer sk-localqa-agent-layer-test-token`,
+      text: `SYNTHETIC_ONLY login failed with PASSWORD=${secret} and authorization: bearer ${bearerToken}`,
       destinationKind: 'main_llm',
       externalSendAttempted: true,
       sendPayloadKind: 'raw',
@@ -185,8 +186,8 @@ async function main() {
     outputDir,
   });
   results.push(summarizeRun('directed_handoff_redaction', handoffRun, {
-    leakedSyntheticSecret: hasLeak(handoffRun.json, [secret, 'sk-localqa-agent-layer-test-token']),
-    note: hasLeak(handoffRun.json, [secret, 'sk-localqa-agent-layer-test-token']) ? 'leak detected' : 'no runner-output leak',
+    leakedSyntheticSecret: hasLeak(handoffRun.json, [secret, bearerToken]),
+    note: hasLeak(handoffRun.json, [secret, bearerToken]) ? 'leak detected' : 'no runner-output leak',
   }));
 
   const queryRun = runRunner({

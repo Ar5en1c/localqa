@@ -1,84 +1,95 @@
-# LocalQA OpenCode Usage
+# LocalQA MCP vs OpenCode Plugin
 
-LocalQA launches MCP-first, but this repo also includes an OpenCode plugin integration.
+LocalQA is an agent for your agents: a local Bonsai-backed sidecar that handles evidence, memory, cleanup, and handoff work for frontier coding agents.
 
-## Why OpenCode plugin exists
+It launches with two surfaces:
 
-MCP is portable, but advisory. The main model has to choose to call the MCP tool.
+| Surface | Role |
+|---|---|
+| MCP server | Portable default |
+| OpenCode plugin | Deeper native OpenCode workflow |
 
-OpenCode plugin mode is stronger because the host can load LocalQA as native tools/rules/hooks:
+## Comparison chart
 
-- `local_agent_run` native tool
-- `answer_from_handle` native vault query tool
-- LocalQA rules loaded from `.opencode/LOCALQA_RULES.md`
-- tool-result compaction hooks
-- shell env injection for local Bonsai settings
-- compaction-time vault/memory reminders
+| Dimension | MCP mode | OpenCode plugin mode |
+|---|---|---|
+| Positioning | Portable default | Advanced native workflow |
+| Main interface | MCP server over stdio | OpenCode plugin + native tools |
+| Primary tool | `local_agent_run` | `local_agent_run` |
+| Extra tool | Hidden in strict mode | `answer_from_handle` for local vault queries |
+| Host support | Any MCP-compatible agent | OpenCode only |
+| Tool surface | One strict public tool | Native tools plus plugin hooks |
+| Enforcement strength | Agent chooses to call MCP | Stronger rules/hooks inside the host |
+| Large tool-output compaction | Only when routed through LocalQA | Can happen automatically through plugin hook |
+| Long-session memory | Returned as tool output | Rules/compaction can preserve vault/memory reminders |
+| First-prompt privacy | No | No full first-prompt firewall |
+| Best use case | Broad launch and easy adoption | Power users who want deeper local workflows |
 
-This still is not a first-prompt network firewall. If the user pastes raw evidence directly into a cloud chat prompt, that data has already gone to the cloud.
+## How MCP works
 
-## Files
+```mermaid
+flowchart LR
+  U[User gives short task or file/url pointer] --> A[Frontier coding agent]
+  A --> M[LocalQA MCP server]
+  M --> T[local_agent_run]
+  T --> E[Local files, browser, repo, docs, memory]
+  E --> B[Bonsai local worker]
+  B --> C[Compact verified report]
+  C --> A
+```
+
+MCP is the universal connector. It exposes LocalQA as one local worker tool.
+
+Use it when you want a portable integration with MCP-compatible agents.
+
+## How OpenCode plugin works
+
+```mermaid
+flowchart LR
+  U[User in OpenCode] --> O[OpenCode host]
+  O --> R[LocalQA rules]
+  O --> H[Plugin hooks]
+  O --> LT[Native tools]
+  H --> K[Compact large tool output]
+  LT --> L[local_agent_run]
+  LT --> Q[answer_from_handle]
+  L --> B[Bonsai local worker]
+  B --> V[Local vault and memory]
+  V --> O
+```
+
+OpenCode plugin mode adds:
+
+| Feature | What it gives you |
+|---|---|
+| `.opencode/LOCALQA_RULES.md` | Agent instructions for when to use LocalQA |
+| `.opencode/tools/local_agent_run.ts` | Local sidecar agent as a native OpenCode tool |
+| `.opencode/tools/answer_from_handle.ts` | Scoped follow-up questions over local evidence handles |
+| `.opencode/plugins/localqa.ts` | Hooks for tool-output compaction, env injection, and compaction reminders |
+| `opencode.json` | Loads the plugin and LocalQA rules from this repo |
+
+## Important boundary
+
+Neither mode is a network-level prompt firewall.
+
+If a user pastes raw logs or secrets directly into cloud chat, that data has already gone to the cloud before MCP or plugin tooling can help.
+
+Correct pattern:
 
 ```text
-opencode.json
-.opencode/plugins/localqa.ts
-.opencode/tools/local_agent_run.ts
-.opencode/tools/answer_from_handle.ts
-.opencode/LOCALQA_RULES.md
+Use LocalQA to analyze ./logs/dev.log and return only verified auth/session errors.
 ```
 
-## How to use
-
-Run OpenCode from this repo root so `opencode.json` is discovered.
-
-The agent should see/use:
+Incorrect pattern:
 
 ```text
-local_agent_run
-answer_from_handle
+Here are 50,000 characters of logs pasted directly into cloud chat...
 ```
 
-Use this task style:
+## What to say publicly
 
 ```text
-Use LocalQA to inspect the local logs and browser evidence for the login failure. Do not read raw logs directly. Ask LocalQA for compact verified evidence, then propose the smallest patch plan.
+MCP is the portable default. Use it with any MCP-compatible coding agent.
+
+The OpenCode plugin is the deeper integration. It adds native tools, rules, local vault querying, and automatic compaction hooks inside OpenCode.
 ```
-
-## Directed OpenCode task example
-
-Ask the frontier model to call `local_agent_run` with:
-
-```json
-{
-  "controlMode": "directed",
-  "task": "Prepare implementation context for a Fastify validation error-response fix.",
-  "directedSteps": [
-    {
-      "tool": "memory_query",
-      "question": "What did we already try for Fastify validation and error responses?"
-    },
-    {
-      "tool": "context_cleanup",
-      "filePath": "./reports/localqa/fixtures/fastify-evidence.txt",
-      "contextBudgetTokens": 1400
-    }
-  ],
-  "outputContract": {
-    "maxTokens": 1600,
-    "include": ["verified_findings", "likely_files", "implementation_plan", "risks"],
-    "exclude": ["raw_logs", "full_file_dump"]
-  }
-}
-```
-
-## What to demo publicly
-
-For a clean OpenCode demo, show:
-
-1. OpenCode receives a short task.
-2. It calls `local_agent_run` instead of reading raw logs directly.
-3. LocalQA returns compact evidence and token savings.
-4. The frontier model uses the compact evidence to plan or patch.
-5. If needed, it calls `answer_from_handle` for scoped follow-up evidence.
-
-The existing launch video proves the launch checks and benchmark numbers. It does not yet show this full OpenCode interaction, so phrase OpenCode as an integration path, not the primary demo surface.
