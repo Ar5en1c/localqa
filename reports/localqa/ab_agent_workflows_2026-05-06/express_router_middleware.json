@@ -1,0 +1,138 @@
+{
+  "id": "express_router_middleware",
+  "title": "Express router/middleware pre-implementation plan",
+  "evidencePath": "/Users/kuldeepsingh/MyProjects/localqa/reports/localqa/opencode_oss_codebases_2026-05-05/expressjs_express/raw-codebase-evidence.txt",
+  "rawEvidenceTokens": 23936,
+  "fullDumpUpperBound": {
+    "tokens": 23936,
+    "note": "Upper bound only; not used as primary baseline because a normal agent can grep/read selectively."
+  },
+  "targetedBaseline": {
+    "tokens": 7608,
+    "approxToolCalls": 6,
+    "percentOfFullEvidence": 31.78,
+    "quality": {
+      "score": 0.953,
+      "label": "strong",
+      "pass": true,
+      "signal": {
+        "score": 0.914,
+        "coverage": 0.857,
+        "mustCoverage": 1,
+        "matched": [
+          "express",
+          "router",
+          "middleware",
+          "mocha",
+          "test",
+          "package.json"
+        ],
+        "missing": [
+          "lib/router"
+        ],
+        "mustMatched": [
+          "router",
+          "middleware",
+          "test"
+        ],
+        "mustMissing": []
+      },
+      "actionability": {
+        "score": 1,
+        "passed": 6,
+        "total": 6,
+        "paths": [
+          "package.json",
+          "test/Router.js",
+          "test/acceptance/multi-router.js",
+          "test/app.router.js",
+          "examples/README.md",
+          "examples/multi-router/controllers/api_v1.js",
+          "examples/multi-router/controllers/api_v2.js",
+          "examples/multi-router/index.js",
+          "examples/route-middleware/index.js",
+          "test/acceptance/route-map.js"
+        ],
+        "commands": [
+          "npm test",
+          "npm install"
+        ],
+        "riskSignals": [
+          "router",
+          "middleware",
+          "Router",
+          "parser",
+          "type",
+          "regression",
+          "Middleware",
+          "migration",
+          "compat",
+          "generated"
+        ]
+      }
+    },
+    "preview": "NORMAL_AGENT_TARGETED_BASELINE: Express router/middleware pre-implementation plan\nAssumption: baseline agent does not ingest the full raw file. It performs normal targeted package/tree/grep/excerpt inspection and receives these tool outputs in cloud context.\nApprox tool calls: list/tree, read package.json, grep task terms, read source excerpts, read test excerpts, inspect docs/config.\n\nOSS_CODEBASE_BENCHMARK_PROJECT: expressjs/express\nTASK: Analyze this Express OSS codebase evidence. Identify project purpose, likely test command, major source/test areas, and any high-signal maintenance risks. Do not quote raw files; compact to actionable codebase evidence.\nPACKAGE_SCRIPTS_JSON:\nFILE_TREE_HEAD:\npackage.json:94: \"test\": \"mocha --require test/support/env --reporter spec --check-leaks test/ test/acceptance/\",\n  \"test\": \"mocha --require test/support/env --reporter spec --check-leaks test/ test/acceptance/\",\npackage.json:97: \"test-tap\": \"mocha --require test/support/env --reporter tap --check-leaks test/ test/acceptance/\"\ntest/Router.js:209: it('should skip non error middleware', function (done) {\naccepts, body-parser, content-disposition, content-type, cookie, cookie-signature, debug, depd, encodeurl, escape-html, etag, finalhandler, fresh, http-errors, merge-descriptors, mime-types, on-finished, once, parseurl, proxy-addr, qs, range-parser, router, send, serve-static, statuses, type-is, vary, after, connect-redis, cookie-parser, cookie-session, ejs, eslint, express-session, hbs, marked, method-override, mocha, morgan, nyc, pbkdf2-password, supertest, vhost\ntest/acceptance/multi-router.js\ntest/app.router.js\ntest/Router.js\nexamples/README.md:12: - [error](./error) - Working with error middleware\ntest/Router.js:48: throw new Error('should not be called')\ntest/Router.js:58: throw new Error('should not be called')\ntest/Router.js:70: route.post(function (req, res, next) { next(new Error('should not run')) })\ntest/Router.js:75: route.get(function (req, res, next) { next(new Error('should not run')) })\ntest/Router.js:77: router.get('/foo', function (req, res, next) { next(new Error('should not run')) })\ntest/Router.js:94: var handler = function (req, res) { res.end(new Erro"
+  },
+  "localqa": {
+    "tokens": 2223,
+    "approxMainAgentToolCalls": 1,
+    "internalLocalSteps": 3,
+    "runtimeMs": 87.35,
+    "memoryWritten": true,
+    "quality": {
+      "score": 0.925,
+      "label": "strong",
+      "pass": true,
+      "signal": {
+        "score": 1,
+        "coverage": 1,
+        "mustCoverage": 1,
+        "matched": [
+          "express",
+          "router",
+          "middleware",
+          "mocha",
+          "test",
+          "package.json",
+          "lib/router"
+        ],
+        "missing": [],
+        "mustMatched": [
+          "router",
+          "middleware",
+          "test"
+        ],
+        "mustMissing": []
+      },
+      "actionability": {
+        "score": 0.833,
+        "passed": 5,
+        "total": 6,
+        "paths": [
+          "package.json",
+          "examples/README.md",
+          "examples/route-middleware/index.js",
+          "examples/web-service/index.js",
+          "test/Router.js",
+          "examples/error-pages/index.js"
+        ],
+        "commands": [],
+        "riskSignals": [
+          "router",
+          "middleware",
+          "compatibility",
+          "Router"
+        ]
+      }
+    },
+    "preview": "## Step 1: memory_query\nTask: Plan a safe Express router or middleware behavior change. Identify source areas, test areas, package scripts, compatibility risks, and exact next reads.\nMode: memory\nStatus: ok\nProject memory query: What prior work exists for Express router/middleware pre-implementation plan? Memory dir: /Users/kuldeepsingh/MyProjects/localqa/reports/localqa/ab_agent_workflows_2026-05-06/memory/express_router_middleware Matched entries: 0/0\n\n## Step 2: context_cleanup\nTask: Plan a safe Express router or middleware behavior change. Identify source areas, test areas, package scripts, compatibility risks, and exact next reads.\nMode: context_cleanup\nStatus: ok\nToken savings: raw=23946 compact=945 saved=23001 reduction=96.05%\nTask: Plan a safe Express router or middleware behavior change. Identify source areas, test areas, package scripts, compatibility risks, and exact next reads. Mode: context_cleanup High-signal lines: package.json:94: \"test\": \"mocha --require test/support/env --reporter spec --check-leaks test/ test/acceptance/\", examples/README.md:12: - [error](./error) - Working with error middleware package.json:92: \"lint\": \"eslint .\", examples/route-middleware/index.js:46: next(new Error('Unauthorized')); examples/route-middleware/index.js:55: next(new Error('Unauthorized')); examples/web-service/index.js:34: if (!key) return next(error(400, 'api key required')); examples/web-service/index.js:37: if (apiKeys.indexOf(key) === -1) return next(error(401, 'invalid api key')) TASK: Analyze this Express OSS codebase evidence. Identify project purpose, likely test command, major source/test areas, and any high-signal maintenance risks. Do not quote raw files; compact to actionable codebase evidence. examples/README.md:11: - [error-pages](./error-pages) - Creating error pages package.json:97: \"test-tap\": \"mocha --require test/support/env --reporter tap --check-leaks test/ test/acceptance/\" test/Router.js:213: next(new Error('foo')); test/Router.js:217: next(new Error('bar')); test/Router.js:209: it('should skip non error middleware', function (done) { examples/error-pages/index.js:79: // error-handling middleware, take the same form test/Router.js:75: ro"
+  },
+  "comparison": {
+    "targetBaselineSavedTokens": 5385,
+    "targetBaselineReductionRatio": 70.78,
+    "qualityDelta": -0.028,
+    "bothPassQuality": true,
+    "localqaMaintainedOrImprovedQuality": true,
+    "toolCallReduction": 5
+  }
+}

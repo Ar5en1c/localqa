@@ -1,0 +1,91 @@
+{
+  "id": "express_router_middleware_agentic_plan",
+  "title": "Express router/middleware investigation",
+  "evidencePath": "/Users/kuldeepsingh/MyProjects/localqa/reports/localqa/opencode_oss_codebases_2026-05-05/expressjs_express/raw-codebase-evidence.txt",
+  "evidenceBytes": 95763,
+  "rawTokens": 23936,
+  "record": {
+    "ok": true,
+    "runtimeMs": 67.85,
+    "memoryWritten": true
+  },
+  "normalBaseline": {
+    "approxToolCalls": 3,
+    "rawContextApproxTokens": 23936,
+    "compactContextApproxTokens": 23936,
+    "savedApproxTokens": 0,
+    "reductionRatio": 0,
+    "memoryWritten": false,
+    "risk": "frontier model receives full raw evidence or must spend repeated tool calls finding source/test signals"
+  },
+  "localqaWorkflow": {
+    "approxToolCallsFromMainAgent": 1,
+    "internalLocalSteps": 3,
+    "baselineRawContextApproxTokens": 23936,
+    "internalLocalRawTokensProcessed": 47892,
+    "compactContextApproxTokens": 1873,
+    "savedApproxTokens": 22063,
+    "reductionRatio": 92.17,
+    "internalLocalProcessingReductionRatio": 96.09,
+    "memoryWritten": true,
+    "runtimeMs": 99.1
+  },
+  "signalScore": {
+    "score": 0.914,
+    "coverage": 0.857,
+    "mustCoverage": 1,
+    "matched": [
+      "express",
+      "router",
+      "middleware",
+      "mocha",
+      "test",
+      "package.json"
+    ],
+    "missing": [
+      "lib/router"
+    ],
+    "mustMatched": [
+      "router",
+      "middleware",
+      "test"
+    ],
+    "mustMissing": []
+  },
+  "actionabilityScore": {
+    "score": 0.857,
+    "passed": 6,
+    "total": 7,
+    "paths": [
+      "package.json",
+      "examples/README.md",
+      "examples/route-middleware/index.js",
+      "examples/web-service/index.js",
+      "test/Router.js",
+      "examples/error-pages/index.js",
+      "test/acceptance/web-service.js"
+    ],
+    "commands": [],
+    "riskSignals": [
+      "router",
+      "middleware",
+      "compatibility",
+      "validation",
+      "generated",
+      "integrity",
+      "TypeScript",
+      "contract",
+      "Router"
+    ],
+    "hasSource": true,
+    "hasTests": true,
+    "hasMemory": true,
+    "hasNextReads": true
+  },
+  "quality": {
+    "score": 0.888,
+    "label": "usable",
+    "pass": true
+  },
+  "compactPreview": "## Step 1: memory_query\nTask: Frontier agent task: plan a safe Express router or middleware behavior change. Use local evidence to identify source areas, test areas, package scripts, compatibility risks, and next exact reads before implementation.\nMode: memory\nStatus: ok\nProject memory query: What has already been recorded for Express router/middleware investigation? Memory dir: /Users/kuldeepsingh/MyProjects/localqa/reports/localqa/agentic_workflows_2026-05-06/memory Matched entries: 3/3 1. 2026-05-06T17:01:30.091Z | directed_plan | completed | directed task: Frontier agent task: plan a safe Fastify validation/error response change. Use local evidence to identify likely files, test commands, generated/integrity risks, TypeScript checks, and next exact reads before implementation. summary: ## Step 1: memory_query Task: Frontier agent task: plan a safe Fastify validation/error response change. Use local evidence to identify likely files, test commands, generated/integrity risks, TypeScript checks, and next exact reads before implementation. Mode: memory Status: ok Project memory query: What has already been recorded for Fastify validation/error contract investigation? Memory dir: /Users/kuldeepsingh/MyP tokens: raw=83714 compact=1912 saved=81802 reduction=97.72% 2. 2026-05-06T17:01:30.164Z | work_record | recorded | n/a task: Record setup for Express router/middleware investigation. summary: Changed: Preparing agentic workflow benchmark for Express router/middleware investigation. Tests: localqa agentic workflow benchmark Result: Setup recorded before directed evidence work. 3. 2026-05-06T17:01:29.985Z | work_record | recorded | n/a task: Record setup for Fastify validation/error contract investigation. summary: Changed: Preparing agentic workflow benchmark for Fastify validation/error contract investigation. Tests: localqa agentic workflow benchmark Result: Setup recorded before directed evidence work.\n\n## Step 2: context_cleanup\nTask: Frontier agent task: plan a safe Express router or middleware behavior change. Use local evidence to identify source areas, test areas, package scripts, compatibility risks, and next exact reads before implementation.\nMode: context_cleanup\nStatus: ok\nToken savings: raw=23946 compact=948 saved=22998 reduction=96.04%\nTask: Frontier agent task: plan a safe Express router or middleware behavior change. Use local evidence to identify source areas, test areas, package scripts, compatibility risks, and next exact reads before implementation. Mode: context_cleanup High-signal lines: package.json:94: \"test\": \"mocha --require test/s"
+}

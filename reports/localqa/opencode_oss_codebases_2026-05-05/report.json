@@ -1,0 +1,311 @@
+{
+  "generatedAt": "2026-05-05T04:15:51.905Z",
+  "outDir": "/Users/kuldeepsingh/MyProjects/qwen2.5-1.5b-turboquant-mlc-experiment/reports/localqa/opencode_oss_codebases_2026-05-05",
+  "workDir": "/Users/kuldeepsingh/MyProjects/qwen2.5-1.5b-turboquant-mlc-experiment/tmp/localqa-opencode-oss-codebases",
+  "cases": [
+    {
+      "name": "expressjs_express",
+      "project": "expressjs/express",
+      "archiveUrl": "https://codeload.github.com/expressjs/express/tar.gz/refs/heads/master",
+      "expectedSignals": [
+        "express",
+        "router",
+        "middleware",
+        "mocha"
+      ],
+      "evidencePath": "/Users/kuldeepsingh/MyProjects/qwen2.5-1.5b-turboquant-mlc-experiment/reports/localqa/opencode_oss_codebases_2026-05-05/expressjs_express/raw-codebase-evidence.txt",
+      "fileCount": 192,
+      "selectedFiles": [
+        "package.json",
+        "examples/README.md",
+        "Readme.md",
+        "examples/mvc/lib/boot.js",
+        "lib/application.js",
+        "lib/express.js",
+        "lib/request.js",
+        "lib/response.js",
+        "lib/utils.js",
+        "lib/view.js",
+        "test/acceptance/auth.js",
+        "test/acceptance/content-negotiation.js",
+        "test/acceptance/cookie-sessions.js",
+        "test/acceptance/cookies.js",
+        "test/acceptance/downloads.js",
+        "test/acceptance/ejs.js",
+        "test/acceptance/error-pages.js",
+        "test/acceptance/error.js",
+        "test/acceptance/hello-world.js",
+        "test/acceptance/markdown.js",
+        "test/acceptance/multi-router.js",
+        "test/acceptance/mvc.js",
+        "test/acceptance/params.js",
+        "test/acceptance/resource.js",
+        "test/acceptance/route-map.js",
+        "test/acceptance/route-separation.js",
+        "test/acceptance/vhost.js",
+        "test/acceptance/web-service.js"
+      ],
+      "selectedMode": "context_cleanup",
+      "bridgeDurationMs": 104.74,
+      "rawApproxTokens": 23936,
+      "compactApproxTokens": 1663,
+      "savedApproxTokens": 22273,
+      "reductionRatio": 93.05,
+      "signalCoverage": {
+        "matched": [
+          "express",
+          "router",
+          "middleware",
+          "mocha"
+        ],
+        "missing": [],
+        "score": 1
+      },
+      "compactPreview": "Task: Analyze this Express OSS codebase evidence. Identify project purpose, likely test command, major source/test areas, and any high-signal maintenance risks. Do not quote raw files; compact to actionable codebase evidence.\nMode: context_cleanup\nHigh-signal lines:\nTASK: Analyze this Express OSS codebase evidence. Identify project purpose, likely test command, major source/test areas, and any high-signal maintenance risks. Do not quote raw files; compact to actionable codebase evidence.\npackage.json:94: \"test\": \"mocha --require test/support/env --reporter spec --check-leaks test/ test/acceptance/\",\nexamples/README.md:12: - [error](./error) - Working with error middleware\npackage.json:92: \"lint\": \"eslint .\",\nexamples/README.md:11: - [error-pages](./error-pages) - Creating error pages\npackage.json:97: \"test-tap\": \"mocha --require test/support/env --reporter tap --check-leaks test/ test/acceptance/\"\n\"test\": \"mocha --require test/support/env --reporter spec --check-leaks test/ test/acceptance/\", [repeated 2x]\nexamples/web-service/index.js:34: if (!key) return next(error(400, 'api key required'));\nexamples/web-service/index.js:37: if (apiKeys.indexOf(key) === -1) return next(error(401, 'invalid api key'))\ntest/res.download.js:145: .expect('got 404 error')\ntest/res.sendFile.js:333: .expect('got 404 error')\ntest/res.sendFile.js:277: .expect(200, 'got 404 error', done)\ntest/app.routes.error.js:22: .expect(500, /Error: boom!/, done);\ntest/acceptance/mvc.js:96: it('should 500 on error', function(done){\ntest/res.render.js:128: .expect(500, 'got error: RenderError', done)\ntest/res.render.js:355: .expect(500, 'got error: RenderError', done)\ntest/res.render.js:123: res.status(500).send('got error: ' + err.name)\ntest/res.render.js:348: res.status(500).send('got error: ' + err.name)\ntest/acceptance/error-pages.js:55: .expect(404, { error: 'Not found' }, done)\ntest/acceptance/web-service.js:102: .expect(404, '{\"error\":\"Sorry, can\\'t find that\"}', done)\nReadme.md:73: * Super-high test coverage\nexamples/route-middleware/index.js:46: next(new Error('Unauthorized'));\nexamples/route-middleware/index.js:55: next(new Error('Unauthorized'));\ntest/Router.js:213: next(new Error('foo'));\ntest/Router.js:217: next(new Error('bar'));\ntest/Router.js:236: throw new Error('foo');\ntest/Router.js:281: throw new Error('oops');\ntest/Router.js:277: throw new Error('boom!');\ntest/Router.js:262: throw new Error('oh no!');\ntest/Router.js:208: describe('error', function () {\ntest/Router.js:48: throw new Error('should not be called')\ntest/Router.js:58: throw new Error('should not be called')\ntest/app.param.js:145: next(new Error('invalid invocation'))\ntest/res.sendFile.js:17: it('should error missing path', function (done) {\ntest/Router.js:209: it('should skip non error middleware', function (done) {\nexamples/error-pages/index.js:79: // error-handling middleware, take the same form\ntest/Router.js:273: it('should handle throwing inside error handlers', function (done) {\ntest/res.cookie.js:174: it('should throw an error with invalid maxAge', function (done) {\ntest/res.sendStatus.js:32: it('should raise error for invalid status code', function (done) {\ntest/Router.js:75: route.get(function (req, res, next) { next(new Error('should not run')) })\ntest/Router.js:94: var handler = function (req, res) { res.end(new Error('wrong handler')) };\ntest/Router.js:70: route.post(function (req, res, next) { next(new Error('should not run')) })\ntest/Router.js:77: router.get('/foo', function (req, res, next) { next(new Error('should not run')) })\nReadme.md:30: [![Test Coverage][coveralls-image]][coveralls-url]\ntest/express.json.js:43: // The old node error message modification in body parser is catching this\nexamples/error-pages/views/404.ejs\nexamples/error-pages/views/500.ejs\nexamples/error-pages/index.js:42: // trigger a 403 error\nexamples/mvc/index.js:19: // set views for error and 404 pages\nexamples/error-pages/index.js:49: // trigger a generic (500) error\nlib/application.js:507: * and a callback accepting an error and the\nexamples/error-pages/index.js:96: res.render('500', { error: err });\nexamples/error/index.js:24: // respond with 500 \"Internal Server Error\".\nlib/response.js:420: * when the data transfer is complete, or when an error has\nexamples/downloads/index.js:29: if (err.status !== 404) return next(err); // non-404 error\nOSS_CODEBASE_BENCHMARK_PROJECT: expressjs/express\ntest/express.raw.js:269: throw new Error('oops!')\ntest/express.json.js:383: throw new Error('oops!')\ntest/express.text.js:285: throw new Error('oops!')\ntest/express.json.js:115: .set('X-Error-Property', 'body')\ntest/express.json.js:288: .set('X-Error-Property', 'stack')\ntest/express.raw.js:302: var err = new Error('no leading null')\ntest/express.text.js:319: var err = new Error('no leading space')\ntest/express.text.js:349: throw new Error('unexpected verify call')\ntest/express.raw.js:285: it('should error from verify', function (done) {\ntest/express.text.js:301: it('should error from verify', function (done) {\ntest/acceptance/resource.js:33: .expect('{\"error\":\"Cannot find user\"}', done)\ntest/acceptance/resource.js:30: it('should respond with error', function(done){\ntest/express.raw.js:149: it('should not error when inflating', function (done) {\ntest/express.raw.js:288: if (buf[0] === 0x00) throw new Error('no leading null')\ntest/express.raw.js:317: if (buf[0] === 0x00) throw new Error('no leading null')\ntest/express.json.js:186: it('should not error when inflating', function (done) {\ntest/express.text.js:159: it('should not error when inflating', function (done) {\ntest/express.text.js:304: if (buf[0] === 0x20) throw new Error('no leading space')\ntest/express.text.js:335: if (buf[0] === 0x20) throw new Error('no leading space')\ntest/express.urlencoded.js:306: it('should not error when inflating', function (done) {\ntest/express.json.js:111: it('should include original body on error object', function (done) {\nlib/application.js:296: throw new Error('callback function required');\nexamples/error/index.js:14: // error handling middleware have an arity of 4\nexamples/web-service/index.js:94: // error handling middleware. When you next(err)\nARCHIVE_URL: https://codeload.github.com/expressjs/express/tar.gz/refs/heads/master\nexamples/resource/index.js:72: // curl http://localhost:3000/users/4 -- responds with error\nexamples/error-pages/index.js:87: // continue passing the error, only error-handling middleware\nexamples/route-middleware/index.js:32: next(new Error('Failed to load user ' + req.params.id));\nexamples/route-middleware/index.js:44: // can handle these can be special-cased in an error handler\nexamples/README.md",
+      "result": {
+        "ok": true,
+        "tool": "local_agent_run",
+        "selectedMode": "context_cleanup",
+        "task": "Analyze this Express OSS codebase evidence. Identify project purpose, likely test command, major source/test areas, and any high-signal maintenance risks. Do not quote raw files; compact to actionable codebase evidence.",
+        "handle": null,
+        "artifactPath": null,
+        "tokenSavings": {
+          "rawEvidenceApproxTokens": 23936,
+          "compactReportApproxTokens": 1663,
+          "savedApproxTokens": 22273,
+          "reductionRatio": 93.05
+        },
+        "enforcement": {
+          "requiresMcpFirst": true,
+          "destinationRequested": false,
+          "autoReroutedToHandoffGate": false,
+          "externalSendAttempted": false,
+          "sendPayloadKind": "unknown",
+          "blocked": false,
+          "allowedPayload": "unknown",
+          "reason": "No external destination requested.",
+          "handoffVerificationRequired": false,
+          "handoffProof": null
+        },
+        "policy": null,
+        "steps": [
+          {
+            "ok": true,
+            "name": "localqa_cleanup_context",
+            "durationMs": 16.8
+          }
+        ],
+        "telemetry": {
+          "internalStepCount": 1,
+          "externalCalls": 0,
+          "localFileInputCount": 0,
+          "localFileInputBytes": 0
+        },
+        "compactText": "Task: Analyze this Express OSS codebase evidence. Identify project purpose, likely test command, major source/test areas, and any high-signal maintenance risks. Do not quote raw files; compact to actionable codebase evidence.\nMode: context_cleanup\nHigh-signal lines:\nTASK: Analyze this Express OSS codebase evidence. Identify project purpose, likely test command, major source/test areas, and any high-signal maintenance risks. Do not quote raw files; compact to actionable codebase evidence.\npackage.json:94: \"test\": \"mocha --require test/support/env --reporter spec --check-leaks test/ test/acceptance/\",\nexamples/README.md:12: - [error](./error) - Working with error middleware\npackage.json:92: \"lint\": \"eslint .\",\nexamples/README.md:11: - [error-pages](./error-pages) - Creating error pages\npackage.json:97: \"test-tap\": \"mocha --require test/support/env --reporter tap --check-leaks test/ test/acceptance/\"\n\"test\": \"mocha --require test/support/env --reporter spec --check-leaks test/ test/acceptance/\", [repeated 2x]\nexamples/web-service/index.js:34: if (!key) return next(error(400, 'api key required'));\nexamples/web-service/index.js:37: if (apiKeys.indexOf(key) === -1) return next(error(401, 'invalid api key'))\ntest/res.download.js:145: .expect('got 404 error')\ntest/res.sendFile.js:333: .expect('got 404 error')\ntest/res.sendFile.js:277: .expect(200, 'got 404 error', done)\ntest/app.routes.error.js:22: .expect(500, /Error: boom!/, done);\ntest/acceptance/mvc.js:96: it('should 500 on error', function(done){\ntest/res.render.js:128: .expect(500, 'got error: RenderError', done)\ntest/res.render.js:355: .expect(500, 'got error: RenderError', done)\ntest/res.render.js:123: res.status(500).send('got error: ' + err.name)\ntest/res.render.js:348: res.status(500).send('got error: ' + err.name)\ntest/acceptance/error-pages.js:55: .expect(404, { error: 'Not found' }, done)\ntest/acceptance/web-service.js:102: .expect(404, '{\"error\":\"Sorry, can\\'t find that\"}', done)\nReadme.md:73: * Super-high test coverage\nexamples/route-middleware/index.js:46: next(new Error('Unauthorized'));\nexamples/route-middleware/index.js:55: next(new Error('Unauthorized'));\ntest/Router.js:213: next(new Error('foo'));\ntest/Router.js:217: next(new Error('bar'));\ntest/Router.js:236: throw new Error('foo');\ntest/Router.js:281: throw new Error('oops');\ntest/Router.js:277: throw new Error('boom!');\ntest/Router.js:262: throw new Error('oh no!');\ntest/Router.js:208: describe('error', function () {\ntest/Router.js:48: throw new Error('should not be called')\ntest/Router.js:58: throw new Error('should not be called')\ntest/app.param.js:145: next(new Error('invalid invocation'))\ntest/res.sendFile.js:17: it('should error missing path', function (done) {\ntest/Router.js:209: it('should skip non error middleware', function (done) {\nexamples/error-pages/index.js:79: // error-handling middleware, take the same form\ntest/Router.js:273: it('should handle throwing inside error handlers', function (done) {\ntest/res.cookie.js:174: it('should throw an error with invalid maxAge', function (done) {\ntest/res.sendStatus.js:32: it('should raise error for invalid status code', function (done) {\ntest/Router.js:75: route.get(function (req, res, next) { next(new Error('should not run')) })\ntest/Router.js:94: var handler = function (req, res) { res.end(new Error('wrong handler')) };\ntest/Router.js:70: route.post(function (req, res, next) { next(new Error('should not run')) })\ntest/Router.js:77: router.get('/foo', function (req, res, next) { next(new Error('should not run')) })\nReadme.md:30: [![Test Coverage][coveralls-image]][coveralls-url]\ntest/express.json.js:43: // The old node error message modification in body parser is catching this\nexamples/error-pages/views/404.ejs\nexamples/error-pages/views/500.ejs\nexamples/error-pages/index.js:42: // trigger a 403 error\nexamples/mvc/index.js:19: // set views for error and 404 pages\nexamples/error-pages/index.js:49: // trigger a generic (500) error\nlib/application.js:507: * and a callback accepting an error and the\nexamples/error-pages/index.js:96: res.render('500', { error: err });\nexamples/error/index.js:24: // respond with 500 \"Internal Server Error\".\nlib/response.js:420: * when the data transfer is complete, or when an error has\nexamples/downloads/index.js:29: if (err.status !== 404) return next(err); // non-404 error\nOSS_CODEBASE_BENCHMARK_PROJECT: expressjs/express\ntest/express.raw.js:269: throw new Error('oops!')\ntest/express.json.js:383: throw new Error('oops!')\ntest/express.text.js:285: throw new Error('oops!')\ntest/express.json.js:115: .set('X-Error-Property', 'body')\ntest/express.json.js:288: .set('X-Error-Property', 'stack')\ntest/express.raw.js:302: var err = new Error('no leading null')\ntest/express.text.js:319: var err = new Error('no leading space')\ntest/express.text.js:349: throw new Error('unexpected verify call')\ntest/express.raw.js:285: it('should error from verify', function (done) {\ntest/express.text.js:301: it('should error from verify', function (done) {\ntest/acceptance/resource.js:33: .expect('{\"error\":\"Cannot find user\"}', done)\ntest/acceptance/resource.js:30: it('should respond with error', function(done){\ntest/express.raw.js:149: it('should not error when inflating', function (done) {\ntest/express.raw.js:288: if (buf[0] === 0x00) throw new Error('no leading null')\ntest/express.raw.js:317: if (buf[0] === 0x00) throw new Error('no leading null')\ntest/express.json.js:186: it('should not error when inflating', function (done) {\ntest/express.text.js:159: it('should not error when inflating', function (done) {\ntest/express.text.js:304: if (buf[0] === 0x20) throw new Error('no leading space')\ntest/express.text.js:335: if (buf[0] === 0x20) throw new Error('no leading space')\ntest/express.urlencoded.js:306: it('should not error when inflating', function (done) {\ntest/express.json.js:111: it('should include original body on error object', function (done) {\nlib/application.js:296: throw new Error('callback function required');\nexamples/error/index.js:14: // error handling middleware have an arity of 4\nexamples/web-service/index.js:94: // error handling middleware. When you next(err)\nARCHIVE_URL: https://codeload.github.com/expressjs/express/tar.gz/refs/heads/master\nexamples/resource/index.js:72: // curl http://localhost:3000/users/4 -- responds with error\nexamples/error-pages/index.js:87: // continue passing the error, only error-handling middleware\nexamples/route-middleware/index.js:32: next(new Error('Failed to load user ' + req.params.id));\nexamples/route-middleware/index.js:44: // can handle these can be special-cased in an error handler\nexamples/README.md"
+      }
+    },
+    {
+      "name": "fastify_fastify",
+      "project": "fastify/fastify",
+      "archiveUrl": "https://codeload.github.com/fastify/fastify/tar.gz/refs/heads/main",
+      "expectedSignals": [
+        "fastify",
+        "plugin",
+        "schema",
+        "test"
+      ],
+      "evidencePath": "/Users/kuldeepsingh/MyProjects/qwen2.5-1.5b-turboquant-mlc-experiment/reports/localqa/opencode_oss_codebases_2026-05-05/fastify_fastify/raw-codebase-evidence.txt",
+      "fileCount": 385,
+      "selectedFiles": [
+        "package.json",
+        "README.md",
+        "CONTRIBUTING.md",
+        "docs/Guides/Contributing.md",
+        "docs/Guides/Testing.md",
+        "test/bundler/esbuild/package.json",
+        "test/bundler/webpack/package.json",
+        "lib/config-validator.js",
+        "lib/content-type-parser.js",
+        "lib/content-type.js",
+        "lib/context.js",
+        "lib/decorate.js",
+        "lib/error-handler.js",
+        "lib/error-serializer.js",
+        "lib/error-status.js",
+        "lib/errors.js",
+        "lib/four-oh-four.js",
+        "lib/handle-request.js",
+        "lib/head-route.js",
+        "lib/hooks.js",
+        "lib/initial-config-validation.js",
+        "lib/logger-factory.js",
+        "lib/logger-pino.js",
+        "lib/noop-set.js",
+        "lib/plugin-override.js",
+        "lib/plugin-utils.js",
+        "lib/promise.js",
+        "lib/reply.js"
+      ],
+      "selectedMode": "context_cleanup",
+      "bridgeDurationMs": 85.35,
+      "rawApproxTokens": 41848,
+      "compactApproxTokens": 1649,
+      "savedApproxTokens": 40199,
+      "reductionRatio": 96.06,
+      "signalCoverage": {
+        "matched": [
+          "fastify",
+          "plugin",
+          "schema",
+          "test"
+        ],
+        "missing": [],
+        "score": 1
+      },
+      "compactPreview": "Task: Analyze this Fastify OSS codebase evidence. Identify project purpose, likely test command, major source/test areas, and any high-signal maintenance risks. Do not quote raw files; compact to actionable codebase evidence.\nMode: context_cleanup\nHigh-signal lines:\nTASK: Analyze this Fastify OSS codebase evidence. Identify project purpose, likely test command, major source/test areas, and any high-signal maintenance risks. Do not quote raw files; compact to actionable codebase evidence.\npackage.json:25: \"test:validator:integrity\": \"npm run build:validation && git diff --quiet --ignore-all-space --ignore-blank-lines --ignore-cr-at-eol lib/error-serializer.js && git diff --quiet --ignore-all-space --ignore-blank-lines --ignore-cr-at-eol lib/config-validator.js\"\npackage.json:26: \"test:typescript\": \"tsc test/types/import.ts --target es2022 --moduleResolution node16 --module node16 --noEmit && tsd\",\n\"test:validator:integrity\": \"npm run build:validation && git diff --quiet --ignore-all-space --ignore-blank-lines --ignore-cr-at-eol lib/error-serializer.js && git diff --quiet --ignore-all-space --ignore-blank-lines --ignore-cr-at-eol lib/config-validator.js\", [repeated 2x]\npackage.json:27: \"test:watch\": \"npm run unit -- --watch --coverage-report=none --reporter=terse\",\npackage.json:17: \"lint\": \"npm run lint:eslint\",\ndocs/Guides/Testing.md:183: // handle error\ndocs/Guides/Testing.md:193: // handle error\ndocs/Guides/Testing.md:79: const app = build()\ndocs/Guides/Testing.md:128: const app = build()\ndocs/Guides/Testing.md:57: server.log.error(err)\ndocs/Guides/Testing.md:38: module.exports = build\ndocs/Guides/Testing.md:29: function build(opts={}) {\ndocs/Guides/Testing.md:149: }, (error, response) => {\ndocs/Guides/Testing.md:76: const build = require('./app')\ndocs/Guides/Testing.md:124: const build = require('./app')\npackage.json:13: \"build:validation\": \"node build/build-error-serializer.js && node build/build-validation.js\",\npackage.json:12: \"benchmark:parser:error\": \"concurrently -k -s first \\\"node ./examples/benchmark/parser.js\\\" \\\"autocannon -c 100 -d 30 -p 10 -i ./examples/benchmark/body.json -H \\\"content-type:application/jsoff\\\" -H \\\"content-length:123\\\" -m POST localhost:3000/\\\"\",\n\"test:typescript\": \"tsc test/types/import.ts --target es2022 --moduleResolution node16 --module node16 --noEmit && tsd\", [repeated 2x]\ndocs/Guides/Contributing.md:146: code-fastify --install-extension dbaeumer.vscode-eslint\ndocs/Guides/Contributing.md:153: [ -d /Applications/VSCodeFastify/code-portable-data/extensions/dbaeumer.vscode-eslint-* ] && echo \"found\"\npackage.json:207: \"@fastify/error\": \"^4.0.0\",\ndocs/Guides/Contributing.md:177: \"editor.defaultFormatter\": \"dbaeumer.vscode-eslint\",\ndocs/Guides/Testing.md\ntest/bundler/README.md\nFILE: docs/Guides/Testing.md\ntest/bundler/esbuild/package.json\ntest/bundler/webpack/package.json\nFILE: test/bundler/esbuild/package.json\nFILE: test/bundler/webpack/package.json\ndocs/Reference/TypeScript.md:48: \"build\": \"tsc -p tsconfig.json\",\ndocs/Reference/TypeScript.md:150: reply.code(404).send({ error: 'Not found' });\ndocs/Reference/TypeScript.md:182: `{\"statusCode\":500,\"error\":\"Internal Server Error\",\"message\":\"Must be\ndocs/Reference/TypeScript.md:181: anything other than `admin`. The API should now return a HTTP 500 error\ndocs/Reference/Errors.md:118: [crash](https://nodejs.org/api/process.html#warning-using-uncaughtexception-correctly).\npackage.json:21: \"prepublishOnly\": \"cross-env PREPUBLISH=true borp --reporter=@jsumners/line-reporter && npm run test:validator:integrity && npm run build:sync-version\",\n\"test:ci\": \"npm run unit && npm run test:typescript\", [repeated 2x]\n\"test\": \"npm run lint && npm run unit && npm run test:typescript\", [repeated 2x]\n\"test:report\": \"npm run lint && npm run unit:report && npm run test:typescript\", [repeated 2x]\n\"test:watch\": \"npm run unit -- --watch --coverage-report=none --reporter=terse\", [repeated 2x]\nlib/error-handler.js:161: if (error.status >= 400) {\nlib/error-handler.js:163: } else if (error.statusCode >= 400) {\nlib/server.js:159: // this.log.warn('dns.lookup error:', dnsErr)\nlib/validation.js:256: error.statusCode = error.statusCode || 400\nlib/error-serializer.js:1: // This file is autogenerated by build/build-error-serializer.js, do not edit\nOSS_CODEBASE_BENCHMARK_PROJECT: fastify/fastify\ntest/404s.test.js:79: fastify.get('/with-error', function (req, reply) {\ntest/404s.test.js:83: fastify.get('/with-error-custom-header', function (req, reply) {\ntest/404s.test.js:134: const response = await fetch(getServerUrl(fastify) + '/with-error')\ndocs/Reference/TypeScript.md:63: > [FastifyDeprecation](https://github.com/fastify/fastify/issues/3284) warning.\ndocs/Guides/Migration-Guide-V5.md:229: | FSTDEP015 | You are accessing the deprecated `request.routeSchema` property. | Use `request.routeOptions.schema`. | [#4470](https://github.com/fastify/fastify/pull/4470) |\ndocs/Reference/Warnings.md:58: | <a id=\"FSTDEP022\">FSTDEP022</a> | You are trying to access the deprecated router options on top option properties. | Use `options.routerOptions`. | [#5985](https://github.com/fastify/fastify/pull/5985)\ndocs/Reference/Warnings.md:44: | <a id=\"FSTWRN002\">FSTWRN002</a> | The %s plugin being registered mixes async and callback styles, which will result in an error in `fastify@5`. | Do not mix async and callback style. | [#5139](https://github.com/fastify/fastify/pull/5139) |\ndocs/Guides/Migration-Guide-V5.md:233: | FSTDEP019 | You are accessing the deprecated `reply.context` property. | Use `reply.routeOptions.config` or `reply.routeOptions.schema`. | [#5032](https://github.com/fastify/fastify/pull/5032) [#5084](https://github.com/fastify/fastify/pull/5084) |\ndocs/Guides/Migration-Guide-V5.md:228: | FSTDEP012 | You are trying to access the deprecated `request.context` property. | Use `request.routeOptions.config` or `request.routeOptions.schema`. | [#4216](https://github.com/fastify/fastify/pull/4216) [#5084](https://github.com/fastify/fastify/pull/5084\nlib/plugin-utils.js:126: // throw an error.\neslint.config.js:8: 'lib/error-serializer.js',\nexamples/typescript-server.ts:75: console.error(err)\nARCHIVE_URL: https://codeload.github.com/fastify/fastify/tar.gz/refs/heads/main\nlib/errors.js:331: 'Failed building the validation schema for %s: %s, due to error %s'\nlib/errors.js:335: 'Failed building the serialization schema for %s: %s, due to error %s'\ndocs/Reference/Server.md:235: within this time, a `503 Service Unavailable` error is returned and\nlib/logger-factory.js:61: const methods = ['info', 'error', 'debug', 'fatal', 'warn', 'trace', 'child']",
+      "result": {
+        "ok": true,
+        "tool": "local_agent_run",
+        "selectedMode": "context_cleanup",
+        "task": "Analyze this Fastify OSS codebase evidence. Identify project purpose, likely test command, major source/test areas, and any high-signal maintenance risks. Do not quote raw files; compact to actionable codebase evidence.",
+        "handle": null,
+        "artifactPath": null,
+        "tokenSavings": {
+          "rawEvidenceApproxTokens": 41848,
+          "compactReportApproxTokens": 1649,
+          "savedApproxTokens": 40199,
+          "reductionRatio": 96.06
+        },
+        "enforcement": {
+          "requiresMcpFirst": true,
+          "destinationRequested": false,
+          "autoReroutedToHandoffGate": false,
+          "externalSendAttempted": false,
+          "sendPayloadKind": "unknown",
+          "blocked": false,
+          "allowedPayload": "unknown",
+          "reason": "No external destination requested.",
+          "handoffVerificationRequired": false,
+          "handoffProof": null
+        },
+        "policy": null,
+        "steps": [
+          {
+            "ok": true,
+            "name": "localqa_cleanup_context",
+            "durationMs": 17.48
+          }
+        ],
+        "telemetry": {
+          "internalStepCount": 1,
+          "externalCalls": 0,
+          "localFileInputCount": 0,
+          "localFileInputBytes": 0
+        },
+        "compactText": "Task: Analyze this Fastify OSS codebase evidence. Identify project purpose, likely test command, major source/test areas, and any high-signal maintenance risks. Do not quote raw files; compact to actionable codebase evidence.\nMode: context_cleanup\nHigh-signal lines:\nTASK: Analyze this Fastify OSS codebase evidence. Identify project purpose, likely test command, major source/test areas, and any high-signal maintenance risks. Do not quote raw files; compact to actionable codebase evidence.\npackage.json:25: \"test:validator:integrity\": \"npm run build:validation && git diff --quiet --ignore-all-space --ignore-blank-lines --ignore-cr-at-eol lib/error-serializer.js && git diff --quiet --ignore-all-space --ignore-blank-lines --ignore-cr-at-eol lib/config-validator.js\"\npackage.json:26: \"test:typescript\": \"tsc test/types/import.ts --target es2022 --moduleResolution node16 --module node16 --noEmit && tsd\",\n\"test:validator:integrity\": \"npm run build:validation && git diff --quiet --ignore-all-space --ignore-blank-lines --ignore-cr-at-eol lib/error-serializer.js && git diff --quiet --ignore-all-space --ignore-blank-lines --ignore-cr-at-eol lib/config-validator.js\", [repeated 2x]\npackage.json:27: \"test:watch\": \"npm run unit -- --watch --coverage-report=none --reporter=terse\",\npackage.json:17: \"lint\": \"npm run lint:eslint\",\ndocs/Guides/Testing.md:183: // handle error\ndocs/Guides/Testing.md:193: // handle error\ndocs/Guides/Testing.md:79: const app = build()\ndocs/Guides/Testing.md:128: const app = build()\ndocs/Guides/Testing.md:57: server.log.error(err)\ndocs/Guides/Testing.md:38: module.exports = build\ndocs/Guides/Testing.md:29: function build(opts={}) {\ndocs/Guides/Testing.md:149: }, (error, response) => {\ndocs/Guides/Testing.md:76: const build = require('./app')\ndocs/Guides/Testing.md:124: const build = require('./app')\npackage.json:13: \"build:validation\": \"node build/build-error-serializer.js && node build/build-validation.js\",\npackage.json:12: \"benchmark:parser:error\": \"concurrently -k -s first \\\"node ./examples/benchmark/parser.js\\\" \\\"autocannon -c 100 -d 30 -p 10 -i ./examples/benchmark/body.json -H \\\"content-type:application/jsoff\\\" -H \\\"content-length:123\\\" -m POST localhost:3000/\\\"\",\n\"test:typescript\": \"tsc test/types/import.ts --target es2022 --moduleResolution node16 --module node16 --noEmit && tsd\", [repeated 2x]\ndocs/Guides/Contributing.md:146: code-fastify --install-extension dbaeumer.vscode-eslint\ndocs/Guides/Contributing.md:153: [ -d /Applications/VSCodeFastify/code-portable-data/extensions/dbaeumer.vscode-eslint-* ] && echo \"found\"\npackage.json:207: \"@fastify/error\": \"^4.0.0\",\ndocs/Guides/Contributing.md:177: \"editor.defaultFormatter\": \"dbaeumer.vscode-eslint\",\ndocs/Guides/Testing.md\ntest/bundler/README.md\nFILE: docs/Guides/Testing.md\ntest/bundler/esbuild/package.json\ntest/bundler/webpack/package.json\nFILE: test/bundler/esbuild/package.json\nFILE: test/bundler/webpack/package.json\ndocs/Reference/TypeScript.md:48: \"build\": \"tsc -p tsconfig.json\",\ndocs/Reference/TypeScript.md:150: reply.code(404).send({ error: 'Not found' });\ndocs/Reference/TypeScript.md:182: `{\"statusCode\":500,\"error\":\"Internal Server Error\",\"message\":\"Must be\ndocs/Reference/TypeScript.md:181: anything other than `admin`. The API should now return a HTTP 500 error\ndocs/Reference/Errors.md:118: [crash](https://nodejs.org/api/process.html#warning-using-uncaughtexception-correctly).\npackage.json:21: \"prepublishOnly\": \"cross-env PREPUBLISH=true borp --reporter=@jsumners/line-reporter && npm run test:validator:integrity && npm run build:sync-version\",\n\"test:ci\": \"npm run unit && npm run test:typescript\", [repeated 2x]\n\"test\": \"npm run lint && npm run unit && npm run test:typescript\", [repeated 2x]\n\"test:report\": \"npm run lint && npm run unit:report && npm run test:typescript\", [repeated 2x]\n\"test:watch\": \"npm run unit -- --watch --coverage-report=none --reporter=terse\", [repeated 2x]\nlib/error-handler.js:161: if (error.status >= 400) {\nlib/error-handler.js:163: } else if (error.statusCode >= 400) {\nlib/server.js:159: // this.log.warn('dns.lookup error:', dnsErr)\nlib/validation.js:256: error.statusCode = error.statusCode || 400\nlib/error-serializer.js:1: // This file is autogenerated by build/build-error-serializer.js, do not edit\nOSS_CODEBASE_BENCHMARK_PROJECT: fastify/fastify\ntest/404s.test.js:79: fastify.get('/with-error', function (req, reply) {\ntest/404s.test.js:83: fastify.get('/with-error-custom-header', function (req, reply) {\ntest/404s.test.js:134: const response = await fetch(getServerUrl(fastify) + '/with-error')\ndocs/Reference/TypeScript.md:63: > [FastifyDeprecation](https://github.com/fastify/fastify/issues/3284) warning.\ndocs/Guides/Migration-Guide-V5.md:229: | FSTDEP015 | You are accessing the deprecated `request.routeSchema` property. | Use `request.routeOptions.schema`. | [#4470](https://github.com/fastify/fastify/pull/4470) |\ndocs/Reference/Warnings.md:58: | <a id=\"FSTDEP022\">FSTDEP022</a> | You are trying to access the deprecated router options on top option properties. | Use `options.routerOptions`. | [#5985](https://github.com/fastify/fastify/pull/5985)\ndocs/Reference/Warnings.md:44: | <a id=\"FSTWRN002\">FSTWRN002</a> | The %s plugin being registered mixes async and callback styles, which will result in an error in `fastify@5`. | Do not mix async and callback style. | [#5139](https://github.com/fastify/fastify/pull/5139) |\ndocs/Guides/Migration-Guide-V5.md:233: | FSTDEP019 | You are accessing the deprecated `reply.context` property. | Use `reply.routeOptions.config` or `reply.routeOptions.schema`. | [#5032](https://github.com/fastify/fastify/pull/5032) [#5084](https://github.com/fastify/fastify/pull/5084) |\ndocs/Guides/Migration-Guide-V5.md:228: | FSTDEP012 | You are trying to access the deprecated `request.context` property. | Use `request.routeOptions.config` or `request.routeOptions.schema`. | [#4216](https://github.com/fastify/fastify/pull/4216) [#5084](https://github.com/fastify/fastify/pull/5084\nlib/plugin-utils.js:126: // throw an error.\neslint.config.js:8: 'lib/error-serializer.js',\nexamples/typescript-server.ts:75: console.error(err)\nARCHIVE_URL: https://codeload.github.com/fastify/fastify/tar.gz/refs/heads/main\nlib/errors.js:331: 'Failed building the validation schema for %s: %s, due to error %s'\nlib/errors.js:335: 'Failed building the serialization schema for %s: %s, due to error %s'\ndocs/Reference/Server.md:235: within this time, a `503 Service Unavailable` error is returned and\nlib/logger-factory.js:61: const methods = ['info', 'error', 'debug', 'fatal', 'warn', 'trace', 'child']"
+      }
+    },
+    {
+      "name": "colinhacks_zod",
+      "project": "colinhacks/zod",
+      "archiveUrl": "https://codeload.github.com/colinhacks/zod/tar.gz/refs/heads/main",
+      "expectedSignals": [
+        "zod",
+        "typescript",
+        "schema",
+        "test"
+      ],
+      "evidencePath": "/Users/kuldeepsingh/MyProjects/qwen2.5-1.5b-turboquant-mlc-experiment/reports/localqa/opencode_oss_codebases_2026-05-05/colinhacks_zod/raw-codebase-evidence.txt",
+      "fileCount": 570,
+      "selectedFiles": [
+        "packages/bench/package.json",
+        "packages/docs/package.json",
+        "packages/integration/package.json",
+        "packages/resolution/package.json",
+        "packages/treeshake/package.json",
+        "packages/tsc/package.json",
+        "packages/zod/package.json",
+        "packages/docs-v3/README.md",
+        "packages/docs/README.md",
+        "packages/resolution/README.md",
+        "packages/tsc/README.md",
+        "packages/zod/README.md",
+        "packages/docs-v3/CONTRIBUTING.md",
+        "package.json",
+        "packages/zod/src/v3/tests/all-errors.test.ts",
+        "packages/zod/src/v3/tests/anyunknown.test.ts",
+        "packages/zod/src/v3/tests/array.test.ts",
+        "packages/zod/src/v3/tests/async-parsing.test.ts",
+        "packages/zod/src/v3/tests/async-refinements.test.ts",
+        "packages/zod/src/v3/tests/base.test.ts",
+        "packages/zod/src/v3/tests/bigint.test.ts",
+        "packages/zod/src/v3/tests/branded.test.ts",
+        "packages/zod/src/v3/tests/catch.test.ts",
+        "packages/zod/src/v3/tests/coerce.test.ts",
+        "packages/zod/src/v3/tests/complex.test.ts",
+        "packages/zod/src/v3/tests/custom.test.ts",
+        "packages/zod/src/v3/tests/date.test.ts",
+        "packages/zod/src/v3/tests/deepmasking.test.ts"
+      ],
+      "selectedMode": "context_cleanup",
+      "bridgeDurationMs": 80.91,
+      "rawApproxTokens": 35140,
+      "compactApproxTokens": 1654,
+      "savedApproxTokens": 33486,
+      "reductionRatio": 95.29,
+      "signalCoverage": {
+        "matched": [
+          "zod",
+          "schema",
+          "test"
+        ],
+        "missing": [
+          "typescript"
+        ],
+        "score": 0.75
+      },
+      "compactPreview": "Task: Analyze this Zod OSS codebase evidence. Identify project purpose, likely test command, major source/test areas, and any high-signal maintenance risks. Do not quote raw files; compact to actionable codebase evidence.\nMode: context_cleanup\nHigh-signal lines:\nTASK: Analyze this Zod OSS codebase evidence. Identify project purpose, likely test command, major source/test areas, and any high-signal maintenance risks. Do not quote raw files; compact to actionable codebase evidence.\npackages/zod/package.json:132: \"test\": \"pnpm vitest run\",\npackages/zod/package.json:131: \"test:watch\": \"pnpm vitest\",\npackages/resolution/package.json:19: \"test:all\": \"pnpm vitest run && tsx test-resolution.ts\"\npackages/integration/package.json:17: \"test:source\": \"tsc --project fixtures/drizzle-zod/tsconfig.json 2>&1 | (! grep -q 'excessively deep') && tsc --project fixtures/ai-sdk/tsconfig.json\",\npackages/zod/package.json:129: \"build\": \"zshy --project tsconfig.build.json\",\npackages/integration/package.json:18: \"test:built\": \"tsc --project fixtures/internal-types/tsconfig.bundler.json && tsc --project fixtures/internal-types/tsconfig.nodenext.json && tsc --project fixtures/internal-types/tsconfig.node16-cjs.json\"\npackages/tsc/package.json:25: \"build\": \"tsc\",\npackages/docs/package.json:6: \"build\": \"next build\",\npackage.json:76: \"test\": \"vitest run\",\npackage.json:75: \"test:watch\": \"vitest\",\npackage.json:74: \"build\": \"pnpm run -r --filter zod build\",\npackages/docs-v3/README.md:273: Build AI apps and workflows with <a href=\"https://retool.com/products/ai?utm_source=github&utm_medium=referral&utm_campaign=zod\">Retool AI</a>\npackages/zod/README.md:149: result.error; // ZodError instance\npackages/docs-v3/README.md:148: - [Error handling](#error-handling)\npackages/docs-v3/README.md:149: - [Error formatting](#error-formatting)\npackages/docs-v3/README.md:119: - [Customize error path](#customize-error-path)\npackages/docs-v3/CONTRIBUTING.md:64: - runs all Jest tests and generates coverage badge\npackages/zod/src/v3/tests/error.test.ts:230: expect(error.confirm?._errors).toEqual([\"Invalid input\"]);\npackages/zod/src/v3/tests/error.test.ts:300: expect(error.inner?.name?._errors).toEqual([\"Invalid input\"]);\npackages/zod/src/v3/tests/error.test.ts:291: // expect(error.inner?.name?._errors).toEqual([\"Invalid input\"]);\npackages/zod/src/v3/tests/error.test.ts:292: // expect(error.inner?.name?.[0]._errors).toEqual([\"Invalid input\"]);\npackages/zod/src/v3/tests/error.test.ts:343: expect(error.nullableArray?.[0]?._errors).toEqual([\"Invalid input\"]);\npackages/zod/src/v3/tests/error.test.ts:345: expect(error.nullableTuple?.[0]?._errors).toEqual([\"Invalid input\"]);\npackages/zod/src/v3/tests/error.test.ts:346: expect(error.nullableTuple?.[1]?._errors).toEqual([\"Invalid input\"]);\npackages/zod/src/v3/tests/error.test.ts:350: expect(error.optionalArray?.[0]?._errors).toEqual([\"Invalid input\"]);\npackages/zod/src/v3/tests/error.test.ts:352: expect(error.optionalTuple?.[0]?._errors).toEqual([\"Invalid input\"]);\npackages/zod/src/v3/tests/error.test.ts:353: expect(error.optionalTuple?.[1]?._errors).toEqual([\"Invalid input\"]);\npackages/zod/src/v3/tests/error.test.ts:341: expect(error.nullableObject?.name?._errors).toEqual([\"Invalid input\"]);\npackages/zod/src/v3/tests/error.test.ts:348: expect(error.optionalObject?.name?._errors).toEqual([\"Invalid input\"]);\npackages/docs-v3/CONTRIBUTING.md:76: Zod uses Jest for testing. After implementing your contribution, write tests for it. Just create a new file under `src/__tests__` or add additional tests to the appropriate existing file.\npackages/docs-v3/CONTRIBUTING.md:58: **`yarn build`**\npackages/tsc/package.json:28: \"prepublish\": \"npm run build\",\npackages/tsc/package.json:26: \"build:bench\": \"tsc -p tsconfig.bench.json\",\npackages/zod/src/v3/tests/error.test.ts:2: import { expect, test } from \"vitest\";\npackages/zod/src/v3/tests/error.test.ts:363: test(\"schema-bound error map\", () => {\npackages/tsc/README.md:5: `npm run build-bench` to run `tsc` with `extendedDiagnostics`\npackages/resolution/README.md:5: `npm run build-bench` to run `tsc` with `extendedDiagnostics`\npackages/zod/src/v3/tests/enum.test.ts:38: expect(result.error.issues[0].message).toEqual(\"REQUIRED\");\npackages/zod/src/v3/tests/error.test.ts:367: expect(result.error.issues[0].message).toEqual(\"Invalid name\");\npackages/zod/src/v3/tests/error.test.ts:207: expect(result.error.format()._errors).toEqual([\"Invalid email\"]);\npackages/zod/src/v3/tests/error.test.ts:373: expect(result2.error.issues[0].message).toEqual(\"Name is required\");\npackages/tsc/README.md:7: Either modify zod's typings in `node_modules/zod` or `npm link` a local copy and do modifications there. Remember to build `zod` in between!\npackages/resolution/README.md:7: Either modify zod's typings in `node_modules/zod` or `npm link` a local copy and do modifications there. Remember to build `zod` in between!\npackages/docs-v3/CONTRIBUTING.md:18: Before you start working on a contribution, create an issue describing what you want to build. It's possible someone else is already working on something similar, or perhaps there is a reason that feature isn't implemented. The maintainers will point you in th\npackage.json:49: \"vitest\": \"^4.1.5\",\nCONTRIBUTING.md:78: - runs all Vitest tests and\npackages/tsc/package.json:2: \"name\": \"@zod/tsc-perftest\",\npackage.json:77: \"prepublishOnly\": \"pnpm run test && pnpm run build\",\nCONTRIBUTING.md:74: - runs all Vitest tests and generates coverage badge\npackages/zod/src/v3/tests/function.test.ts:115: test(\"input validation error\", () => {\nCONTRIBUTING.md:94: Zod uses Vitest for testing. After implementing your contribution, write tests for it. Just create a new file in the `tests` directory of any workspace, or add additional tests to an existing file if appropriate.\n\"test\": \"vitest run\", [repeated 2x]\n\"test:watch\": \"vitest\", [repeated 2x]\n\"test\": \"pnpm vitest run\",\n\"test:watch\": \"pnpm vitest\",\n\"test:all\": \"pnpm vitest run && tsx test-resolution.ts\"\npackages/docs-v3/CHANGELOG.md:22: Under the hood, this creates a custom error map that's bound to the schema. You can also pass a custom error map explicitly.\nCONTRIBUTING.md:46: To build `@zod/docs` for production, you will need to set the `GITHUB_TOKEN` environment variable to a personal access token. [Create a granular personal access token](https://github.com/settings/personal-access-tokens/new) and accept the defaults (no extra pe\npackages/resolution/test-resolution.ts:17: console.error(\"❌ Error building project:\", error);\npackages/resolution/test-resolution.ts:31: console.error(\"❌ Error building project:\", error);",
+      "result": {
+        "ok": true,
+        "tool": "local_agent_run",
+        "selectedMode": "context_cleanup",
+        "task": "Analyze this Zod OSS codebase evidence. Identify project purpose, likely test command, major source/test areas, and any high-signal maintenance risks. Do not quote raw files; compact to actionable codebase evidence.",
+        "handle": null,
+        "artifactPath": null,
+        "tokenSavings": {
+          "rawEvidenceApproxTokens": 35140,
+          "compactReportApproxTokens": 1654,
+          "savedApproxTokens": 33486,
+          "reductionRatio": 95.29
+        },
+        "enforcement": {
+          "requiresMcpFirst": true,
+          "destinationRequested": false,
+          "autoReroutedToHandoffGate": false,
+          "externalSendAttempted": false,
+          "sendPayloadKind": "unknown",
+          "blocked": false,
+          "allowedPayload": "unknown",
+          "reason": "No external destination requested.",
+          "handoffVerificationRequired": false,
+          "handoffProof": null
+        },
+        "policy": null,
+        "steps": [
+          {
+            "ok": true,
+            "name": "localqa_cleanup_context",
+            "durationMs": 14.33
+          }
+        ],
+        "telemetry": {
+          "internalStepCount": 1,
+          "externalCalls": 0,
+          "localFileInputCount": 0,
+          "localFileInputBytes": 0
+        },
+        "compactText": "Task: Analyze this Zod OSS codebase evidence. Identify project purpose, likely test command, major source/test areas, and any high-signal maintenance risks. Do not quote raw files; compact to actionable codebase evidence.\nMode: context_cleanup\nHigh-signal lines:\nTASK: Analyze this Zod OSS codebase evidence. Identify project purpose, likely test command, major source/test areas, and any high-signal maintenance risks. Do not quote raw files; compact to actionable codebase evidence.\npackages/zod/package.json:132: \"test\": \"pnpm vitest run\",\npackages/zod/package.json:131: \"test:watch\": \"pnpm vitest\",\npackages/resolution/package.json:19: \"test:all\": \"pnpm vitest run && tsx test-resolution.ts\"\npackages/integration/package.json:17: \"test:source\": \"tsc --project fixtures/drizzle-zod/tsconfig.json 2>&1 | (! grep -q 'excessively deep') && tsc --project fixtures/ai-sdk/tsconfig.json\",\npackages/zod/package.json:129: \"build\": \"zshy --project tsconfig.build.json\",\npackages/integration/package.json:18: \"test:built\": \"tsc --project fixtures/internal-types/tsconfig.bundler.json && tsc --project fixtures/internal-types/tsconfig.nodenext.json && tsc --project fixtures/internal-types/tsconfig.node16-cjs.json\"\npackages/tsc/package.json:25: \"build\": \"tsc\",\npackages/docs/package.json:6: \"build\": \"next build\",\npackage.json:76: \"test\": \"vitest run\",\npackage.json:75: \"test:watch\": \"vitest\",\npackage.json:74: \"build\": \"pnpm run -r --filter zod build\",\npackages/docs-v3/README.md:273: Build AI apps and workflows with <a href=\"https://retool.com/products/ai?utm_source=github&utm_medium=referral&utm_campaign=zod\">Retool AI</a>\npackages/zod/README.md:149: result.error; // ZodError instance\npackages/docs-v3/README.md:148: - [Error handling](#error-handling)\npackages/docs-v3/README.md:149: - [Error formatting](#error-formatting)\npackages/docs-v3/README.md:119: - [Customize error path](#customize-error-path)\npackages/docs-v3/CONTRIBUTING.md:64: - runs all Jest tests and generates coverage badge\npackages/zod/src/v3/tests/error.test.ts:230: expect(error.confirm?._errors).toEqual([\"Invalid input\"]);\npackages/zod/src/v3/tests/error.test.ts:300: expect(error.inner?.name?._errors).toEqual([\"Invalid input\"]);\npackages/zod/src/v3/tests/error.test.ts:291: // expect(error.inner?.name?._errors).toEqual([\"Invalid input\"]);\npackages/zod/src/v3/tests/error.test.ts:292: // expect(error.inner?.name?.[0]._errors).toEqual([\"Invalid input\"]);\npackages/zod/src/v3/tests/error.test.ts:343: expect(error.nullableArray?.[0]?._errors).toEqual([\"Invalid input\"]);\npackages/zod/src/v3/tests/error.test.ts:345: expect(error.nullableTuple?.[0]?._errors).toEqual([\"Invalid input\"]);\npackages/zod/src/v3/tests/error.test.ts:346: expect(error.nullableTuple?.[1]?._errors).toEqual([\"Invalid input\"]);\npackages/zod/src/v3/tests/error.test.ts:350: expect(error.optionalArray?.[0]?._errors).toEqual([\"Invalid input\"]);\npackages/zod/src/v3/tests/error.test.ts:352: expect(error.optionalTuple?.[0]?._errors).toEqual([\"Invalid input\"]);\npackages/zod/src/v3/tests/error.test.ts:353: expect(error.optionalTuple?.[1]?._errors).toEqual([\"Invalid input\"]);\npackages/zod/src/v3/tests/error.test.ts:341: expect(error.nullableObject?.name?._errors).toEqual([\"Invalid input\"]);\npackages/zod/src/v3/tests/error.test.ts:348: expect(error.optionalObject?.name?._errors).toEqual([\"Invalid input\"]);\npackages/docs-v3/CONTRIBUTING.md:76: Zod uses Jest for testing. After implementing your contribution, write tests for it. Just create a new file under `src/__tests__` or add additional tests to the appropriate existing file.\npackages/docs-v3/CONTRIBUTING.md:58: **`yarn build`**\npackages/tsc/package.json:28: \"prepublish\": \"npm run build\",\npackages/tsc/package.json:26: \"build:bench\": \"tsc -p tsconfig.bench.json\",\npackages/zod/src/v3/tests/error.test.ts:2: import { expect, test } from \"vitest\";\npackages/zod/src/v3/tests/error.test.ts:363: test(\"schema-bound error map\", () => {\npackages/tsc/README.md:5: `npm run build-bench` to run `tsc` with `extendedDiagnostics`\npackages/resolution/README.md:5: `npm run build-bench` to run `tsc` with `extendedDiagnostics`\npackages/zod/src/v3/tests/enum.test.ts:38: expect(result.error.issues[0].message).toEqual(\"REQUIRED\");\npackages/zod/src/v3/tests/error.test.ts:367: expect(result.error.issues[0].message).toEqual(\"Invalid name\");\npackages/zod/src/v3/tests/error.test.ts:207: expect(result.error.format()._errors).toEqual([\"Invalid email\"]);\npackages/zod/src/v3/tests/error.test.ts:373: expect(result2.error.issues[0].message).toEqual(\"Name is required\");\npackages/tsc/README.md:7: Either modify zod's typings in `node_modules/zod` or `npm link` a local copy and do modifications there. Remember to build `zod` in between!\npackages/resolution/README.md:7: Either modify zod's typings in `node_modules/zod` or `npm link` a local copy and do modifications there. Remember to build `zod` in between!\npackages/docs-v3/CONTRIBUTING.md:18: Before you start working on a contribution, create an issue describing what you want to build. It's possible someone else is already working on something similar, or perhaps there is a reason that feature isn't implemented. The maintainers will point you in th\npackage.json:49: \"vitest\": \"^4.1.5\",\nCONTRIBUTING.md:78: - runs all Vitest tests and\npackages/tsc/package.json:2: \"name\": \"@zod/tsc-perftest\",\npackage.json:77: \"prepublishOnly\": \"pnpm run test && pnpm run build\",\nCONTRIBUTING.md:74: - runs all Vitest tests and generates coverage badge\npackages/zod/src/v3/tests/function.test.ts:115: test(\"input validation error\", () => {\nCONTRIBUTING.md:94: Zod uses Vitest for testing. After implementing your contribution, write tests for it. Just create a new file in the `tests` directory of any workspace, or add additional tests to an existing file if appropriate.\n\"test\": \"vitest run\", [repeated 2x]\n\"test:watch\": \"vitest\", [repeated 2x]\n\"test\": \"pnpm vitest run\",\n\"test:watch\": \"pnpm vitest\",\n\"test:all\": \"pnpm vitest run && tsx test-resolution.ts\"\npackages/docs-v3/CHANGELOG.md:22: Under the hood, this creates a custom error map that's bound to the schema. You can also pass a custom error map explicitly.\nCONTRIBUTING.md:46: To build `@zod/docs` for production, you will need to set the `GITHUB_TOKEN` environment variable to a personal access token. [Create a granular personal access token](https://github.com/settings/personal-access-tokens/new) and accept the defaults (no extra pe\npackages/resolution/test-resolution.ts:17: console.error(\"❌ Error building project:\", error);\npackages/resolution/test-resolution.ts:31: console.error(\"❌ Error building project:\", error);"
+      }
+    }
+  ]
+}

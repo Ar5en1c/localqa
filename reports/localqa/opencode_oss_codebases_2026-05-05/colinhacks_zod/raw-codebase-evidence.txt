@@ -1,0 +1,3372 @@
+OSS_CODEBASE_BENCHMARK_PROJECT: colinhacks/zod
+ARCHIVE_URL: https://codeload.github.com/colinhacks/zod/tar.gz/refs/heads/main
+TASK: Analyze this Zod OSS codebase evidence. Identify project purpose, likely test command, major source/test areas, and any high-signal maintenance risks. Do not quote raw files; compact to actionable codebase evidence.
+
+SIMULATED_NON_MCP_AGENT_RAW_CONTEXT:
+- tool: find/list repo files
+- tool: cat package.json
+- tool: cat README/docs
+- tool: grep/rg for tests, TODOs, errors, build scripts
+- tool: read selected source/test files
+
+PACKAGE_SCRIPTS_JSON:
+{
+  "fix": "pnpm run format && pnpm run lint",
+  "format": "biome check --write .",
+  "format:check": "biome check .",
+  "lint": "biome lint --write .",
+  "lint:check": "biome lint .",
+  "clean": "pnpm run -r clean",
+  "build": "pnpm run -r --filter zod build",
+  "test:watch": "vitest",
+  "test": "vitest run",
+  "prepublishOnly": "pnpm run test && pnpm run build",
+  "dev": "tsx --conditions @zod/source",
+  "dev:watch": "tsx --conditions @zod/source --watch",
+  "dev:play": "pnpm dev play.ts",
+  "bench": "tsx --conditions @zod/source packages/bench/index.ts",
+  "moltar": "pnpm bench object-moltar",
+  "prepare": "husky",
+  "postbuild": "biome format --write .",
+  "publish:jsr": "jsr publish --dry-run",
+  "bundle:rollup": "rollup -c",
+  "bundle:esbuild": "esbuild --bundle ./scratch/input.ts --outfile=./scratch/out_esbuild.js --bundle --format=esm",
+  "check:semver": "tsx scripts/check-versions.ts",
+  "check:circular": "madge --circular --extensions ts --exclude '(v4/core|v3)' packages/zod/src"
+}
+
+TOP_DEPENDENCIES:
+@arethetypeswrong/cli, @biomejs/biome, @seriousme/openapi-schema-validator, @types/benchmark, @types/semver, @web-std/file, arktype, benchmark, chalk, console-table-printer, esbuild, execa, globby, husky, jsr, lint-staged, madge, mitata, prettier, recheck, rolldown, rollup, semver, supershy, tinybench, ts-morph, tsdown, tslib, tsx, typescript, vite, vitest, zod, zod3, zshy
+
+FILE_TREE_HEAD:
+.configs/rollup.config.js
+.configs/tsconfig.base.json
+.devcontainer/devcontainer.json
+.editorconfig
+.github/workflows/claude-code-review.yml
+.github/workflows/claude.yml
+.github/workflows/pullfrog.yml
+.github/workflows/release.yml
+.github/workflows/stale.yml
+.github/workflows/test.yml
+.gitignore
+.husky/.gitignore
+.husky/pre-commit
+.husky/pre-push
+.nojekyll
+.npmrc
+.nvmrc
+.vscode/launch.json
+.vscode/settings.json
+AGENTS.md
+biome.jsonc
+CODE_OF_CONDUCT.md
+CONTRIBUTING.md
+FUNDING.yml
+LICENSE
+logo/Logo Black.ai
+logo/Logo Black.jpg
+logo/Logo Black.pdf
+logo/Logo Black.png
+logo/Logo Outer Glow.ai
+logo/Logo Outer Glow.jpg
+logo/Logo Outer Glow.pdf
+logo/Logo Outer Glow.png
+logo/Logo White.ai
+logo/Logo White.jpg
+logo/Logo White.pdf
+logo/Logo White.png
+logo/Logo.ai
+logo/Logo.jpg
+logo/Logo.pdf
+logo/Logo.png
+logo.svg
+package.json
+packages/bench/array.ts
+packages/bench/benchUtil.ts
+packages/bench/boolean.ts
+packages/bench/datetime-regex.ts
+packages/bench/datetime.ts
+packages/bench/discriminated-union.ts
+packages/bench/error-handling.ts
+packages/bench/index.ts
+packages/bench/init.ts
+packages/bench/instanceof.ts
+packages/bench/ipv4-regex.ts
+packages/bench/jit-union.ts
+packages/bench/key-iteration.ts
+packages/bench/lazy-box.ts
+packages/bench/libs.ts
+packages/bench/metabench.ts
+packages/bench/number.ts
+packages/bench/object-async.ts
+packages/bench/object-creation.ts
+packages/bench/object-fail.ts
+packages/bench/object-moltar-jitless.ts
+packages/bench/object-moltar.ts
+packages/bench/object-safe.ts
+packages/bench/object-safeasync.ts
+packages/bench/object-setup.ts
+packages/bench/object.ts
+packages/bench/package.json
+packages/bench/property-access.ts
+packages/bench/safe.ts
+packages/bench/safeparse.ts
+packages/bench/single-element-enum.ts
+packages/bench/single-item-union.ts
+packages/bench/string.ts
+packages/bench/tsconfig.bench.json
+packages/bench/tsconfig.json
+packages/bench/union.ts
+packages/docs/.gitignore
+packages/docs/.vscode/settings.json
+packages/docs/app/(doc)/[[...slug]]/page.tsx
+packages/docs/app/(doc)/layout.tsx
+packages/docs/app/api/search/route.ts
+packages/docs/app/apple-icon.png
+packages/docs/app/blog/[slug]/page.tsx
+packages/docs/app/blog/layout.tsx
+packages/docs/app/blog/page.tsx
+packages/docs/app/global.css
+packages/docs/app/icon.png
+packages/docs/app/layout.config.tsx
+packages/docs/app/layout.tsx
+packages/docs/app/llms-full.txt/route.ts
+packages/docs/app/llms.txt/route.ts
+packages/docs/app/logo.ico
+packages/docs/app/not-found.tsx
+packages/docs/app/og.png/route.tsx
+packages/docs/app/theme.css
+packages/docs/biome.jsonc
+packages/docs/components/accordion.tsx
+packages/docs/components/bronze.tsx
+packages/docs/components/codec-image.tsx
+packages/docs/components/copy-markdown-button.tsx
+packages/docs/components/ecosystem.tsx
+packages/docs/components/featured.tsx
+packages/docs/components/gold.tsx
+packages/docs/components/heading.tsx
+packages/docs/components/hero-logo.tsx
+packages/docs/components/if.tsx
+packages/docs/components/inkeep-bubble.tsx
+packages/docs/components/inkeep-search.tsx
+packages/docs/components/platinum.tsx
+packages/docs/components/scroller.tsx
+packages/docs/components/sidebar-item.tsx
+packages/docs/components/sidebar-logo.tsx
+packages/docs/components/silver.tsx
+packages/docs/components/tabs.tsx
+packages/docs/components/themed-image.tsx
+packages/docs/content/api.mdx
+packages/docs/content/api.test.ts
+packages/docs/content/basics.mdx
+packages/docs/content/blog/clerk-fellowship.mdx
+packages/docs/content/codecs.mdx
+packages/docs/content/ecosystem.mdx
+packages/docs/content/error-customization.mdx
+packages/docs/content/error-formatting.mdx
+packages/docs/content/index.mdx
+packages/docs/content/json-schema.mdx
+packages/docs/content/library-authors.mdx
+packages/docs/content/meta.json
+packages/docs/content/metadata.mdx
+packages/docs/content/packages/core.mdx
+packages/docs/content/packages/mini.mdx
+packages/docs/content/packages/zod.mdx
+packages/docs/content/v4/changelog.mdx
+packages/docs/content/v4/index.mdx
+packages/docs/content/v4/versioning.mdx
+packages/docs/loaders/get-llm-text.ts
+packages/docs/loaders/source.ts
+packages/docs/loaders/stars.ts
+packages/docs/next.config.mjs
+packages/docs/package.json
+packages/docs/pages/api/_og.tsx
+packages/docs/pnpm-lock.yaml
+packages/docs/postcss.config.mjs
+packages/docs/public/codecs/codecs-dark.png
+packages/docs/public/codecs/codecs-light.png
+packages/docs/public/codecs/codecs-network-dark.svg
+packages/docs/public/codecs/codecs-network-light.svg
+packages/docs/public/codecs/codecs.png
+packages/docs/public/github-white.png
+packages/docs/public/logo/logo_square.png
+packages/docs/public/logo/logo-black.ai
+packages/docs/public/logo/logo-black.jpg
+packages/docs/public/logo/logo-black.pdf
+packages/docs/public/logo/logo-black.png
+packages/docs/public/logo/logo-glow.ai
+packages/docs/public/logo/logo-glow.jpg
+packages/docs/public/logo/logo-glow.pdf
+packages/docs/public/logo/logo-glow.png
+packages/docs/public/logo/logo-white.ai
+packages/docs/public/logo/logo-white.jpg
+packages/docs/public/logo/logo-white.pdf
+packages/docs/public/logo/logo-white.png
+packages/docs/public/logo/logo.ai
+packages/docs/public/logo/logo.jpg
+packages/docs/public/logo/logo.pdf
+packages/docs/public/logo/logo.png
+packages/docs/public/logo/logo.svg
+packages/docs/public/logo/profile_circle.png
+packages/docs/public/logo/profile_square.png
+packages/docs/public/robots.txt
+packages/docs/README.md
+packages/docs/should-build-site.sh
+packages/docs/source.config.ts
+packages/docs/tsconfig.json
+packages/docs/tsconfig.test.json
+packages/docs/vitest.config.ts
+packages/docs-v3/_redirects
+packages/docs-v3/.editorconfig
+packages/docs-v3/blog/clerk-fellowship.md
+packages/docs-v3/blog/index.html
+packages/docs-v3/CHANGELOG.md
+packages/docs-v3/CODE_OF_CONDUCT.md
+packages/docs-v3/CONTRIBUTING.md
+packages/docs-v3/ERROR_HANDLING.md
+packages/docs-v3/index.html
+packages/docs-v3/LICENSE
+packages/docs-v3/logo.svg
+packages/docs-v3/MIGRATION.md
+packages/docs-v3/README_KO.md
+packages/docs-v3/README_ZH.md
+packages/docs-v3/README.md
+packages/docs-v3/robots.txt
+packages/docs-v3/static/android-chrome-192x192.png
+packages/docs-v3/static/android-chrome-512x512.png
+packages/docs-v3/static/apple-touch-icon.png
+packages/docs-v3/static/browserconfig.xml
+packages/docs-v3/static/favicon-16x16.png
+packages/docs-v3/static/favicon-32x32.png
+packages/docs-v3/static/favicon.ico
+packages/docs-v3/static/moon.svg
+packages/docs-v3/static/mstile-144x144.png
+packages/docs-v3/static/mstile-150x150.png
+packages/docs-v3/static/mstile-310x150.png
+packages/docs-v3/static/mstile-310x310.png
+packages/docs-v3/static/mstile-70x70.png
+packages/docs-v3/static/safari-pinned-tab.svg
+packages/docs-v3/static/site.webmanifest
+packages/docs-v3/static/sun.svg
+packages/integration/package.json
+packages/integration/tsconfig.json
+packages/resolution/.gitignore
+packages/resolution/attw.test.ts
+packages/resolution/package.json
+packages/resolution/README.md
+packages/resolution/src/index.cts
+packages/resolution/src/index.mts
+packages/resolution/src/index.ts
+packages/resolution/test-resolution.ts
+packages/resolution/tsconfig.build.json
+packages/resolution/tsconfig.json
+packages/resolution/vitest.config.ts
+packages/treeshake/.gitignore
+packages/treeshake/example-mini.ts
+packages/treeshake/example.ts
+packages/treeshake/package.json
+packages/treeshake/rollup.config.js
+packages/treeshake/valibot-boolean.ts
+packages/treeshake/valibot-object.ts
+packages/treeshake/valibot-simple-object.ts
+packages/treeshake/valibot-string.ts
+packages/treeshake/zod-boolean.ts
+packages/treeshake/zod-full.ts
+packages/treeshake/zod-locale.ts
+packages/treeshake/zod-locales.ts
+packages/treeshake/zod-mini-boolean.ts
+packages/treeshake/zod-mini-full.ts
+packages/treeshake/zod-mini-object.ts
+packages/treeshake/zod-mini-simple-object.ts
+packages/treeshake/zod-mini-string.ts
+packages/treeshake/zod-object.ts
+packages/treeshake/zod-string.ts
+packages/treeshake/zod3-boolean.ts
+packages/treeshake/zod3-full.ts
+packages/treeshake/zod3-object.ts
+packages/treeshake/zod3-string.ts
+packages/tsc/.gitignore
+packages/tsc/bench/index.ts
+packages/tsc/bench/lots-of-objects.ts
+packages/tsc/bench/object-with-extend.ts
+packages/tsc/bench/omit-extend.ts
+packages/tsc/bench/string.ts
+packages/tsc/bench/strongly-connected.ts
+packages/tsc/bisect.ts
+packages/tsc/extend.ts
+packages/tsc/generate.ts
+packages/tsc/package.json
+packages/tsc/README.md
+packages/tsc/tsconfig.bench.json
+packages/tsc/tsconfig.json
+packages/zod/.gitignore
+packages/zod/jsr.json
+packages/zod/LICENSE
+packages/zod/package.json
+packages/zod/README.md
+packages/zod/src/index.ts
+packages/zod/src/locales/index.ts
+packages/zod/src/mini/index.ts
+packages/zod/src/v3/benchmarks/datetime.ts
+packages/zod/src/v3/benchmarks/discriminatedUnion.ts
+packages/zod/src/v3/benchmarks/index.ts
+packages/zod/src/v3/benchmarks/ipv4.ts
+packages/zod/src/v3/benchmarks/object.ts
+packages/zod/src/v3/benchmarks/primitives.ts
+packages/zod/src/v3/benchmarks/realworld.ts
+packages/zod/src/v3/benchmarks/string.ts
+packages/zod/src/v3/benchmarks/union.ts
+packages/zod/src/v3/errors.ts
+packages/zod/src/v3/external.ts
+packages/zod/src/v3/helpers/enumUtil.ts
+packages/zod/src/v3/helpers/errorUtil.ts
+packages/zod/src/v3/helpers/parseUtil.ts
+packages/zod/src/v3/helpers/partialUtil.ts
+packages/zod/src/v3/helpers/typeAliases.ts
+packages/zod/src/v3/helpers/util.ts
+packages/zod/src/v3/index.ts
+packages/zod/src/v3/locales/en.ts
+packages/zod/src/v3/standard-schema.ts
+packages/zod/src/v3/tests/all-errors.test.ts
+packages/zod/src/v3/tests/anyunknown.test.ts
+packages/zod/src/v3/tests/array.test.ts
+packages/zod/src/v3/tests/async-parsing.test.ts
+packages/zod/src/v3/tests/async-refinements.test.ts
+packages/zod/src/v3/tests/base.test.ts
+packages/zod/src/v3/tests/bigint.test.ts
+packages/zod/src/v3/tests/branded.test.ts
+packages/zod/src/v3/tests/catch.test.ts
+packages/zod/src/v3/tests/coerce.test.ts
+packages/zod/src/v3/tests/complex.test.ts
+packages/zod/src/v3/tests/custom.test.ts
+packages/zod/src/v3/tests/date.test.ts
+packages/zod/src/v3/tests/deepmasking.test.ts
+packages/zod/src/v3/tests/default.test.ts
+packages/zod/src/v3/tests/description.test.ts
+packages/zod/src/v3/tests/discriminated-unions.test.ts
+packages/zod/src/v3/tests/enum.test.ts
+packages/zod/src/v3/tests/error.test.ts
+packages/zod/src/v3/tests/firstparty.test.ts
+packages/zod/src/v3/tests/firstpartyschematypes.test.ts
+packages/zod/src/v3/tests/function.test.ts
+packages/zod/src/v3/tests/generics.test.ts
+packages/zod/src/v3/tests/instanceof.test.ts
+packages/zod/src/v3/tests/intersection.test.ts
+packages/zod/src/v3/tests/language-server.source.ts
+packages/zod/src/v3/tests/language-server.test.ts
+packages/zod/src/v3/tests/literal.test.ts
+packages/zod/src/v3/tests/map.test.ts
+packages/zod/src/v3/tests/masking.test.ts
+packages/zod/src/v3/tests/mocker.test.ts
+packages/zod/src/v3/tests/Mocker.ts
+packages/zod/src/v3/tests/nan.test.ts
+packages/zod/src/v3/tests/nativeEnum.test.ts
+packages/zod/src/v3/tests/nullable.test.ts
+packages/zod/src/v3/tests/number.test.ts
+packages/zod/src/v3/tests/object-augmentation.test.ts
+packages/zod/src/v3/tests/object-in-es5-env.test.ts
+packages/zod/src/v3/tests/object.test.ts
+packages/zod/src/v3/tests/optional.test.ts
+packages/zod/src/v3/tests/parser.test.ts
+packages/zod/src/v3/tests/parseUtil.test.ts
+packages/zod/src/v3/tests/partials.test.ts
+packages/zod/src/v3/tests/pickomit.test.ts
+packages/zod/src/v3/tests/pipeline.test.ts
+packages/zod/src/v3/tests/preprocess.test.ts
+packages/zod/src/v3/tests/primitive.test.ts
+packages/zod/src/v3/tests/promise.test.ts
+packages/zod/src/v3/tests/readonly.test.ts
+packages/zod/src/v3/tests/record.test.ts
+packages/zod/src/v3/tests/recursive.test.ts
+packages/zod/src/v3/tests/refine.test.ts
+packages/zod/src/v3/tests/safeparse.test.ts
+packages/zod/src/v3/tests/set.test.ts
+packages/zod/src/v3/tests/standard-schema.test.ts
+packages/zod/src/v3/tests/string.test.ts
+packages/zod/src/v3/tests/transformer.test.ts
+packages/zod/src/v3/tests/tuple.test.ts
+packages/zod/src/v3/tests/unions.test.ts
+packages/zod/src/v3/tests/validations.test.ts
+packages/zod/src/v3/tests/void.test.ts
+packages/zod/src/v3/types.ts
+packages/zod/src/v3/ZodError.ts
+packages/zod/src/v4/classic/checks.ts
+packages/zod/src/v4/classic/coerce.ts
+packages/zod/src/v4/classic/compat.ts
+packages/zod/src/v4/classic/errors.ts
+packages/zod/src/v4/classic/external.ts
+packages/zod/src/v4/classic/from-json-schema.ts
+packages/zod/src/v4/classic/index.ts
+packages/zod/src/v4/classic/iso.ts
+packages/zod/src/v4/classic/parse.ts
+packages/zod/src/v4/classic/schemas.ts
+packages/zod/src/v4/classic/tests/anyunknown.test.ts
+packages/zod/src/v4/classic/tests/apply.test.ts
+packages/zod/src/v4/classic/tests/array.test.ts
+packages/zod/src/v4/classic/tests/assignability.test.ts
+packages/zod/src/v4/classic/tests/async-parsing.test.ts
+packages/zod/src/v4/classic/tests/async-refinements.test.ts
+packages/zod/src/v4/classic/tests/base.test.ts
+packages/zod/src/v4/classic/tests/bigint.test.ts
+packages/zod/src/v4/classic/tests/brand.test.ts
+packages/zod/src/v4/classic/tests/catch.test.ts
+packages/zod/src/v4/classic/tests/coalesce.test.ts
+packages/zod/src/v4/classic/tests/codec-examples.test.ts
+packages/zod/src/v4/classic/tests/codec.test.ts
+packages/zod/src/v4/classic/tests/coerce.test.ts
+packages/zod/src/v4/classic/tests/continuability.test.ts
+packages/zod/src/v4/classic/tests/custom.test.ts
+packages/zod/src/v4/classic/tests/date.test.ts
+packages/zod/src/v4/classic/tests/datetime.test.ts
+packages/zod/src/v4/classic/tests/default.test.ts
+packages/zod/src/v4/classic/tests/describe-meta-checks.test.ts
+packages/zod/src/v4/classic/tests/description.test.ts
+packages/zod/src/v4/classic/tests/detached-methods.test.ts
+packages/zod/src/v4/classic/tests/discriminated-unions.test.ts
+packages/zod/src/v4/classic/tests/enum.test.ts
+packages/zod/src/v4/classic/tests/error-utils.test.ts
+packages/zod/src/v4/classic/tests/error.test.ts
+packages/zod/src/v4/classic/tests/file.test.ts
+packages/zod/src/v4/classic/tests/firstparty.test.ts
+packages/zod/src/v4/classic/tests/fix-json-issue.test.ts
+packages/zod/src/v4/classic/tests/from-json-schema.test.ts
+packages/zod/src/v4/classic/tests/function.test.ts
+packages/zod/src/v4/classic/tests/generics.test.ts
+packages/zod/src/v4/classic/tests/global-config.test.ts
+packages/zod/src/v4/classic/tests/hash.test.ts
+packages/zod/src/v4/classic/tests/index.test.ts
+packages/zod/src/v4/classic/tests/instanceof.test.ts
+packages/zod/src/v4/classic/tests/intersection.test.ts
+packages/zod/src/v4/classic/tests/jitless-allows-eval.test.ts
+packages/zod/src/v4/classic/tests/json.test.ts
+packages/zod/src/v4/classic/tests/lazy.test.ts
+packages/zod/src/v4/classic/tests/literal.test.ts
+packages/zod/src/v4/classic/tests/locales_ka.test.ts
+packages/zod/src/v4/classic/tests/locales_ro.test.ts
+packages/zod/src/v4/classic/tests/map.test.ts
+packages/zod/src/v4/classic/tests/nan.test.ts
+packages/zod/src/v4/classic/tests/nested-refine.test.ts
+packages/zod/src/v4/classic/tests/nonoptional.test.ts
+packages/zod/src/v4/classic/tests/nullable.test.ts
+packages/zod/src/v4/classic/tests/number.test.ts
+packages/zod/src/v4/classic/tests/object.test.ts
+packages/zod/src/v4/classic/tests/optional.test.ts
+packages/zod/src/v4/classic/tests/partial.test.ts
+packages/zod/src/v4/classic/tests/pickomit.test.ts
+packages/zod/src/v4/classic/tests/pipe.test.ts
+packages/zod/src/v4/classic/tests/prefault.test.ts
+packages/zod/src/v4/classic/tests/preprocess-types.test.ts
+packages/zod/src/v4/classic/tests/preprocess.test.ts
+packages/zod/src/v4/classic/tests/primitive.test.ts
+packages/zod/src/v4/classic/tests/promise.test.ts
+packages/zod/src/v4/classic/tests/prototypes.test.ts
+packages/zod/src/v4/classic/tests/readonly.test.ts
+packages/zod/src/v4/classic/tests/record.test.ts
+packages/zod/src/v4/classic/tests/recursive-types.test.ts
+packages/zod/src/v4/classic/tests/refine.test.ts
+packages/zod/src/v4/classic/tests/registries.test.ts
+packages/zod/src/v4/classic/tests/set.test.ts
+packages/zod/src/v4/classic/tests/standard-schema.test.ts
+packages/zod/src/v4/classic/tests/string-formats.test.ts
+packages/zod/src/v4/classic/tests/string.test.ts
+packages/zod/src/v4/classic/tests/stringbool.test.ts
+packages/zod/src/v4/classic/tests/template-literal.test.ts
+packages/zod/src/v4/classic/tests/to-json-schema-methods.test.ts
+packages/zod/src/v4/classic/tests/to-json-schema.test.ts
+packages/zod/src/v4/classic/tests/transform.test.ts
+packages/zod/src/v4/classic/tests/tuple.test.ts
+packages/zod/src/v4/classic/tests/union.test.ts
+packages/zod/src/v4/classic/tests/url.test.ts
+packages/zod/src/v4/classic/tests/validations.test.ts
+packages/zod/src/v4/classic/tests/void.test.ts
+packages/zod/src/v4/core/api.ts
+packages/zod/src/v4/core/checks.ts
+packages/zod/src/v4/core/config.ts
+packages/zod/src/v4/core/core.ts
+packages/zod/src/v4/core/doc.ts
+packages/zod/src/v4/core/errors.ts
+packages/zod/src/v4/core/index.ts
+packages/zod/src/v4/core/json-schema-generator.ts
+packages/zod/src/v4/core/json-schema-processors.ts
+packages/zod/src/v4/core/json-schema.ts
+packages/zod/src/v4/core/parse.ts
+packages/zod/src/v4/core/regexes.ts
+packages/zod/src/v4/core/registries.ts
+packages/zod/src/v4/core/schemas.ts
+packages/zod/src/v4/core/standard-schema.ts
+packages/zod/src/v4/core/tests/extend.test.ts
+packages/zod/src/v4/core/tests/index.test.ts
+packages/zod/src/v4/core/tests/locales/be.test.ts
+packages/zod/src/v4/core/tests/locales/el.test.ts
+packages/zod/src/v4/core/tests/locales/en.test.ts
+packages/zod/src/v4/core/tests/locales/es.test.ts
+packages/zod/src/v4/core/tests/locales/fr.test.ts
+packages/zod/src/v4/core/tests/locales/he.test.ts
+packages/zod/src/v4/core/tests/locales/hr.test.ts
+packages/zod/src/v4/core/tests/locales/nl.test.ts
+packages/zod/src/v4/core/tests/locales/ru.test.ts
+packages/zod/src/v4/core/tests/locales/tr.test.ts
+packages/zod/src/v4/core/tests/locales/uz.test.ts
+packages/zod/src/v4/core/tests/record-constructor.test.ts
+packages/zod/src/v4/core/tests/recursive-tuples.test.ts
+packages/zod/src/v4/core/to-json-schema.ts
+packages/zod/src/v4/core/util.ts
+packages/zod/src/v4/core/versions.ts
+packages/zod/src/v4/core/zsf.ts
+packages/zod/src/v4/index.ts
+packages/zod/src/v4/locales/ar.ts
+packages/zod/src/v4/locales/az.ts
+packages/zod/src/v4/locales/be.ts
+packages/zod/src/v4/locales/bg.ts
+packages/zod/src/v4/locales/ca.ts
+packages/zod/src/v4/locales/cs.ts
+packages/zod/src/v4/locales/da.ts
+packages/zod/src/v4/locales/de.ts
+packages/zod/src/v4/locales/el.ts
+packages/zod/src/v4/locales/en.ts
+packages/zod/src/v4/locales/eo.ts
+packages/zod/src/v4/locales/es.ts
+packages/zod/src/v4/locales/fa.ts
+packages/zod/src/v4/locales/fi.ts
+packages/zod/src/v4/locales/fr-CA.ts
+packages/zod/src/v4/locales/fr.ts
+packages/zod/src/v4/locales/he.ts
+packages/zod/src/v4/locales/hr.ts
+packages/zod/src/v4/locales/hu.ts
+packages/zod/src/v4/locales/hy.ts
+packages/zod/src/v4/locales/id.ts
+packages/zod/src/v4/locales/index.ts
+packages/zod/src/v4/locales/is.ts
+packages/zod/src/v4/locales/it.ts
+packages/zod/src/v4/locales/ja.ts
+packages/zod/src/v4/locales/ka.ts
+packages/zod/src/v4/locales/kh.ts
+packages/zod/src/v4/locales/km.ts
+packages/zod/src/v4/locales/ko.ts
+packages/zod/src/v4/locales/lt.ts
+packages/zod/src/v4/locales/mk.ts
+packages/zod/src/v4/locales/ms.ts
+packages/zod/src/v4/locales/nl.ts
+packages/zod/src/v4/locales/no.ts
+packages/zod/src/v4/locales/ota.ts
+packages/zod/src/v4/locales/pl.ts
+packages/zod/src/v4/locales/ps.ts
+packages/zod/src/v4/locales/pt.ts
+packages/zod/src/v4/locales/ro.ts
+packages/zod/src/v4/locales/ru.ts
+packages/zod/src/v4/locales/sl.ts
+packages/zod/src/v4/locales/sv.ts
+packages/zod/src/v4/locales/ta.ts
+packages/zod/src/v4/locales/th.ts
+packages/zod/src/v4/locales/tr.ts
+packages/zod/src/v4/locales/ua.ts
+packages/zod/src/v4/locales/uk.ts
+packages/zod/src/v4/locales/ur.ts
+packages/zod/src/v4/locales/uz.ts
+packages/zod/src/v4/locales/vi.ts
+packages/zod/src/v4/locales/yo.ts
+packages/zod/src/v4/locales/zh-CN.ts
+packages/zod/src/v4/locales/zh-TW.ts
+packages/zod/src/v4/mini/checks.ts
+packages/zod/src/v4/mini/coerce.ts
+packages/zod/src/v4/mini/external.ts
+packages/zod/src/v4/mini/index.ts
+packages/zod/src/v4/mini/iso.ts
+packages/zod/src/v4/mini/parse.ts
+packages/zod/src/v4/mini/schemas.ts
+packages/zod/src/v4/mini/tests/apply.test.ts
+packages/zod/src/v4/mini/tests/assignability.test.ts
+packages/zod/src/v4/mini/tests/brand.test.ts
+packages/zod/src/v4/mini/tests/checks.test.ts
+packages/zod/src/v4/mini/tests/codec.test.ts
+packages/zod/src/v4/mini/tests/computed.test.ts
+packages/zod/src/v4/mini/tests/error.test.ts
+packages/zod/src/v4/mini/tests/functions.test.ts
+packages/zod/src/v4/mini/tests/index.test.ts
+packages/zod/src/v4/mini/tests/number.test.ts
+packages/zod/src/v4/mini/tests/object.test.ts
+packages/zod/src/v4/mini/tests/prototypes.test.ts
+packages/zod/src/v4/mini/tests/recursive-types.test.ts
+packages/zod/src/v4/mini/tests/standard-schema.test.ts
+packages/zod/src/v4/mini/tests/string.test.ts
+packages/zod/src/v4-mini/index.ts
+packages/zod/tsconfig.build.json
+packages/zod/tsconfig.json
+packages/zod/tsconfig.test.json
+packages/zod/vitest.config.ts
+play.ts
+pnpm-lock.yaml
+pnpm-workspace.yaml
+rfcs/index.md
+scripts/check-semver.ts
+scripts/check-versions.ts
+scripts/fail-on-console.ts
+scripts/write-stub-package-jsons.ts
+SECURITY.md
+tea.yaml
+tsconfig.json
+vitest.config.ts
+vitest.root.mjs
+wiki/optionality.md
+
+RG_LIKE_SIGNAL_LINES:
+.vscode/settings.json:13: "**/.tshy-build": true,
+AGENTS.md:9: - `pnpm build` - Build all packages (runs recursive build command)
+AGENTS.md:10: - `pnpm vitest run` - Run all tests with Vitest
+AGENTS.md:11: - `pnpm vitest run <path>` - Run specific test file (e.g., `packages/zod/src/v4/classic/tests/string.test.ts`)
+AGENTS.md:12: - `pnpm vitest run <path> -t "<pattern>"` - Run specific test(s) within a file (e.g., `-t "MAC"`)
+AGENTS.md:13: - `pnpm vitest run --update` - Update all test snapshots
+AGENTS.md:14: - `pnpm vitest run <path> --update` - Update snapshots for specific test file
+AGENTS.md:16: - `pnpm vitest run --coverage` - Run tests with coverage report
+AGENTS.md:30: - Features without tests are incomplete - every new feature or bug fix needs test coverage
+AGENTS.md:93: - Husky pre-commit runs biome format/lint via lint-staged; pre-push runs the full vitest suite. Both are fast and act as a safety net — don't bypass with `--no-verify` unless you have a specific reason.
+CODE_OF_CONDUCT.md:79: **Consequence**: A private, written warning from community leaders, providing
+CODE_OF_CONDUCT.md:83: ### 2. Warning
+CODE_OF_CONDUCT.md:88: **Consequence**: A warning with consequences for continued behavior. No
+CONTRIBUTING.md:9: Before you start working on a contribution, create an issue describing what you want to build. It's possible someone else is already working on something similar, or perhaps there is a reason that feature isn't implemented. The maintainers will point you in th
+CONTRIBUTING.md:44: #### Production Build
+CONTRIBUTING.md:46: To build `@zod/docs` for production, you will need to set the `GITHUB_TOKEN` environment variable to a personal access token. [Create a granular personal access token](https://github.com/settings/personal-access-tokens/new) and accept the defaults (no extra pe
+CONTRIBUTING.md:50: pnpm run --filter=@zod/docs build
+CONTRIBUTING.md:68: **`pnpm build`**
+CONTRIBUTING.md:74: - runs all Vitest tests and generates coverage badge
+CONTRIBUTING.md:78: - runs all Vitest tests and
+CONTRIBUTING.md:94: Zod uses Vitest for testing. After implementing your contribution, write tests for it. Just create a new file in the `tests` directory of any workspace, or add additional tests to an existing file if appropriate.
+package.json:49: "vitest": "^4.1.5",
+package.json:74: "build": "pnpm run -r --filter zod build",
+package.json:75: "test:watch": "vitest",
+package.json:76: "test": "vitest run",
+package.json:77: "prepublishOnly": "pnpm run test && pnpm run build",
+packages/bench/benchUtil.ts:32: throw new Error("Invalid factory");
+packages/bench/datetime-regex.ts:20: return simpleDatetimeRegex.test(DATA);
+packages/bench/datetime-regex.ts:23: return datetimeRegexNoLeapYearValidation.test(DATA);
+packages/bench/datetime-regex.ts:26: return datetimeRegexWithLeapYearValidation.test(DATA);
+packages/bench/error-handling.ts:12: const bench = metabench("safeparse error", {
+packages/bench/ipv4-regex.ts:19: return ipv4RegexA.test(DATA);
+packages/bench/ipv4-regex.ts:22: return ipv4RegexB.test(DATA);
+packages/bench/ipv4-regex.ts:25: return ipv4RegexC.test(DATA);
+packages/bench/ipv4-regex.ts:28: return ipv4RegexD.test(DATA);
+packages/bench/ipv4-regex.ts:31: return ipv4RegexE.test(DATA);
+packages/bench/ipv4-regex.ts:34: return ipv4RegexF.test(DATA);
+packages/bench/ipv4-regex.ts:37: return ipv4RegexG.test(DATA);
+packages/bench/ipv4-regex.ts:40: return ipv4RegexH.test(DATA);
+packages/bench/ipv4-regex.ts:43: return ipv4RegexI.test(DATA);
+packages/bench/metabench.ts:23: throw new Error(`Unknown benchmark runner: ${BENCH}`);
+packages/bench/metabench.ts:93: if (!task) throw new Error("Task has no result");
+packages/bench/metabench.ts:110: if (!a.result || !b.result) throw new Error("Task has no result");
+packages/bench/metabench.ts:129: if (!result) throw new Error("Task has no result");
+packages/bench/metabench.ts:130: if (!slowest.result) throw new Error("Task has no result");
+packages/bench/safeparse.ts:35: result.error;
+packages/docs/app/llms-full.txt/route.ts:31: Zod is a TypeScript-first schema validation library with static type inference. This documentation provides comprehensive coverage of Zod 4's features, API, and usage patterns.
+packages/docs/app/llms.txt/route.ts:46: > Zod is a TypeScript-first schema validation library with static type inference. This documentation provides comprehensive coverage of Zod 4's features, API, and usage patterns.
+packages/docs/app/llms.txt/route.ts:91: This documentation covers Zod v4, a TypeScript-first schema validation library. Use the URLs above to access specific pages and sections for detailed information about schema definition, validation, error handling, and advanced patterns.
+packages/docs/components/copy-markdown-button.tsx:20: console.error("Failed to copy markdown:", err);
+packages/docs/components/ecosystem.tsx:16: description: "Build end-to-end typesafe APIs without GraphQL.",
+packages/docs/components/ecosystem.tsx:34: description: "Build Express-based API with I/O validation and middlewares, OpenAPI docs and type-safe client.",
+packages/docs/components/ecosystem.tsx:92: name: "zod-validation-error",
+packages/docs/components/ecosystem.tsx:93: url: "https://github.com/causaly/zod-validation-error",
+packages/docs/components/ecosystem.tsx:94: description: "Generate user-friendly error messages from ZodError instances.",
+packages/docs/components/ecosystem.tsx:95: slug: "causaly/zod-validation-error",
+packages/docs/components/ecosystem.tsx:145: description: 'Build your own "Zod to x" library, or pick one of 25+ off-the-shelf transformers',
+packages/docs/components/ecosystem.tsx:277: description: "25 tree-shakeable validation rules for common fields (email, phone, password, etc.) with structured error codes, i18n, and framework adapters.",
+packages/docs/components/ecosystem.tsx:296: name: "eslint-plugin-import-zod",
+packages/docs/components/ecosystem.tsx:297: url: "https://github.com/samchungy/eslint-plugin-import-zod",
+packages/docs/components/ecosystem.tsx:298: description: "ESLint plugin to enforce namespace imports for Zod.",
+packages/docs/components/ecosystem.tsx:299: slug: "samchungy/eslint-plugin-import-zod",
+packages/docs/components/ecosystem.tsx:308: name: "eslint-plugin-zod",
+packages/docs/components/ecosystem.tsx:309: url: "https://github.com/marcalexiei/eslint-plugin-zod",
+packages/docs/components/ecosystem.tsx:310: description: "ESLint plugin that adds custom linting rules to enforce best practices when using Zod",
+packages/docs/components/ecosystem.tsx:311: slug: "marcalexiei/eslint-plugin-zod",
+packages/docs/components/ecosystem.tsx:328: description: "Compile Zod schemas into zero-overhead validation functions at build time. 2-64x faster validation with no code changes.",
+packages/docs/content/api.test.ts:4: import { expect, test } from "vitest";
+packages/docs/content/api.test.ts:60: if (!line || !/<Tabs\b/.test(line.text)) {
+packages/docs/content/api.test.ts:70: if (!blockLine || /<\/Tabs>/.test(blockLine.text)) {
+packages/docs/content/api.test.ts:82: if (/<\/Tab>/.test(blockLine.text)) {
+packages/docs/content/meta.json:8: "error-customization",
+packages/docs/content/meta.json:9: "error-formatting",
+packages/docs/loaders/get-llm-text.ts:17: // process.cwd() is already packages/docs during build/ISR
+packages/docs/loaders/stars.ts:41: console.error(
+packages/docs/loaders/stars.ts:45: throw new Error("Failed to fetch GitHub stars.");
+packages/docs/loaders/stars.ts:54: throw new Error("Failed to fetch GitHub stars");
+packages/docs/loaders/stars.ts:77: throw new Error("Failed to fetch GitHub stars");
+packages/docs/next.config.mjs:20: if (page[0] !== "/") throw new Error("page must start with /");
+packages/docs/next.config.mjs:155: "customize-error-path": "refine",
+packages/docs/next.config.mjs:198: // error-formatting
+packages/docs/next.config.mjs:201: "error-formatting": "",
+packages/docs/next.config.mjs:203: "/error-formatting"
+packages/docs/next.config.mjs:208: "error-handling": "handling-errors",
+packages/docs/next.config.mjs:228: "error-handling": "",
+packages/docs/next.config.mjs:229: "error-map-priority": "error-precedence",
+packages/docs/next.config.mjs:230: "global-error-map": "error-precedence",
+packages/docs/next.config.mjs:231: "schema-bound-error-map": "error-precedence",
+packages/docs/next.config.mjs:232: "contextual-error-map": "error-precedence",
+packages/docs/next.config.mjs:233: "customizing-errors-with-zoderrormap": "global-error-customization",
+packages/docs/next.config.mjs:240: "/error-customization",
+packages/docs/next.config.mjs:245: "error-formatting": "",
+packages/docs/next.config.mjs:246: "error-handling-for-forms": "error-handling-for-forms",
+packages/docs/next.config.mjs:250: "/error-formatting",
+packages/docs/package.json:6: "build": "next build",
+packages/docs/tsconfig.test.json:4: "types": ["node", "vitest"]
+packages/docs/vitest.config.ts:1: import { defineProject, mergeConfig } from "vitest/config";
+packages/docs/vitest.config.ts:2: import rootConfig from "../../vitest.root.mjs";
+packages/docs-v3/blog/clerk-fellowship.md:23: - To clean up autocompletion, some internal methods and properties will be made `protected`. Some current APIs will be deprecated; some deprecated APIs will be removed.
+packages/docs-v3/blog/clerk-fellowship.md:24: - To improve error reporting, I'll be simplifying Zod's error map system. The new system will also be more amenable to internationalization (RFC forthcoming).
+packages/docs-v3/blog/clerk-fellowship.md:61: > I encourage other companies to try similar things! There is no shortage of invaluable libraries with full-time (or nearly full-time) maintainers who are forgoing a regular income to build free tools. ArkType, Valibot, and tRPC come to mind.
+packages/docs-v3/CHANGELOG.md:13: - Custom error messages in schemas
+packages/docs-v3/CHANGELOG.md:22: Under the hood, this creates a custom error map that's bound to the schema. You can also pass a custom error map explicitly.
+packages/docs-v3/CHANGELOG.md:76: - Add optional error message to `ZodArray.nonempty`
+packages/docs-v3/CHANGELOG.md:192: - Major overhaul to error handling system, including the introduction of custom error maps
+packages/docs-v3/CHANGELOG.md:193: - Wrote new [error handling guide](./ERROR_HANDLING.md)
+packages/docs-v3/CHANGELOG.md:251: - Improved error reporting
+packages/docs-v3/CODE_OF_CONDUCT.md:79: **Consequence**: A private, written warning from community leaders, providing
+packages/docs-v3/CODE_OF_CONDUCT.md:83: ### 2. Warning
+packages/docs-v3/CODE_OF_CONDUCT.md:88: **Consequence**: A warning with consequences for continued behavior. No
+packages/docs-v3/CONTRIBUTING.md:18: Before you start working on a contribution, create an issue describing what you want to build. It's possible someone else is already working on something similar, or perhaps there is a reason that feature isn't implemented. The maintainers will point you in th
+packages/docs-v3/CONTRIBUTING.md:58: **`yarn build`**
+packages/docs-v3/CONTRIBUTING.md:64: - runs all Jest tests and generates coverage badge
+packages/docs-v3/CONTRIBUTING.md:76: Zod uses Jest for testing. After implementing your contribution, write tests for it. Just create a new file under `src/__tests__` or add additional tests to the appropriate existing file.
+packages/docs-v3/ERROR_HANDLING.md:1: # Error Handling in Zod
+packages/docs-v3/ERROR_HANDLING.md:3: This guide explains Zod's internal error handling system, and the various ways you can customize it for your purposes.
+packages/docs-v3/ERROR_HANDLING.md:10: class ZodError extends Error {
+packages/docs-v3/ERROR_HANDLING.md:15: ZodError is a subclass of `Error`; you can create your own instance easily:
+packages/docs-v3/ERROR_HANDLING.md:39: **However** depending on the error code, there may be additional properties as well. Here is a full breakdown of the additional fields by error code:
+packages/docs-v3/ERROR_HANDLING.md:49: | ZodIssueCode.invalid_arguments   | `argumentsError: ZodError` <br> This is a special error code only thrown by a wrapped function returned by `ZodFunction.implement()`. The `argumentsError` property is another ZodError containing the validation error details
+packages/docs-v3/ERROR_HANDLING.md:50: | ZodIssueCode.invalid_return_type | `returnTypeError: ZodError` <br> This is a special error code only thrown by a wrapped function returned by `ZodFunction.implement()`. The `returnTypeError` property is another ZodError containing the validation error detai
+packages/docs-v3/ERROR_HANDLING.md:53: | ZodIssueCode.too_small           | `type: "string" \| "number" \| "array" \| "set" \| "date"` <br>The type of the data failing validation<br><br> `minimum: number` <br>The expected length/value.<br><br>`inclusive: boolean`<br>Whether the minimum is included 
+packages/docs-v3/ERROR_HANDLING.md:54: | ZodIssueCode.too_big             | `type: "string" \| "number" \| "array" \| "set" \| "date"` <br>The type of the data failing validation<br><br> `maximum: number` <br>The expected length/value.<br><br>`inclusive: boolean`<br>Whether the maximum is included 
+packages/docs-v3/ERROR_HANDLING.md:56: | ZodIssueCode.custom              | `params: { [k: string]: any }` <br> This is the error code throw by refinements (unless you are using `superRefine` in which case it's possible to throw issues of any `ZodIssueCode`). You are able to pass in a `params` obje
+packages/docs-v3/ERROR_HANDLING.md:151: As you can see three different issues were identified. Every ZodIssue has a `code` property and additional metadata about the validation failure. For instance the `unrecognized_keys` error provides a list of the unrecognized keys detected in the input.
+packages/docs-v3/ERROR_HANDLING.md:155: You can customize **all** error messages produced by Zod by providing a custom "error map" to Zod, like so:
+packages/docs-v3/ERROR_HANDLING.md:175: `ZodErrorMap` is a special function. It accepts two arguments: `issue` and `ctx`. The return type is `{ message: string }`. Essentially the error map accepts some information about the validation that is failing and returns an appropriate error message.
+packages/docs-v3/ERROR_HANDLING.md:183: - `ctx.defaultError` is the error message generated by the default error map. If you only want to override the message for a single type of error, you can do that. Just return `{ message: ctx.defaultError }` for everything else.
+packages/docs-v3/ERROR_HANDLING.md:185: - `ctx.data` contains the data that was passed into `.parse`. You can use this to customize the error message.
+packages/docs-v3/ERROR_HANDLING.md:187: As in the example, you can modify certain error messages and simply fall back to `ctx.defaultError` otherwise.
+packages/docs-v3/ERROR_HANDLING.md:189: ## Error map priority
+packages/docs-v3/ERROR_HANDLING.md:191: A custom error maps doesn't need to produce an error message for every kind of issue in Zod. Instead, your error map can override certain errors and return `ctx.defaultError` for everything else.
+packages/docs-v3/ERROR_HANDLING.md:195: Error messages in Zod are generated by passing metadata about a validation issue through a chain of error maps. Error maps with higher
+packages/docs-v3/MIGRATION.md:31: - **Structured error messages**. Use the `.format()` method to ZodError to convert the error into a strongly-typed, nested object: [format method](#error-formatting)
+packages/docs-v3/MIGRATION.md:34: - **Global error customization**. Use `z.setErrorMap(myErrorMap)` to _globally_ customize the error messages produced by Zod: [setErrorMap](ERROR_HANDLING.md#customizing-errors-with-zoderrormap)
+packages/docs-v3/MIGRATION.md:77: - There have been small internal changes to the ZodIssue subtypes. See the new subtypes in the [Error Handling guide](ERROR_HANDLING.md). This may impact user who have written a custom error maps. Most users will not be affected.
+packages/docs-v3/README_ZH.md:131: <a href="https://astro.build/">
+packages/docs-v3/README_ZH.md:137: <a href="https://astro.build">astro.build</a>
+packages/docs-v3/README_ZH.md:348: mySchema.safeParse(12); // => { success: false; error: ZodError }
+packages/docs-v3/README.md:119: - [Customize error path](#customize-error-path)
+packages/docs-v3/README.md:148: - [Error handling](#error-handling)
+packages/docs-v3/README.md:149: - [Error formatting](#error-formatting)
+packages/docs-v3/README.md:273: Build AI apps and workflows with <a href="https://retool.com/products/ai?utm_source=github&utm_medium=referral&utm_campaign=zod">Retool AI</a>
+packages/integration/package.json:17: "test:source": "tsc --project fixtures/drizzle-zod/tsconfig.json 2>&1 | (! grep -q 'excessively deep') && tsc --project fixtures/ai-sdk/tsconfig.json",
+packages/integration/package.json:18: "test:built": "tsc --project fixtures/internal-types/tsconfig.bundler.json && tsc --project fixtures/internal-types/tsconfig.nodenext.json && tsc --project fixtures/internal-types/tsconfig.node16-cjs.json"
+packages/resolution/attw.test.ts:5: import { describe, expect, it } from "vitest";
+packages/resolution/attw.test.ts:15: // Zod has not been build
+packages/resolution/package.json:19: "test:all": "pnpm vitest run && tsx test-resolution.ts"
+packages/resolution/README.md:5: `npm run build-bench` to run `tsc` with `extendedDiagnostics`
+packages/resolution/README.md:7: Either modify zod's typings in `node_modules/zod` or `npm link` a local copy and do modifications there. Remember to build `zod` in between!
+packages/resolution/src/index.ts:26: throw new Error();
+packages/resolution/src/index.ts:32: '{"success":false,"error":{"name":"ZodError","message":"[\\n  {\\n    \\"expected\\": \\"string\\",\\n    \\"code\\": \\"invalid_type\\",\\n    \\"path\\": [\\n      \\"name\\"\\n    ],\\n    \\"message\\": \\"Entrée invalide : chaîne attendu, nombre reçu\\"\\
+packages/resolution/src/index.ts:34: throw new Error();
+packages/resolution/test-resolution.ts:15: // console.log('✅ Build completed successfully!');
+packages/resolution/test-resolution.ts:16: } catch (error) {
+packages/resolution/test-resolution.ts:17: console.error("❌ Error building project:", error);
+packages/resolution/test-resolution.ts:23: console.log("🔨 Building project with tsc...");
+packages/resolution/test-resolution.ts:25: await execa("tsc", ["--project", "tsconfig.build.json"], {
+packages/resolution/test-resolution.ts:29: // console.log('✅ Build completed successfully!');
+packages/resolution/test-resolution.ts:30: } catch (error) {
+packages/resolution/test-resolution.ts:31: console.error("❌ Error building project:", error);
+packages/resolution/test-resolution.ts:37: console.log("🧪 Testing CommonJS build...");
+packages/resolution/test-resolution.ts:44: } catch (error) {
+packages/resolution/test-resolution.ts:45: console.error("❌ CommonJS test failed:", error);
+packages/resolution/test-resolution.ts:51: console.log("🧪 Testing CommonJS build...");
+packages/resolution/test-resolution.ts:58: } catch (error) {
+packages/resolution/test-resolution.ts:59: console.error("❌ CommonJS test failed:", error);
+packages/resolution/test-resolution.ts:65: console.log("🧪 Testing ES Module build...");
+packages/resolution/test-resolution.ts:72: } catch (error) {
+packages/resolution/test-resolution.ts:73: console.error("❌ ES Module test failed:", error);
+packages/resolution/test-resolution.ts:91: } catch (error) {
+packages/resolution/test-resolution.ts:92: console.error("💥 Test suite failed:", error);
+packages/resolution/vitest.config.ts:1: import { defineConfig, mergeConfig } from "vitest/config";
+packages/resolution/vitest.config.ts:2: import rootConfig from "../../vitest.root.mjs";
+packages/tsc/bench/index.ts:9: console.error("Specify a benchmark name(s), e.g. `pnpm bench object-with-extend`");
+packages/tsc/bench/lots-of-objects.ts:20: await $`pnpm run build:bench`;
+packages/tsc/bench/lots-of-objects.ts:31: await $`pnpm run build:bench`;
+packages/tsc/bench/lots-of-objects.ts:41: // await $`pnpm run build:bench`;
+packages/tsc/bench/object-with-extend.ts:19: await $`pnpm run build:bench`;
+packages/tsc/bench/object-with-extend.ts:34: await $`pnpm run build:bench`;
+packages/tsc/bench/omit-extend.ts:16: await $`pnpm run build:bench`;
+packages/tsc/bench/omit-extend.ts:28: await $`pnpm run build:bench`;
+packages/tsc/bench/omit-extend.ts:40: await $`pnpm run build:bench`;
+packages/tsc/bench/omit-extend.ts:52: await $`pnpm run build:bench`;
+packages/tsc/bench/string.ts:19: await $`pnpm run build:bench`;
+packages/tsc/bench/string.ts:34: await $`pnpm run build:bench`;
+packages/tsc/bench/strongly-connected.ts:18: await $`pnpm run build:bench`;
+packages/tsc/bisect.ts:12: throw new Error("Exiting...");
+packages/tsc/bisect.ts:49: console.log(`Attempting tsc compilation...`);
+packages/tsc/bisect.ts:50: const _proc = $`pnpm run build:bench`;
+packages/tsc/bisect.ts:72: console.log("tsc compilation failed...");
+packages/tsc/generate.ts:96: throw new Error("References not supported in arktype.");
+packages/tsc/generate.ts:226: // throw new Error("Not supported yet.")
+packages/tsc/package.json:2: "name": "@zod/tsc-perftest",
+packages/tsc/package.json:25: "build": "tsc",
+packages/tsc/package.json:26: "build:bench": "tsc -p tsconfig.bench.json",
+packages/tsc/package.json:28: "prepublish": "npm run build",
+packages/tsc/README.md:5: `npm run build-bench` to run `tsc` with `extendedDiagnostics`
+packages/tsc/README.md:7: Either modify zod's typings in `node_modules/zod` or `npm link` a local copy and do modifications there. Remember to build `zod` in between!
+packages/zod/package.json:129: "build": "zshy --project tsconfig.build.json",
+packages/zod/package.json:131: "test:watch": "pnpm vitest",
+packages/zod/package.json:132: "test": "pnpm vitest run",
+packages/zod/README.md:149: result.error; // ZodError instance
+packages/zod/src/v3/benchmarks/datetime.ts:20: return simpleDatetimeRegex.test(DATA);
+packages/zod/src/v3/benchmarks/datetime.ts:23: return datetimeRegexNoLeapYearValidation.test(DATA);
+packages/zod/src/v3/benchmarks/datetime.ts:26: return datetimeRegexWithLeapYearValidation.test(DATA);
+packages/zod/src/v3/benchmarks/ipv4.ts:21: return ipv4RegexA.test(DATA);
+packages/zod/src/v3/benchmarks/ipv4.ts:24: return ipv4RegexB.test(DATA);
+packages/zod/src/v3/benchmarks/ipv4.ts:27: return ipv4RegexC.test(DATA);
+packages/zod/src/v3/benchmarks/ipv4.ts:30: return ipv4RegexD.test(DATA);
+packages/zod/src/v3/benchmarks/ipv4.ts:33: return ipv4RegexE.test(DATA);
+packages/zod/src/v3/benchmarks/ipv4.ts:36: return ipv4RegexF.test(DATA);
+packages/zod/src/v3/benchmarks/ipv4.ts:39: return ipv4RegexG.test(DATA);
+packages/zod/src/v3/benchmarks/ipv4.ts:42: return ipv4RegexH.test(DATA);
+packages/zod/src/v3/benchmarks/ipv4.ts:45: return ipv4RegexI.test(DATA);
+packages/zod/src/v3/benchmarks/string.ts:13: throw new Error("Not a string");
+packages/zod/src/v3/helpers/parseUtil.ts:79: ctx.common.contextualErrorMap, // contextual error map is first priority
+packages/zod/src/v3/helpers/util.ts:8: throw new Error();
+packages/zod/src/v3/helpers/util.ts:40: typeof Object.keys === "function" // eslint-disable-line ban/ban
+packages/zod/src/v3/helpers/util.ts:41: ? (obj: any) => Object.keys(obj) // eslint-disable-line ban/ban
+packages/zod/src/v3/helpers/util.ts:66: ? (val) => Number.isInteger(val) // eslint-disable-line ban/ban
+packages/zod/src/v3/standard-schema.ts:68: * The error message of the issue.
+packages/zod/src/v3/tests/all-errors.test.ts:2: import { expect, test } from "vitest";
+packages/zod/src/v3/tests/all-errors.test.ts:51: const validFlattenedErrors: TestFlattenedErrors = parsed.error.flatten(() => ({ message: "", code: 0 }));
+packages/zod/src/v3/tests/all-errors.test.ts:52: // @ts-expect-error should fail assertion between `TestFlattenedErrors` and unmapped `flatten()`.
+packages/zod/src/v3/tests/all-errors.test.ts:53: const invalidFlattenedErrors: TestFlattenedErrors = parsed.error.flatten();
+packages/zod/src/v3/tests/all-errors.test.ts:54: const validFormErrors: TestFormErrors = parsed.error.flatten();
+packages/zod/src/v3/tests/all-errors.test.ts:55: // @ts-expect-error should fail assertion between `TestFormErrors` and mapped `flatten()`.
+packages/zod/src/v3/tests/all-errors.test.ts:56: const invalidFormErrors: TestFormErrors = parsed.error.flatten(() => ({
+packages/zod/src/v3/tests/all-errors.test.ts:66: const validFormErrors: TestFormErrors = parsed.error.formErrors;
+packages/zod/src/v3/tests/all-errors.test.ts:67: // @ts-expect-error should fail assertion between `TestFlattenedErrors` and `.formErrors`.
+packages/zod/src/v3/tests/all-errors.test.ts:68: const invalidFlattenedErrors: TestFlattenedErrors = parsed.error.formErrors;
+packages/zod/src/v3/tests/all-errors.test.ts:92: } catch (error) {
+packages/zod/src/v3/tests/all-errors.test.ts:93: if (error instanceof z.ZodError) {
+packages/zod/src/v3/tests/all-errors.test.ts:94: expect(error.flatten()).toEqual({
+packages/zod/src/v3/tests/all-errors.test.ts:107: const error = _error as z.ZodError;
+packages/zod/src/v3/tests/all-errors.test.ts:108: expect(error.flatten()).toEqual({
+packages/zod/src/v3/tests/all-errors.test.ts:116: expect(error.flatten((iss) => iss.message.toUpperCase())).toEqual({
+packages/zod/src/v3/tests/all-errors.test.ts:125: expect(error.flatten((i: z.ZodIssue) => i)).toEqual({
+packages/zod/src/v3/tests/all-errors.test.ts:149: expect(error.flatten((i: z.ZodIssue) => i.message.length)).toEqual({
+packages/zod/src/v3/tests/anyunknown.test.ts:2: import { expect, test } from "vitest";
+packages/zod/src/v3/tests/array.test.ts:2: import { expect, test } from "vitest";
+packages/zod/src/v3/tests/array.test.ts:53: test("continue parsing despite array size error", () => {
+packages/zod/src/v3/tests/array.test.ts:63: expect(result.error.issues.length).toEqual(2);
+packages/zod/src/v3/tests/async-parsing.test.ts:2: import { expect, test } from "vitest";
+packages/zod/src/v3/tests/async-parsing.test.ts:19: if (!badResult.success) expect(badResult.error).toBeInstanceOf(z.ZodError);
+packages/zod/src/v3/tests/async-parsing.test.ts:34: if (!badResult.success) expect(badResult.error).toBeInstanceOf(z.ZodError);
+packages/zod/src/v3/tests/async-parsing.test.ts:49: if (!badResult.success) expect(badResult.error).toBeInstanceOf(z.ZodError);
+packages/zod/src/v3/tests/async-parsing.test.ts:64: if (!badResult.success) expect(badResult.error).toBeInstanceOf(z.ZodError);
+packages/zod/src/v3/tests/async-parsing.test.ts:79: if (!badResult.success) expect(badResult.error).toBeInstanceOf(z.ZodError);
+packages/zod/src/v3/tests/async-parsing.test.ts:94: if (!badResult.success) expect(badResult.error).toBeInstanceOf(z.ZodError);
+packages/zod/src/v3/tests/async-parsing.test.ts:109: if (!badResult.success) expect(badResult.error).toBeInstanceOf(z.ZodError);
+packages/zod/src/v3/tests/async-parsing.test.ts:124: // if (!badResult.success) expect(badResult.error).toBeInstanceOf(z.ZodError);
+packages/zod/src/v3/tests/async-parsing.test.ts:139: // if (!badResult.success) expect(badResult.error).toBeInstanceOf(z.ZodError);
+packages/zod/src/v3/tests/async-parsing.test.ts:154: if (!badResult.success) expect(badResult.error).toBeInstanceOf(z.ZodError);
+packages/zod/src/v3/tests/async-parsing.test.ts:169: if (!badResult.success) expect(badResult.error).toBeInstanceOf(z.ZodError);
+packages/zod/src/v3/tests/async-parsing.test.ts:184: if (!badResult.success) expect(badResult.error).toBeInstanceOf(z.ZodError);
+packages/zod/src/v3/tests/async-parsing.test.ts:199: if (!badResult.success) expect(badResult.error).toBeInstanceOf(z.ZodError);
+packages/zod/src/v3/tests/async-parsing.test.ts:214: if (!badResult.success) expect(badResult.error).toBeInstanceOf(z.ZodError);
+packages/zod/src/v3/tests/async-parsing.test.ts:229: if (!badResult.success) expect(badResult.error).toBeInstanceOf(z.ZodError);
+packages/zod/src/v3/tests/async-parsing.test.ts:244: if (!badResult.success) expect(badResult.error).toBeInstanceOf(z.ZodError);
+packages/zod/src/v3/tests/async-parsing.test.ts:259: if (!badResult.success) expect(badResult.error).toBeInstanceOf(z.ZodError);
+packages/zod/src/v3/tests/async-parsing.test.ts:278: if (!badResult.success) expect(badResult.error).toBeInstanceOf(z.ZodError);
+packages/zod/src/v3/tests/async-parsing.test.ts:295: throw new Error("success should be true");
+packages/zod/src/v3/tests/async-parsing.test.ts:306: throw new Error("success should be true");
+packages/zod/src/v3/tests/async-parsing.test.ts:322: if (r1.success === false && r2.success === false) expect(r1.error.issues.length).toBe(r2.error.issues.length); // <--- r1 has length 2, r2 has length 1
+packages/zod/src/v3/tests/async-parsing.test.ts:338: if (r1.success === false && r2.success === false) expect(r2.error.issues.length).toBe(r1.error.issues.length);
+packages/zod/src/v3/tests/async-parsing.test.ts:357: if (r1.success === false && r2.success === false) expect(r2.error.issues.length).toBe(r1.error.issues.length);
+packages/zod/src/v3/tests/async-refinements.test.ts:2: import { expect, test } from "vitest";
+packages/zod/src/v3/tests/base.test.ts:2: import { expect, test } from "vitest";
+packages/zod/src/v3/tests/bigint.test.ts:2: import { expect, test } from "vitest";
+packages/zod/src/v3/tests/branded.test.ts:2: import { test } from "vitest";
+packages/zod/src/v3/tests/branded.test.ts:51: // @ts-expect-error
+packages/zod/src/v3/tests/catch.test.ts:2: import { expect, test } from "vitest";
+packages/zod/src/v3/tests/catch.test.ts:178: } catch (error) {
+packages/zod/src/v3/tests/catch.test.ts:179: const issues = (error as z.ZodError).issues;
+packages/zod/src/v3/tests/catch.test.ts:188: test("catch error", () => {
+packages/zod/src/v3/tests/catch.test.ts:194: catchError = ctx.error;
+packages/zod/src/v3/tests/catch.test.ts:206: expect(!result.success && result.error.issues.length).toEqual(1);
+packages/zod/src/v3/tests/catch.test.ts:207: expect(!result.success && result.error.issues[0].message).toMatch("number");
+packages/zod/src/v3/tests/coerce.test.ts:2: import { expect, test } from "vitest";
+packages/zod/src/v3/tests/complex.test.ts:1: import { expect, test } from "vitest";
+packages/zod/src/v3/tests/custom.test.ts:2: import { expect, test } from "vitest";
+packages/zod/src/v3/tests/custom.test.ts:17: expect(JSON.stringify(result.error).includes("customerr")).toEqual(true);
+packages/zod/src/v3/tests/custom.test.ts:30: expect(r2.error!.issues.length).toEqual(1);
+packages/zod/src/v3/tests/date.test.ts:2: import { expect, test } from "vitest";
+packages/zod/src/v3/tests/deepmasking.test.ts:2: import { test } from "vitest";
+packages/zod/src/v3/tests/default.test.ts:2: import { expect, test } from "vitest";
+packages/zod/src/v3/tests/description.test.ts:2: import { expect, test } from "vitest";
+packages/zod/src/v3/tests/description.test.ts:15: expect(z.string().describe(description).description).toEqual(description);
+packages/zod/src/v3/tests/description.test.ts:16: expect(z.number().describe(description).description).toEqual(description);
+packages/zod/src/v3/tests/description.test.ts:17: expect(z.boolean().describe(description).description).toEqual(description);
+packages/zod/src/v3/tests/description.test.ts:28: const schema = z.string().describe(description);
+packages/zod/src/v3/tests/discriminated-unions.test.ts:2: import { expect, test } from "vitest";
+packages/zod/src/v3/tests/discriminated-unions.test.ts:71: throw new Error();
+packages/zod/src/v3/tests/discriminated-unions.test.ts:91: throw new Error();
+packages/zod/src/v3/tests/discriminated-unions.test.ts:110: throw new Error();
+packages/zod/src/v3/tests/discriminated-unions.test.ts:130: throw new Error();
+packages/zod/src/v3/tests/discriminated-unions.test.ts:142: throw new Error();
+packages/zod/src/v3/tests/discriminated-unions.test.ts:185: throw new Error();
+packages/zod/src/v3/tests/enum.test.ts:2: import { expect, test } from "vitest";
+packages/zod/src/v3/tests/enum.test.ts:34: test("error params", () => {
+packages/zod/src/v3/tests/enum.test.ts:38: expect(result.error.issues[0].message).toEqual("REQUIRED");
+packages/zod/src/v3/tests/enum.test.ts:51: // @ts-expect-error TS2344
+packages/zod/src/v3/tests/enum.test.ts:56: test("error map in extract/exclude", () => {
+packages/zod/src/v3/tests/enum.test.ts:65: expect(foodsError.error.issues[0].message).toEqual(italianError.error.issues[0].message);
+packages/zod/src/v3/tests/enum.test.ts:73: expect(unhealthyError.error.issues[0].message).toEqual("This is not healthy food!");
+packages/zod/src/v3/tests/error.test.ts:2: import { expect, test } from "vitest";
+packages/zod/src/v3/tests/error.test.ts:8: test("error creation", () => {
+packages/zod/src/v3/tests/error.test.ts:29: const errorMap: z.ZodErrorMap = (error, ctx) => {
+packages/zod/src/v3/tests/error.test.ts:30: if (error.code === ZodIssueCode.invalid_type) {
+packages/zod/src/v3/tests/error.test.ts:31: if (error.expected === "string") {
+packages/zod/src/v3/tests/error.test.ts:35: if (error.code === ZodIssueCode.custom) {
+packages/zod/src/v3/tests/error.test.ts:36: return { message: `less-than-${error.params?.minimum}` };
+packages/zod/src/v3/tests/error.test.ts:41: test("type error with custom error map", () => {
+packages/zod/src/v3/tests/error.test.ts:66: test("custom error with custom errormap", () => {
+packages/zod/src/v3/tests/error.test.ts:80: test("default error message", () => {
+packages/zod/src/v3/tests/error.test.ts:92: test("override error in refine", () => {
+packages/zod/src/v3/tests/error.test.ts:104: test("override error in refinement", () => {
+packages/zod/src/v3/tests/error.test.ts:135: // implement test for semi-smart union logic that checks for type error on either left or right
+packages/zod/src/v3/tests/error.test.ts:143: //   if (p1.success === true) throw new Error();
+packages/zod/src/v3/tests/error.test.ts:145: //   expect(p1.error.issues[0].code).toEqual(ZodIssueCode.custom);
+packages/zod/src/v3/tests/error.test.ts:149: //   if (p2.success === true) throw new Error();
+packages/zod/src/v3/tests/error.test.ts:151: //   expect(p2.error.issues[0].code).toEqual(ZodIssueCode.invalid_union);
+packages/zod/src/v3/tests/error.test.ts:154: test("custom path in custom error map", () => {
+packages/zod/src/v3/tests/error.test.ts:161: const errorMap: z.ZodErrorMap = (error) => {
+packages/zod/src/v3/tests/error.test.ts:162: expect(error.path.length).toBe(2);
+packages/zod/src/v3/tests/error.test.ts:168: expect(result.error.issues[0].path).toEqual(["items", "items-too-few"]);
+packages/zod/src/v3/tests/error.test.ts:172: test("error metadata from value", () => {
+packages/zod/src/v3/tests/error.test.ts:181: const sub = result.error.issues[0];
+packages/zod/src/v3/tests/error.test.ts:182: expect(result.error.issues[0].code).toEqual("custom");
+packages/zod/src/v3/tests/error.test.ts:207: expect(result.error.format()._errors).toEqual(["Invalid email"]);
+packages/zod/src/v3/tests/error.test.ts:227: const error = result.error.format();
+packages/zod/src/v3/tests/error.test.ts:228: expect(error._errors).toEqual([]);
+packages/zod/src/v3/tests/error.test.ts:229: expect(error.password?._errors).toEqual(undefined);
+packages/zod/src/v3/tests/error.test.ts:230: expect(error.confirm?._errors).toEqual(["Invalid input"]);
+packages/zod/src/v3/tests/error.test.ts:249: expect(result.error.issues.length).toEqual(3);
+packages/zod/src/v3/tests/error.test.ts:271: expect(result1.error.issues.length).toEqual(2);
+packages/zod/src/v3/tests/error.test.ts:287: const error = result1.error.format();
+packages/zod/src/v3/tests/error.test.ts:289: expect(error._errors).toEqual([]);
+packages/zod/src/v3/tests/error.test.ts:290: expect(error.inner?._errors).toEqual([]);
+packages/zod/src/v3/tests/error.test.ts:291: // expect(error.inner?.name?._errors).toEqual(["Invalid input"]);
+packages/zod/src/v3/tests/error.test.ts:292: // expect(error.inner?.name?.[0]._errors).toEqual(["Invalid input"]);
+packages/zod/src/v3/tests/error.test.ts:293: expect(error.inner?.name?.[1]).toEqual(undefined);
+packages/zod/src/v3/tests/error.test.ts:297: const error: FormattedError = result2.error.format();
+packages/zod/src/v3/tests/error.test.ts:298: expect(error._errors).toEqual([]);
+packages/zod/src/v3/tests/error.test.ts:299: expect(error.inner?._errors).toEqual([]);
+packages/zod/src/v3/tests/error.test.ts:300: expect(error.inner?.name?._errors).toEqual(["Invalid input"]);
+packages/zod/src/v3/tests/error.test.ts:301: expect(error.inner?.name?.[0]).toEqual(undefined);
+packages/zod/src/v3/tests/error.test.ts:302: expect(error.inner?.name?.[1]).toEqual(undefined);
+packages/zod/src/v3/tests/error.test.ts:303: expect(error.inner?.name?.[2]).toEqual(undefined);
+packages/zod/src/v3/tests/error.test.ts:309: const error: FormattedError = result2.error.format(() => 5);
+packages/zod/src/v3/tests/error.test.ts:310: expect(error._errors).toEqual([]);
+packages/zod/src/v3/tests/error.test.ts:311: expect(error.inner?._errors).toEqual([]);
+packages/zod/src/v3/tests/error.test.ts:312: expect(error.inner?.name?._errors).toEqual([5]);
+packages/zod/src/v3/tests/error.test.ts:338: const error: FormattedError = result.error.format();
+packages/zod/src/v3/tests/error.test.ts:339: expect(error._errors).toEqual([]);
+packages/zod/src/v3/tests/error.test.ts:340: expect(error.nullableObject?._errors).toEqual([]);
+packages/zod/src/v3/tests/error.test.ts:341: expect(error.nullableObject?.name?._errors).toEqual(["Invalid input"]);
+packages/zod/src/v3/tests/error.test.ts:342: expect(error.nullableArray?._errors).toEqual([]);
+packages/zod/src/v3/tests/error.test.ts:343: expect(error.nullableArray?.[0]?._errors).toEqual(["Invalid input"]);
+packages/zod/src/v3/tests/error.test.ts:344: expect(error.nullableTuple?._errors).toEqual([]);
+packages/zod/src/v3/tests/error.test.ts:345: expect(error.nullableTuple?.[0]?._errors).toEqual(["Invalid input"]);
+packages/zod/src/v3/tests/error.test.ts:346: expect(error.nullableTuple?.[1]?._errors).toEqual(["Invalid input"]);
+packages/zod/src/v3/tests/error.test.ts:347: expect(error.optionalObject?._errors).toEqual([]);
+packages/zod/src/v3/tests/error.test.ts:348: expect(error.optionalObject?.name?._errors).toEqual(["Invalid input"]);
+packages/zod/src/v3/tests/error.test.ts:349: expect(error.optionalArray?._errors).toEqual([]);
+packages/zod/src/v3/tests/error.test.ts:350: expect(error.optionalArray?.[0]?._errors).toEqual(["Invalid input"]);
+packages/zod/src/v3/tests/error.test.ts:351: expect(error.optionalTuple?._errors).toEqual([]);
+packages/zod/src/v3/tests/error.test.ts:352: expect(error.optionalTuple?.[0]?._errors).toEqual(["Invalid input"]);
+packages/zod/src/v3/tests/error.test.ts:353: expect(error.optionalTuple?.[1]?._errors).toEqual(["Invalid input"]);
+packages/zod/src/v3/tests/error.test.ts:363: test("schema-bound error map", () => {
+packages/zod/src/v3/tests/error.test.ts:367: expect(result.error.issues[0].message).toEqual("Invalid name");
+packages/zod/src/v3/tests/error.test.ts:373: expect(result2.error.issues[0].message).toEqual("Name is required");
+packages/zod/src/v3/tests/error.test.ts:382: expect(result3.error.issues[0].message).toEqual("OVERRIDE");
+packages/zod/src/v3/tests/firstparty.test.ts:2: import { test } from "vitest";
+packages/zod/src/v3/tests/firstpartyschematypes.test.ts:2: import { test } from "vitest";
+packages/zod/src/v3/tests/function.test.ts:2: import { expect, test } from "vitest";
+packages/zod/src/v3/tests/function.test.ts:115: test("input validation error", () => {
+packages/zod/src/v3/tests/function.test.ts:127: test("output validation error", () => {
+packages/zod/src/v3/tests/function.test.ts:145: test("special function error codes", () => {
+packages/zod/src/v3/tests/function.test.ts:154: if (first.code !== z.ZodIssueCode.invalid_return_type) throw new Error();
+packages/zod/src/v3/tests/function.test.ts:164: if (first.code !== z.ZodIssueCode.invalid_arguments) throw new Error();
+packages/zod/src/v3/tests/generics.test.ts:2: import { expect, test } from "vitest";
+packages/zod/src/v3/tests/instanceof.test.ts:2: import { expect, test } from "vitest";
+packages/zod/src/v3/tests/intersection.test.ts:2: import { expect, test } from "vitest";
+packages/zod/src/v3/tests/intersection.test.ts:81: expect(syncResult.error.issues[0].code).toEqual(z.ZodIssueCode.invalid_intersection_types);
+packages/zod/src/v3/tests/intersection.test.ts:87: expect(asyncResult.error.issues[0].code).toEqual(z.ZodIssueCode.invalid_intersection_types);
+packages/zod/src/v3/tests/intersection.test.ts:102: expect(syncResult.error.issues[0].code).toEqual(z.ZodIssueCode.invalid_intersection_types);
+packages/zod/src/v3/tests/intersection.test.ts:108: expect(asyncResult.error.issues[0].code).toEqual(z.ZodIssueCode.invalid_intersection_types);
+packages/zod/src/v3/tests/language-server.test.ts:1: import { test } from "vitest";
+packages/zod/src/v3/tests/literal.test.ts:2: import { expect, test } from "vitest";
+packages/zod/src/v3/tests/literal.test.ts:31: const issue = result.error.issues[0];
+packages/zod/src/v3/tests/map.test.ts:2: import { expect, test } from "vitest";
+packages/zod/src/v3/tests/map.test.ts:51: expect(result.error.issues.length).toEqual(1);
+packages/zod/src/v3/tests/map.test.ts:52: expect(result.error.issues[0].code).toEqual(ZodIssueCode.invalid_type);
+packages/zod/src/v3/tests/map.test.ts:60: expect(result.error.issues.length).toEqual(2);
+packages/zod/src/v3/tests/map.test.ts:61: expect(result.error.issues[0].code).toEqual(ZodIssueCode.invalid_type);
+packages/zod/src/v3/tests/map.test.ts:62: expect(result.error.issues[0].path).toEqual([0, "key"]);
+packages/zod/src/v3/tests/map.test.ts:63: expect(result.error.issues[1].code).toEqual(ZodIssueCode.invalid_type);
+packages/zod/src/v3/tests/map.test.ts:64: expect(result.error.issues[1].path).toEqual([0, "value"]);
+packages/zod/src/v3/tests/map.test.ts:81: expect(result.error.issues.length).toEqual(2);
+packages/zod/src/v3/tests/map.test.ts:82: expect(result.error.issues[0].code).toEqual(ZodIssueCode.invalid_type);
+packages/zod/src/v3/tests/map.test.ts:83: expect(result.error.issues[0].path).toEqual([0, "key"]);
+packages/zod/src/v3/tests/map.test.ts:84: expect(result.error.issues[1].code).toEqual(ZodIssueCode.invalid_type);
+packages/zod/src/v3/tests/map.test.ts:85: expect(result.error.issues[1].path).toEqual([1, "value"]);
+packages/zod/src/v3/tests/map.test.ts:104: expect(result.error.issues.length).toEqual(2);
+packages/zod/src/v3/tests/map.test.ts:105: expect(result.error.issues[0].code).toEqual(z.ZodIssueCode.custom);
+packages/zod/src/v3/tests/map.test.ts:106: expect(result.error.issues[0].message).toEqual("Keys must be uppercase");
+packages/zod/src/v3/tests/map.test.ts:107: expect(result.error.issues[1].code).toEqual(z.ZodIssueCode.custom);
+packages/zod/src/v3/tests/map.test.ts:108: expect(result.error.issues[1].message).toEqual("Keys must be uppercase");
+packages/zod/src/v3/tests/masking.test.ts:2: import { test } from "vitest";
+packages/zod/src/v3/tests/mocker.test.ts:2: import { test } from "vitest";
+packages/zod/src/v3/tests/nan.test.ts:2: import { expect, test } from "vitest";
+packages/zod/src/v3/tests/nativeEnum.test.ts:2: import { expect, test } from "vitest";
+packages/zod/src/v3/tests/nullable.test.ts:2: import { expect, test } from "vitest";
+packages/zod/src/v3/tests/nullable.test.ts:10: } catch (error) {
+packages/zod/src/v3/tests/nullable.test.ts:11: expected = (error as z.ZodError).formErrors;
+packages/zod/src/v3/tests/nullable.test.ts:15: } catch (error) {
+packages/zod/src/v3/tests/nullable.test.ts:16: expect((error as z.ZodError).formErrors).toEqual(expected);
+packages/zod/src/v3/tests/nullable.test.ts:20: test("Should have error messages appropriate for the underlying type", () => {
+packages/zod/src/v3/tests/number.test.ts:2: import { expect, test } from "vitest";
+packages/zod/src/v3/tests/object-augmentation.test.ts:2: import { expect, test } from "vitest";
+packages/zod/src/v3/tests/object-in-es5-env.test.ts:2: import { expect, test } from "vitest";
+packages/zod/src/v3/tests/object.test.ts:2: import { expect, test } from "vitest";
+packages/zod/src/v3/tests/object.test.ts:165: // eslint-disable-next-line ban/ban
+packages/zod/src/v3/tests/object.test.ts:216: // todo
+packages/zod/src/v3/tests/optional.test.ts:2: import { expect, test } from "vitest";
+packages/zod/src/v3/tests/optional.test.ts:10: } catch (error) {
+packages/zod/src/v3/tests/optional.test.ts:11: expected = (error as z.ZodError).formErrors;
+packages/zod/src/v3/tests/optional.test.ts:15: } catch (error) {
+packages/zod/src/v3/tests/optional.test.ts:16: expect((error as z.ZodError).formErrors).toEqual(expected);
+packages/zod/src/v3/tests/optional.test.ts:20: test("Should have error messages appropriate for the underlying type", () => {
+packages/zod/src/v3/tests/parser.test.ts:2: import { expect, test } from "vitest";
+packages/zod/src/v3/tests/parseUtil.test.ts:2: import { expect, test } from "vitest";
+packages/zod/src/v3/tests/partials.test.ts:2: import { expect, test } from "vitest";
+packages/zod/src/v3/tests/partials.test.ts:188: // @ts-expect-error
+packages/zod/src/v3/tests/partials.test.ts:223: // @ts-expect-error
+packages/zod/src/v3/tests/pickomit.test.ts:2: import { expect, test } from "vitest";
+packages/zod/src/v3/tests/pickomit.test.ts:23: // @ts-expect-error checking runtime picks `name` only.
+packages/zod/src/v3/tests/pickomit.test.ts:38: // @ts-expect-error checking runtime picks `name` only.
+packages/zod/src/v3/tests/pickomit.test.ts:58: // @ts-expect-error checking runtime omits `name` only.
+packages/zod/src/v3/tests/pickomit.test.ts:69: // @ts-expect-error checking runtime omits `name` only.
+packages/zod/src/v3/tests/pickomit.test.ts:103: // @ts-expect-error
+packages/zod/src/v3/tests/pickomit.test.ts:105: // @ts-expect-error
+packages/zod/src/v3/tests/pickomit.test.ts:107: // @ts-expect-error
+packages/zod/src/v3/tests/pickomit.test.ts:109: // @ts-expect-error
+packages/zod/src/v3/tests/pipeline.test.ts:2: import { expect, test } from "vitest";
+packages/zod/src/v3/tests/pipeline.test.ts:26: expect(r1.error.issues.length).toBe(1);
+packages/zod/src/v3/tests/pipeline.test.ts:28: expect(r2.error.issues.length).toBe(1);
+
+SELECTED_FILE_EXCERPTS:
+FILE: packages/bench/package.json
+{
+  "name": "@zod/benchmarks",
+  "private": true,
+  "type": "module",
+  "devDependencies": {
+    "@types/node": "^22.10.5",
+    "arktype": "^2.1.19",
+    "valibot": "^1.3.1",
+    "zod": "workspace:*",
+    "zod3": "npm:zod@~3.24.0",
+    "zod4": "npm:zod@4.0.8"
+  },
+  "scripts": {
+    "bench": "tsx --conditions @zod/source index.ts"
+  }
+}
+
+
+---
+
+FILE: packages/docs/package.json
+{
+  "name": "@zod/docs",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "build": "next build",
+    "dev": "next dev",
+    "start": "next start",
+    "postinstall": "fumadocs-mdx"
+  },
+  "dependencies": {
+    "@inkeep/cxkit-react": "^0.5.117",
+    "@radix-ui/react-accordion": "^1.2.4",
+    "@vercel/analytics": "^1.5.0",
+    "@vercel/og": "^0.6.8",
+    "fumadocs-core": "15.1.0",
+    "fumadocs-mdx": "11.5.6",
+    "fumadocs-ui": "15.1.0",
+    "gray-matter": "^4.0.3",
+    "lucide-react": "^0.483.0",
+    "next": "15.5.15",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "remark": "^15.0.1",
+    "remark-gfm": "^4.0.1",
+    "remark-mdx": "^3.1.0",
+    "remark-stringify": "^11.0.0"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4.2.4",
+    "@types/mdx": "^2.0.13",
+    "@types/node": "22.13.10",
+    "@types/react": "^19.0.10",
+    "@types/react-dom": "^19.0.4",
+    "postcss": "^8.5.12",
+    "tailwindcss": "^4.2.4",
+    "typescript": "^5.8.2"
+  }
+}
+
+
+---
+
+FILE: packages/integration/package.json
+{
+  "name": "@zod/integration",
+  "type": "module",
+  "private": true,
+  "version": "1.0.0",
+  "license": "MIT",
+  "devDependencies": {
+    "@ai-sdk/openai": "^3.0.2",
+    "@types/node": "^22.13.13",
+    "ai": "^6.0.5",
+    "drizzle-orm": "^0.45.2",
+    "drizzle-zod": "^0.8.3",
+    "typescript": "^5.8.2"
+  },
+  "scripts": {
+    "test:all": "pnpm test:source && pnpm test:built",
+    "test:source": "tsc --project fixtures/drizzle-zod/tsconfig.json 2>&1 | (! grep -q 'excessively deep') && tsc --project fixtures/ai-sdk/tsconfig.json",
+    "test:built": "tsc --project fixtures/internal-types/tsconfig.bundler.json && tsc --project fixtures/internal-types/tsconfig.nodenext.json && tsc --project fixtures/internal-types/tsconfig.node16-cjs.json"
+  },
+  "dependencies": {
+    "zod": "workspace:*"
+  }
+}
+
+
+---
+
+FILE: packages/resolution/package.json
+{
+  "name": "@zod/resolution",
+  "type": "module",
+  "private": true,
+  "version": "1.0.0",
+  "main": "./dist/index.cjs",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^22.13.13",
+    "execa": "^9.5.2",
+    "typescript": "^5.8.2"
+  },
+  "files": [
+    "./bin/*",
+    "./lib/*"
+  ],
+  "typings": "./lib/index.d.ts",
+  "scripts": {
+    "test:all": "pnpm vitest run && tsx test-resolution.ts"
+  },
+  "zshy": "./src/index.ts",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.cts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.cts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "dependencies": {
+    "zod": "workspace:*"
+  }
+}
+
+
+---
+
+FILE: packages/treeshake/package.json
+{
+  "name": "@zod/treeshaking",
+  "private": true,
+  "type": "module",
+  "license": "MIT",
+  "scripts": {
+    "bundle": "rollup -c rollup.config.js --input",
+    "bundle:rollup": "rollup --input",
+    "bundle:esbuild": "esbuild --bundle ./in.ts --conditions=@zod/source --outfile=./out.js --bundle --format=esm"
+  },
+  "devDependencies": {
+    "@rollup/plugin-commonjs": "^29.0.2",
+    "@rollup/plugin-node-resolve": "^16.0.1",
+    "@rollup/plugin-terser": "^1.0.0",
+    "@rollup/plugin-typescript": "^12.1.2",
+    "@types/node": "^22.13.13",
+    "rollup": "^4.60.2",
+    "rollup-plugin-bundle-size": "^1.0.3",
+    "rollup-plugin-filesize": "^10.0.0",
+    "valibot": "^1.3.1",
+    "zod": "workspace:*",
+    "zod3": "npm:zod@^3.24.0",
+    "zod4": "npm:zod@^3.25.0"
+  }
+}
+
+
+---
+
+FILE: packages/tsc/package.json
+{
+  "name": "@zod/tsc-perftest",
+  "type": "module",
+  "private": true,
+  "version": "1.0.0",
+  "main": "./lib/index.js",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^22.10.5",
+    "@typescript/analyze-trace": "^0.10.1",
+    "arktype": "^2.0.0",
+    "execa": "^9.5.2",
+    "valibot": "^1.3.1",
+    "zod": "workspace:*",
+    "zod3": "npm:zod@^3.0.0",
+    "zod4": "npm:zod@4.0.0-beta.20250420T053007"
+  },
+  "files": [
+    "./bin/*",
+    "./lib/*"
+  ],
+  "typings": "./lib/index.d.ts",
+  "scripts": {
+    "generate": "tsx generate.ts",
+    "build": "tsc",
+    "build:bench": "tsc -p tsconfig.bench.json",
+    "lint": "tslint -c tslint.json src/**/*.ts",
+    "prepublish": "npm run build",
+    "bench": "tsx ./bench/index.ts",
+    "bisect": "tsx bisect.ts"
+  }
+}
+
+
+---
+
+FILE: packages/zod/package.json
+{
+  "name": "zod",
+  "version": "4.4.3",
+  "type": "module",
+  "license": "MIT",
+  "author": "Colin McDonnell <zod@colinhacks.com>",
+  "description": "TypeScript-first schema declaration and validation library with static type inference",
+  "homepage": "https://zod.dev",
+  "llms": "https://zod.dev/llms.txt",
+  "llmsFull": "https://zod.dev/llms-full.txt",
+  "mcpServer": "https://mcp.inkeep.com/zod/mcp",
+  "funding": "https://github.com/sponsors/colinhacks",
+  "sideEffects": false,
+  "files": [
+    "src",
+    "**/*.js",
+    "**/*.mjs",
+    "**/*.cjs",
+    "**/*.d.ts",
+    "**/*.d.mts",
+    "**/*.d.cts",
+    "**/package.json"
+  ],
+  "keywords": [
+    "typescript",
+    "schema",
+    "validation",
+    "type",
+    "inference"
+  ],
+  "main": "./index.cjs",
+  "types": "./index.d.cts",
+  "module": "./index.js",
+  "zshy": {
+    "exports": {
+      "./package.json": "./package.json",
+      ".": "./src/index.ts",
+      "./mini": "./src/mini/index.ts",
+      "./locales": "./src/locales/index.ts",
+      "./v3": "./src/v3/index.ts",
+      "./v4": "./src/v4/index.ts",
+      "./v4-mini": "./src/v4-mini/index.ts",
+      "./v4/mini": "./src/v4/mini/index.ts",
+      "./v4/core": "./src/v4/core/index.ts",
+      "./v4/locales": "./src/v4/locales/index.ts",
+      "./v4/locales/*": "./src/v4/locales/*"
+    },
+    "conditions": {
+      "@zod/source": "src"
+    }
+  },
+  "exports": {
+    "./package.json": "./package.json",
+    ".": {
+      "@zod/source": "./src/index.ts",
+      "types": "./index.d.cts",
+      "import": "./index.js",
+      "require": "./index.cjs"
+    },
+    "./mini": {
+      "@zod/source": "./src/mini/index.ts",
+      "types": "./mini/index.d.cts",
+      "import": "./mini/index.js",
+      "require": "./mini/index.cjs"
+    },
+    "./locales": {
+      "@zod/source": "./src/locales/index.ts",
+      "types": "./locales/index.d.cts",
+      "import": "./locales/index.js",
+      "require": "./locales/index.cjs"
+    },
+    "./v3": {
+      "@zod/source": "./src/v3/index.ts",
+      "types": "./v3/index.d.cts",
+      "import": "./v3/index.js",
+      "require": "./v3/index.cjs"
+    },
+    "./v4": {
+      "@zod/source": "./src/v4/index.ts",
+      "types": "./v4/index.d.cts",
+      "import": "./v4/index.js",
+      "require": "./v4/index.cjs"
+    },
+    "./v4-mini": {
+      "@zod/source": "./src/v4-mini/index.ts",
+      "types": "./v4-mini/index.d.cts",
+      "import": "./v4-mini/index.js",
+      "require": "./v4-mini/index.cjs"
+    },
+    "./v4/mini": {
+      "@zod/source": "./src/v4/mini/index.ts",
+      "types": "./v4/mini/index.d.cts",
+      "import": "./v4/mini/index.js",
+      "require": "./v4/mini/index.cjs"
+    },
+    "./v4/core": {
+      "@zod/source": "./src/v4/core/index.ts",
+      "types": "./v4/core/index.d.cts",
+      "import": "./v4/core/index.js",
+      "require": "./v4/core/index.cjs"
+    },
+    "./v4/locales": {
+      "@zod/source": "./src/v4/locales/index.ts",
+      "types": "./v4/locales/index.d.cts",
+      "import": "./v4/locales/index.js",
+      "require": "./v4/locales/index.cjs"
+    },
+    "./v4/locales/*": {
+      "@zod/source": "./src/v4/locales/*",
+      "types": "./v4/locales/*",
+      "import": "./v4/locales/*",
+      "require": "./v4/locales/*"
+    }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/colinhacks/zod.git"
+  },
+  "bugs": {
+    "url": "https://github.com/colinhacks/zod/issues"
+  },
+  "support": {
+    "backing": {
+      "npm-funding": true
+    }
+  },
+  "scripts": {
+    "clean": "git clean -xdf . -e node_modules",
+    "build": "zshy --project tsconfig.build.json",
+    "postbuild": "tsx ../../scripts/write-stub-package-jsons.ts && pnpm biome check --write .",
+    "test:watch": "pnpm vitest",
+    "test": "pnpm vitest run",
+    "prepublishOnly": "tsx ../../scripts/check-versions.ts"
+  }
+}
+
+
+---
+
+FILE: packages/docs-v3/README.md
+<p align="center">
+  <img src="https://raw.githubusercontent.com/colinhacks/zod/main/logo.svg" width="200px" align="center" alt="Zod logo" />
+  <h1 align="center">Zod</h1>
+  <p align="center">
+  <a href="https://zod.dev">zod.dev</a>
+  <br/>
+    TypeScript-first schema validation with static type inference
+  </p>
+</p>
+<p align="center">
+<a href="https://github.com/colinhacks/zod/actions?query=branch%3Amain"><img src="https://github.com/colinhacks/zod/actions/workflows/test.yml/badge.svg?event=push&branch=main" alt="Zod CI status" /></a>
+<a href="https://twitter.com/colinhacks" rel="nofollow"><img src="https://img.shields.io/badge/created%20by-@colinhacks-4BBAAB.svg" alt="Created by Colin McDonnell"></a>
+<a href="https://opensource.org/licenses/MIT" rel="nofollow"><img src="https://img.shields.io/github/license/colinhacks/zod" alt="License"></a>
+<a href="https://www.npmjs.com/package/zod" rel="nofollow"><img src="https://img.shields.io/npm/dw/zod.svg" alt="npm"></a>
+<a href="https://github.com/colinhacks/zod" rel="nofollow"><img src="https://img.shields.io/github/stars/colinhacks/zod" alt="stars"></a>
+</p>
+
+<div align="center">
+  <a href="https://zod.dev">Website</a>
+  <span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
+  
+  <a href="https://discord.gg/RcG33DQJdf">Discord</a>
+  <span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
+  <a href="https://twitter.com/colinhacks">𝕏</a>
+  <span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
+  <a href="https://bsky.app/profile/zod.dev">Bluesky</a>
+  <br />
+</div>
+
+<br/><br/>
+
+<table align="center" style="justify-content:center;align-items:center;display:flex;"><td>
+  <p align="center">Zod 4 is now available!
+  <br/>
+  <a target="_blank" rel="noopener noreferrer" href="https://zod.dev/v4">Read the announcement 👉</a></p></td>
+</table>
+
+<br/>
+<br/>
+
+## Table of contents
+
+> These docs have been translated into [Chinese](./README_ZH.md) and [Korean](./README_KO.md).
+
+- [Table of contents](#table-of-contents)
+- [Introduction](#introduction)
+- [Sponsors](#sponsors)
+  - [Ecosystem](#ecosystem)
+    - [Resources](#resources)
+    - [API libraries](#api-libraries)
+    - [Form integrations](#form-integrations)
+    - [Zod to X](#zod-to-x)
+    - [X to Zod](#x-to-zod)
+    - [Mocking](#mocking)
+    - [Powered by Zod](#powered-by-zod)
+    - [Utilities for Zod](#utilities-for-zod)
+- [Installation](#installation)
+  - [Requirements](#requirements)
+  - [From `npm`](#from-npm)
+- [Basic usage](#basic-usage)
+- [Primitives](#primitives)
+- [Coercion for primitives](#coercion-for-primitives)
+- [Literals](#literals)
+- [Strings](#strings)
+  - [Datetimes](#datetimes)
+  - [Dates](#dates)
+  - [Times](#times)
+  - [IP addresses](#ip-addresses)
+  - [IP ranges (CIDR)](#ip-ranges-cidr)
+- [Numbers](#numbers)
+- [BigInts](#bigints)
+- [NaNs](#nans)
+- [Booleans](#booleans)
+- [Dates](#dates-1)
+- [Zod enums](#zod-enums)
+- [Native enums](#native-enums)
+- [Optionals](#optionals)
+- [Nullables](#nullables)
+- [Objects](#objects)
+  - [`.shape`](#shape)
+  - [`.keyof`](#keyof)
+  - [`.extend`](#extend)
+  - [`.merge`](#merge)
+  - [`.pick/.omit`](#pickomit)
+  - [`.partial`](#partial)
+  - [`.deepPartial`](#deeppartial)
+  - [`.required`](#required)
+  - [`.passthrough`](#passthrough)
+  - [`.strict`](#strict)
+  - [`.strip`](#strip)
+  - [`.catchall`](#catchall)
+- [Arrays](#arrays)
+  - [`.element`](#element)
+  - [`.nonempty`](#nonempty)
+  - [`.min/.max/.length`](#minmaxlength)
+- [Tuples](#tuples)
+- [Unions](#unions)
+- [Discriminated unions](#discriminated-unions)
+- [Records](#records)
+- [Maps](#maps)
+- [Sets](#sets)
+- [Intersections](#intersections)
+- [Recursive types](#recursive-types)
+  - [ZodType with ZodEffects](#zodtype-with-zodeffects)
+  - [JSON type](#json-type)
+  - [Cyclical objects](#cyclical-objects)
+- [Promises](#promises)
+- [Instanceof](#instanceof)
+- [Functions](#functions)
+- [Preprocess](#preprocess)
+- [Custom schemas](#custom-schemas)
+- [Schema methods](#schema-methods)
+  - [`.parse`](#parse)
+  - [`.parseAsync`](#parseasync)
+  - [`.safeParse`](#safeparse)
+  - [`.safeParseAsync`](#safeparseasync)
+  - [`.refine`](#refine)
+    - [Arguments](#arguments)
+    - [Customize error path](#customize-error-path)
+    - [Asynchronous refinements](#asynchronous-refinements)
+    - [Relationship to transforms](#relationship-to-transforms)
+  - [`.superRefine`](#superrefine)
+    - [Abort early](#abort-early)
+    - [Type refinements](#type-refinements)
+  - [`.transform`](#transform)
+    - [Chaining order](#chaining-order)
+    - [Validating during transform](#validating-during-transform)
+    - [Relationship to refinements](#relationship-to-refinements)
+    - [Async transforms](#async-transforms)
+  - [`.default`](#default)
+  - [`.describe`](#describe)
+  - [`.catch`](#catch)
+  - [`.optional`](#optional)
+  - [`.nullable`](#nullable)
+  - [`.nullish`](#nullish)
+  - [`.array`](#array)
+  - [`.promise`](#promise)
+  - [`.or`](#or)
+  - [`.and`](#and)
+  - [`.brand`](#brand)
+  - [`.readonly`](#readonly)
+  - [`.pipe`](#pipe)
+- [Guides and concepts](#guides-and-concepts)
+  - [Type inference](#type-inference)
+  - [Writing generic functions](#writing-generic-functions)
+    - [Inferring the inferred type](#inferring-the-inferred-type)
+    - [Constraining allowable inputs](#constraining-allowable-inputs)
+  - [Error handling](#error-handling)
+  - [Error formatting](#error-formatting)
+- [Comparison](#comparison)
+  - [Joi](#joi)
+  - [Yup](#yup)
+  - [io-ts](#io-ts)
+  - [Runtypes](#runtypes)
+  - [Ow](#ow)
+- [Changelog](#changelog)
+
+<br/>
+
+## Introduction
+
+Zod is a TypeScript-first schema declaration and validation library. I'm using the term "schema" to broadly refer to any data type, from a simple `string` to a complex nested object.
+
+Zod is designed to be as developer-friendly as possible. The goal is to eliminate duplicative type declarations. With Zod, you declare a validator _once_ and Zod will automatically infer the static TypeScript type. It's easy to compose simpler types into complex data structures.
+
+Some other great aspects:
+
+- Zero dependencies
+- Works in Node.js and all modern browsers
+- Tiny: 8kb minified + zipped
+- Immutable: methods (e.g. `.optional()`) return a new instance
+- Concise, chainable interface
+- Functional approach: [parse, don't validate](https://lexi-lambda.github.io/blog/2019/11/05/parse-don-t-validate/)
+- Works with plain JavaScript too! You don't need to use TypeScript.
+
+<br/>
+
+## Sponsors
+
+Sponsorship at any level is appreciated and encouraged. If you built a paid product using Zod, consider one of the [corporate tiers](https://gith
+
+---
+
+FILE: packages/docs/README.md
+# onepager-fuma
+
+<Tabs groupId="lib" items={["Zod", "Zod Mini"]}>
+<Tab value="Zod">
+</Tab>
+<Tab value="Zod Mini">
+</Tab>
+</Tabs>
+
+
+---
+
+FILE: packages/resolution/README.md
+# Zod perftesting
+
+`node generateRandomSchemas.js` to generate some random Zod schemas (pregenerated ones already exist in `src/index.ts`)
+
+`npm run build-bench` to run `tsc` with `extendedDiagnostics`
+
+Either modify zod's typings in `node_modules/zod` or `npm link` a local copy and do modifications there. Remember to build `zod` in between!
+
+
+---
+
+FILE: packages/tsc/README.md
+# Zod perftesting
+
+`node generateRandomSchemas.js` to generate some random Zod schemas (pregenerated ones already exist in `src/index.ts`)
+
+`npm run build-bench` to run `tsc` with `extendedDiagnostics`
+
+Either modify zod's typings in `node_modules/zod` or `npm link` a local copy and do modifications there. Remember to build `zod` in between!
+
+
+---
+
+FILE: packages/zod/README.md
+<p align="center">
+  <img src="logo.svg" width="200px" align="center" alt="Zod logo" />
+  <h1 align="center">Zod</h1>
+  <p align="center">
+    TypeScript-first schema validation with static type inference
+    <br/>
+    by <a href="https://x.com/colinhacks">@colinhacks</a>
+  </p>
+</p>
+<br/>
+
+<p align="center">
+<a href="https://github.com/colinhacks/zod/actions?query=branch%3Amain"><img src="https://github.com/colinhacks/zod/actions/workflows/test.yml/badge.svg?event=push&branch=main" alt="Zod CI status" /></a>
+<a href="https://opensource.org/licenses/MIT" rel="nofollow"><img src="https://img.shields.io/github/license/colinhacks/zod" alt="License"></a>
+<a href="https://www.npmjs.com/package/zod" rel="nofollow"><img src="https://img.shields.io/npm/dw/zod.svg" alt="npm"></a>
+<a href="https://discord.gg/KaSRdyX2vc" rel="nofollow"><img src="https://img.shields.io/discord/893487829802418277?label=Discord&logo=discord&logoColor=white" alt="discord server"></a>
+<a href="https://github.com/colinhacks/zod" rel="nofollow"><img src="https://img.shields.io/github/stars/colinhacks/zod" alt="stars"></a>
+</p>
+
+<div align="center">
+  <a href="https://zod.dev/api">Docs</a>
+  <span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
+  <a href="https://discord.gg/RcG33DQJdf">Discord</a>
+  <span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
+  <a href="https://twitter.com/colinhacks">𝕏</a>
+  <span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
+  <a href="https://bsky.app/profile/zod.dev">Bluesky</a>
+  <br />
+</div>
+
+<br/>
+<br/>
+
+### [Read the docs →](https://zod.dev/api)
+
+<br/>
+<br/>
+
+## What is Zod?
+
+Zod is a TypeScript-first validation library. Define a schema and parse some data with it. You'll get back a strongly typed, validated result.
+
+```ts
+import * as z from "zod";
+
+const User = z.object({
+  name: z.string(),
+});
+
+// some untrusted data...
+const input = {
+  /* stuff */
+};
+
+// the parsed result is validated and type safe!
+const data = User.parse(input);
+
+// so you can use it with confidence :)
+console.log(data.name);
+```
+
+<br/>
+
+## Features
+
+- Zero external dependencies
+- Works in Node.js and all modern browsers
+- Tiny: `2kb` core bundle (gzipped)
+- Immutable API: methods return a new instance
+- Concise interface
+- Works with TypeScript and plain JS
+- Built-in JSON Schema conversion
+- Extensive ecosystem
+
+<br/>
+
+## Installation
+
+```sh
+npm install zod
+```
+
+<br/>
+
+## Basic usage
+
+Before you can do anything else, you need to define a schema. For the purposes of this guide, we'll use a simple object schema.
+
+```ts
+import * as z from "zod";
+
+const Player = z.object({
+  username: z.string(),
+  xp: z.number(),
+});
+```
+
+### Parsing data
+
+Given any Zod schema, use `.parse` to validate an input. If it's valid, Zod returns a strongly-typed _deep clone_ of the input.
+
+```ts
+Player.parse({ username: "billie", xp: 100 });
+// => returns { username: "billie", xp: 100 }
+```
+
+**Note** — If your schema uses certain asynchronous APIs like `async` [refinements](https://zod.dev/api#refinements) or [transforms](https://zod.dev/api#transforms), you'll need to use the `.parseAsync()` method instead.
+
+```ts
+const schema = z.string().refine(async (val) => val.length <= 8);
+
+await schema.parseAsync("hello");
+// => "hello"
+```
+
+### Handling errors
+
+When validation fails, the `.parse()` method will throw a `ZodError` instance with granular information about the validation issues.
+
+```ts
+try {
+  Player.parse({ username: 42, xp: "100" });
+} catch (err) {
+  if (err instanceof z.ZodError) {
+    err.issues;
+    /* [
+      {
+        expected: 'string',
+        code: 'invalid_type',
+        path: [ 'username' ],
+        message: 'Invalid input: expected string'
+      },
+      {
+        expected: 'number',
+        code: 'invalid_type',
+        path: [ 'xp' ],
+        message: 'Invalid input: expected number'
+      }
+    ] */
+  }
+}
+```
+
+To avoid a `try/catch` block, you can use the `.safeParse()` method to get back a plain result object containing either the successfully parsed data or a `ZodError`. The result type is a [discriminated union](https://www.typescriptlang.org/docs/handbook/2/narrowing.html#discriminated-unions), so you can handle both cases conveniently.
+
+```ts
+const result = Player.safeParse({ username: 42, xp: "100" });
+if (!result.success) {
+  result.error; // ZodError instance
+} else {
+  result.data; // { username: string; xp: number }
+}
+```
+
+**Note** — If your schema uses certain asynchronous APIs like `async` [refinements](https://zod.dev/api#refinements) or [transforms](https://zod.dev/api#transforms), you'll need to use the `.safeParseAsync()` method instead.
+
+```ts
+const schema = z.string().refine(async (val) => val.length <= 8);
+
+await schema.safeParseAsync("hello");
+// => { success: true; data: "hello" }
+```
+
+### Inferring types
+
+Zod infers a static type from your schema definitions. You can extract this type with the `z.infer<>` utility and use it however you like.
+
+```ts
+const Player = z.object({
+  username: z.string(),
+  xp: z.number(),
+});
+
+// extract the inferred type
+type Player = z.infer<typeof Player>;
+
+// use it in your code
+const player: Player = { username: "billie", xp: 100 };
+```
+
+In some cases, the input & output types of a schema can diverge. For instance, the `.transform()` API can convert the input from one type to another. In these cases, you can extract the input and output types independently:
+
+```ts
+const mySchema = z.string().transform((val) => val.length);
+
+type MySchemaIn = z.input<typeof mySchema>;
+// => string
+
+type MySchemaOut = z.output<typeof mySchema>; // equivalent to z.infer<typeof mySchema>
+// number
+```
+
+
+---
+
+FILE: packages/docs-v3/CONTRIBUTING.md
+# Contributing
+
+> ⚠ The default branch has just been switched to `main` from `master` (as of May 15th, 2024). Follow the following instructions to update your local fork.
+>
+> ```sh
+> git branch -m master main   # rename local branch
+> git fetch origin   # fetch from remote
+> git branch -u origin/main main   # set upstream
+> git remote set-head origin -a   # update remote
+> ```
+
+When it comes to open source, there are different ways you can contribute, all
+of which are valuable. Here's few guidelines that should help you as you prepare
+your contribution.
+
+## Initial steps
+
+Before you start working on a contribution, create an issue describing what you want to build. It's possible someone else is already working on something similar, or perhaps there is a reason that feature isn't implemented. The maintainers will point you in the right direction.
+
+<!-- ## Submitting a Pull Request
+
+- Fork the repo
+- Clone your forked repository: `git clone git@github.com:{your_username}/zod.git`
+- Enter the zod directory: `cd zod`
+- Create a new branch off the `main` branch: `git checkout -b your-feature-name`
+- Implement your contributions (see the Development section for more information)
+- Push your branch to the repo: `git push origin your-feature-name`
+- Go to https://github.com/colinhacks/zod/compare and select the branch you just pushed in the "compare:" dropdown
+- Submit the PR. The maintainers will follow up ASAP. -->
+
+## Development
+
+The following steps will get you setup to contribute changes to this repo:
+
+1. Fork this repo.
+
+2. Clone your forked repo: `git clone git@github.com:{your_username}/zod.git`
+
+3. Navigate into the project directory: `cd zod`
+
+4. Run `yarn` to install dependencies.
+
+5. Start playing with the code! You can do some simple experimentation in [`playground.ts`](playground.ts) (see `yarn play` below) or start implementing a feature right away.
+
+## Alternative: VSCode Dev Container setup
+
+For an officially supported isolated dev environment that automatically installs dependencies for you:
+
+1. `F1` in VSCode and start typing `Dev Containers: Clone Repository in Named Container Volume` to run the command.
+2. For the repo, paste `git@github.com:{your_username}/zod.git` if you're using ssh.
+3. Click `Create a new volume...` and name it `zod` and the folder name as `zod`.
+
+Note: if you can't see `Dev Containers` in the `F1` menu, follow [this guide](https://code.visualstudio.com/docs/devcontainers/tutorial) to install the needed extension.
+In the OSS version of VSCode the extension may be not available.
+
+### Commands
+
+**`yarn build`**
+
+- deletes `lib` and re-compiles `src` to `lib`
+
+**`yarn test`**
+
+- runs all Jest tests and generates coverage badge
+
+**`yarn test enum`**
+
+- runs a single test file (e.g. `enum.test.ts`)
+
+**`yarn play`**
+
+- executes [`playground.ts`](playground.ts), watches for changes. useful for experimentation
+
+### Tests
+
+Zod uses Jest for testing. After implementing your contribution, write tests for it. Just create a new file under `src/__tests__` or add additional tests to the appropriate existing file.
+
+Before submitting your PR, run `yarn test` to make sure there are no (unintended) breaking changes.
+
+### Documentation
+
+The Zod documentation lives in the README.md. Be sure to document any API changes you implement.
+
+## License
+
+By contributing your code to the zod GitHub repository, you agree to
+license your contribution under the MIT license.
+
+
+---
+
+FILE: package.json
+{
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@10.12.1",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/colinhacks/zod.git"
+  },
+  "bugs": {
+    "url": "https://github.com/colinhacks/zod/issues"
+  },
+  "support": {
+    "backing": {
+      "npm-funding": true
+    }
+  },
+  "devDependencies": {
+    "@arethetypeswrong/cli": "^0.17.4",
+    "@biomejs/biome": "^1.9.4",
+    "@seriousme/openapi-schema-validator": "2.9.0",
+    "@types/benchmark": "^2.1.5",
+    "@types/semver": "^7.7.0",
+    "@web-std/file": "^3.0.3",
+    "arktype": "^2.1.19",
+    "benchmark": "^2.1.4",
+    "chalk": "^5.4.1",
+    "console-table-printer": "^2.12.1",
+    "esbuild": "^0.25.5",
+    "execa": "^9.5.2",
+    "globby": "^16.2.0",
+    "husky": "^9.1.7",
+    "jsr": "^0.12.4",
+    "lint-staged": "^16.4.0",
+    "madge": "^8.0.0",
+    "mitata": "^0.1.14",
+    "prettier": "^3.5.3",
+    "recheck": "4.6.0-beta.3",
+    "rolldown": "1.0.0-beta.18",
+    "rollup": "^4.60.2",
+    "semver": "^7.7.2",
+    "supershy": "^1.0.0",
+    "tinybench": "^2.9.0",
+    "ts-morph": "^28.0.0",
+    "tsdown": "^0.21.10",
+    "tslib": "^2.8.1",
+    "tsx": "^4.19.3",
+    "typescript": "~5.5.4",
+    "vite": "^7.3.2",
+    "vitest": "^4.1.5",
+    "zod": "workspace:*",
+    "zod3": "npm:zod@~3.24.0",
+    "zshy": "^0.7.2"
+  },
+  "lint-staged": {
+    "packages/*/src/**/*.ts": [
+      "biome format --no-errors-on-unmatched --write",
+      "biome lint --no-errors-on-unmatched --write"
+    ],
+    "packages/*/**/*.json": [
+      "biome format --no-errors-on-unmatched --write",
+      "biome lint --no-errors-on-unmatched --write"
+    ],
+    "packages/*/**/*.md": [
+      "prettier --ignore-unknown --write"
+    ]
+  },
+  "scripts": {
+    "fix": "pnpm run format && pnpm run lint",
+    "format": "biome check --write .",
+    "format:check": "biome check .",
+    "lint": "biome lint --write .",
+    "lint:check": "biome lint .",
+    "clean": "pnpm run -r clean",
+    "build": "pnpm run -r --filter zod build",
+    "test:watch": "vitest",
+    "test": "vitest run",
+    "prepublishOnly": "pnpm run test && pnpm run build",
+    "dev": "tsx --conditions @zod/source",
+    "dev:watch": "tsx --conditions @zod/source --watch",
+    "dev:play": "pnpm dev play.ts",
+    "bench": "tsx --conditions @zod/source packages/bench/index.ts",
+    "moltar": "pnpm bench object-moltar",
+    "prepare": "husky",
+    "postbuild": "biome format --write .",
+    "publish:jsr": "jsr publish --dry-run",
+    "bundle:rollup": "rollup -c",
+    "bundle:esbuild": "esbuild --bundle ./scratch/input.ts --outfile=./scratch/out_esbuild.js --bundle --format=esm",
+    "check:semver": "tsx scripts/check-versions.ts",
+    "check:circular": "madge --circular --extensions ts --exclude '(v4/core|v3)' packages/zod/src"
+  }
+}
+
+
+---
+
+FILE: packages/zod/src/v3/tests/all-errors.test.ts
+// @ts-ignore TS6133
+import { expect, test } from "vitest";
+
+import * as z from "zod/v3";
+import { util } from "../helpers/util.js";
+
+const Test = z.object({
+  f1: z.number(),
+  f2: z.string().optional(),
+  f3: z.string().nullable(),
+  f4: z.array(z.object({ t: z.union([z.string(), z.boolean()]) })),
+});
+type TestFlattenedErrors = z.inferFlattenedErrors<typeof Test, { message: string; code: number }>;
+type TestFormErrors = z.inferFlattenedErrors<typeof Test>;
+
+test("default flattened errors type inference", () => {
+  type TestTypeErrors = {
+    formErrors: string[];
+    fieldErrors: { [P in keyof z.TypeOf<typeof Test>]?: string[] };
+  };
+
+  util.assertEqual<z.inferFlattenedErrors<typeof Test>, TestTypeErrors>(true);
+  util.assertEqual<z.inferFlattenedErrors<typeof Test, { message: string }>, TestTypeErrors>(false);
+});
+
+test("custom flattened errors type inference", () => {
+  type ErrorType = { message: string; code: number };
+  type TestTypeErrors = {
+    formErrors: ErrorType[];
+    fieldErrors: {
+      [P in keyof z.TypeOf<typeof Test>]?: ErrorType[];
+    };
+  };
+
+  util.assertEqual<z.inferFlattenedErrors<typeof Test>, TestTypeErrors>(false);
+  util.assertEqual<z.inferFlattenedErrors<typeof Test, { message: string; code: number }>, TestTypeErrors>(true);
+  util.assertEqual<z.inferFlattenedErrors<typeof Test, { message: string }>, TestTypeErrors>(false);
+});
+
+test("form errors type inference", () => {
+  type TestTypeErrors = {
+    formErrors: string[];
+    fieldErrors: { [P in keyof z.TypeOf<typeof Test>]?: string[] };
+  };
+
+  util.assertEqual<z.inferFlattenedErrors<typeof Test>, TestTypeErrors>(true);
+});
+
+test(".flatten() type assertion", () => {
+  const parsed = Test.safeParse({}) as z.SafeParseError<void>;
+  const validFlattenedErrors: TestFlattenedErrors = parsed.error.flatten(() => ({ message: "", code: 0 }));
+  // @ts-expect-error should fail assertion between `TestFlattenedErrors` and unmapped `flatten()`.
+  const invalidFlattenedErrors: TestFlattenedErrors = parsed.error.flatten();
+  const validFormErrors: TestFormErrors = parsed.error.flatten();
+  // @ts-expect-error should fail assertion between `TestFormErrors` and mapped `flatten()`.
+  const invalidFormErrors: TestFormErrors = parsed.error.flatten(() => ({
+    message: "string",
+    code: 0,
+  }));
+
+  [validFlattenedErrors, invalidFlattenedErrors, validFormErrors, invalidFormErrors];
+});
+
+test(".formErrors type assertion", () => {
+  const parsed = Test.safeParse({}) as z.SafeParseError<void>;
+  const validFormErrors: TestFormErrors = parsed.error.formErrors;
+  // @ts-expect-error should fail assertion between `TestFlattenedErrors` and `.formErrors`.
+  const invalidFlattenedErrors: TestFlattenedErrors = parsed.error.formErrors;
+
+  [validFormErrors, invalidFlattenedErrors];
+});
+
+test("all errors", () => {
+  const propertySchema = z.string();
+  const schema = z
+    .object({
+      a: propertySchema,
+      b: propertySchema,
+    })
+    .refine(
+      (val) => {
+        return val.a === val.b;
+      },
+      { message: "Must be equal" }
+    );
+
+  try {
+    schema.parse({
+      a: "asdf",
+      b: "qwer",
+    });
+  } catch (error) {
+    if (error instanceof z.ZodError) {
+      expect(error.flatten()).toEqual({
+        formErrors: ["Must be equal"],
+        fieldErrors: {},
+      });
+    }
+  }
+
+  try {
+    schema.parse({
+      a: null,
+      b: null,
+    });
+  } catch (_error) {
+    const error = _error as z.ZodError;
+    expect(error.flatten()).toEqual({
+      formErrors: [],
+      fieldErrors: {
+        a: ["Expected string, received null"],
+        b: ["Expected string, received null"],
+      },
+    });
+
+    expect(error.flatten((iss) => iss.message.toUpperCase())).toEqual({
+      formErrors: [],
+      fieldErrors: {
+        a: ["EXPECTED STRING, RECEIVED NULL"],
+        b: ["EXPECTED STRING, RECEIVED NULL"],
+      },
+    });
+    // Test identity
+
+    expect(error.flatten((i: z.ZodIssue) => i)).toEqual({
+      formErrors: [],
+      fieldErrors: {
+        a: [
+          {
+            code: "invalid_type",
+            expected: "string",
+            message: "Expected string, received null",
+            path: ["a"],
+            received: "null",
+          },
+        ],
+        b: [
+          {
+            code: "invalid_type",
+            expected: "string",
+            message: "Expected string, received null",
+            path: ["b"],
+            received: "null",
+          },
+        ],
+      },
+    });
+    // Test mapping
+    expect(error.flatten((i: z.ZodIssue) => i.message.length)).toEqual({
+      formErrors: [],
+      fieldErrors: {
+        a: ["Expected string, received null".length],
+        b: ["Expected string, received null".length],
+      },
+    });
+  }
+});
+
+
+---
+
+FILE: packages/zod/src/v3/tests/anyunknown.test.ts
+// @ts-ignore TS6133
+import { expect, test } from "vitest";
+
+import * as z from "zod/v3";
+import { util } from "../helpers/util.js";
+
+test("check any inference", () => {
+  const t1 = z.any();
+  t1.optional();
+  t1.nullable();
+  type t1 = z.infer<typeof t1>;
+  util.assertEqual<t1, any>(true);
+});
+
+test("check unknown inference", () => {
+  const t1 = z.unknown();
+  t1.optional();
+  t1.nullable();
+  type t1 = z.infer<typeof t1>;
+  util.assertEqual<t1, unknown>(true);
+});
+
+test("check never inference", () => {
+  const t1 = z.never();
+  expect(() => t1.parse(undefined)).toThrow();
+  expect(() => t1.parse("asdf")).toThrow();
+  expect(() => t1.parse(null)).toThrow();
+});
+
+
+---
+
+FILE: packages/zod/src/v3/tests/array.test.ts
+// @ts-ignore TS6133
+import { expect, test } from "vitest";
+
+import * as z from "zod/v3";
+import { util } from "../helpers/util.js";
+
+const minTwo = z.string().array().min(2);
+const maxTwo = z.string().array().max(2);
+const justTwo = z.string().array().length(2);
+const intNum = z.string().array().nonempty();
+const nonEmptyMax = z.string().array().nonempty().max(2);
+
+type t1 = z.infer<typeof nonEmptyMax>;
+util.assertEqual<[string, ...string[]], t1>(true);
+
+type t2 = z.infer<typeof minTwo>;
+util.assertEqual<string[], t2>(true);
+
+test("passing validations", () => {
+  minTwo.parse(["a", "a"]);
+  minTwo.parse(["a", "a", "a"]);
+  maxTwo.parse(["a", "a"]);
+  maxTwo.parse(["a"]);
+  justTwo.parse(["a", "a"]);
+  intNum.parse(["a"]);
+  nonEmptyMax.parse(["a"]);
+});
+
+test("failing validations", () => {
+  expect(() => minTwo.parse(["a"])).toThrow();
+  expect(() => maxTwo.parse(["a", "a", "a"])).toThrow();
+  expect(() => justTwo.parse(["a"])).toThrow();
+  expect(() => justTwo.parse(["a", "a", "a"])).toThrow();
+  expect(() => intNum.parse([])).toThrow();
+  expect(() => nonEmptyMax.parse([])).toThrow();
+  expect(() => nonEmptyMax.parse(["a", "a", "a"])).toThrow();
+});
+
+test("parse empty array in nonempty", () => {
+  expect(() =>
+    z
+      .array(z.string())
+      .nonempty()
+      .parse([] as any)
+  ).toThrow();
+});
+
+test("get element", () => {
+  justTwo.element.parse("asdf");
+  expect(() => justTwo.element.parse(12)).toThrow();
+});
+
+test("continue parsing despite array size error", () => {
+  const schema = z.object({
+    people: z.string().array().min(2),
+  });
+
+  const result = schema.safeParse({
+    people: [123],
+  });
+  expect(result.success).toEqual(false);
+  if (!result.success) {
+    expect(result.error.issues.length).toEqual(2);
+  }
+});
+
+test("parse should fail given sparse array", () => {
+  const schema = z.array(z.string()).nonempty().min(1).max(3);
+
+  expect(() => schema.parse(new Array(3))).toThrow();
+});
+
+
+---
+
+FILE: packages/zod/src/v3/tests/async-parsing.test.ts
+// @ts-ignore TS6133
+import { expect, test } from "vitest";
+
+import * as z from "zod/v3";
+
+/// string
+const stringSchema = z.string();
+
+test("string async parse", async () => {
+  const goodData = "XXX";
+  const badData = 12;
+
+  const goodResult = await stringSchema.safeParseAsync(goodData);
+  expect(goodResult.success).toBe(true);
+  if (goodResult.success) expect(goodResult.data).toEqual(goodData);
+
+  const badResult = await stringSchema.safeParseAsync(badData);
+  expect(badResult.success).toBe(false);
+  if (!badResult.success) expect(badResult.error).toBeInstanceOf(z.ZodError);
+});
+
+/// number
+const numberSchema = z.number();
+test("number async parse", async () => {
+  const goodData = 1234.2353;
+  const badData = "1234";
+
+  const goodResult = await numberSchema.safeParseAsync(goodData);
+  expect(goodResult.success).toBe(true);
+  if (goodResult.success) expect(goodResult.data).toEqual(goodData);
+
+  const badResult = await numberSchema.safeParseAsync(badData);
+  expect(badResult.success).toBe(false);
+  if (!badResult.success) expect(badResult.error).toBeInstanceOf(z.ZodError);
+});
+
+/// bigInt
+const bigIntSchema = z.bigint();
+test("bigInt async parse", async () => {
+  const goodData = BigInt(145);
+  const badData = 134;
+
+  const goodResult = await bigIntSchema.safeParseAsync(goodData);
+  expect(goodResult.success).toBe(true);
+  if (goodResult.success) expect(goodResult.data).toEqual(goodData);
+
+  const badResult = await bigIntSchema.safeParseAsync(badData);
+  expect(badResult.success).toBe(false);
+  if (!badResult.success) expect(badResult.error).toBeInstanceOf(z.ZodError);
+});
+
+/// boolean
+const booleanSchema = z.boolean();
+test("boolean async parse", async () => {
+  const goodData = true;
+  const badData = 1;
+
+  const goodResult = await booleanSchema.safeParseAsync(goodData);
+  expect(goodResult.success).toBe(true);
+  if (goodResult.success) expect(goodResult.data).toEqual(goodData);
+
+  const badResult = await booleanSchema.safeParseAsync(badData);
+  expect(badResult.success).toBe(false);
+  if (!badResult.success) expect(badResult.error).toBeInstanceOf(z.ZodError);
+});
+
+/// date
+const dateSchema = z.date();
+test("date async parse", async () => {
+  const goodData = new Date();
+  const badData = new Date().toISOString();
+
+  const goodResult = await dateSchema.safeParseAsync(goodData);
+  expect(goodResult.success).toBe(true);
+  if (goodResult.success) expect(goodResult.data).toEqual(goodData);
+
+  const badResult = await dateSchema.safeParseAsync(badData);
+  expect(badResult.success).toBe(false);
+  if (!badResult.success) expect(badResult.error).toBeInstanceOf(z.ZodError);
+});
+
+/// undefined
+const undefinedSchema = z.undefined();
+test("undefined async parse", async () => {
+  const goodData = undefined;
+  const badData = "XXX";
+
+  const goodResult = await undefinedSchema.safeParseAsync(goodData);
+  expect(goodResult.success).toBe(true);
+  if (goodResult.success) expect(goodResult.data).toEqual(undefined);
+
+  const badResult = await undefinedSchema.safeParseAsync(badData);
+  expect(badResult.success).toBe(false);
+  if (!badResult.success) expect(badResult.error).toBeInstanceOf(z.ZodError);
+});
+
+/// null
+const nullSchema = z.null();
+test("null async parse", async () => {
+  const goodData = null;
+  const badData = undefined;
+
+  const goodResult = await nullSchema.safeParseAsync(goodData);
+  expect(goodResult.success).toBe(true);
+  if (goodResult.success) expect(goodResult.data).toEqual(goodData);
+
+  const badResult = await nullSchema.safeParseAsync(badData);
+  expect(badResult.success).toBe(false);
+  if (!badResult.success) expect(badResult.error).toBeInstanceOf(z.ZodError);
+});
+
+/// any
+const anySchema = z.any();
+test("any async parse", async () => {
+  const goodData = [{}];
+  // const badData = 'XXX';
+
+  const goodResult = await anySchema.safeParseAsync(goodData);
+  expect(goodResult.success).toBe(true);
+  if (goodResult.success) expect(goodResult.data).toEqual(goodData);
+
+  // const badResult = await anySchema.safeParseAsync(badData);
+  // expect(badResult.success).toBe(false);
+  // if (!badResult.success) expect(badResult.error).toBeInstanceOf(z.ZodError);
+});
+
+/// unknown
+const unknownSchema = z.unknown();
+test("unknown async parse", async () => {
+  const goodData = ["asdf", 124, () => {}];
+  // const badData = 'XXX';
+
+  const goodResult = await unknownSchema.safeParseAsync(goodData);
+  expect(goodResult.success).toBe(true);
+  if (goodResult.success) expect(goodResult.data).toEqual(goodData);
+
+  // const badResult = await unknownSchema.safeParseAsync(badData);
+  // expect(badResult.success).toBe(false);
+  // if (!badResult.success) expect(badResult.error).toBeInstanceOf(z.ZodError);
+});
+
+/// void
+const voidSchema = z.void();
+test("void async parse", async () => {
+  const goodData = undefined;
+  const badData = 0;
+
+  const goodResult = await voidSchema.safeParseAsync(goodData);
+  expect(goodResult.success).toBe(true);
+  if (goodResult.success) expect(goodResult.data).toEqual(goodData);
+
+  const badResult = await voidSchema.safeParseAsync(badData);
+  expect(badResult.success).toBe(false);
+  if (!badResult.success) expect(badResult.error).toBeInstanceOf(z.ZodError);
+});
+
+/// array
+const arraySchema = z.array(z.string());
+test("array async parse", async () => {
+  const goodData = ["XXX"];
+  const badData = "XXX";
+
+  const goodResult = await arraySchema.safeParseAsync(goodData);
+  expect(goodResult.success).toBe(true);
+  if (goodResult.success) expect(goodResult.data).toEqual(goodData);
+
+  const badResult = await arraySchema.safeParseAsync(badData);
+  expect(badResult.success).toBe(false);
+  if (!badResult.success) expect(badResult.error).toBeInstanceOf(z.ZodError);
+});
+
+/// object
+const objectSchema = z.object({ string: z.string() });
+test("object async parse", async () => {
+  const goodData = { string: "XXX" };
+  const badData = { string: 12 };
+
+  const goodResult = await objectSchema.safeParseAsync(goodData);
+  expect(goodResult.success).toBe(true);
+  if (goodResult.success) expect(goodResult.data).toEqual(goodData);
+
+  const badResult = await objectSchema.safeParseAsync(badData);
+  expect(badResult.success).toBe(false);
+  if (!badResult.success) expect(badResult.error).toBeInstanceOf(z.ZodError);
+});
+
+/// union
+const unionSchema = z.union([z.string(), z.undefined()]);
+test("union async parse", async () => {
+  const goodData = undefined;
+  const badData = null;
+
+  const goodResult = await unionSchema.safeParseAsync(goodData);
+  expect(goodResult.success).toBe(true);
+  if (goodResult
+
+---
+
+FILE: packages/zod/src/v3/tests/async-refinements.test.ts
+// @ts-ignore TS6133
+import { expect, test } from "vitest";
+
+import * as z from "zod/v3";
+
+test("parse async test", async () => {
+  const schema1 = z.string().refine(async (_val) => false);
+  expect(() => schema1.parse("asdf")).toThrow();
+
+  const schema2 = z.string().refine((_val) => Promise.resolve(true));
+  return await expect(() => schema2.parse("asdf")).toThrow();
+});
+
+test("parseAsync async test", async () => {
+  const schema1 = z.string().refine(async (_val) => true);
+  await schema1.parseAsync("asdf");
+
+  const schema2 = z.string().refine(async (_val) => false);
+  return await expect(schema2.parseAsync("asdf")).rejects.toBeDefined();
+  // expect(async () => await schema2.parseAsync('asdf')).toThrow();
+});
+
+test("parseAsync async test", async () => {
+  // expect.assertions(2);
+
+  const schema1 = z.string().refine((_val) => Promise.resolve(true));
+  const v1 = await schema1.parseAsync("asdf");
+  expect(v1).toEqual("asdf");
+
+  const schema2 = z.string().refine((_val) => Promise.resolve(false));
+  await expect(schema2.parseAsync("asdf")).rejects.toBeDefined();
+
+  const schema3 = z.string().refine((_val) => Promise.resolve(true));
+  await expect(schema3.parseAsync("asdf")).resolves.toEqual("asdf");
+  return await expect(schema3.parseAsync("qwer")).resolves.toEqual("qwer");
+});
+
+test("parseAsync async with value", async () => {
+  const schema1 = z.string().refine(async (val) => {
+    return val.length > 5;
+  });
+  await expect(schema1.parseAsync("asdf")).rejects.toBeDefined();
+
+  const v = await schema1.parseAsync("asdf123");
+  return await expect(v).toEqual("asdf123");
+});
+
+
+---
+
+FILE: packages/zod/src/v3/tests/base.test.ts
+// @ts-ignore TS6133
+import { expect, test } from "vitest";
+
+import * as z from "zod/v3";
+import { util } from "../helpers/util.js";
+
+test("type guard", () => {
+  const stringToNumber = z.string().transform((arg) => arg.length);
+
+  const s1 = z.object({
+    stringToNumber,
+  });
+  type t1 = z.input<typeof s1>;
+
+  const data = { stringToNumber: "asdf" };
+  const parsed = s1.safeParse(data);
+  if (parsed.success) {
+    util.assertEqual<typeof data, t1>(true);
+  }
+});
+
+test("test this binding", () => {
+  const callback = (predicate: (val: string) => boolean) => {
+    return predicate("hello");
+  };
+
+  expect(callback((value) => z.string().safeParse(value).success)).toBe(true); // true
+  expect(callback((value) => z.string().safeParse(value).success)).toBe(true); // true
+});
+
+
+---
+
+FILE: packages/zod/src/v3/tests/bigint.test.ts
+// @ts-ignore TS6133
+import { expect, test } from "vitest";
+
+import * as z from "zod/v3";
+
+const gtFive = z.bigint().gt(BigInt(5));
+const gteFive = z.bigint().gte(BigInt(5));
+const ltFive = z.bigint().lt(BigInt(5));
+const lteFive = z.bigint().lte(BigInt(5));
+const positive = z.bigint().positive();
+const negative = z.bigint().negative();
+const nonnegative = z.bigint().nonnegative();
+const nonpositive = z.bigint().nonpositive();
+const multipleOfFive = z.bigint().multipleOf(BigInt(5));
+
+test("passing validations", () => {
+  z.bigint().parse(BigInt(1));
+  z.bigint().parse(BigInt(0));
+  z.bigint().parse(BigInt(-1));
+  gtFive.parse(BigInt(6));
+  gteFive.parse(BigInt(5));
+  gteFive.parse(BigInt(6));
+  ltFive.parse(BigInt(4));
+  lteFive.parse(BigInt(5));
+  lteFive.parse(BigInt(4));
+  positive.parse(BigInt(3));
+  negative.parse(BigInt(-2));
+  nonnegative.parse(BigInt(0));
+  nonnegative.parse(BigInt(7));
+  nonpositive.parse(BigInt(0));
+  nonpositive.parse(BigInt(-12));
+  multipleOfFive.parse(BigInt(15));
+});
+
+test("failing validations", () => {
+  expect(() => gtFive.parse(BigInt(5))).toThrow();
+  expect(() => gteFive.parse(BigInt(4))).toThrow();
+  expect(() => ltFive.parse(BigInt(5))).toThrow();
+  expect(() => lteFive.parse(BigInt(6))).toThrow();
+  expect(() => positive.parse(BigInt(0))).toThrow();
+  expect(() => positive.parse(BigInt(-2))).toThrow();
+  expect(() => negative.parse(BigInt(0))).toThrow();
+  expect(() => negative.parse(BigInt(3))).toThrow();
+  expect(() => nonnegative.parse(BigInt(-1))).toThrow();
+  expect(() => nonpositive.parse(BigInt(1))).toThrow();
+  expect(() => multipleOfFive.parse(BigInt(13))).toThrow();
+});
+
+test("min max getters", () => {
+  expect(z.bigint().min(BigInt(5)).minValue).toEqual(BigInt(5));
+  expect(z.bigint().min(BigInt(5)).min(BigInt(10)).minValue).toEqual(BigInt(10));
+
+  expect(z.bigint().max(BigInt(5)).maxValue).toEqual(BigInt(5));
+  expect(z.bigint().max(BigInt(5)).max(BigInt(1)).maxValue).toEqual(BigInt(1));
+});
+
+
+---
+
+FILE: packages/zod/src/v3/tests/branded.test.ts
+// @ts-ignore TS6133
+import { test } from "vitest";
+
+import * as z from "zod/v3";
+import { util } from "../helpers/util.js";
+
+test("branded types", () => {
+  const mySchema = z
+    .object({
+      name: z.string(),
+    })
+    .brand<"superschema">();
+
+  // simple branding
+  type MySchema = z.infer<typeof mySchema>;
+  util.assertEqual<MySchema, { name: string } & { [z.BRAND]: { superschema: true } }>(true);
+
+  const doStuff = (arg: MySchema) => arg;
+  doStuff(mySchema.parse({ name: "hello there" }));
+
+  // inheritance
+  const extendedSchema = mySchema.brand<"subschema">();
+  type ExtendedSchema = z.infer<typeof extendedSchema>;
+  util.assertEqual<ExtendedSchema, { name: string } & z.BRAND<"superschema"> & z.BRAND<"subschema">>(true);
+
+  doStuff(extendedSchema.parse({ name: "hello again" }));
+
+  // number branding
+  const numberSchema = z.number().brand<42>();
+  type NumberSchema = z.infer<typeof numberSchema>;
+  util.assertEqual<NumberSchema, number & { [z.BRAND]: { 42: true } }>(true);
+
+  // symbol branding
+  const MyBrand: unique symbol = Symbol("hello");
+  type MyBrand = typeof MyBrand;
+  const symbolBrand = z.number().brand<"sup">().brand<typeof MyBrand>();
+  type SymbolBrand = z.infer<typeof symbolBrand>;
+  // number & { [z.BRAND]: { sup: true, [MyBrand]: true } }
+  util.assertEqual<SymbolBrand, number & z.BRAND<"sup"> & z.BRAND<MyBrand>>(true);
+
+  // keeping brands out of input types
+  const age = z.number().brand<"age">();
+
+  type Age = z.infer<typeof age>;
+  type AgeInput = z.input<typeof age>;
+
+  util.assertEqual<AgeInput, Age>(false);
+  util.assertEqual<number, AgeInput>(true);
+  util.assertEqual<number & z.BRAND<"age">, Age>(true);
+
+  // @ts-expect-error
+  doStuff({ name: "hello there!" });
+});
+
+
+---
+
+FILE: packages/zod/src/v3/tests/catch.test.ts
+// @ts-ignore TS6133
+import { expect, test } from "vitest";
+
+import { z } from "zod/v3";
+import { util } from "../helpers/util.js";
+
+test("basic catch", () => {
+  expect(z.string().catch("default").parse(undefined)).toBe("default");
+});
+
+test("catch fn does not run when parsing succeeds", () => {
+  let isCalled = false;
+  const cb = () => {
+    isCalled = true;
+    return "asdf";
+  };
+  expect(z.string().catch(cb).parse("test")).toBe("test");
+  expect(isCalled).toEqual(false);
+});
+
+test("basic catch async", async () => {
+  const result = await z.string().catch("default").parseAsync(1243);
+  expect(result).toBe("default");
+});
+
+test("catch replace wrong types", () => {
+  expect(z.string().catch("default").parse(true)).toBe("default");
+  expect(z.string().catch("default").parse(true)).toBe("default");
+  expect(z.string().catch("default").parse(15)).toBe("default");
+  expect(z.string().catch("default").parse([])).toBe("default");
+  expect(z.string().catch("default").parse(new Map())).toBe("default");
+  expect(z.string().catch("default").parse(new Set())).toBe("default");
+  expect(z.string().catch("default").parse({})).toBe("default");
+});
+
+test("catch with transform", () => {
+  const stringWithDefault = z
+    .string()
+    .transform((val) => val.toUpperCase())
+    .catch("default");
+  expect(stringWithDefault.parse(undefined)).toBe("default");
+  expect(stringWithDefault.parse(15)).toBe("default");
+  expect(stringWithDefault).toBeInstanceOf(z.ZodCatch);
+  expect(stringWithDefault._def.innerType).toBeInstanceOf(z.ZodEffects);
+  expect(stringWithDefault._def.innerType._def.schema).toBeInstanceOf(z.ZodSchema);
+
+  type inp = z.input<typeof stringWithDefault>;
+  util.assertEqual<inp, unknown>(true);
+  type out = z.output<typeof stringWithDefault>;
+  util.assertEqual<out, string>(true);
+});
+
+test("catch on existing optional", () => {
+  const stringWithDefault = z.string().optional().catch("asdf");
+  expect(stringWithDefault.parse(undefined)).toBe(undefined);
+  expect(stringWithDefault.parse(15)).toBe("asdf");
+  expect(stringWithDefault).toBeInstanceOf(z.ZodCatch);
+  expect(stringWithDefault._def.innerType).toBeInstanceOf(z.ZodOptional);
+  expect(stringWithDefault._def.innerType._def.innerType).toBeInstanceOf(z.ZodString);
+
+  type inp = z.input<typeof stringWithDefault>;
+  util.assertEqual<inp, unknown>(true);
+  type out = z.output<typeof stringWithDefault>;
+  util.assertEqual<out, string | undefined>(true);
+});
+
+test("optional on catch", () => {
+  const stringWithDefault = z.string().catch("asdf").optional();
+
+  type inp = z.input<typeof stringWithDefault>;
+  util.assertEqual<inp, unknown>(true);
+  type out = z.output<typeof stringWithDefault>;
+  util.assertEqual<out, string | undefined>(true);
+});
+
+test("complex chain example", () => {
+  const complex = z
+    .string()
+    .catch("asdf")
+    .transform((val) => val + "!")
+    .transform((val) => val.toUpperCase())
+    .catch("qwer")
+    .removeCatch()
+    .optional()
+    .catch("asdfasdf");
+
+  expect(complex.parse("qwer")).toBe("QWER!");
+  expect(complex.parse(15)).toBe("ASDF!");
+  expect(complex.parse(true)).toBe("ASDF!");
+});
+
+test("removeCatch", () => {
+  const stringWithRemovedDefault = z.string().catch("asdf").removeCatch();
+
+  type out = z.output<typeof stringWithRemovedDefault>;
+  util.assertEqual<out, string>(true);
+});
+
+test("nested", () => {
+  const inner = z.string().catch("asdf");
+  const outer = z.object({ inner }).catch({
+    inner: "asdf",
+  });
+  type input = z.input<typeof outer>;
+  util.assertEqual<input, unknown>(true);
+  type out = z.output<typeof outer>;
+  util.assertEqual<out, { inner: string }>(true);
+  expect(outer.parse(undefined)).toEqual({ inner: "asdf" });
+  expect(outer.parse({})).toEqual({ inner: "asdf" });
+  expect(outer.parse({ inner: undefined })).toEqual({ inner: "asdf" });
+});
+
+test("chained catch", () => {
+  const stringWithDefault = z.string().catch("inner").catch("outer");
+  const result = stringWithDefault.parse(undefined);
+  expect(result).toEqual("inner");
+  const resultDiff = stringWithDefault.parse(5);
+  expect(resultDiff).toEqual("inner");
+});
+
+test("factory", () => {
+  z.ZodCatch.create(z.string(), {
+    catch: "asdf",
+  }).parse(undefined);
+});
+
+test("native enum", () => {
+  enum Fruits {
+    apple = "apple",
+    orange = "orange",
+  }
+
+  const schema = z.object({
+    fruit: z.nativeEnum(Fruits).catch(Fruits.apple),
+  });
+
+  expect(schema.parse({})).toEqual({ fruit: Fruits.apple });
+  expect(schema.parse({ fruit: 15 })).toEqual({ fruit: Fruits.apple });
+});
+
+test("enum", () => {
+  const schema = z.object({
+    fruit: z.enum(["apple", "orange"]).catch("apple"),
+  });
+
+  expect(schema.parse({})).toEqual({ fruit: "apple" });
+  expect(schema.parse({ fruit: true })).toEqual({ fruit: "apple" });
+  expect(schema.parse({ fruit: 15 })).toEqual({ fruit: "apple" });
+});
+
+test("reported issues with nested usage", () => {
+  const schema = z.object({
+    string: z.string(),
+    obj: z.object({
+      sub: z.object({
+        lit: z.literal("a"),
+        subCatch: z.number().catch(23),
+      }),
+      midCatch: z.number().catch(42),
+    }),
+    number: z.number().catch(0),
+    bool: z.boolean(),
+  });
+
+  try {
+    schema.parse({
+      string: {},
+      obj: {
+        sub: {
+          lit: "b",
+          subCatch: "24",
+        },
+        midCatch: 444,
+      },
+      number: "",
+      bool: "yes",
+    });
+  } catch (error) {
+    const issues = (error as z.ZodError).issues;
+
+    expect(issues.length).toEqual(3);
+    expect(issues[0].message).toMatch("string");
+    expect(issues[1].message).toMatch("literal");
+    expect(issues[2].message).toMatch("boolean");
+  }
+});
+
+test("catch error", () => {
+  let catchError: z.ZodError | undefined = undefined;
+
+  const schema = z.object({
+    age: z.number(),
+    name: z.string().catch((ctx) => {
+      catchError = ctx.error;
+
+      return "John Doe";
+    }),
+  });
+
+  const result = schema.safeParse({
+    age: null,
+    name: null,
+  });
+
+  expect(result.success).toEqual(false);
+  expect(!result.success && result.error.issues.length).toEqual(1);
+  expect(!result.success && result.error.issues[0].message).toMatch("number");
+
+  expect(catchError).toBeInstanceOf(z.ZodError);
+  expect(catchError !== undefined && (catchError as z.ZodError).issues.length).toEqual(1);
+  expect(catchError !== undefined && (catchError as z.ZodError).issues[0].message).toMatch("string");
+});
+
+test("ctx.input", () => {
+  const schema = z.string().catch((ctx) => {
+    return String(ctx.input);
+  });
+
+---
+
+FILE: packages/zod/src/v3/tests/coerce.test.ts
+// @ts-ignore TS6133
+import { expect, test } from "vitest";
+
+import * as z from "zod/v3";
+
+test("string coercion", () => {
+  const schema = z.coerce.string();
+  expect(schema.parse("sup")).toEqual("sup");
+  expect(schema.parse("")).toEqual("");
+  expect(schema.parse(12)).toEqual("12");
+  expect(schema.parse(0)).toEqual("0");
+  expect(schema.parse(-12)).toEqual("-12");
+  expect(schema.parse(3.14)).toEqual("3.14");
+  expect(schema.parse(BigInt(15))).toEqual("15");
+  expect(schema.parse(Number.NaN)).toEqual("NaN");
+  expect(schema.parse(Number.POSITIVE_INFINITY)).toEqual("Infinity");
+  expect(schema.parse(Number.NEGATIVE_INFINITY)).toEqual("-Infinity");
+  expect(schema.parse(true)).toEqual("true");
+  expect(schema.parse(false)).toEqual("false");
+  expect(schema.parse(null)).toEqual("null");
+  expect(schema.parse(undefined)).toEqual("undefined");
+  expect(schema.parse({ hello: "world!" })).toEqual("[object Object]");
+  expect(schema.parse(["item", "another_item"])).toEqual("item,another_item");
+  expect(schema.parse([])).toEqual("");
+  expect(schema.parse(new Date("2022-01-01T00:00:00.000Z"))).toEqual(new Date("2022-01-01T00:00:00.000Z").toString());
+});
+
+test("number coercion", () => {
+  const schema = z.coerce.number();
+  expect(schema.parse("12")).toEqual(12);
+  expect(schema.parse("0")).toEqual(0);
+  expect(schema.parse("-12")).toEqual(-12);
+  expect(schema.parse("3.14")).toEqual(3.14);
+  expect(schema.parse("")).toEqual(0);
+  expect(() => schema.parse("NOT_A_NUMBER")).toThrow(); // z.ZodError
+  expect(schema.parse(12)).toEqual(12);
+  expect(schema.parse(0)).toEqual(0);
+  expect(schema.parse(-12)).toEqual(-12);
+  expect(schema.parse(3.14)).toEqual(3.14);
+  expect(schema.parse(BigInt(15))).toEqual(15);
+  expect(() => schema.parse(Number.NaN)).toThrow(); // z.ZodError
+  expect(schema.parse(Number.POSITIVE_INFINITY)).toEqual(Number.POSITIVE_INFINITY);
+  expect(schema.parse(Number.NEGATIVE_INFINITY)).toEqual(Number.NEGATIVE_INFINITY);
+  expect(schema.parse(true)).toEqual(1);
+  expect(schema.parse(false)).toEqual(0);
+  expect(schema.parse(null)).toEqual(0);
+  expect(() => schema.parse(undefined)).toThrow(); // z.ZodError
+  expect(() => schema.parse({ hello: "world!" })).toThrow(); // z.ZodError
+  expect(() => schema.parse(["item", "another_item"])).toThrow(); // z.ZodError
+  expect(schema.parse([])).toEqual(0);
+  expect(schema.parse(new Date(1670139203496))).toEqual(1670139203496);
+});
+
+test("boolean coercion", () => {
+  const schema = z.coerce.boolean();
+  expect(schema.parse("true")).toEqual(true);
+  expect(schema.parse("false")).toEqual(true);
+  expect(schema.parse("0")).toEqual(true);
+  expect(schema.parse("1")).toEqual(true);
+  expect(schema.parse("")).toEqual(false);
+  expect(schema.parse(1)).toEqual(true);
+  expect(schema.parse(0)).toEqual(false);
+  expect(schema.parse(-1)).toEqual(true);
+  expect(schema.parse(3.14)).toEqual(true);
+  expect(schema.parse(BigInt(15))).toEqual(true);
+  expect(schema.parse(Number.NaN)).toEqual(false);
+  expect(schema.parse(Number.POSITIVE_INFINITY)).toEqual(true);
+  expect(schema.parse(Number.NEGATIVE_INFINITY)).toEqual(true);
+  expect(schema.parse(true)).toEqual(true);
+  expect(schema.parse(false)).toEqual(false);
+  expect(schema.parse(null)).toEqual(false);
+  expect(schema.parse(undefined)).toEqual(false);
+  expect(schema.parse({ hello: "world!" })).toEqual(true);
+  expect(schema.parse(["item", "another_item"])).toEqual(true);
+  expect(schema.parse([])).toEqual(true);
+  expect(schema.parse(new Date(1670139203496))).toEqual(true);
+});
+
+test("bigint coercion", () => {
+  const schema = z.coerce.bigint();
+  expect(schema.parse("5")).toEqual(BigInt(5));
+  expect(schema.parse("0")).toEqual(BigInt(0));
+  expect(schema.parse("-5")).toEqual(BigInt(-5));
+  expect(() => schema.parse("3.14")).toThrow(); // not a z.ZodError!
+  expect(schema.parse("")).toEqual(BigInt(0));
+  expect(() => schema.parse("NOT_A_NUMBER")).toThrow(); // not a z.ZodError!
+  expect(schema.parse(5)).toEqual(BigInt(5));
+  expect(schema.parse(0)).toEqual(BigInt(0));
+  expect(schema.parse(-5)).toEqual(BigInt(-5));
+  expect(() => schema.parse(3.14)).toThrow(); // not a z.ZodError!
+  expect(schema.parse(BigInt(5))).toEqual(BigInt(5));
+  expect(() => schema.parse(Number.NaN)).toThrow(); // not a z.ZodError!
+  expect(() => schema.parse(Number.POSITIVE_INFINITY)).toThrow(); // not a z.ZodError!
+  expect(() => schema.parse(Number.NEGATIVE_INFINITY)).toThrow(); // not a z.ZodError!
+  expect(schema.parse(true)).toEqual(BigInt(1));
+  expect(schema.parse(false)).toEqual(BigInt(0));
+  expect(() => schema.parse(null)).toThrow(); // not a z.ZodError!
+  expect(() => schema.parse(undefined)).toThrow(); // not a z.ZodError!
+  expect(() => schema.parse({ hello: "world!" })).toThrow(); // not a z.ZodError!
+  expect(() => schema.parse(["item", "another_item"])).toThrow(); // not a z.ZodError!
+  expect(schema.parse([])).toEqual(BigInt(0));
+  expect(schema.parse(new Date(1670139203496))).toEqual(BigInt(1670139203496));
+});
+
+test("date coercion", () => {
+  const schema = z.coerce.date();
+  expect(schema.parse(new Date().toDateString())).toBeInstanceOf(Date);
+  expect(schema.parse(new Date().toISOString())).toBeInstanceOf(Date);
+  expect(schema.parse(new Date().toUTCString())).toBeInstanceOf(Date);
+  expect(schema.parse("5")).toBeInstanceOf(Date);
+  expect(schema.parse("2000-01-01")).toBeInstanceOf(Date);
+  // expect(schema.parse("0")).toBeInstanceOf(Date);
+  // expect(schema.parse("-5")).toBeInstanceOf(Date);
+  // expect(schema.parse("3.14")).toBeInstanceOf(Date);
+  expect(() => schema.parse("")).toThrow(); // z.ZodError
+  expect(() => schema.parse("NOT_A_DATE")).toThrow(); // z.ZodError
+  expect(schema.parse(5)).toBeInstanceOf(Date);
+  expect(schema.parse(0)).toBeInstanceOf(Date);
+  expect(schema.parse(-5)).toBeInstanceOf(Date);
+  expect(schema.parse(3.14)).toBeInstanceOf(Date);
+  expect(() => schema.parse(BigInt(5))).toThrow(); // not a z.ZodError!
+  expect(() => schema.parse(Number.NaN)).toThrow(); // z.ZodError
+  expect(() => schema.parse(Number.POSITIVE_INFINITY)).toThrow(); // z.ZodError
+  expect(() => schema.parse(Number.NEGATIVE_INFINITY)).toThrow(); // z.ZodError
+  expect(schema.parse(true)).toBeInstanceOf(Date);
+  expect(schema.parse(false)).toBeInstanceOf(Date);
+  expect(schema.parse(null)).toBeInstanceOf(Date);
+  expect(() => schema.parse(undefined)).toThrow(); // z.ZodError
+  expect(() => schema.parse({ hello: "world!" })).toThrow(); // z.ZodError
+  expect(() => schema.parse(["item", "another_ite
+
+---
+
+FILE: packages/zod/src/v3/tests/complex.test.ts
+import { expect, test } from "vitest";
+import * as z from "zod/v3";
+
+const crazySchema = z.object({
+  tuple: z.tuple([
+    z.string().nullable().optional(),
+    z.number().nullable().optional(),
+    z.boolean().nullable().optional(),
+    z.null().nullable().optional(),
+    z.undefined().nullable().optional(),
+    z.literal("1234").nullable().optional(),
+  ]),
+  merged: z
+    .object({
+      k1: z.string().optional(),
+    })
+    .merge(z.object({ k1: z.string().nullable(), k2: z.number() })),
+  union: z.array(z.union([z.literal("asdf"), z.literal(12)])).nonempty(),
+  array: z.array(z.number()),
+  // sumTransformer: z.transformer(z.array(z.number()), z.number(), (arg) => {
+  //   return arg.reduce((a, b) => a + b, 0);
+  // }),
+  sumMinLength: z.array(z.number()).refine((arg) => arg.length > 5),
+  intersection: z.intersection(z.object({ p1: z.string().optional() }), z.object({ p1: z.number().optional() })),
+  enum: z.intersection(z.enum(["zero", "one"]), z.enum(["one", "two"])),
+  nonstrict: z.object({ points: z.number() }).nonstrict(),
+  numProm: z.promise(z.number()),
+  lenfun: z.function(z.tuple([z.string()]), z.boolean()),
+});
+
+// const asyncCrazySchema = crazySchema.extend({
+//   // async_transform: z.transformer(
+//   //   z.array(z.number()),
+//   //   z.number(),
+//   //   async (arg) => {
+//   //     return arg.reduce((a, b) => a + b, 0);
+//   //   }
+//   // ),
+//   async_refine: z.array(z.number()).refine(async (arg) => arg.length > 5),
+// });
+
+test("parse", () => {
+  const input = {
+    tuple: ["asdf", 1234, true, null, undefined, "1234"],
+    merged: { k1: "asdf", k2: 12 },
+    union: ["asdf", 12, "asdf", 12, "asdf", 12],
+    array: [12, 15, 16],
+    // sumTransformer: [12, 15, 16],
+    sumMinLength: [12, 15, 16, 98, 24, 63],
+    intersection: {},
+    enum: "one",
+    nonstrict: { points: 1234 },
+    numProm: Promise.resolve(12),
+    lenfun: (x: string) => x.length,
+  };
+
+  const result = crazySchema.parse(input);
+
+  // Verify the parsed result structure
+  expect(result.tuple).toEqual(input.tuple);
+  expect(result.merged).toEqual(input.merged);
+  expect(result.union).toEqual(input.union);
+  expect(result.array).toEqual(input.array);
+  expect(result.sumMinLength).toEqual(input.sumMinLength);
+  expect(result.intersection).toEqual(input.intersection);
+  expect(result.enum).toEqual(input.enum);
+  expect(result.nonstrict).toEqual(input.nonstrict);
+  expect(result.numProm).toBeInstanceOf(Promise);
+  expect(typeof result.lenfun).toBe("function");
+});
+
+
+---
+
+FILE: packages/zod/src/v3/tests/custom.test.ts
+// @ts-ignore TS6133
+import { expect, test } from "vitest";
+
+import * as z from "zod/v3";
+
+test("passing validations", () => {
+  const example1 = z.custom<number>((x) => typeof x === "number");
+  example1.parse(1234);
+  expect(() => example1.parse({})).toThrow();
+});
+
+test("string params", () => {
+  const example1 = z.custom<number>((x) => typeof x !== "number", "customerr");
+  const result = example1.safeParse(1234);
+  expect(result.success).toEqual(false);
+  // @ts-ignore
+  expect(JSON.stringify(result.error).includes("customerr")).toEqual(true);
+});
+
+test("async validations", async () => {
+  const example1 = z.custom<number>(async (x) => {
+    return typeof x === "number";
+  });
+  const r1 = await example1.safeParseAsync(1234);
+  expect(r1.success).toEqual(true);
+  expect(r1.data).toEqual(1234);
+
+  const r2 = await example1.safeParseAsync("asdf");
+  expect(r2.success).toEqual(false);
+  expect(r2.error!.issues.length).toEqual(1);
+});
+
+
+---
+
+FILE: packages/zod/src/v3/tests/date.test.ts
+// @ts-ignore TS6133
+import { expect, test } from "vitest";
+
+import * as z from "zod/v3";
+
+const beforeBenchmarkDate = new Date(2022, 10, 4);
+const benchmarkDate = new Date(2022, 10, 5);
+const afterBenchmarkDate = new Date(2022, 10, 6);
+
+const minCheck = z.date().min(benchmarkDate);
+const maxCheck = z.date().max(benchmarkDate);
+
+test("passing validations", () => {
+  minCheck.parse(benchmarkDate);
+  minCheck.parse(afterBenchmarkDate);
+
+  maxCheck.parse(benchmarkDate);
+  maxCheck.parse(beforeBenchmarkDate);
+});
+
+test("failing validations", () => {
+  expect(() => minCheck.parse(beforeBenchmarkDate)).toThrow();
+  expect(() => maxCheck.parse(afterBenchmarkDate)).toThrow();
+});
+
+test("min max getters", () => {
+  expect(minCheck.minDate).toEqual(benchmarkDate);
+  expect(minCheck.min(afterBenchmarkDate).minDate).toEqual(afterBenchmarkDate);
+
+  expect(maxCheck.maxDate).toEqual(benchmarkDate);
+  expect(maxCheck.max(beforeBenchmarkDate).maxDate).toEqual(beforeBenchmarkDate);
+});
+
+
+---
+
+FILE: packages/zod/src/v3/tests/deepmasking.test.ts
+// @ts-ignore TS6133
+import { test } from "vitest";
+
+import * as z from "zod/v3";
+
+test("test", () => {
+  z;
+});
+
+// const fish = z.object({
+//   name: z.string(),
+//   props: z.object({
+//     color: z.string(),
+//     numScales: z.number(),
+//   }),
+// });
+
+// const nonStrict = z
+//   .object({
+//     name: z.string(),
+//     color: z.string(),
+//   })
+//   .nonstrict();
+
+// test('object pick type', () => {
+//   const modNonStrictFish = nonStrict.omit({ name: true });
+//   modNonStrictFish.parse({ color: 'asdf' });
+
+//   const bad1 = () => fish.pick({ props: { unknown: true } } as any);
+//   const bad2 = () => fish.omit({ name: true, props: { unknown: true } } as any);
+
+//   expect(bad1).toThrow();
+//   expect(bad2).toThrow();
+// });
+
+// test('f1', () => {
+//   const f1 = fish.pick(true);
+//   f1.parse({ name: 'a', props: { color: 'b', numScales: 3 } });
+// });
+// test('f2', () => {
+//   const f2 = fish.pick({ props: true });
+//   f2.parse({ props: { color: 'asdf', numScales: 1 } });
+//   const badcheck2 = () => f2.parse({ name: 'a', props: { color: 'b', numScales: 3 } } as any);
+//   expect(badcheck2).toThrow();
+// });
+// test('f3', () => {
+//   const f3 = fish.pick({ props: { color: true } });
+//   f3.parse({ props: { color: 'b' } });
+//   const badcheck3 = () => f3.parse({ name: 'a', props: { color: 'b', numScales: 3 } } as any);
+//   expect(badcheck3).toThrow();
+// });
+// test('f4', () => {
+//   const badcheck4 = () => fish.pick({ props: { color: true, unknown: true } });
+//   expect(badcheck4).toThrow();
+// });
+// test('f6', () => {
+//   const f6 = fish.omit({ props: true });
+//   const badcheck6 = () => f6.parse({ name: 'a', props: { color: 'b', numScales: 3 } } as any);
+//   f6.parse({ name: 'adsf' });
+//   expect(badcheck6).toThrow();
+// });
+// test('f7', () => {
+//   const f7 = fish.omit({ props: { color: true } });
+//   f7.parse({ name: 'a', props: { numScales: 3 } });
+//   const badcheck7 = () => f7.parse({ name: 'a', props: { color: 'b', numScales: 3 } } as any);
+//   expect(badcheck7).toThrow();
+// });
+// test('f8', () => {
+//   const badcheck8 = () => fish.omit({ props: { color: true, unknown: true } });
+//   expect(badcheck8).toThrow();
+// });
+// test('f9', () => {
+//   const f9 = nonStrict.pick(true);
+//   f9.parse({ name: 'a', color: 'asdf' });
+// });
+// test('f10', () => {
+//   const f10 = nonStrict.pick({ name: true });
+//   f10.parse({ name: 'a' });
+//   const val = f10.parse({ name: 'a', color: 'b' });
+//   expect(val).toEqual({ name: 'a' });
+// });
+// test('f12', () => {
+//   const badfcheck12 = () => nonStrict.omit({ color: true, asdf: true });
+//   expect(badfcheck12).toThrow();
+// });
+
+// test('array masking', () => {
+//   const fishArray = z.array(fish);
+//   const modFishArray = fishArray.pick({
+//     name: true,
+//     props: {
+//       numScales: true,
+//     },
+//   });
+
+//   modFishArray.parse([{ name: 'fish', props: { numScales: 12 } }]);
+//   const bad1 = () => modFishArray.parse([{ name: 'fish', props: { numScales: 12, color: 'asdf' } }] as any);
+//   expect(bad1).toThrow();
+// });
+
+// test('array masking', () => {
+//   const fishArray = z.array(fish);
+//   const fail = () =>
+//     fishArray.pick({
+//       name: true,
+//       props: {
+//         whatever: true,
+//       },
+//     } as any);
+//   expect(fail).toThrow();
+// });
+
+// test('array masking', () => {
+//   const fishArray = z.array(fish);
+//   const fail = () =>
+//     fishArray.omit({
+//       whateve: true,
+//     } as any);
+//   expect(fail).toThrow();
+// });
+
+// test('array masking', () => {
+//   const fishArray = z.array(fish);
+//   const modFishList = fishArray.omit({
+//     name: true,
+//     props: {
+//       color: true,
+//     },
+//   });
+
+//   modFishList.parse([{ props: { numScales: 12 } }]);
+//   const fail = () => modFishList.parse([{ name: 'hello', props: { numScales: 12 } }] as any);
+//   expect(fail).toThrow();
+// });
+
+// test('primitive array masking', () => {
+//   const fishArray = z.array(z.number());
+//   const fail = () => fishArray.pick({} as any);
+//   expect(fail).toThrow();
+// });
+
+// test('other array masking', () => {
+//   const fishArray = z.array(z.array(z.number()));
+//   const fail = () => fishArray.pick({} as any);
+//   expect(fail).toThrow();
+// });
+
+// test('invalid mask #1', () => {
+//   const fail = () => fish.pick(1 as any);
+//   expect(fail).toThrow();
+// });
+
+// test('invalid mask #2', () => {
+//   const fail = () => fish.pick([] as any);
+//   expect(fail).toThrow();
+// });
+
+// test('invalid mask #3', () => {
+//   const fail = () => fish.pick(false as any);
+//   expect(fail).toThrow();
+// });
+
+// test('invalid mask #4', () => {
+//   const fail = () => fish.pick('asdf' as any);
+//   expect(fail).toThrow();
+// });
+
+// test('invalid mask #5', () => {
+//   const fail = () => fish.omit(1 as any);
+//   expect(fail).toThrow();
+// });
+
+// test('invalid mask #6', () => {
+//   const fail = () => fish.omit([] as any);
+//   expect(fail).toThrow();
+// });
+
+// test('invalid mask #7', () => {
+//   const fail = () => fish.omit(false as any);
+//   expect(fail).toThrow();
+// });
+
+// test('invalid mask #8', () => {
+//   const fail = () => fish.omit('asdf' as any);
+//   expect(fail).toThrow();
+// });

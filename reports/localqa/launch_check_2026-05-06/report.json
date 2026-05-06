@@ -1,0 +1,339 @@
+{
+  "ok": true,
+  "generatedAt": "2026-05-06T17:01:33.519Z",
+  "outDir": "/Users/kuldeepsingh/MyProjects/localqa/reports/localqa/launch_check_2026-05-06",
+  "commands": [
+    {
+      "name": "syntax",
+      "ok": true,
+      "cmd": "node --check localqa/core/project-memory-core.mjs",
+      "durationMs": 61.61,
+      "stdoutTail": "",
+      "stderrTail": ""
+    },
+    {
+      "name": "core syntax",
+      "ok": true,
+      "cmd": "node --check localqa/core/local-agent-core.mjs",
+      "durationMs": 62.46,
+      "stdoutTail": "",
+      "stderrTail": ""
+    },
+    {
+      "name": "runner syntax",
+      "ok": true,
+      "cmd": "node --check scripts/localqa-opencode-runner.mjs",
+      "durationMs": 60.02,
+      "stdoutTail": "",
+      "stderrTail": ""
+    },
+    {
+      "name": "agent benchmark syntax",
+      "ok": true,
+      "cmd": "node --check scripts/bench_localqa_agent_layer.mjs",
+      "durationMs": 61.89,
+      "stdoutTail": "",
+      "stderrTail": ""
+    },
+    {
+      "name": "opencode redaction",
+      "ok": true,
+      "cmd": "npm run localqa:opencode:redaction",
+      "durationMs": 508.49,
+      "stdoutTail": "\n> localqa@0.1.0-alpha.0 localqa:opencode:redaction\n> node ./scripts/smoke_localqa_opencode_redaction.mjs\n\n{\n  \"ok\": true,\n  \"handle\": \"vault://9ae73484e932d403\",\n  \"runner\": {\n    \"selectedMode\": \"handoff_gate\",\n    \"blocked\": true,\n    \"allowedPayload\": \"none\",\n    \"sensitive\": true\n  },\n  \"query\": {\n    \"ok\": true,\n    \"answerContainsRedaction\": true\n  },\n  \"nonHandoffCleanup\": {\n    \"selectedMode\": \"context_cleanup\",\n    \"taskRedacted\": true,\n    \"compactTextRedacted\": true\n  }\n}\n",
+      "stderrTail": ""
+    },
+    {
+      "name": "mcp validation",
+      "ok": true,
+      "cmd": "npm run localqa:validate",
+      "durationMs": 899.52,
+      "stdoutTail": "\n> localqa@0.1.0-alpha.0 localqa:validate\n> node --check ./localqa/mcp-server-sdk.mjs && node --check ./localqa/core/qa-core.mjs && node --check ./localqa/core/context-core.mjs && npm run localqa:mcp:smoke && node ./scripts/check_docs_absolute_paths.mjs\n\n\n> localqa@0.1.0-alpha.0 localqa:mcp:smoke\n> node ./localqa/smoke-mcp-client.mjs\n\n{\n  \"ok\": true,\n  \"server\": \"localqa\",\n  \"toolNames\": [\n    \"local_agent_run\"\n  ],\n  \"health\": null,\n  \"stderr\": \"\"\n}\nDocs path hygiene check passed (6 markdown files scanned).\n",
+      "stderrTail": ""
+    },
+    {
+      "name": "test suite",
+      "ok": true,
+      "cmd": "npm test",
+      "durationMs": 400.6,
+      "stdoutTail": "\n> localqa@0.1.0-alpha.0 test\n> node --test ./tests/*.test.mjs\n\n✔ context cleanup does not inflate single-line DOM dumps (2.809542ms)\n✔ local agent routes stack traces to log_analysis from evidence content (5.898292ms)\n✔ local agent routes multi-source docs tasks with a query to research (0.15225ms)\n✔ local agent exposes handoff policy and savings on sensitive raw-send attempts (2.92475ms)\n✔ local agent reads local file paths without requiring pasted raw text (1.547333ms)\nℹ tests 5\nℹ suites 0\nℹ pass 5\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 69.732291\n",
+      "stderrTail": ""
+    },
+    {
+      "name": "agent layer benchmark",
+      "ok": true,
+      "cmd": "npm run localqa:bench:agent-layer",
+      "durationMs": 734.67,
+      "stdoutTail": "\n> localqa@0.1.0-alpha.0 localqa:bench:agent-layer\n> node ./scripts/bench_localqa_agent_layer.mjs\n\n{\n  \"ok\": true,\n  \"outDir\": \"/Users/kuldeepsingh/MyProjects/localqa/reports/localqa/agent_layer_real_env_2026-05-06\",\n  \"evidenceApproxTokens\": 41848,\n  \"results\": [\n    {\n      \"name\": \"record_memory\",\n      \"ok\": true,\n      \"controlMode\": \"record\",\n      \"selectedMode\": \"record_work\",\n      \"durationMs\": 64.67,\n      \"tokenSavings\": null,\n      \"memoryWritten\": true,\n      \"note\": \"writes local daily memory\"\n    },\n    {\n      \"name\": \"directed_memory_plus_codebase_cleanup\",\n      \"ok\": true,\n      \"controlMode\": \"directed\",\n      \"selectedMode\": \"directed\",\n      \"durationMs\": 81.38,\n      \"tokenSavings\": {\n        \"rawEvidenceApproxTokens\": 41857,\n        \"compactReportApproxTokens\": 843,\n        \"savedApproxTokens\": 41014,\n        \"reductionRatio\": 97.99\n      },\n      \"memoryWritten\": true,\n      \"note\": \"frontier model specifies exact local steps\"\n    },\n    {\n      \"name\": \"strict_rejects_unknown_tool\",\n      \"ok\": false,\n      \"controlMode\": \"strict\",\n      \"selectedMode\": \"directed\",\n      \"durationMs\": 68.71,\n      \"tokenSavings\": null,\n      \"memoryWritten\": true,\n      \"note\": \"rejected as expected\"\n    },\n    {\n      \"name\": \"directed_handoff_redaction\",\n      \"ok\": true,\n      \"controlMode\": \"directed\",\n      \"selectedMode\": \"directed\",\n      \"durationMs\": 69.16,\n      \"tokenSavings\": {\n        \"rawEvidenceApproxTokens\": 35,\n        \"compactReportApproxTokens\": 65,\n        \"savedApproxTokens\": 0,\n        \"reductionRatio\": 0\n      },\n      \"memoryWritten\": true,\n      \"leakedSyntheticSecret\": false,\n      \"note\": \"no runner-output leak\"\n    },\n    {\n      \"name\": \"query_project_memory\",\n      \"ok\": true,\n      \"controlMode\": \"memory\",\n      \"selectedMode\": \"memory\",\n      \"durationMs\": 73.72,\n      \"tokenSavings\": {\n        \"rawEvidenceApproxTokens\": 1282,\n        \"compactReportApproxTokens\": 538,\n        \"savedApproxTokens\": 744,\n        \"reductionRatio\": 58.03\n      },\n      \"memoryWritten\": false,\n      \"note\": \"reads local memory ledger\"\n    }\n  ]\n}\n",
+      "stderrTail": ""
+    },
+    {
+      "name": "agentic workflow benchmark",
+      "ok": true,
+      "cmd": "npm run localqa:bench:agentic-workflows",
+      "durationMs": 893.63,
+      "stdoutTail": "\n> localqa@0.1.0-alpha.0 localqa:bench:agentic-workflows\n> node ./scripts/bench_localqa_agentic_workflows.mjs\n\n{\n  \"ok\": true,\n  \"outDir\": \"/Users/kuldeepsingh/MyProjects/localqa/reports/localqa/agentic_workflows_2026-05-06\",\n  \"aggregate\": {\n    \"rawTokens\": 100924,\n    \"compactTokens\": 5685,\n    \"savedTokens\": 95239,\n    \"reductionRatio\": 94.37,\n    \"avgQualityScore\": 0.949,\n    \"passingQuality\": 3\n  },\n  \"workflows\": [\n    {\n      \"id\": \"fastify_validation_error_agentic_plan\",\n      \"rawTokens\": 41848,\n      \"compactTokens\": 1912,\n      \"savedTokens\": 39936,\n      \"reductionRatio\": 95.43,\n      \"runtimeMs\": 107.2,\n      \"quality\": {\n        \"score\": 1,\n        \"label\": \"strong\",\n        \"pass\": true\n      },\n      \"signalScore\": 1,\n      \"actionabilityScore\": 1,\n      \"memoryWritten\": true\n    },\n    {\n      \"id\": \"express_router_middleware_agentic_plan\",\n      \"rawTokens\": 23936,\n      \"compactTokens\": 1873,\n      \"savedTokens\": 22063,\n      \"reductionRatio\": 92.17,\n      \"runtimeMs\": 99.1,\n      \"quality\": {\n        \"score\": 0.888,\n        \"label\": \"usable\",\n        \"pass\": true\n      },\n      \"signalScore\": 0.914,\n      \"actionabilityScore\": 0.857,\n      \"memoryWritten\": true\n    },\n    {\n      \"id\": \"zod_schema_parser_agentic_plan\",\n      \"rawTokens\": 35140,\n      \"compactTokens\": 1900,\n      \"savedTokens\": 33240,\n      \"reductionRatio\": 94.59,\n      \"runtimeMs\": 112.77,\n      \"quality\": {\n        \"score\": 0.959,\n        \"label\": \"strong\",\n        \"pass\": true\n      },\n      \"signalScore\": 0.925,\n      \"actionabilityScore\": 1,\n      \"memoryWritten\": true\n    }\n  ]\n}\n",
+      "stderrTail": ""
+    },
+    {
+      "name": "ab agent workflow benchmark",
+      "ok": true,
+      "cmd": "npm run localqa:bench:ab-agent-workflows",
+      "durationMs": 659.98,
+      "stdoutTail": "\n> localqa@0.1.0-alpha.0 localqa:bench:ab-agent-workflows\n> node ./scripts/bench_localqa_ab_agent_workflows.mjs\n\n{\n  \"ok\": true,\n  \"outDir\": \"/Users/kuldeepsingh/MyProjects/localqa/reports/localqa/ab_agent_workflows_2026-05-06\",\n  \"aggregate\": {\n    \"baselineTokens\": 25829,\n    \"localqaTokens\": 6704,\n    \"savedVsTargetedBaseline\": 19125,\n    \"reductionVsTargetedBaseline\": 74.04,\n    \"baselinePass\": 3,\n    \"localqaPass\": 3,\n    \"maintainedQuality\": 3,\n    \"toolCallReduction\": 15\n  },\n  \"cases\": [\n    {\n      \"id\": \"fastify_validation_error_contract\",\n      \"baselineTokens\": 9114,\n      \"localqaTokens\": 2258,\n      \"reductionVsTargetedBaseline\": 75.22,\n      \"baselineQuality\": 1,\n      \"localqaQuality\": 1,\n      \"qualityDelta\": 0,\n      \"bothPassQuality\": true,\n      \"toolCallReduction\": 5\n    },\n    {\n      \"id\": \"express_router_middleware\",\n      \"baselineTokens\": 7608,\n      \"localqaTokens\": 2223,\n      \"reductionVsTargetedBaseline\": 70.78,\n      \"baselineQuality\": 0.953,\n      \"localqaQuality\": 0.925,\n      \"qualityDelta\": -0.028,\n      \"bothPassQuality\": true,\n      \"toolCallReduction\": 5\n    },\n    {\n      \"id\": \"zod_schema_parser\",\n      \"baselineTokens\": 9107,\n      \"localqaTokens\": 2223,\n      \"reductionVsTargetedBaseline\": 75.59,\n      \"baselineQuality\": 1,\n      \"localqaQuality\": 1,\n      \"qualityDelta\": 0,\n      \"bothPassQuality\": true,\n      \"toolCallReduction\": 5\n    }\n  ]\n}\n",
+      "stderrTail": ""
+    },
+    {
+      "name": "long horizon 300k benchmark",
+      "ok": true,
+      "cmd": "npm run localqa:bench:long-horizon-300k",
+      "durationMs": 1251.92,
+      "stdoutTail": "\n> localqa@0.1.0-alpha.0 localqa:bench:long-horizon-300k\n> node ./scripts/bench_localqa_long_horizon_300k.mjs\n\n{\n  \"ok\": true,\n  \"outDir\": \"/Users/kuldeepsingh/MyProjects/localqa/reports/localqa/long_horizon_300k_2026-05-06\",\n  \"aggregate\": {\n    \"rawTokens\": 302772,\n    \"compactTokens\": 8842,\n    \"savedTokens\": 293930,\n    \"reductionRatio\": 97.08,\n    \"avgQualityScore\": 0.976,\n    \"passCount\": 9,\n    \"totalRuntimeMs\": 900.02,\n    \"avgRuntimeMs\": 100,\n    \"memoryWrittenCount\": 9\n  },\n  \"projectSummaries\": [\n    {\n      \"projectId\": \"fastify_validation_error_contract\",\n      \"projectTitle\": \"Fastify validation/error contract migration\",\n      \"phaseCount\": 3,\n      \"rawTokens\": 125544,\n      \"compactTokens\": 2979,\n      \"savedTokens\": 122565,\n      \"reductionRatio\": 97.63,\n      \"avgQualityScore\": 1,\n      \"passCount\": 3\n    },\n    {\n      \"projectId\": \"express_router_middleware\",\n      \"projectTitle\": \"Express router/middleware behavior change\",\n      \"phaseCount\": 3,\n      \"rawTokens\": 71808,\n      \"compactTokens\": 2938,\n      \"savedTokens\": 68870,\n      \"reductionRatio\": 95.91,\n      \"avgQualityScore\": 0.928,\n      \"passCount\": 3\n    },\n    {\n      \"projectId\": \"zod_schema_parser\",\n      \"projectTitle\": \"Zod schema/parser type-surface change\",\n      \"phaseCount\": 3,\n      \"rawTokens\": 105420,\n      \"compactTokens\": 2925,\n      \"savedTokens\": 102495,\n      \"reductionRatio\": 97.23,\n      \"avgQualityScore\": 1,\n      \"passCount\": 3\n    }\n  ]\n}\n",
+      "stderrTail": ""
+    },
+    {
+      "name": "complex code benchmark",
+      "ok": true,
+      "cmd": "npm run localqa:bench:complex-code-tasks",
+      "durationMs": 1142.76,
+      "stdoutTail": "\n> localqa@0.1.0-alpha.0 localqa:bench:complex-code-tasks\n> node ./scripts/bench_localqa_complex_code_tasks.mjs\n\n{\n  \"ok\": true,\n  \"outDir\": \"/Users/kuldeepsingh/MyProjects/localqa/reports/localqa/complex_code_tasks_2026-05-06\",\n  \"sourceOssBenchDir\": \"/Users/kuldeepsingh/MyProjects/localqa/reports/localqa/opencode_oss_codebases_2026-05-05\",\n  \"tasks\": [\n    {\n      \"id\": \"express_router_middleware_change\",\n      \"project\": \"expressjs/express\",\n      \"recommended\": {\n        \"strategy\": \"single_800\",\n        \"score\": 1,\n        \"label\": \"orientation-ready\",\n        \"compactApproxTokens\": 862,\n        \"reductionRatio\": 96.4\n      },\n      \"singlePasses\": [\n        {\n          \"budget\": 800,\n          \"compactApproxTokens\": 862,\n          \"reductionRatio\": 96.4,\n          \"score\": 1,\n          \"pass\": true,\n          \"missing\": []\n        },\n        {\n          \"budget\": 1600,\n          \"compactApproxTokens\": 1666,\n          \"reductionRatio\": 93.04,\n          \"score\": 1,\n          \"pass\": true,\n          \"missing\": []\n        },\n        {\n          \"budget\": 3200,\n          \"compactApproxTokens\": 3270,\n          \"reductionRatio\": 86.34,\n          \"score\": 1,\n          \"pass\": true,\n          \"missing\": []\n        }\n      ],\n      \"targeted\": null\n    },\n    {\n      \"id\": \"fastify_validation_error_contract\",\n      \"project\": \"fastify/fastify\",\n      \"recommended\": {\n        \"strategy\": \"single_800\",\n        \"score\": 1,\n        \"label\": \"orientation-ready\",\n        \"compactApproxTokens\": 865,\n        \"reductionRatio\": 97.93\n      },\n      \"singlePasses\": [\n        {\n          \"budget\": 800,\n          \"compactApproxTokens\": 865,\n          \"reductionRatio\": 97.93,\n          \"score\": 1,\n          \"pass\": true,\n          \"missing\": []\n        },\n        {\n          \"budget\": 1600,\n          \"compactApproxTokens\": 1670,\n          \"reductionRatio\": 96.01,\n          \"score\": 1,\n          \"pass\": true,\n          \"missing\": []\n        },\n        {\n          \"budget\": 3200,\n          \"compactApproxTokens\": 3268,\n          \"reductionRatio\": 92.19,\n          \"score\": 1,\n          \"pass\": true,\n          \"missing\": []\n        }\n      ],\n      \"targeted\": null\n    },\n    {\n      \"id\": \"zod_schema_parser_change\",\n      \"project\": \"colinhacks/zod\",\n      \"recommended\": {\n        \"strategy\": \"single_800\",\n        \"score\": 1,\n        \"label\": \"orientation-ready\",\n        \"compactApproxTokens\": 879,\n        \"reductionRatio\": 97.5\n      },\n      \"singlePasses\": [\n        {\n          \"budget\": 800,\n          \"compactApproxTokens\": 879,\n          \"reductionRatio\": 97.5,\n          \"score\": 1,\n          \"pass\": true,\n          \"missing\": []\n        },\n        {\n          \"budget\": 1600,\n          \"compactApproxTokens\": 1673,\n          \"reductionRatio\": 95.24,\n          \"score\": 1,\n          \"pass\": true,\n          \"missing\": []\n        },\n        {\n          \"budget\": 3200,\n          \"compactApproxTokens\": 3279,\n          \"reductionRatio\": 90.67,\n          \"score\": 1,\n          \"pass\": true,\n          \"missing\": []\n        }\n      ],\n      \"targeted\": null\n    }\n  ]\n}\n",
+      "stderrTail": ""
+    }
+  ],
+  "complex": {
+    "taskCount": 3,
+    "profiles": [
+      {
+        "budget": 800,
+        "raw": 100952,
+        "compact": 2606,
+        "ready": 3,
+        "total": 3,
+        "saved": 98346,
+        "reductionRatio": 97.42
+      },
+      {
+        "budget": 1600,
+        "raw": 100952,
+        "compact": 5009,
+        "ready": 3,
+        "total": 3,
+        "saved": 95943,
+        "reductionRatio": 95.04
+      },
+      {
+        "budget": 3200,
+        "raw": 100952,
+        "compact": 9817,
+        "ready": 3,
+        "total": 3,
+        "saved": 91135,
+        "reductionRatio": 90.28
+      }
+    ],
+    "bestScout": {
+      "budget": 800,
+      "raw": 100952,
+      "compact": 2606,
+      "ready": 3,
+      "total": 3,
+      "saved": 98346,
+      "reductionRatio": 97.42
+    }
+  },
+  "agentLayer": {
+    "evidenceApproxTokens": 41848,
+    "directed": {
+      "name": "directed_memory_plus_codebase_cleanup",
+      "ok": true,
+      "controlMode": "directed",
+      "selectedMode": "directed",
+      "durationMs": 81.38,
+      "tokenSavings": {
+        "rawEvidenceApproxTokens": 41857,
+        "compactReportApproxTokens": 843,
+        "savedApproxTokens": 41014,
+        "reductionRatio": 97.99
+      },
+      "compactApproxTokens": 843,
+      "memoryWritten": true,
+      "memoryPath": "/Users/kuldeepsingh/MyProjects/localqa/reports/localqa/agent_layer_real_env_2026-05-06/memory/2026-05-06.json",
+      "stepCount": 2,
+      "error": null,
+      "note": "frontier model specifies exact local steps"
+    },
+    "strictRejected": true,
+    "handoffNoLeak": true,
+    "memory": {
+      "name": "query_project_memory",
+      "ok": true,
+      "controlMode": "memory",
+      "selectedMode": "memory",
+      "durationMs": 73.72,
+      "tokenSavings": {
+        "rawEvidenceApproxTokens": 1282,
+        "compactReportApproxTokens": 538,
+        "savedApproxTokens": 744,
+        "reductionRatio": 58.03
+      },
+      "compactApproxTokens": 538,
+      "memoryWritten": false,
+      "memoryPath": null,
+      "stepCount": 1,
+      "error": null,
+      "note": "reads local memory ledger"
+    }
+  },
+  "agentic": {
+    "aggregate": {
+      "rawTokens": 100924,
+      "compactTokens": 5685,
+      "savedTokens": 95239,
+      "reductionRatio": 94.37,
+      "avgQualityScore": 0.949,
+      "passingQuality": 3
+    },
+    "workflows": [
+      {
+        "id": "fastify_validation_error_agentic_plan",
+        "title": "Fastify validation/error contract investigation",
+        "rawTokens": 41848,
+        "compactTokens": 1912,
+        "savedTokens": 39936,
+        "reductionRatio": 95.43,
+        "runtimeMs": 107.2,
+        "qualityScore": 1,
+        "qualityLabel": "strong",
+        "qualityPass": true,
+        "memoryWritten": true
+      },
+      {
+        "id": "express_router_middleware_agentic_plan",
+        "title": "Express router/middleware investigation",
+        "rawTokens": 23936,
+        "compactTokens": 1873,
+        "savedTokens": 22063,
+        "reductionRatio": 92.17,
+        "runtimeMs": 99.1,
+        "qualityScore": 0.888,
+        "qualityLabel": "usable",
+        "qualityPass": true,
+        "memoryWritten": true
+      },
+      {
+        "id": "zod_schema_parser_agentic_plan",
+        "title": "Zod schema/parser investigation",
+        "rawTokens": 35140,
+        "compactTokens": 1900,
+        "savedTokens": 33240,
+        "reductionRatio": 94.59,
+        "runtimeMs": 112.77,
+        "qualityScore": 0.959,
+        "qualityLabel": "strong",
+        "qualityPass": true,
+        "memoryWritten": true
+      }
+    ]
+  },
+  "ab": {
+    "aggregate": {
+      "baselineTokens": 25829,
+      "localqaTokens": 6704,
+      "savedVsTargetedBaseline": 19125,
+      "reductionVsTargetedBaseline": 74.04,
+      "baselinePass": 3,
+      "localqaPass": 3,
+      "maintainedQuality": 3,
+      "toolCallReduction": 15
+    },
+    "cases": [
+      {
+        "id": "fastify_validation_error_contract",
+        "title": "Fastify validation/error contract pre-implementation plan",
+        "baselineTokens": 9114,
+        "localqaTokens": 2258,
+        "savedTokens": 6856,
+        "reductionRatio": 75.22,
+        "baselineQuality": 1,
+        "localqaQuality": 1,
+        "qualityDelta": 0,
+        "bothPassQuality": true,
+        "toolCallReduction": 5
+      },
+      {
+        "id": "express_router_middleware",
+        "title": "Express router/middleware pre-implementation plan",
+        "baselineTokens": 7608,
+        "localqaTokens": 2223,
+        "savedTokens": 5385,
+        "reductionRatio": 70.78,
+        "baselineQuality": 0.953,
+        "localqaQuality": 0.925,
+        "qualityDelta": -0.028,
+        "bothPassQuality": true,
+        "toolCallReduction": 5
+      },
+      {
+        "id": "zod_schema_parser",
+        "title": "Zod schema/parser pre-implementation plan",
+        "baselineTokens": 9107,
+        "localqaTokens": 2223,
+        "savedTokens": 6884,
+        "reductionRatio": 75.59,
+        "baselineQuality": 1,
+        "localqaQuality": 1,
+        "qualityDelta": 0,
+        "bothPassQuality": true,
+        "toolCallReduction": 5
+      }
+    ]
+  },
+  "longHorizon": {
+    "aggregate": {
+      "rawTokens": 302772,
+      "compactTokens": 8842,
+      "savedTokens": 293930,
+      "reductionRatio": 97.08,
+      "avgQualityScore": 0.976,
+      "passCount": 9,
+      "totalRuntimeMs": 900.02,
+      "avgRuntimeMs": 100,
+      "memoryWrittenCount": 9
+    },
+    "projectSummaries": [
+      {
+        "projectId": "fastify_validation_error_contract",
+        "projectTitle": "Fastify validation/error contract migration",
+        "phaseCount": 3,
+        "rawTokens": 125544,
+        "compactTokens": 2979,
+        "savedTokens": 122565,
+        "reductionRatio": 97.63,
+        "avgQualityScore": 1,
+        "passCount": 3
+      },
+      {
+        "projectId": "express_router_middleware",
+        "projectTitle": "Express router/middleware behavior change",
+        "phaseCount": 3,
+        "rawTokens": 71808,
+        "compactTokens": 2938,
+        "savedTokens": 68870,
+        "reductionRatio": 95.91,
+        "avgQualityScore": 0.928,
+        "passCount": 3
+      },
+      {
+        "projectId": "zod_schema_parser",
+        "projectTitle": "Zod schema/parser type-surface change",
+        "phaseCount": 3,
+        "rawTokens": 105420,
+        "compactTokens": 2925,
+        "savedTokens": 102495,
+        "reductionRatio": 97.23,
+        "avgQualityScore": 1,
+        "passCount": 3
+      }
+    ]
+  }
+}

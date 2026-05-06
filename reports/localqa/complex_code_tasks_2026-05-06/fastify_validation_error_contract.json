@@ -1,0 +1,313 @@
+{
+  "id": "fastify_validation_error_contract",
+  "project": "fastify/fastify",
+  "category": "cross-file behavior contract",
+  "evidencePath": "/Users/kuldeepsingh/MyProjects/localqa/reports/localqa/opencode_oss_codebases_2026-05-05/fastify_fastify/raw-codebase-evidence.txt",
+  "rawApproxTokens": 41848,
+  "expected": [
+    "fastify",
+    "validation",
+    "error-handler",
+    "test:validator:integrity",
+    "test:typescript",
+    "lib/validation.js",
+    "lib/error-handler.js",
+    "test"
+  ],
+  "mustHave": [
+    "validation",
+    "test:validator:integrity",
+    "test:typescript"
+  ],
+  "singlePasses": [
+    {
+      "budget": 800,
+      "durationMs": 94.91,
+      "selectedMode": "context_cleanup",
+      "telemetry": {
+        "internalStepCount": 1,
+        "externalCalls": 0,
+        "localFileInputCount": 1,
+        "localFileInputBytes": 167490
+      },
+      "tokenSavings": {
+        "rawEvidenceApproxTokens": 41857,
+        "compactReportApproxTokens": 865,
+        "savedApproxTokens": 40992,
+        "reductionRatio": 97.93
+      },
+      "compactApproxTokens": 865,
+      "rawApproxTokens": 41857,
+      "savedApproxTokens": 40992,
+      "reductionRatio": 97.93,
+      "score": {
+        "score": 1,
+        "coverage": 1,
+        "mustCoverage": 1,
+        "matched": [
+          "fastify",
+          "validation",
+          "error-handler",
+          "test:validator:integrity",
+          "test:typescript",
+          "lib/validation.js",
+          "lib/error-handler.js",
+          "test"
+        ],
+        "missing": [],
+        "mustMatched": [
+          "validation",
+          "test:validator:integrity",
+          "test:typescript"
+        ],
+        "mustMissing": [],
+        "pass": true
+      },
+      "actionability": {
+        "score": 1,
+        "passedChecks": 6,
+        "totalChecks": 6,
+        "pass": true,
+        "filePathCount": 14,
+        "testCommandCount": 8,
+        "hasSourceArea": true,
+        "hasTestArea": true,
+        "hasPackageSignal": true,
+        "riskSignalCount": 7,
+        "samplePaths": [
+          "package.json",
+          "lib/error-serializer.js",
+          "lib/config-validator.js",
+          "test/types/import.ts",
+          "build/build-error-serializer.js",
+          "build/build-validation.js",
+          "docs/Guides/Testing.md",
+          "examples/benchmark/parser.js"
+        ],
+        "sampleTestCommands": [
+          "test:validator:integrity",
+          "npm run build:validation",
+          "test:typescript",
+          "test:watch",
+          "npm run unit",
+          "npm run lint:eslint",
+          "npm run test:validator:integrity",
+          "npm run build:sync-version"
+        ],
+        "sampleRiskSignals": [
+          "validation",
+          "generated",
+          "integrity",
+          "TypeScript",
+          "typescript",
+          "parser",
+          "type"
+        ]
+      },
+      "frontierReadiness": {
+        "score": 1,
+        "signalScore": 1,
+        "actionabilityScore": 1,
+        "pass": true,
+        "label": "orientation-ready"
+      },
+      "compactPreview": "Task: Complex task: A maintainer wants to change Fastify validation/error response behavior. Identify likely source files, generated/validator integrity checks, test command signals, TypeScript checks, and maintenance risks before editing. Return compact evidence for a frontier model to plan a patch.\nMode: context_cleanup\nHigh-signal lines:\npackage.json:25: \"test:validator:integrity\": \"npm run build:validation && git diff --quiet --ignore-all-space --ignore-blank-lines --ignore-cr-at-eol lib/error-serializer.js && git diff --quiet --ignore-all-space --ignore-blank-lines --ignore-cr-at-eol lib/config-validator.js\"\n\"test:validator:integrity\": \"npm run build:validation && git diff --quiet --ignore-all-space --ignore-blank-lines --ignore-cr-at-eol lib/error-serializer.js && git diff --quiet --ignore-all-space --ignore-blank-lines --ignore-cr-at-eol lib/config-validator.js\", [repeated 2x]\npackage.json:26: \"test:typescript\": \"tsc test/types/import.ts --target es2022 --moduleResolution node16 --module node16 --noEmit && tsd\",\npackage.json:27: \"test:watch\": \"npm run unit -- --watch --coverage-report=none --reporter=terse\",\npackage.json:13: \"build:validation\": \"node build/build-error-serializer.js && node build/build-validation.js\",\npackage.json:17: \"lint\": \"npm run lint:eslint\",\nTASK: Analyze this Fastify OSS codebase evidence. Identify project purpose, likely test command, major source/test areas, and any high-signal maintenance risks. Do not quote raw files; compact to actionable codebase evidence.\ndocs/Guides/Testing.md:149: }, (error, response) => {\npackage.json:12: \"benchmark:parser:error\": \"concurrently -k -s first \\\"node ./examples/benchmark/parser.js\\\" \\\"autocannon -c 100 -d 30 -p 10 -i ./examples/benchmark/body.json -H \\\"content-type:application/jsoff\\\" -H \\\"content-length:123\\\" -m POST localhost:3000/\\\"\",\ndocs/Guides/Testing.md:183: // handle error\ndocs/Guides/Testing.md:193: // handle error\ndocs/Guides/Testing.md:57: server.log.error(err)\npackage.json:207: \"@fastify/error\": \"^4.0.0\",\ndocs/Guides/Testing.md:79: const app = build()\ndocs/Guides/Testing.md:128: const app = build()\ndocs/Guides/Testing.md:38: module.exports = build\ndocs/Guides/Testing.md:29: function build(opts={}) {\ndocs/Guides/Testing.md:76: const build = require('./app')\ndocs/Guides/Testing.md:124: const build = require('./app')\nlib/validation.js:256: error.statusCode = error.statusCode || 4"
+    },
+    {
+      "budget": 1600,
+      "durationMs": 95.65,
+      "selectedMode": "context_cleanup",
+      "telemetry": {
+        "internalStepCount": 1,
+        "externalCalls": 0,
+        "localFileInputCount": 1,
+        "localFileInputBytes": 167490
+      },
+      "tokenSavings": {
+        "rawEvidenceApproxTokens": 41857,
+        "compactReportApproxTokens": 1670,
+        "savedApproxTokens": 40187,
+        "reductionRatio": 96.01
+      },
+      "compactApproxTokens": 1670,
+      "rawApproxTokens": 41857,
+      "savedApproxTokens": 40187,
+      "reductionRatio": 96.01,
+      "score": {
+        "score": 1,
+        "coverage": 1,
+        "mustCoverage": 1,
+        "matched": [
+          "fastify",
+          "validation",
+          "error-handler",
+          "test:validator:integrity",
+          "test:typescript",
+          "lib/validation.js",
+          "lib/error-handler.js",
+          "test"
+        ],
+        "missing": [],
+        "mustMatched": [
+          "validation",
+          "test:validator:integrity",
+          "test:typescript"
+        ],
+        "mustMissing": [],
+        "pass": true
+      },
+      "actionability": {
+        "score": 1,
+        "passedChecks": 6,
+        "totalChecks": 6,
+        "pass": true,
+        "filePathCount": 28,
+        "testCommandCount": 8,
+        "hasSourceArea": true,
+        "hasTestArea": true,
+        "hasPackageSignal": true,
+        "riskSignalCount": 10,
+        "samplePaths": [
+          "package.json",
+          "lib/error-serializer.js",
+          "lib/config-validator.js",
+          "test/types/import.ts",
+          "build/build-error-serializer.js",
+          "build/build-validation.js",
+          "docs/Guides/Testing.md",
+          "examples/benchmark/parser.js"
+        ],
+        "sampleTestCommands": [
+          "test:validator:integrity",
+          "npm run build:validation",
+          "test:typescript",
+          "test:watch",
+          "npm run unit",
+          "npm run lint:eslint",
+          "npm run test:validator:integrity",
+          "npm run build:sync-version"
+        ],
+        "sampleRiskSignals": [
+          "validation",
+          "generated",
+          "integrity",
+          "TypeScript",
+          "typescript",
+          "parser",
+          "type",
+          "schema"
+        ]
+      },
+      "frontierReadiness": {
+        "score": 1,
+        "signalScore": 1,
+        "actionabilityScore": 1,
+        "pass": true,
+        "label": "orientation-ready"
+      },
+      "compactPreview": "Task: Complex task: A maintainer wants to change Fastify validation/error response behavior. Identify likely source files, generated/validator integrity checks, test command signals, TypeScript checks, and maintenance risks before editing. Return compact evidence for a frontier model to plan a patch.\nMode: context_cleanup\nHigh-signal lines:\npackage.json:25: \"test:validator:integrity\": \"npm run build:validation && git diff --quiet --ignore-all-space --ignore-blank-lines --ignore-cr-at-eol lib/error-serializer.js && git diff --quiet --ignore-all-space --ignore-blank-lines --ignore-cr-at-eol lib/config-validator.js\"\n\"test:validator:integrity\": \"npm run build:validation && git diff --quiet --ignore-all-space --ignore-blank-lines --ignore-cr-at-eol lib/error-serializer.js && git diff --quiet --ignore-all-space --ignore-blank-lines --ignore-cr-at-eol lib/config-validator.js\", [repeated 2x]\npackage.json:26: \"test:typescript\": \"tsc test/types/import.ts --target es2022 --moduleResolution node16 --module node16 --noEmit && tsd\",\npackage.json:27: \"test:watch\": \"npm run unit -- --watch --coverage-report=none --reporter=terse\",\npackage.json:13: \"build:validation\": \"node build/build-error-serializer.js && node build/build-validation.js\",\npackage.json:17: \"lint\": \"npm run lint:eslint\",\nTASK: Analyze this Fastify OSS codebase evidence. Identify project purpose, likely test command, major source/test areas, and any high-signal maintenance risks. Do not quote raw files; compact to actionable codebase evidence.\ndocs/Guides/Testing.md:149: }, (error, response) => {\npackage.json:12: \"benchmark:parser:error\": \"concurrently -k -s first \\\"node ./examples/benchmark/parser.js\\\" \\\"autocannon -c 100 -d 30 -p 10 -i ./examples/benchmark/body.json -H \\\"content-type:application/jsoff\\\" -H \\\"content-length:123\\\" -m POST localhost:3000/\\\"\",\ndocs/Guides/Testing.md:183: // handle error\ndocs/Guides/Testing.md:193: // handle error\ndocs/Guides/Testing.md:57: server.log.error(err)\npackage.json:207: \"@fastify/error\": \"^4.0.0\",\ndocs/Guides/Testing.md:79: const app = build()\ndocs/Guides/Testing.md:128: const app = build()\ndocs/Guides/Testing.md:38: module.exports = build\ndocs/Guides/Testing.md:29: function build(opts={}) {\ndocs/Guides/Testing.md:76: const build = require('./app')\ndocs/Guides/Testing.md:124: const build = require('./app')\nlib/validation.js:256: error.statusCode = error.statusCode || 4"
+    },
+    {
+      "budget": 3200,
+      "durationMs": 99.39,
+      "selectedMode": "context_cleanup",
+      "telemetry": {
+        "internalStepCount": 1,
+        "externalCalls": 0,
+        "localFileInputCount": 1,
+        "localFileInputBytes": 167490
+      },
+      "tokenSavings": {
+        "rawEvidenceApproxTokens": 41857,
+        "compactReportApproxTokens": 3268,
+        "savedApproxTokens": 38589,
+        "reductionRatio": 92.19
+      },
+      "compactApproxTokens": 3268,
+      "rawApproxTokens": 41857,
+      "savedApproxTokens": 38589,
+      "reductionRatio": 92.19,
+      "score": {
+        "score": 1,
+        "coverage": 1,
+        "mustCoverage": 1,
+        "matched": [
+          "fastify",
+          "validation",
+          "error-handler",
+          "test:validator:integrity",
+          "test:typescript",
+          "lib/validation.js",
+          "lib/error-handler.js",
+          "test"
+        ],
+        "missing": [],
+        "mustMatched": [
+          "validation",
+          "test:validator:integrity",
+          "test:typescript"
+        ],
+        "mustMissing": [],
+        "pass": true
+      },
+      "actionability": {
+        "score": 1,
+        "passedChecks": 6,
+        "totalChecks": 6,
+        "pass": true,
+        "filePathCount": 32,
+        "testCommandCount": 13,
+        "hasSourceArea": true,
+        "hasTestArea": true,
+        "hasPackageSignal": true,
+        "riskSignalCount": 11,
+        "samplePaths": [
+          "package.json",
+          "lib/error-serializer.js",
+          "lib/config-validator.js",
+          "test/types/import.ts",
+          "build/build-error-serializer.js",
+          "build/build-validation.js",
+          "docs/Guides/Testing.md",
+          "examples/benchmark/parser.js"
+        ],
+        "sampleTestCommands": [
+          "test:validator:integrity",
+          "npm run build:validation",
+          "test:typescript",
+          "test:watch",
+          "npm run unit",
+          "npm run lint:eslint",
+          "npm run test:validator:integrity",
+          "npm run build:sync-version"
+        ],
+        "sampleRiskSignals": [
+          "validation",
+          "generated",
+          "integrity",
+          "TypeScript",
+          "typescript",
+          "parser",
+          "type",
+          "schema"
+        ]
+      },
+      "frontierReadiness": {
+        "score": 1,
+        "signalScore": 1,
+        "actionabilityScore": 1,
+        "pass": true,
+        "label": "orientation-ready"
+      },
+      "compactPreview": "Task: Complex task: A maintainer wants to change Fastify validation/error response behavior. Identify likely source files, generated/validator integrity checks, test command signals, TypeScript checks, and maintenance risks before editing. Return compact evidence for a frontier model to plan a patch.\nMode: context_cleanup\nHigh-signal lines:\npackage.json:25: \"test:validator:integrity\": \"npm run build:validation && git diff --quiet --ignore-all-space --ignore-blank-lines --ignore-cr-at-eol lib/error-serializer.js && git diff --quiet --ignore-all-space --ignore-blank-lines --ignore-cr-at-eol lib/config-validator.js\"\n\"test:validator:integrity\": \"npm run build:validation && git diff --quiet --ignore-all-space --ignore-blank-lines --ignore-cr-at-eol lib/error-serializer.js && git diff --quiet --ignore-all-space --ignore-blank-lines --ignore-cr-at-eol lib/config-validator.js\", [repeated 2x]\npackage.json:26: \"test:typescript\": \"tsc test/types/import.ts --target es2022 --moduleResolution node16 --module node16 --noEmit && tsd\",\npackage.json:27: \"test:watch\": \"npm run unit -- --watch --coverage-report=none --reporter=terse\",\npackage.json:13: \"build:validation\": \"node build/build-error-serializer.js && node build/build-validation.js\",\npackage.json:17: \"lint\": \"npm run lint:eslint\",\nTASK: Analyze this Fastify OSS codebase evidence. Identify project purpose, likely test command, major source/test areas, and any high-signal maintenance risks. Do not quote raw files; compact to actionable codebase evidence.\ndocs/Guides/Testing.md:149: }, (error, response) => {\npackage.json:12: \"benchmark:parser:error\": \"concurrently -k -s first \\\"node ./examples/benchmark/parser.js\\\" \\\"autocannon -c 100 -d 30 -p 10 -i ./examples/benchmark/body.json -H \\\"content-type:application/jsoff\\\" -H \\\"content-length:123\\\" -m POST localhost:3000/\\\"\",\ndocs/Guides/Testing.md:183: // handle error\ndocs/Guides/Testing.md:193: // handle error\ndocs/Guides/Testing.md:57: server.log.error(err)\npackage.json:207: \"@fastify/error\": \"^4.0.0\",\ndocs/Guides/Testing.md:79: const app = build()\ndocs/Guides/Testing.md:128: const app = build()\ndocs/Guides/Testing.md:38: module.exports = build\ndocs/Guides/Testing.md:29: function build(opts={}) {\ndocs/Guides/Testing.md:76: const build = require('./app')\ndocs/Guides/Testing.md:124: const build = require('./app')\nlib/validation.js:256: error.statusCode = error.statusCode || 4"
+    }
+  ],
+  "targeted": null,
+  "recommended": {
+    "strategy": "single_800",
+    "score": 1,
+    "label": "orientation-ready",
+    "compactApproxTokens": 865,
+    "reductionRatio": 97.93
+  }
+}

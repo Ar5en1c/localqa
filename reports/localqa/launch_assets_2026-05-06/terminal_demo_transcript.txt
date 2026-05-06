@@ -1,0 +1,46 @@
+LocalQA v0.1 alpha
+====================
+
+Local evidence + memory layer for frontier coding agents.
+Frontier model plans and implements. LocalQA collects, compresses, remembers, and verifies local evidence.
+Initial alpha uses Bonsai as the local worker model for evidence triage, cleanup, memory, and handoff prep.
+
+1) One tool surface
+-------------------
+local_agent_run
+
+2) Launch check
+---------------
+launch_check_report: launch_check_2026-05-06
+launch_check_ok: true
+checks: syntax=pass, core syntax=pass, runner syntax=pass, agent benchmark syntax=pass, opencode redaction=pass, mcp validation=pass, test suite=pass, agent layer benchmark=pass, agentic workflow benchmark=pass, ab agent workflow benchmark=pass, long horizon 300k benchmark=pass, complex code benchmark=pass
+
+3) Provider telemetry A/B
+-------------------------
+baseline_input_tokens: 25850
+localqa_input_tokens: 12048
+input_tokens_saved: 13802
+input_reduction: 53.39%
+baseline_session: ses_2091cac14ffe5Q3hUD3SrH1M5d
+localqa_session: ses_2091c7febffecBMBK7jaWV4qpq
+
+4) A/B proxy vs targeted normal-agent evidence
+------------------------------------------------
+baseline_tokens: 25829
+localqa_tokens: 6704
+saved_tokens: 19125
+reduction: 74.04%
+quality_pass: 3/3
+
+5) Long-horizon 300k simulation
+--------------------------------
+raw_tokens: 302772
+compact_tokens: 8842
+saved_tokens: 293930
+reduction: 97.08%
+quality_pass: 9/9
+memory_written: 9/9
+
+Safe claim: LocalQA helps frontier coding agents use less context by collecting, compressing, remembering, and verifying local evidence before reasoning or implementation.
+Model split: Bonsai handles local evidence work; the frontier model remains responsible for planning and implementation.
+Caveat: It does not replace frontier models, intercept pasted cloud prompts, or prove patch correctness.

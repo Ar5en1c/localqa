@@ -1,0 +1,103 @@
+{
+  "id": "zod_schema_parser_agentic_plan",
+  "title": "Zod schema/parser investigation",
+  "evidencePath": "/Users/kuldeepsingh/MyProjects/localqa/reports/localqa/opencode_oss_codebases_2026-05-05/colinhacks_zod/raw-codebase-evidence.txt",
+  "evidenceBytes": 140612,
+  "rawTokens": 35140,
+  "record": {
+    "ok": true,
+    "runtimeMs": 74.06,
+    "memoryWritten": true
+  },
+  "normalBaseline": {
+    "approxToolCalls": 3,
+    "rawContextApproxTokens": 35140,
+    "compactContextApproxTokens": 35140,
+    "savedApproxTokens": 0,
+    "reductionRatio": 0,
+    "memoryWritten": false,
+    "risk": "frontier model receives full raw evidence or must spend repeated tool calls finding source/test signals"
+  },
+  "localqaWorkflow": {
+    "approxToolCallsFromMainAgent": 1,
+    "internalLocalSteps": 3,
+    "baselineRawContextApproxTokens": 35140,
+    "internalLocalRawTokensProcessed": 70298,
+    "compactContextApproxTokens": 1900,
+    "savedApproxTokens": 33240,
+    "reductionRatio": 94.59,
+    "internalLocalProcessingReductionRatio": 97.3,
+    "memoryWritten": true,
+    "runtimeMs": 112.77
+  },
+  "signalScore": {
+    "score": 0.925,
+    "coverage": 0.875,
+    "mustCoverage": 1,
+    "matched": [
+      "zod",
+      "schema",
+      "parser",
+      "typescript",
+      "test",
+      "packages",
+      "package.json"
+    ],
+    "missing": [
+      "src"
+    ],
+    "mustMatched": [
+      "zod",
+      "schema",
+      "test"
+    ],
+    "mustMissing": []
+  },
+  "actionabilityScore": {
+    "score": 1,
+    "passed": 7,
+    "total": 7,
+    "paths": [
+      "packages/docs/package.json",
+      "packages/tsc/package.json",
+      "packages/zod/package.json",
+      "build.json",
+      "packages/resolution/package.json",
+      "test-resolution.ts",
+      "packages/integration/package.json",
+      "types/tsconfig.bundler.json",
+      "types/tsconfig.nodenext.json",
+      "types/tsconfig.node16-cjs.json"
+    ],
+    "commands": [
+      "pnpm vitest",
+      "test:watch",
+      "test:all",
+      "test:source",
+      "test:built",
+      "pnpm run -r"
+    ],
+    "riskSignals": [
+      "schema",
+      "type",
+      "migration",
+      "parser",
+      "router",
+      "middleware",
+      "compatibility",
+      "validation",
+      "generated",
+      "integrity"
+    ],
+    "hasSource": true,
+    "hasTests": true,
+    "hasMemory": true,
+    "hasNextReads": true
+  },
+  "quality": {
+    "score": 0.959,
+    "label": "strong",
+    "pass": true
+  },
+  "compactPreview": "## Step 1: memory_query\nTask: Frontier agent task: plan a safe Zod schema parsing behavior change. Use local evidence to identify package/source areas, type-surface risks, tests, docs/migration areas, and next exact reads before implementation.\nMode: memory\nStatus: ok\nProject memory query: What has already been recorded for Zod schema/parser investigation? Memory dir: /Users/kuldeepsingh/MyProjects/localqa/reports/localqa/agentic_workflows_2026-05-06/memory Matched entries: 5/5 1. 2026-05-06T17:01:30.263Z | directed_plan | completed | directed task: Frontier agent task: plan a safe Express router or middleware behavior change. Use local evidence to identify source areas, test areas, package scripts, compatibility risks, and next exact reads before implementation. summary: ## Step 1: memory_query Task: Frontier agent task: plan a safe Express router or middleware behavior change. Use local evidence to identify source areas, test areas, package scripts, compatibility risks, and next exact reads before implementation. Mode: memory Status: ok Project memory query: What has already been recorded for Express router/middleware investigation? Memory dir: /Users/kuldeepsingh/MyProjects/localqa tokens: raw=47892 compact=1873 saved=46019 reduction=96.09% 2. 2026-05-06T17:01:30.091Z | directed_plan | completed | directed task: Frontier agent task: plan a safe Fastify validation/error response change. Use local evidence to identify likely files, test commands, generated/integrity risks, TypeScript checks, and next exact reads before implementation. summary: ## Step 1: memory_query Task: Frontier agent task: plan a safe Fastify validation/error response change. Use local evidence to identify likely files, test commands, generated/integrity risks, TypeScript checks, and next exact reads before implementation. Mode: memory Status: ok Project memory query: What has already been recorded for Fastify validation/error contract investigation? Memory dir: /Users/kuldeepsingh/MyP tokens: raw=83714 compact=1912 saved=81802 reduction=97.72% 3. 2026-05-06T17:\n\n## Step 2: context_cleanup\nTask: Frontier agent task: plan a safe Zod schema parsing behavior change. Use local evidence to identify package/source areas, type-surface risks, tests, docs/migration areas, and next exact reads before implementation.\nMode: context_cleanup\nStatus: ok\nToken savings: raw=35149 compact=963 saved=34186 reduction=97.26%\nTask: Frontier agent task: plan a safe Zod schema parsing behavior change. Use local evidence to identify package/source areas, type-surface risks, tests, docs/migration areas, and n"
+}

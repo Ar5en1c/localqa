@@ -1,0 +1,4901 @@
+OSS_CODEBASE_BENCHMARK_PROJECT: fastify/fastify
+ARCHIVE_URL: https://codeload.github.com/fastify/fastify/tar.gz/refs/heads/main
+TASK: Analyze this Fastify OSS codebase evidence. Identify project purpose, likely test command, major source/test areas, and any high-signal maintenance risks. Do not quote raw files; compact to actionable codebase evidence.
+
+SIMULATED_NON_MCP_AGENT_RAW_CONTEXT:
+- tool: find/list repo files
+- tool: cat package.json
+- tool: cat README/docs
+- tool: grep/rg for tests, TODOs, errors, build scripts
+- tool: read selected source/test files
+
+PACKAGE_SCRIPTS_JSON:
+{
+  "bench": "branchcmp -r 2 -g -s \"npm run benchmark\"",
+  "benchmark": "concurrently -k -s first \"node ./examples/benchmark/simple.js\" \"autocannon -c 100 -d 30 -p 10 localhost:3000/\"",
+  "benchmark:parser": "concurrently -k -s first \"node ./examples/benchmark/parser.js\" \"autocannon -c 100 -d 30 -p 10 -i ./examples/benchmark/body.json -H \"content-type:application/jsoff\" -m POST localhost:3000/\"",
+  "benchmark:parser:error": "concurrently -k -s first \"node ./examples/benchmark/parser.js\" \"autocannon -c 100 -d 30 -p 10 -i ./examples/benchmark/body.json -H \"content-type:application/jsoff\" -H \"content-length:123\" -m POST localhost:3000/\"",
+  "build:validation": "node build/build-error-serializer.js && node build/build-validation.js",
+  "build:sync-version": "node build/sync-version.js",
+  "coverage": "c8 --reporter html borp --reporter=@jsumners/line-reporter",
+  "coverage:ci-check-coverage": "borp --reporter=@jsumners/line-reporter --coverage --check-coverage --lines 100",
+  "lint": "npm run lint:eslint",
+  "lint:fix": "eslint --fix",
+  "lint:markdown": "markdownlint-cli2",
+  "lint:eslint": "eslint",
+  "prepublishOnly": "cross-env PREPUBLISH=true borp --reporter=@jsumners/line-reporter && npm run test:validator:integrity && npm run build:sync-version",
+  "test": "npm run lint && npm run unit && npm run test:typescript",
+  "test:ci": "npm run unit && npm run test:typescript",
+  "test:report": "npm run lint && npm run unit:report && npm run test:typescript",
+  "test:validator:integrity": "npm run build:validation && git diff --quiet --ignore-all-space --ignore-blank-lines --ignore-cr-at-eol lib/error-serializer.js && git diff --quiet --ignore-all-space --ignore-blank-lines --ignore-cr-at-eol lib/config-validator.js",
+  "test:typescript": "tsc test/types/import.ts --target es2022 --moduleResolution node16 --module node16 --noEmit && tsd",
+  "test:watch": "npm run unit -- --watch --coverage-report=none --reporter=terse",
+  "unit": "borp",
+  "unit:report": "c8 --reporter html borp --reporter=@jsumners/line-reporter",
+  "citgm": "borp --reporter=@jsumners/line-reporter --coverage --check-coverage --concurrency=1"
+}
+
+TOP_DEPENDENCIES:
+@fastify/ajv-compiler, @fastify/error, @fastify/fast-json-stringify-compiler, @fastify/proxy-addr, abstract-logging, avvio, fast-json-stringify, find-my-way, light-my-request, pino, process-warning, rfdc, secure-json-parse, semver, toad-cache, @jsumners/line-reporter, @sinonjs/fake-timers, @stylistic/eslint-plugin, @stylistic/eslint-plugin-js, @types/node, ajv, ajv-errors, ajv-formats, ajv-i18n, ajv-merge-patch, autocannon, borp, branch-comparer, concurrently, cross-env, eslint, fast-json-body, fastify-plugin, fluent-json-schema, h2url, http-errors, joi, json-schema-to-ts, JSONStream, markdownlint-cli2, neostandard, node-forge, proxyquire, split2, tsd, typebox, typescript, undici, vary, yup
+
+FILE_TREE_HEAD:
+.borp.yaml
+.editorconfig
+.gitattributes
+.github/dependabot.yml
+.github/labeler.yml
+.github/problem-matcher.json
+.github/scripts/lint-ecosystem.js
+.github/workflows/backport.yml
+.github/workflows/ci-alternative-runtime.yml
+.github/workflows/ci.yml
+.github/workflows/citgm-package.yml
+.github/workflows/citgm.yml
+.github/workflows/coverage-nix.yml
+.github/workflows/coverage-win.yml
+.github/workflows/integration-alternative-runtimes.yml
+.github/workflows/integration.yml
+.github/workflows/labeler.yml
+.github/workflows/links-check.yml
+.github/workflows/lint-ecosystem-order.yml
+.github/workflows/lock-threads.yml
+.github/workflows/md-lint.yml
+.github/workflows/missing_types.yml
+.github/workflows/package-manager-ci.yml
+.github/workflows/pull-request-title.yml
+.github/workflows/test-compare.yml
+.github/workflows/validate-ecosystem-links.yml
+.github/workflows/website.yml
+.gitignore
+.gitpod.yml
+.markdownlint-cli2.yaml
+.npmignore
+.npmrc
+.prettierignore
+CODE_OF_CONDUCT.md
+CONTRIBUTING.md
+docs/Guides/Benchmarking.md
+docs/Guides/Contributing.md
+docs/Guides/Database.md
+docs/Guides/Delay-Accepting-Requests.md
+docs/Guides/Detecting-When-Clients-Abort.md
+docs/Guides/Ecosystem.md
+docs/Guides/Fluent-Schema.md
+docs/Guides/Getting-Started.md
+docs/Guides/Index.md
+docs/Guides/Migration-Guide-V3.md
+docs/Guides/Migration-Guide-V4.md
+docs/Guides/Migration-Guide-V5.md
+docs/Guides/Plugins-Guide.md
+docs/Guides/Prototype-Poisoning.md
+docs/Guides/Recommendations.md
+docs/Guides/Serverless.md
+docs/Guides/Style-Guide.md
+docs/Guides/Testing.md
+docs/Guides/Write-Plugin.md
+docs/Guides/Write-Type-Provider.md
+docs/index.md
+docs/Reference/ContentTypeParser.md
+docs/Reference/Decorators.md
+docs/Reference/Encapsulation.md
+docs/Reference/Errors.md
+docs/Reference/Hooks.md
+docs/Reference/HTTP2.md
+docs/Reference/Index.md
+docs/Reference/Lifecycle.md
+docs/Reference/Logging.md
+docs/Reference/LTS.md
+docs/Reference/Middleware.md
+docs/Reference/Plugins.md
+docs/Reference/Principles.md
+docs/Reference/Reply.md
+docs/Reference/Request.md
+docs/Reference/Routes.md
+docs/Reference/Server.md
+docs/Reference/Type-Providers.md
+docs/Reference/TypeScript.md
+docs/Reference/Validation-and-Serialization.md
+docs/Reference/Warnings.md
+docs/resources/encapsulation_context.drawio
+docs/resources/encapsulation_context.svg
+eslint.config.js
+examples/asyncawait.js
+examples/benchmark/body.json
+examples/benchmark/hooks-benchmark-async-await.js
+examples/benchmark/hooks-benchmark.js
+examples/benchmark/parser.js
+examples/benchmark/simple.js
+examples/benchmark/webstream.js
+examples/hooks.js
+examples/http2.js
+examples/https.js
+examples/parser.js
+examples/plugin.js
+examples/route-prefix.js
+examples/shared-schema.js
+examples/simple-stream.js
+examples/simple.js
+examples/simple.mjs
+examples/typescript-server.ts
+examples/use-plugin.js
+EXPENSE_POLICY.md
+fastify.d.ts
+fastify.js
+GOVERNANCE.md
+integration/server.js
+integration/test.sh
+lib/config-validator.js
+lib/content-type-parser.js
+lib/content-type.js
+lib/context.js
+lib/decorate.js
+lib/error-handler.js
+lib/error-serializer.js
+lib/error-status.js
+lib/errors.js
+lib/four-oh-four.js
+lib/handle-request.js
+lib/head-route.js
+lib/hooks.js
+lib/initial-config-validation.js
+lib/logger-factory.js
+lib/logger-pino.js
+lib/noop-set.js
+lib/plugin-override.js
+lib/plugin-utils.js
+lib/promise.js
+lib/reply.js
+lib/req-id-gen-factory.js
+lib/request.js
+lib/route.js
+lib/schema-controller.js
+lib/schemas.js
+lib/server.js
+lib/symbols.js
+lib/validation.js
+lib/warnings.js
+lib/wrap-thenable.js
+LICENSE
+package.json
+PROJECT_CHARTER.md
+README.md
+scripts/validate-ecosystem-links.js
+SECURITY.md
+SPONSORS.md
+test/404s.test.js
+test/500s.test.js
+test/allow-unsafe-regex.test.js
+test/als.test.js
+test/async_hooks.test.js
+test/async-await.test.js
+test/async-dispose.test.js
+test/body-limit.test.js
+test/buffer.test.js
+test/build-certificate.js
+test/bundler/esbuild/bundler-test.js
+test/bundler/esbuild/package.json
+test/bundler/esbuild/src/fail-plugin-version.js
+test/bundler/esbuild/src/index.js
+test/bundler/README.md
+test/bundler/webpack/bundler-test.js
+test/bundler/webpack/package.json
+test/bundler/webpack/src/fail-plugin-version.js
+test/bundler/webpack/src/index.js
+test/bundler/webpack/webpack.config.js
+test/case-insensitive.test.js
+test/chainable.test.js
+test/child-logger-factory.test.js
+test/client-timeout.test.js
+test/close-pipelining.test.js
+test/close.test.js
+test/conditional-pino.test.js
+test/connection-timeout.test.js
+test/constrained-routes.test.js
+test/content-length.test.js
+test/content-parser.test.js
+test/content-type.test.js
+test/context-config.test.js
+test/custom-http-server.test.js
+test/custom-parser-async.test.js
+test/custom-parser.0.test.js
+test/custom-parser.1.test.js
+test/custom-parser.2.test.js
+test/custom-parser.3.test.js
+test/custom-parser.4.test.js
+test/custom-parser.5.test.js
+test/custom-querystring-parser.test.js
+test/decorator.test.js
+test/delete.test.js
+test/diagnostics-channel/404.test.js
+test/diagnostics-channel/async-delay-request.test.js
+test/diagnostics-channel/async-request.test.js
+test/diagnostics-channel/error-before-handler.test.js
+test/diagnostics-channel/error-request.test.js
+test/diagnostics-channel/error-status.test.js
+test/diagnostics-channel/init.test.js
+test/diagnostics-channel/sync-delay-request.test.js
+test/diagnostics-channel/sync-request-reply.test.js
+test/diagnostics-channel/sync-request.test.js
+test/encapsulated-child-logger-factory.test.js
+test/encapsulated-error-handler.test.js
+test/esm/errorCodes.test.mjs
+test/esm/esm.test.mjs
+test/esm/index.test.js
+test/esm/named-exports.mjs
+test/esm/other.mjs
+test/esm/plugin.mjs
+test/fastify-instance.test.js
+test/find-route.test.js
+test/fluent-schema.test.js
+test/genReqId.test.js
+test/handler-context.test.js
+test/handler-timeout.test.js
+test/has-route.test.js
+test/header-overflow.test.js
+test/helper.js
+test/hooks-async.test.js
+test/hooks.on-listen.test.js
+test/hooks.on-ready.test.js
+test/hooks.test.js
+test/http-methods/copy.test.js
+test/http-methods/custom-http-methods.test.js
+test/http-methods/get.test.js
+test/http-methods/head.test.js
+test/http-methods/lock.test.js
+test/http-methods/mkcalendar.test.js
+test/http-methods/mkcol.test.js
+test/http-methods/move.test.js
+test/http-methods/propfind.test.js
+test/http-methods/proppatch.test.js
+test/http-methods/report.test.js
+test/http-methods/search.test.js
+test/http-methods/trace.test.js
+test/http-methods/unlock.test.js
+test/http2/closing.test.js
+test/http2/constraint.test.js
+test/http2/head.test.js
+test/http2/plain.test.js
+test/http2/secure-with-fallback.test.js
+test/http2/secure.test.js
+test/http2/unknown-http-method.test.js
+test/https/custom-https-server.test.js
+test/https/https.test.js
+test/imports.test.js
+test/inject.test.js
+test/input-validation.js
+test/internals/all.test.js
+test/internals/content-type-parser.test.js
+test/internals/context.test.js
+test/internals/decorator.test.js
+test/internals/errors.test.js
+test/internals/handle-request.test.js
+test/internals/hook-runner.test.js
+test/internals/hooks.test.js
+test/internals/initial-config.test.js
+test/internals/logger.test.js
+test/internals/plugin.test.js
+test/internals/promise.test.js
+test/internals/reply-serialize.test.js
+test/internals/reply.test.js
+test/internals/req-id-gen-factory.test.js
+test/internals/request-validate.test.js
+test/internals/request.test.js
+test/internals/schema-controller-perf.test.js
+test/internals/server.test.js
+test/internals/validation.test.js
+test/issue-4959.test.js
+test/keep-alive-timeout.test.js
+test/listen.1.test.js
+test/listen.2.test.js
+test/listen.3.test.js
+test/listen.4.test.js
+test/listen.5.test.js
+test/logger/instantiation.test.js
+test/logger/logger-test-utils.js
+test/logger/logging.test.js
+test/logger/options.test.js
+test/logger/request.test.js
+test/logger/response.test.js
+test/logger/tap-parallel-not-ok
+test/max-requests-per-socket.test.js
+test/middleware.test.js
+test/noop-set.test.js
+test/nullable-validation.test.js
+test/options.error-handler.test.js
+test/options.test.js
+test/output-validation.test.js
+test/patch.error-handler.test.js
+test/patch.test.js
+test/plugin.1.test.js
+test/plugin.2.test.js
+test/plugin.3.test.js
+test/plugin.4.test.js
+test/plugin.helper.js
+test/plugin.name.display.js
+test/post-empty-body.test.js
+test/pretty-print.test.js
+test/promises.test.js
+test/proto-poisoning.test.js
+test/put.error-handler.test.js
+test/put.test.js
+test/register.test.js
+test/reply-code.test.js
+test/reply-early-hints.test.js
+test/reply-error.test.js
+test/reply-trailers.test.js
+test/reply-web-stream-locked.test.js
+test/request-error.test.js
+test/request-header-host.test.js
+test/request-id.test.js
+test/request-media-type.test.js
+test/request-port.test.js
+test/request-timeout.test.js
+test/route-hooks.test.js
+test/route-prefix.test.js
+test/route-shorthand.test.js
+test/route.1.test.js
+test/route.2.test.js
+test/route.3.test.js
+test/route.4.test.js
+test/route.5.test.js
+test/route.6.test.js
+test/route.7.test.js
+test/route.8.test.js
+test/router-options.test.js
+test/same-shape.test.js
+test/schema-examples.test.js
+test/schema-feature.test.js
+test/schema-serialization.test.js
+test/schema-special-usage.test.js
+test/schema-validation.test.js
+test/scripts/validate-ecosystem-links.test.js
+test/serialize-response.test.js
+test/server.test.js
+test/set-error-handler.test.js
+test/skip-reply-send.test.js
+test/stream-serializers.test.js
+test/stream.1.test.js
+test/stream.2.test.js
+test/stream.3.test.js
+test/stream.4.test.js
+test/stream.5.test.js
+test/sync-routes.test.js
+test/throw.test.js
+test/toolkit.js
+test/trust-proxy.test.js
+test/type-provider.test.js
+test/types/content-type-parser.test-d.ts
+test/types/decorate-request-reply.test-d.ts
+test/types/dummy-plugin.ts
+test/types/errors.test-d.ts
+test/types/fastify.test-d.ts
+test/types/hooks.test-d.ts
+test/types/import.ts
+test/types/instance.test-d.ts
+test/types/logger.test-d.ts
+test/types/plugin.test-d.ts
+test/types/register.test-d.ts
+test/types/reply.test-d.ts
+test/types/request.test-d.ts
+test/types/route.test-d.ts
+test/types/schema.test-d.ts
+test/types/serverFactory.test-d.ts
+test/types/type-provider.test-d.ts
+test/types/using.test-d.ts
+test/upgrade.test.js
+test/url-rewriting.test.js
+test/use-semicolon-delimiter.test.js
+test/validation-error-handling.test.js
+test/versioned-routes.test.js
+test/web-api.test.js
+test/wrap-thenable.test.js
+types/content-type-parser.d.ts
+types/context.d.ts
+types/errors.d.ts
+types/hooks.d.ts
+types/instance.d.ts
+types/logger.d.ts
+types/plugin.d.ts
+types/register.d.ts
+types/reply.d.ts
+types/request.d.ts
+types/route.d.ts
+types/schema.d.ts
+types/server-factory.d.ts
+types/type-provider.d.ts
+types/utils.d.ts
+
+RG_LIKE_SIGNAL_LINES:
+.github/problem-matcher.json:7: "regexp": "^Error: (\\w+\\\/?\\w+(.md)?):(\\d+):(\\d+) (MD\\d+)\\/(.+)$",
+.github/scripts/lint-ecosystem.js:89: .addHeading(isError ? `❌ Ecosystem.md Lint (${failures.length} error${failures.length === 1 ? '' : 's'})` : '✅ Ecosystem Lint (no errors found)')
+.github/scripts/lint-ecosystem.js:114: core.error('The module name should be enclosed with backticks', {
+.github/scripts/lint-ecosystem.js:120: core.error(`${failure.moduleName} not listed in alphabetical order`, {
+.github/scripts/lint-ecosystem.js:126: core.error('Unknown error')
+docs/Guides/Contributing.md:74: TODO: add link to a style guide, when we have one, here as in
+docs/Guides/Contributing.md:146: code-fastify --install-extension dbaeumer.vscode-eslint
+docs/Guides/Contributing.md:153: [ -d /Applications/VSCodeFastify/code-portable-data/extensions/dbaeumer.vscode-eslint-* ] && echo "found"
+docs/Guides/Contributing.md:177: "editor.defaultFormatter": "dbaeumer.vscode-eslint",
+docs/Guides/Database.md:285: console.error(err)
+docs/Guides/Delay-Accepting-Requests.md:76: reply.send({ error: false, ready: request.server.magicKey !== null })
+docs/Guides/Delay-Accepting-Requests.md:88: reply.send({ error: false })
+docs/Guides/Delay-Accepting-Requests.md:94: return { customer: true, error: false }
+docs/Guides/Delay-Accepting-Requests.md:95: } catch (error) {
+docs/Guides/Delay-Accepting-Requests.md:96: request.log.error({
+docs/Guides/Delay-Accepting-Requests.md:97: error,
+docs/Guides/Delay-Accepting-Requests.md:102: return { customer: null, error: true }
+docs/Guides/Delay-Accepting-Requests.md:110: .catch((error) => {
+docs/Guides/Delay-Accepting-Requests.md:111: server.log.error({
+docs/Guides/Delay-Accepting-Requests.md:112: error,
+docs/Guides/Delay-Accepting-Requests.md:113: message: 'Got an error while trying to get the magic key!'
+docs/Guides/Delay-Accepting-Requests.md:161: throw new Error('Failed to fetch magic key')
+docs/Guides/Delay-Accepting-Requests.md:174: throw new Error('Invalid key')
+docs/Guides/Delay-Accepting-Requests.md:187: error from them. That wasted time and resources for us and our customers.
+docs/Guides/Delay-Accepting-Requests.md:195: repeatedly add that check to all of them? That's error-prone and there are more
+docs/Guides/Delay-Accepting-Requests.md:224: reply.send({ error: false, ready: request.server.magicKey !== null })
+docs/Guides/Delay-Accepting-Requests.md:237: reply.send({ error: false })
+docs/Guides/Delay-Accepting-Requests.md:275: throw new Error('Failed to fetch magic key')
+docs/Guides/Delay-Accepting-Requests.md:288: throw new Error('Invalid key')
+docs/Guides/Delay-Accepting-Requests.md:310: // If an error is thrown at this point and not captured it'll crash the
+docs/Guides/Delay-Accepting-Requests.md:316: .catch((error) => {
+docs/Guides/Delay-Accepting-Requests.md:317: fastify.log.error({
+docs/Guides/Delay-Accepting-Requests.md:318: error,
+docs/Guides/Delay-Accepting-Requests.md:319: message: 'Got an error while trying to get the magic key!'
+docs/Guides/Delay-Accepting-Requests.md:337: reply.send({ error: true, retryInMs: USUAL_WAIT_TIME_MS })
+docs/Guides/Delay-Accepting-Requests.md:366: return { customer: true, error: false }
+docs/Guides/Delay-Accepting-Requests.md:367: } catch (error) {
+docs/Guides/Delay-Accepting-Requests.md:368: request.log.error({
+docs/Guides/Delay-Accepting-Requests.md:369: error,
+docs/Guides/Delay-Accepting-Requests.md:374: return { customer: null, error: true }
+docs/Guides/Delay-Accepting-Requests.md:390: different plugins that will build up to a single use-case. That's the brains of
+docs/Guides/Detecting-When-Clients-Abort.md:17: error on the socket and the `clientErrorHandler` will not be triggered.
+docs/Guides/Detecting-When-Clients-Abort.md:25: request is aborted from your client application. If there is an error in your
+docs/Guides/Detecting-When-Clients-Abort.md:73: app.log.error(err)
+docs/Guides/Detecting-When-Clients-Abort.md:90: Whilst the `aborted` property has been deprecated, `destroyed` is not a
+docs/Guides/Detecting-When-Clients-Abort.md:144: } catch (error) {
+docs/Guides/Detecting-When-Clients-Abort.md:145: console.error(error);
+docs/Guides/Ecosystem.md:23: you to easily build serverless web applications/services and RESTful APIs
+docs/Guides/Getting-Started.md:52: fastify.log.error(err)
+docs/Guides/Getting-Started.md:92: fastify.log.error(err)
+docs/Guides/Getting-Started.md:118: >     fastify.log.error(err)
+docs/Guides/Getting-Started.md:161: fastify.log.error(err)
+docs/Guides/Getting-Started.md:181: fastify.log.error(err)
+docs/Guides/Getting-Started.md:252: fastify.log.error(err)
+docs/Guides/Getting-Started.md:273: fastify.log.error(err)
+docs/Guides/Getting-Started.md:345: throw new Error('No documents found')
+docs/Guides/Getting-Started.md:353: throw new Error('Invalid value')
+docs/Guides/Getting-Started.md:423: build your application as independent services. If you want to
+docs/Guides/Migration-Guide-V3.md:158: The old syntax of Fastify v2 without payload is supported but it is deprecated.
+docs/Guides/Migration-Guide-V3.md:183: is `IncomingMessage`) are still supported but are deprecated.
+docs/Guides/Migration-Guide-V3.md:240: In sync route handlers, if an error was thrown the server crashed by design
+docs/Guides/Migration-Guide-V3.md:247: fastify.setErrorHandler((error, request, reply) => {
+docs/Guides/Migration-Guide-V3.md:249: reply.send(error)
+docs/Guides/Migration-Guide-V3.md:260: fastify.setErrorHandler((error, request, reply) => {
+docs/Guides/Migration-Guide-V3.md:262: reply.send(error)
+docs/Guides/Migration-Guide-V3.md:274: - Deprecated `request.req` and `reply.res` for
+docs/Guides/Migration-Guide-V3.md:286: - Added the feature to throw object as error
+docs/Guides/Migration-Guide-V4.md:34: ### Error handling composition ([#3261](https://github.com/fastify/fastify/pull/3261))
+docs/Guides/Migration-Guide-V4.md:36: When an error is thrown in an async error handler function, the upper-level
+docs/Guides/Migration-Guide-V4.md:37: error handler is executed if set. If there is no upper-level error handler,
+docs/Guides/Migration-Guide-V4.md:48: throw new Error('caught')
+docs/Guides/Migration-Guide-V4.md:52: throw new Error('kaboom')
+docs/Guides/Migration-Guide-V4.md:58: throw new Error('wrapped')
+docs/Guides/Migration-Guide-V4.md:65: >The root error handler is Fastify’s generic error handler.
+docs/Guides/Migration-Guide-V4.md:66: >This error handler will use the headers and status code in the Error object,
+docs/Guides/Migration-Guide-V4.md:68: >a custom error handler is provided**.
+docs/Guides/Migration-Guide-V4.md:112: To improve error reporting in route definitions, route registration is now synchronous.
+docs/Guides/Migration-Guide-V4.md:185: error when trying to access the route. You will now need to declare the
+docs/Guides/Migration-Guide-V4.md:208: `fastify.listen()` method is now deprecated.
+docs/Guides/Migration-Guide-V4.md:230: You may encounter a console warning such as:
+docs/Guides/Migration-Guide-V5.md:80: In Fastify v4, Fastify accepted the options to build a pino
+docs/Guides/Migration-Guide-V5.md:189: This was already deprecated in v4 as `FSTDEP011`, so you should have already updated
+docs/Guides/Migration-Guide-V5.md:218: This was already deprecated in v4 as `FSTDEP013`,
+docs/Guides/Migration-Guide-V5.md:223: All deprecated properties relating to accessing the route definition have been removed
+docs/Guides/Migration-Guide-V5.md:228: | FSTDEP012 | You are trying to access the deprecated `request.context` property. | Use `request.routeOptions.config` or `request.routeOptions.schema`. | [#4216](https://github.com/fastify/fastify/pull/4216) [#5084](https://github.com/fastify/fastify/pull/5084
+docs/Guides/Migration-Guide-V5.md:229: | FSTDEP015 | You are accessing the deprecated `request.routeSchema` property. | Use `request.routeOptions.schema`. | [#4470](https://github.com/fastify/fastify/pull/4470) |
+docs/Guides/Migration-Guide-V5.md:230: | FSTDEP016 | You are accessing the deprecated `request.routeConfig` property. | Use `request.routeOptions.config`. | [#4470](https://github.com/fastify/fastify/pull/4470) |
+docs/Guides/Migration-Guide-V5.md:231: | FSTDEP017 | You are accessing the deprecated `request.routerPath` property. | Use `request.routeOptions.url`. | [#4470](https://github.com/fastify/fastify/pull/4470) |
+docs/Guides/Migration-Guide-V5.md:232: | FSTDEP018 | You are accessing the deprecated `request.routerMethod` property. | Use `request.routeOptions.method`. | [#4470](https://github.com/fastify/fastify/pull/4470) |
+docs/Guides/Migration-Guide-V5.md:233: | FSTDEP019 | You are accessing the deprecated `reply.context` property. | Use `reply.routeOptions.config` or `reply.routeOptions.schema`. | [#5032](https://github.com/fastify/fastify/pull/5032) [#5084](https://github.com/fastify/fastify/pull/5084) |
+docs/Guides/Migration-Guide-V5.md:254: This was already deprecated in v4 as `FSTDEP021`, so you should have already
+docs/Guides/Migration-Guide-V5.md:282: This was already deprecated in v4 as `FSTDEP010`, so you should have already
+docs/Guides/Migration-Guide-V5.md:346: and the old behavior was deprecated in v4 as `FSTDEP007`.
+docs/Guides/Migration-Guide-V5.md:369: This was already deprecated in v4 as `FSTDEP05`, so you should
+docs/Guides/Migration-Guide-V5.md:393: This was already deprecated in v4 as `FSTDEP20`, so you should have already
+docs/Guides/Plugins-Guide.md:131: console.log(instance.util('that is ', 'awesome')) // This will throw an error
+docs/Guides/Plugins-Guide.md:136: Inside the second register call `instance.util` will throw an error because
+docs/Guides/Plugins-Guide.md:151: console.log(instance.util('that is ', 'awesome')) // This will not throw an error
+docs/Guides/Plugins-Guide.md:159: console.log(instance.util('that is ', 'awesome')) // This will throw an error
+docs/Guides/Prototype-Poisoning.md:51: set) an object's prototype. This has since been deprecated but nevertheless,
+docs/Guides/Prototype-Poisoning.md:162: automatically by build tools).
+docs/Guides/Prototype-Poisoning.md:243: hapi with a warning. The "we" is the node security process. Since we now have a
+docs/Guides/Prototype-Poisoning.md:263: Really really fast. It is unlikely we can build a replacement that will be more
+docs/Guides/Serverless.md:49: The sample provided allows you to easily build serverless web
+docs/Guides/Serverless.md:67: if (err) console.error(err);
+docs/Guides/Serverless.md:343: In order to suppress the error, you can use the following signature:
+docs/Guides/Style-Guide.md:12: This guide is for anyone who loves to build with Fastify or wants to contribute
+docs/Guides/Testing.md:29: function build(opts={}) {
+docs/Guides/Testing.md:38: module.exports = build
+docs/Guides/Testing.md:57: server.log.error(err)
+docs/Guides/Testing.md:76: const build = require('./app')
+docs/Guides/Testing.md:79: const app = build()
+docs/Guides/Testing.md:124: const build = require('./app')
+docs/Guides/Testing.md:128: const app = build()
+docs/Guides/Testing.md:149: }, (error, response) => {
+docs/Guides/Testing.md:183: // handle error
+docs/Guides/Testing.md:193: // handle error
+docs/Guides/Write-Plugin.md:19: to plugins](./Plugins-Guide.md) to discover all the APIs you can use to build
+docs/Guides/Write-Plugin.md:63: since it offers out-of-the-box parallel testing and code coverage, but it is up
+docs/Reference/ContentTypeParser.md:8: Unsupported content types will throw an `FST_ERR_CTP_INVALID_MEDIA_TYPE` error.
+docs/Reference/ContentTypeParser.md:33: > ⚠ Warning:
+docs/Reference/ContentTypeParser.md:172: > still supported but deprecated.
+docs/Reference/Decorators.md:58: This works only with value types; reference types will throw an error during
+docs/Reference/Decorators.md:173: Using `decorateReply` will throw and error if used with a reference type:
+docs/Reference/Decorators.md:216: Using `decorateRequest` will emit an error if used with a reference type:
+docs/Reference/Decorators.md:374: If the decorator is not defined, an `FST_ERR_DEC_UNDECLARED` error is thrown.
+docs/Reference/Decorators.md:411: If the decorator does not exist, a `FST_ERR_DEC_UNDECLARED` error is thrown.
+docs/Reference/Errors.md:8: - [Error Handling In Node.js](#error-handling-in-nodejs)
+docs/Reference/Errors.md:14: - [Errors In Fastify Lifecycle Hooks And A Custom Error Handler](#errors-in-fastify-lifecycle-hooks-and-a-custom-error-handler)
+docs/Reference/Errors.md:15: - [Fastify Error Codes](#fastify-error-codes)
+docs/Reference/Errors.md:107: ### Error Handling In Node.js
+docs/Reference/Errors.md:108: <a id="error-handling"></a>
+docs/Reference/Errors.md:118: [crash](https://nodejs.org/api/process.html#warning-using-uncaughtexception-correctly).
+docs/Reference/Errors.md:135: 1. synchronous routes, e.g. `app.get('/', () => { throw new Error('kaboom') })`
+docs/Reference/Errors.md:136: 2. `async` routes, e.g. `app.get('/', async () => { throw new Error('kaboom')
+docs/Reference/Errors.md:139: In both cases, the error will be caught safely and routed to Fastify's default
+docs/Reference/Errors.md:140: error handler, resulting in a generic `500 Internal Server Error` response.
+docs/Reference/Errors.md:145: ### Errors In Fastify Lifecycle Hooks And A Custom Error Handler
+docs/Reference/Errors.md:148: > If you get an error during the execution of your hook, just pass it to
+docs/Reference/Errors.md:150: > appropriate error code to the user.
+docs/Reference/Errors.md:152: When a custom error handler is defined through
+docs/Reference/Errors.md:153: [`setErrorHandler`](./Server.md#seterrorhandler), it will receive the error
+docs/Reference/Errors.md:154: passed to the `done()` callback or through other supported automatic error
+docs/Reference/Errors.md:155: handling mechanisms. If `setErrorHandler` is used multiple times, the error will
+docs/Reference/Errors.md:156: be routed to the most precedent handler within the error
+docs/Reference/Errors.md:157: [encapsulation context](./Encapsulation.md). Error handlers are fully
+docs/Reference/Errors.md:158: encapsulated, so a `setErrorHandler` call within a plugin will limit the error
+docs/Reference/Errors.md:161: The root error handler is Fastify's generic error handler. This error handler
+docs/Reference/Errors.md:162: will use the headers and status code in the `Error` object, if they exist. The
+docs/Reference/Errors.md:163: headers and status code will not be automatically set if a custom error handler
+docs/Reference/Errors.md:166: The following should be considered when using a custom error handler:
+docs/Reference/Errors.md:174: - Throwing a new error in a custom error handler will call the parent
+docs/Reference/Errors.md:176: - The `onError` hook will be triggered once for the first error thrown
+docs/Reference/Errors.md:177: - An error will not be triggered twice from a lifecycle hook. Fastify
+docs/Reference/Errors.md:178: internally monitors error invocation to avoid infinite loops for errors
+docs/Reference/Errors.md:181: When using Fastify's custom error handling through
+docs/Reference/Errors.md:183: propagated between custom and default error handlers.
+docs/Reference/Errors.md:185: If a plugin's error handler re-throws an error that is not an instance of
+docs/Reference/Errors.md:186: [Error](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error),
+docs/Reference/Errors.md:187: it will not propagate to the parent context error handler. Instead, it will be
+docs/Reference/Errors.md:188: caught by the default error handler. This can be seen in the `/bad` route of the
+docs/Reference/Errors.md:191: To ensure consistent error handling, throw instances of `Error`. For example,
+docs/Reference/Errors.md:192: replace `throw 'foo'` with `throw new Error('foo')` in the `/bad` route to
+docs/Reference/Errors.md:193: ensure errors propagate through the custom error handling chain as intended.
+docs/Reference/Errors.md:194: This practice helps avoid potential pitfalls when working with custom error
+docs/Reference/Errors.md:206: // Register parent error handler
+docs/Reference/Errors.md:207: fastify.setErrorHandler((error, request, reply) => {
+docs/Reference/Errors.md:212: // Register child error handler
+docs/Reference/Errors.md:213: fastify.setErrorHandler((error, request, reply) => {
+docs/Reference/Errors.md:214: throw error
+docs/Reference/Errors.md:218: // Throws a non-Error type, 'bar'
+docs/Reference/Errors.md:223: // Throws an Error instance, 'bar'
+docs/Reference/Errors.md:224: throw new Error('bar')
+docs/Reference/Errors.md:233: fastify.log.error(err)
+docs/Reference/Errors.md:240: ### Fastify Error Codes
+docs/Reference/Errors.md:241: <a id="fastify-error-codes"></a>
+docs/Reference/Hooks.md:180: fastify.addHook('onError', (request, reply, error, done) => {
+docs/Reference/Hooks.md:187: fastify.addHook('onError', async (request, reply, error) => {
+docs/Reference/Hooks.md:188: // Useful for custom error logging
+docs/Reference/Hooks.md:189: // You should not use this hook to update the error
+docs/Reference/Hooks.md:192: This hook is useful if you need to do some custom error logging or add some
+docs/Reference/Hooks.md:193: specific header in case of error.
+docs/Reference/Hooks.md:195: It is not intended for changing the error, and calling `reply.send` will throw
+docs/Reference/Hooks.md:199: the [Custom Error Handler set by `setErrorHandler`](./Server.md#seterrorhandler).
+docs/Reference/Hooks.md:202: > Unlike the other hooks, passing an error to the `done` function is not
+docs/Reference/Hooks.md:264: > Setting `disableRequestLogging` to `true` will disable any error log
+docs/Reference/Hooks.md:317: If you get an error during the execution of your hook, just pass it to `done()`
+docs/Reference/Hooks.md:318: and Fastify will automatically close the request and send the appropriate error
+docs/Reference/Hooks.md:323: done(new Error('Some error'))
+docs/Reference/Hooks.md:327: If you want to pass a custom error code to the user, just use `reply.code()`:
+docs/Reference/Hooks.md:331: done(new Error('Some error'))
+docs/Reference/Hooks.md:334: *The error will be handled by [`Reply`](./Reply.md#errors).*
+docs/Reference/Hooks.md:336: Or if you're using `async/await` you can just throw an error:
+docs/Reference/Hooks.md:339: throw new Error('Some error')
+docs/Reference/Lifecycle.md:9: branch shows the corresponding error code generated if the parent throws an
+docs/Reference/Lifecycle.md:10: error. All errors are automatically handled by Fastify.
+docs/Reference/Lifecycle.md:46: a 503 error is sent. The timer is cleared when the response finishes or when
+docs/Reference/Lifecycle.md:61: - In an async handler: it returns a payload or throws an `Error`
+docs/Reference/Lifecycle.md:62: - In a sync handler: it sends a payload or an `Error` instance
+docs/Reference/Lifecycle.md:68: ★ schema validation Error
+docs/Reference/Lifecycle.md:72: reply sent ◀── JSON ─┴─ Error instance
+docs/Reference/Lifecycle.md:74: │         ★ throw an Error
+docs/Reference/Lifecycle.md:78: reply sent ◀── JSON ─┴─ Error instance ──▶ onError Hook ◀───────┘
+docs/Reference/Lifecycle.md:80: reply sent ◀── JSON ─┴─ Error instance ──▶ setErrorHandler
+docs/Reference/Logging.md:110: > ⚠ Warning:
+docs/Reference/Logging.md:219: logger must conform to the Pino interface, with methods: `info`, `error`,
+docs/Reference/Plugins.md:99: #### Error handling
+docs/Reference/Plugins.md:100: <a id="error-handling"></a>
+docs/Reference/Plugins.md:102: Error handling is done by [avvio](https://github.com/mcollina/avvio#error-handling).
+docs/Reference/Reply.md:87: buffer, JSON, stream, or an Error object.
+docs/Reference/Reply.md:255: once the hint is sent or if an error occurs.
+docs/Reference/Reply.md:270: > Any error passed to `done` callback will be ignored. If you are interested
+docs/Reference/Reply.md:271: > in the error, you can turn on `debug` level logging.
+docs/Reference/Request.md:52: `FST_ERR_HANDLER_TIMEOUT` error; on client disconnect it is a generic
+docs/Reference/Request.md:54: - `context` - Deprecated, use `request.routeOptions.config` instead. A Fastify
+docs/Reference/Routes.md:57: validation error, instead of sending the error to the error handler. The
+docs/Reference/Routes.md:58: default [error format](https://ajv.js.org/api.html#error-objects) is the Ajv
+docs/Reference/Routes.md:82: * `onError(request, reply, error, done)`: a [function](./Hooks.md#onerror)
+docs/Reference/Routes.md:83: called when an Error is thrown or sent to the client by the route handler.
+docs/Reference/Routes.md:87: * `errorHandler(error, request, reply)`: a custom error handler for the scope of
+docs/Reference/Routes.md:88: the request. Overrides the default error global handler, and anything set by
+docs/Reference/Routes.md:111: Serialization](./Validation-and-Serialization.md#error-handling)
+docs/Reference/Routes.md:112: documentation. Overrides the global schema error formatter handler, and
+docs/Reference/Routes.md:121: integer. When the timeout fires, `request.signal` is aborted and a 503 error
+docs/Reference/Routes.md:122: is sent through the error handler (which can be customized per-route).
+docs/Reference/Routes.md:245: > the shortcut method throws a duplicate `handler` error.
+docs/Reference/Server.md:179: > ⚠ Warning:
+docs/Reference/Server.md:235: within this time, a `503 Service Unavailable` error is returned and
+docs/Reference/Server.md:247: The timeout is **cooperative**: when it fires, Fastify sends the 503 error
+docs/Reference/Server.md:253: The timeout error (`FST_ERR_HANDLER_TIMEOUT`) is sent through the route's
+docs/Reference/Server.md:254: [error handler](./Routes.md#routes-options), which can be customized per-route
+docs/Reference/Server.md:279: errorHandler: (error, request, reply) => {
+docs/Reference/Server.md:280: if (error.code === 'FST_ERR_HANDLER_TIMEOUT') {
+docs/Reference/Server.md:281: reply.code(504).send({ error: 'Gateway Timeout' })
+docs/Reference/Server.md:283: reply.send(error)
+docs/Reference/Server.md:306: + Default: `'error'`
+docs/Reference/Server.md:314: Possible values are `'error'`, `'remove'`, or `'ignore'`.
+docs/Reference/Server.md:319: + Default: `'error'`
+docs/Reference/TypeScript.md:48: "build": "tsc -p tsconfig.json",
+docs/Reference/TypeScript.md:56: npx tsc --init
+docs/Reference/TypeScript.md:63: > [FastifyDeprecation](https://github.com/fastify/fastify/issues/3284) warning.
+docs/Reference/TypeScript.md:78: console.error(err)
+docs/Reference/TypeScript.md:84: 6. Run `npm run build` - this will compile `index.ts` into `index.js` which can
+docs/Reference/TypeScript.md:124: '4xx': { error: string };
+docs/Reference/TypeScript.md:147: // but this gives a type error
+docs/Reference/TypeScript.md:150: reply.code(404).send({ error: 'Not found' });
+docs/Reference/TypeScript.md:155: 4. Build and run the server code with `npm run build` and `npm run start`
+docs/Reference/TypeScript.md:172: done(username !== 'admin' ? new Error('Must be admin') : undefined) // only validate `admin` account
+docs/Reference/TypeScript.md:180: 7. Build and run and query with the `username` query string option set to
+docs/Reference/TypeScript.md:181: anything other than `admin`. The API should now return a HTTP 500 error
+docs/Reference/TypeScript.md:182: `{"statusCode":500,"error":"Internal Server Error","message":"Must be
+docs/Reference/TypeScript.md:356: done(username !== 'admin' ? new Error('Must be admin') : undefined)
+docs/Reference/Validation-and-Serialization.md:18: > ⚠ Warning:
+docs/Reference/Validation-and-Serialization.md:31: > validators **must return** `{error}` objects instead of throwing errors.
+docs/Reference/Validation-and-Serialization.md:260: > ⚠ Warning:
+docs/Reference/Validation-and-Serialization.md:368: throw new Error('Missing httpPart')
+docs/Reference/Validation-and-Serialization.md:372: throw new Error(`Missing compiler for ${req.httpPart}`)
+docs/Reference/Warnings.md:7: - [Fastify Warning Codes](#fastify-warning-codes)
+docs/Reference/Warnings.md:17: Fastify uses Node.js's [warning event](https://nodejs.org/api/process.html#event-warning)
+docs/Reference/Warnings.md:18: API to notify users of deprecated features and coding mistakes. Fastify's
+docs/Reference/Warnings.md:20: encountering such a warning, it is highly recommended to determine the cause
+docs/Reference/Warnings.md:39: ### Fastify Warning Codes
+docs/Reference/Warnings.md:44: | <a id="FSTWRN002">FSTWRN002</a> | The %s plugin being registered mixes async and callback styles, which will result in an error in `fastify@5`. | Do not mix async and callback style. | [#5139](https://github.com/fastify/fastify/pull/5139) |
+docs/Reference/Warnings.md:58: | <a id="FSTDEP022">FSTDEP022</a> | You are trying to access the deprecated router options on top option properties. | Use `options.routerOptions`. | [#5985](https://github.com/fastify/fastify/pull/5985)
+eslint.config.js:8: 'lib/error-serializer.js',
+eslint.config.js:16: 'comma-dangle': ['error', 'never'],
+eslint.config.js:17: 'max-len': ['error', {
+examples/benchmark/parser.js:34: payload.on('error', done)
+examples/benchmark/parser.js:38: fastify.addContentTypeParser(/^application\/.+\+json$/, { parseAs: 'string' }, fastify.getDefaultJsonParser('error', 'ignore'))
+examples/hooks.js:56: .addHook('onError', function (request, reply, error, done) {
+examples/hooks.js:57: console.log('onError', error.message)
+examples/parser.js:31: payload.on('error', done)
+examples/parser.js:35: fastify.addContentTypeParser(/^application\/.+\+json$/, { parseAs: 'string' }, fastify.getDefaultJsonParser('error', 'ignore'))
+examples/simple.mjs:27: app.listen({ port: 3000 }).catch(console.error)
+examples/typescript-server.ts:9: * tsc examples/typescript-server.ts --target es6 --module commonjs
+examples/typescript-server.ts:75: console.error(err)
+fastify.d.ts:7: import { FastifyError } from '@fastify/error'
+fastify.d.ts:36: declare module '@fastify/error' {
+fastify.d.ts:82: export interface ConnectionError extends Error {
+fastify.d.ts:157: error: FastifyError,
+fastify.d.ts:169: * listener to error events emitted by client connections
+fastify.d.ts:171: clientErrorHandler?: (error: ConnectionError, socket: Socket) => void,
+fastify.d.ts:178: * @deprecated use {@link FastifySchemaValidationError}
+fastify.d.ts:194: FastifyError, // '@fastify/error'
+fastify.js:80: const { buildErrorHandler } = require('./lib/error-handler.js')
+fastify.js:272: // custom error handling
+lib/config-validator.js:1: // This file is autogenerated by build/build-validation.js, do not edit
+lib/config-validator.js:6: const schema11 = {"type":"object","additionalProperties":false,"properties":{"connectionTimeout":{"type":"integer","default":0},"keepAliveTimeout":{"type":"integer","default":72000},"forceCloseConnections":{"oneOf":[{"type":"string","pattern":"idle"},{"type":"
+lib/config-validator.js:52: data.onProtoPoisoning = "error";
+lib/config-validator.js:55: data.onConstructorPoisoning = "error";
+lib/config-validator.js:167: if(!pattern0.test(data2)){
+lib/content-type-parser.js:157: if (parserRegExp.test(ct)) {
+lib/content-type-parser.js:230: function onDone (error, body) {
+lib/content-type-parser.js:232: if (error != null) {
+lib/content-type-parser.js:237: reply.send(error)
+lib/content-type-parser.js:265: payload.on('error', onEnd)
+lib/content-type-parser.js:277: payload.removeListener('error', onEnd)
+lib/content-type-parser.js:292: payload.removeListener('error', onEnd)
+lib/content-type.js:70: typeNameReg.test(type) === true &&
+lib/content-type.js:71: subtypeNameReg.test(subtype) === true
+lib/content-type.js:95: typeNameReg.test(type) === false ||
+lib/content-type.js:96: subtypeNameReg.test(subtype) === false
+lib/context.js:95: return new Error(text.slice(0, -separator.length))
+lib/error-handler.js:5: const { setErrorStatusCode } = require('./error-status.js')
+lib/error-handler.js:21: const serializeError = require('./error-serializer')
+lib/error-handler.js:30: function handleError (reply, error, cb) {
+lib/error-handler.js:35: fallbackErrorHandler(error, reply, function (reply, payload) {
+lib/error-handler.js:38: } catch (error) {
+lib/error-handler.js:41: { req: reply.request, res: reply, err: error },
+lib/error-handler.js:42: error?.message
+lib/error-handler.js:53: // In case the error handler throws, we set the next errorHandler so we can error again
+lib/error-handler.js:64: fallbackErrorHandler(error, reply, cb)
+lib/error-handler.js:69: const result = func(error, reply.request, reply)
+lib/error-handler.js:82: function defaultErrorHandler (error, request, reply) {
+lib/error-handler.js:83: setErrorHeaders(error, reply)
+lib/error-handler.js:84: setErrorStatusCode(reply, error)
+lib/error-handler.js:88: { res: reply, err: error },
+lib/error-handler.js:89: error?.message
+lib/error-handler.js:94: reply.log.error(
+lib/error-handler.js:95: { req: request, res: reply, err: error },
+lib/error-handler.js:96: error?.message
+lib/error-handler.js:100: reply.send(error)
+lib/error-handler.js:103: function fallbackErrorHandler (error, reply, cb) {
+lib/error-handler.js:112: error: statusCodes[statusCode + ''],
+lib/error-handler.js:113: code: error.code,
+lib/error-handler.js:114: message: error.message,
+lib/error-handler.js:118: payload = serializerFn(Object.create(error, {
+lib/error-handler.js:119: error: { value: statusCodes[statusCode + ''] },
+lib/error-handler.js:120: message: { value: error.message },
+lib/error-handler.js:126: // error is always FST_ERR_SCH_SERIALIZATION_BUILD because this is called from route/compileSchemasForSerialization
+lib/error-handler.js:127: reply.log.error({ err, statusCode: res.statusCode }, 'The serializer for the given status code failed')
+lib/error-handler.js:130: payload = serializeError(new FST_ERR_FAILED_ERROR_SERIALIZATION(err.message, error.message))
+lib/error-handler.js:152: function setErrorHeaders (error, reply) {
+lib/error-handler.js:157: if (error != null) {
+lib/error-handler.js:158: if (error.headers !== undefined) {
+lib/error-handler.js:159: reply.headers(error.headers)
+lib/error-handler.js:161: if (error.status >= 400) {
+lib/error-handler.js:162: statusCode = error.status
+lib/error-handler.js:163: } else if (error.statusCode >= 400) {
+lib/error-handler.js:164: statusCode = error.statusCode
+lib/error-serializer.js:1: // This file is autogenerated by build/build-error-serializer.js, do not edit
+lib/error-serializer.js:84: value = obj["error"]
+lib/error-serializer.js:87: json += "\"error\":"
+lib/errors.js:3: const createError = require('@fastify/error')
+lib/errors.js:63: 'Error Handler must be a function',
+lib/errors.js:69: "Error Handler already set in this scope. Set 'allowErrorHandlerOverride: true' to allow overriding.",
+lib/errors.js:279: 'Undefined error has occurred'
+lib/errors.js:295: 'Failed to serialize an error. Error: %s. Original error: %s'
+lib/errors.js:331: 'Failed building the validation schema for %s: %s, due to error %s'
+lib/errors.js:335: 'Failed building the serialization schema for %s: %s, due to error %s'
+lib/errors.js:369: 'Unexpected error from async constraint',
+lib/errors.js:391: 'Error Handler for %s:%s route, if defined, must be a function',
+lib/four-oh-four.js:17: const { buildErrorHandler } = require('./error-handler.js')
+lib/four-oh-four.js:58: error: 'Not Found',
+lib/four-oh-four.js:94: throw new Error(`Not found handler already set for Fastify instance with prefix: '${prefix}'`)
+lib/handle-request.js:8: const { setErrorStatusCode } = require('./error-status')
+lib/handle-request.js:160: store.error = err
+lib/handle-request.js:163: channels.error.publish(store)
+lib/handle-request.js:175: store.error = err
+lib/handle-request.js:178: channels.error.publish(store)
+lib/head-route.js:12: payload.on('error', (err) => {
+lib/head-route.js:13: reply.log.error({ err }, 'Error on Stream found for HEAD route')
+lib/head-route.js:23: reply.log.error({ err }, 'Error on Stream found for HEAD route')
+lib/hooks.js:131: // this callback is needed by fastify to provide an hook interface without the error
+lib/hooks.js:162: } catch (error) {
+lib/hooks.js:163: done(error)
+lib/hooks.js:174: } catch (error) {
+lib/hooks.js:175: err = error
+lib/hooks.js:193: err && server.log.error(err)
+lib/hooks.js:224: } catch (error) {
+lib/hooks.js:225: done(error)
+lib/hooks.js:243: } catch (error) {
+lib/hooks.js:244: cb(error, request, reply)
+lib/hooks.js:299: } catch (error) {
+lib/hooks.js:300: cb(error, request, reply)
+lib/hooks.js:345: } catch (error) {
+lib/hooks.js:346: cb(error, request, reply)
+lib/hooks.js:382: } catch (error) {
+lib/hooks.js:383: cb(error, request)
+lib/initial-config-validation.js:11: const error = new FST_ERR_INIT_OPTS_INVALID(JSON.stringify(validate.errors.map(e => e.message)))
+lib/initial-config-validation.js:12: error.errors = validate.errors
+lib/initial-config-validation.js:13: throw error
+lib/logger-factory.js:61: const methods = ['info', 'error', 'debug', 'fatal', 'warn', 'trace', 'child']
+lib/logger-pino.js:31: // we need to tap into pino internals because in v5 it supports
+lib/plugin-utils.js:115: const fastifyRc = rcRegex.test(this.version)
+lib/plugin-utils.js:126: // throw an error.
+lib/promise.js:15: // TODO(20.x): remove when node@20 is not supported
+lib/reply.js:39: const { handleError } = require('./error-handler')
+lib/reply.js:149: if (this[kReplyIsError] || payload instanceof Error) {
+lib/reply.js:382: // TODO: Explore a central cache for all the schemas shared across
+lib/request.js:331: // TODO: Explore a central cache for all the schemas shared across
+lib/route.js:57: const { buildErrorHandler } = require('./error-handler')
+lib/route.js:366: } catch (error) {
+lib/route.js:367: // any route insertion error created by fastify can be safely ignore
+lib/server.js:159: // this.log.warn('dns.lookup error:', dnsErr)
+lib/server.js:184: // regardless of the error, we are done
+lib/server.js:196: // We swallow any error from the secondary server
+lib/server.js:209: mainServer.on('error', closeSecondary)
+lib/server.js:234: server.removeListener('error', wrap)
+lib/server.js:259: server.once('error', wrap)
+lib/server.js:297: server.removeListener('error', errEventHandler)
+lib/server.js:300: server.once('error', errEventHandler)
+lib/validation.js:27: if (!scChecker.test(statusCode)) {
+lib/validation.js:125: // If validator throws synchronously, ensure it propagates as an internal error
+lib/validation.js:133: .catch(err => { return err }) // return as simple error (not throw)
+lib/validation.js:140: if (ret && ret.error) return ret.error
+lib/validation.js:248: if (result instanceof Error) {
+lib/validation.js:255: const error = schemaErrorFormatter(result, dataVar)
+lib/validation.js:256: error.statusCode = error.statusCode || 400
+lib/validation.js:257: error.code = error.code || 'FST_ERR_VALIDATION'
+lib/validation.js:258: error.validation = result
+lib/validation.js:259: error.validationContext = dataVar
+lib/validation.js:260: return error
+lib/warnings.js:3: const { createWarning } = require('process-warning')
+lib/warnings.js:13: * Warning Codes FSTWRN001 - FSTWRN002 were used by v4 and MUST NOT not be reused.
+lib/warnings.js:47: message: 'The router options for %s property access is deprecated. Please use "options.routerOptions" instead for accessing router options. The router options will be removed in `fastify@6`.',
+lib/wrap-thenable.js:7: const { setErrorStatusCode } = require('./error-status')
+lib/wrap-thenable.js:55: store.error = err
+lib/wrap-thenable.js:58: channels.error.publish(store) // note that error happens before asyncStart
+lib/wrap-thenable.js:64: reply.log.error({ err }, 'Promise errored, but reply.sent = true was set')
+lib/wrap-thenable.js:74: // try-catch allow to re-throw error in error handler for async handler
+package.json:12: "benchmark:parser:error": "concurrently -k -s first \"node ./examples/benchmark/parser.js\" \"autocannon -c 100 -d 30 -p 10 -i ./examples/benchmark/body.json -H \"content-type:application/jsoff\" -H \"content-length:123\" -m POST localhost:3000/\"",
+package.json:13: "build:validation": "node build/build-error-serializer.js && node build/build-validation.js",
+package.json:14: "build:sync-version": "node build/sync-version.js",
+package.json:15: "coverage": "c8 --reporter html borp --reporter=@jsumners/line-reporter",
+package.json:16: "coverage:ci-check-coverage": "borp --reporter=@jsumners/line-reporter --coverage --check-coverage --lines 100",
+package.json:17: "lint": "npm run lint:eslint",
+package.json:18: "lint:fix": "eslint --fix",
+package.json:20: "lint:eslint": "eslint",
+package.json:21: "prepublishOnly": "cross-env PREPUBLISH=true borp --reporter=@jsumners/line-reporter && npm run test:validator:integrity && npm run build:sync-version",
+package.json:25: "test:validator:integrity": "npm run build:validation && git diff --quiet --ignore-all-space --ignore-blank-lines --ignore-cr-at-eol lib/error-serializer.js && git diff --quiet --ignore-all-space --ignore-blank-lines --ignore-cr-at-eol lib/config-validator.js"
+package.json:26: "test:typescript": "tsc test/types/import.ts --target es2022 --moduleResolution node16 --module node16 --noEmit && tsd",
+package.json:27: "test:watch": "npm run unit -- --watch --coverage-report=none --reporter=terse",
+package.json:30: "citgm": "borp --reporter=@jsumners/line-reporter --coverage --check-coverage --concurrency=1"
+package.json:171: "@stylistic/eslint-plugin": "^5.1.0",
+package.json:172: "@stylistic/eslint-plugin-js": "^4.1.0",
+package.json:184: "eslint": "^9.0.0",
+package.json:207: "@fastify/error": "^4.0.0",
+package.json:216: "process-warning": "^5.0.0",
+PROJECT_CHARTER.md:3: The Fastify project aims to build a fast and low-overhead web framework for
+scripts/validate-ecosystem-links.js:27: return GITHUB_OWNER_REGEX.test(owner) && GITHUB_REPO_REGEX.test(repo)
+scripts/validate-ecosystem-links.js:54: error: 'Invalid GitHub repository identifier'
+scripts/validate-ecosystem-links.js:90: status: 'error',
+scripts/validate-ecosystem-links.js:92: error: err.message
+scripts/validate-ecosystem-links.js:175: console.error(err)
+SECURITY.md:59: - **Information disclosure by design**: Exposing error details or stack traces
+test/404s.test.js:79: fastify.get('/with-error', function (req, reply) {
+test/404s.test.js:83: fastify.get('/with-error-custom-header', function (req, reply) {
+test/404s.test.js:132: await t.test('with error object', async (t) => {
+test/404s.test.js:134: const response = await fetch(getServerUrl(fastify) + '/with-error')
+
+SELECTED_FILE_EXCERPTS:
+FILE: package.json
+{
+  "name": "fastify",
+  "version": "5.8.5",
+  "description": "Fast and low overhead web framework, for Node.js",
+  "main": "fastify.js",
+  "type": "commonjs",
+  "types": "fastify.d.ts",
+  "scripts": {
+    "bench": "branchcmp -r 2 -g -s \"npm run benchmark\"",
+    "benchmark": "concurrently -k -s first \"node ./examples/benchmark/simple.js\" \"autocannon -c 100 -d 30 -p 10 localhost:3000/\"",
+    "benchmark:parser": "concurrently -k -s first \"node ./examples/benchmark/parser.js\" \"autocannon -c 100 -d 30 -p 10 -i ./examples/benchmark/body.json -H \"content-type:application/jsoff\" -m POST localhost:3000/\"",
+    "benchmark:parser:error": "concurrently -k -s first \"node ./examples/benchmark/parser.js\" \"autocannon -c 100 -d 30 -p 10 -i ./examples/benchmark/body.json -H \"content-type:application/jsoff\" -H \"content-length:123\" -m POST localhost:3000/\"",
+    "build:validation": "node build/build-error-serializer.js && node build/build-validation.js",
+    "build:sync-version": "node build/sync-version.js",
+    "coverage": "c8 --reporter html borp --reporter=@jsumners/line-reporter",
+    "coverage:ci-check-coverage": "borp --reporter=@jsumners/line-reporter --coverage --check-coverage --lines 100",
+    "lint": "npm run lint:eslint",
+    "lint:fix": "eslint --fix",
+    "lint:markdown": "markdownlint-cli2",
+    "lint:eslint": "eslint",
+    "prepublishOnly": "cross-env PREPUBLISH=true borp --reporter=@jsumners/line-reporter && npm run test:validator:integrity && npm run build:sync-version",
+    "test": "npm run lint && npm run unit && npm run test:typescript",
+    "test:ci": "npm run unit && npm run test:typescript",
+    "test:report": "npm run lint && npm run unit:report && npm run test:typescript",
+    "test:validator:integrity": "npm run build:validation && git diff --quiet --ignore-all-space --ignore-blank-lines --ignore-cr-at-eol lib/error-serializer.js && git diff --quiet --ignore-all-space --ignore-blank-lines --ignore-cr-at-eol lib/config-validator.js",
+    "test:typescript": "tsc test/types/import.ts --target es2022 --moduleResolution node16 --module node16 --noEmit && tsd",
+    "test:watch": "npm run unit -- --watch --coverage-report=none --reporter=terse",
+    "unit": "borp",
+    "unit:report": "c8 --reporter html borp --reporter=@jsumners/line-reporter",
+    "citgm": "borp --reporter=@jsumners/line-reporter --coverage --check-coverage --concurrency=1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fastify/fastify.git"
+  },
+  "keywords": [
+    "web",
+    "framework",
+    "json",
+    "schema",
+    "open",
+    "api"
+  ],
+  "author": "Matteo Collina <hello@matteocollina.com>",
+  "contributors": [
+    {
+      "name": "Tomas Della Vedova",
+      "url": "http://delved.org",
+      "author": true
+    },
+    {
+      "name": "Tommaso Allevi",
+      "email": "tomallevi@gmail.com"
+    },
+    {
+      "name": "Ethan Arrowood",
+      "url": "https://github.com/Ethan-Arrowood",
+      "email": "ethan.arrowood@gmail.com"
+    },
+    {
+      "name": "Dustin Deus",
+      "url": "http://starptech.de",
+      "email": "deusdustin@gmail.com"
+    },
+    {
+      "name": "Ayoub El Khattabi",
+      "url": "https://github.com/AyoubElk",
+      "email": "elkhattabi.ayoub@gmail.com"
+    },
+    {
+      "name": "Rafael Gonzaga",
+      "email": "rafael.nunu@hotmail.com",
+      "url": "https://github.com/rafaelgss"
+    },
+    {
+      "name": "Trivikram Kamat",
+      "url": "http://trivikr.github.io",
+      "email": "trivikr.dev@gmail.com"
+    },
+    {
+      "name": "Luciano Mammino",
+      "url": "https://loige.co"
+    },
+    {
+      "name": "Cemre Mengu",
+      "email": "cemremengu@gmail.com"
+    },
+    {
+      "name": "Evan Shortiss",
+      "email": "evanshortiss@gmail.com"
+    },
+    {
+      "name": "Maksim Sinik",
+      "url": "https://maksim.dev"
+    },
+    {
+      "name": "Manuel Spigolon",
+      "email": "behemoth89@gmail.com"
+    },
+    {
+      "name": "James Sumners",
+      "url": "https://james.sumners.info"
+    },
+    {
+      "name": "Denis Fäcke",
+      "url": "https://github.com/SerayaEryn"
+    },
+    {
+      "name": "Igor Savin",
+      "email": "kibertoad@gmail.com",
+      "url": "https://github.com/kibertoad"
+    },
+    {
+      "name": "Vincent Le Goff",
+      "email": "vince.legoff@gmail.com",
+      "url": "https://github.com/zekth"
+    },
+    {
+      "name": "Luis Orbaiceta",
+      "email": "luisorbaiceta@gmail.com",
+      "url": "https://luisorbaiceta.com"
+    },
+    {
+      "name": "Carlos Fuentes",
+      "email": "me@metcoder.dev",
+      "url": "https://metcoder.dev"
+    },
+    {
+      "name": "Gürgün Dayıoğlu",
+      "email": "hey@gurgun.day",
+      "url": "https://heyhey.to/G"
+    },
+    {
+      "name": "Aras Abbasi",
+      "email": "aras.abbasi@gmail.com"
+    },
+    {
+      "name": "Frazer Smith",
+      "email": "frazer.dev@icloud.com",
+      "url": "https://github.com/fdawgs"
+    },
+    {
+      "name": "KaKa Ng",
+      "email": "kaka@kakang.dev",
+      "url": "https://github.com/climba03003"
+    },
+    {
+      "name": "Jean Michelet",
+      "email": "jean.antoine.michelet@gmail.com",
+      "url": "https://github.com/jean-michelet"
+    }
+  ],
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/fastify/fastify/issues"
+  },
+  "homepage": "https://fastify.dev/",
+  "funding": [
+    {
+      "type": "github",
+      "url": "https://github.com/sponsors/fastify"
+    },
+    {
+      "type": "opencollective",
+      "url": "https://opencollective.com/fastify"
+    }
+  ],
+  "devDependencies": {
+    "@jsumners/line-reporter": "^1.0.1",
+    "@sinonjs/fake-timers": "^11.2.2",
+    "@stylistic/eslint-plugin": "^5.1.0",
+    "@stylistic/eslint-plugin-js": "^4.1.0",
+    "@types/node": "^25.0.3",
+    "ajv": "^8.12.0",
+    "ajv-errors": "^3.0.0",
+    "ajv-formats": "^3.0.1",
+    "ajv-i18n": "^4.2.0",
+    "ajv-merge-patch": "^5.0.1",
+    "autocannon": "^8.0.0",
+    "borp": "^1.0.0",
+    "branch-comparer": "^1.1.0",
+    "concurrently": "^9.1.2",
+    "cross-env": "^10.0.0",
+    "eslint": "^9.0.0",
+    "fast-json-body": "^1.1.0",
+    "fastify-plugin": "^5.0.0",
+    "fluent-json-schema": "^6.0.0",
+    "h2url": "^0.2.0",
+    "http-errors": "^2.0.0",
+    "joi": "^18.0.1",
+    "json-schema-to-ts": "^3.0.1",
+    "JSONStream": "^1.3.5",
+    "markdownlint-cli2": "^0.22.0",
+    "neostandard": "^0.12.0",
+    "node-forge": "^1.3.1",
+    "proxyquire": "^2.1.3",
+    "split2": "^4.2.0",
+    "tsd": "^0.33.0",
+    "typebox": "^1.0.81",
+    "typescript": "~6.0.2",
+    "undici": "^7.11
+
+---
+
+FILE: README.md
+<div align="center"> <a href="https://fastify.dev/">
+    <img
+      src="https://github.com/fastify/graphics/raw/HEAD/fastify-landscape-outlined.svg"
+      width="650"
+      height="auto"
+    />
+  </a>
+</div>
+
+<div align="center">
+
+[![CI](https://github.com/fastify/fastify/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/fastify/fastify/actions/workflows/ci.yml)
+[![Package Manager
+CI](https://github.com/fastify/fastify/actions/workflows/package-manager-ci.yml/badge.svg?branch=main)](https://github.com/fastify/fastify/actions/workflows/package-manager-ci.yml)
+[![Web
+site](https://github.com/fastify/fastify/actions/workflows/website.yml/badge.svg?branch=main)](https://github.com/fastify/fastify/actions/workflows/website.yml)
+[![neostandard javascript style](https://img.shields.io/badge/code_style-neostandard-brightgreen?style=flat)](https://github.com/neostandard/neostandard)
+[![CII Best Practices](https://bestpractices.coreinfrastructure.org/projects/7585/badge)](https://bestpractices.coreinfrastructure.org/projects/7585)
+
+</div>
+
+<div align="center">
+
+[![NPM
+version](https://img.shields.io/npm/v/fastify.svg?style=flat)](https://www.npmjs.com/package/fastify)
+[![NPM
+downloads](https://img.shields.io/npm/dm/fastify.svg?style=flat)](https://www.npmjs.com/package/fastify)
+[![Security Responsible
+Disclosure](https://img.shields.io/badge/Security-Responsible%20Disclosure-yellow.svg)](https://github.com/fastify/fastify/blob/main/SECURITY.md)
+[![Discord](https://img.shields.io/discord/725613461949906985)](https://discord.gg/fastify)
+[![Contribute with Gitpod](https://img.shields.io/badge/Contribute%20with-Gitpod-908a85?logo=gitpod&color=blue)](https://gitpod.io/#https://github.com/fastify/fastify)
+[![Open Collective backers and sponsors](https://img.shields.io/opencollective/all/fastify)](https://github.com/sponsors/fastify#sponsors)
+
+</div>
+
+<br />
+
+An efficient server implies a lower cost of the infrastructure, better
+responsiveness under load, and happy users. How can you efficiently handle the
+resources of your server, knowing that you are serving the highest number of
+requests possible, without sacrificing security validations and handy
+development?
+
+Enter Fastify. Fastify is a web framework highly focused on providing the best
+developer experience with the least overhead and a powerful plugin architecture.
+It is inspired by Hapi and Express and as far as we know, it is one of the
+fastest web frameworks in town.
+
+The `main` branch refers to the Fastify `v5` release.
+Check out the [`4.x` branch](https://github.com/fastify/fastify/tree/4.x) for `v4`.
+
+### Table of Contents
+
+ - [Quick start](#quick-start)
+ - [Install](#install)
+ - [Example](#example)
+ - [Core features](#core-features)
+ - [Benchmarks](#benchmarks)
+ - [Documentation](#documentation)
+ - [Ecosystem](#ecosystem)
+ - [Support](#support)
+ - [Team](#team)
+ - [Hosted by](#hosted-by)
+ - [License](#license)
+
+
+### Quick start
+
+Create a folder and make it your current working directory:
+
+```sh
+mkdir my-app
+cd my-app
+```
+
+Generate a fastify project with `npm init`:
+
+```sh
+npm init fastify
+```
+
+Install dependencies:
+
+```sh
+npm i
+```
+
+To start the app in dev mode:
+
+```sh
+npm run dev
+```
+
+For production mode:
+
+```sh
+npm start
+```
+
+Under the hood `npm init` downloads and runs [Fastify
+Create](https://github.com/fastify/create-fastify), which in turn uses the
+generate functionality of [Fastify CLI](https://github.com/fastify/fastify-cli).
+
+
+### Install
+
+To install Fastify in an existing project as a dependency:
+
+```sh
+npm i fastify
+```
+
+### Example
+
+```js
+// Require the framework and instantiate it
+
+// ESM
+import Fastify from 'fastify'
+
+const fastify = Fastify({
+  logger: true
+})
+// CommonJs
+const fastify = require('fastify')({
+  logger: true
+})
+
+// Declare a route
+fastify.get('/', (request, reply) => {
+  reply.send({ hello: 'world' })
+})
+
+// Run the server!
+fastify.listen({ port: 3000 }, (err, address) => {
+  if (err) throw err
+  // Server is now listening on ${address}
+})
+```
+
+With async-await:
+
+```js
+// ESM
+import Fastify from 'fastify'
+
+const fastify = Fastify({
+  logger: true
+})
+// CommonJs
+const fastify = require('fastify')({
+  logger: true
+})
+
+fastify.get('/', async (request, reply) => {
+  reply.type('application/json').code(200)
+  return { hello: 'world' }
+})
+
+fastify.listen({ port: 3000 }, (err, address) => {
+  if (err) throw err
+  // Server is now listening on ${address}
+})
+```
+
+Do you want to know more? Head to the <a
+href="./docs/Guides/Getting-Started.md"><code><b>Getting Started</b></code></a>.
+If you learn best by reading code, explore the official [demo](https://github.com/fastify/demo).
+
+> ## Note
+> `.listen` binds to the local host, `localhost`, interface by default
+> (`127.0.0.1` or `::1`, depending on the operating system configuration). If
+> you are running Fastify in a container (Docker,
+> [GCP](https://cloud.google.com/), etc.), you may need to bind to `0.0.0.0`. Be
+> careful when listening on all interfaces; it comes with inherent
+> [security
+> risks](https://web.archive.org/web/20170711105010/https://snyk.io/blog/mongodb-hack-and-secure-defaults/).
+> See [the documentation](./docs/Reference/Server.md#listen) for more
+> information.
+
+### Core features
+
+- **Highly performant:** as far as we know, Fastify is one of the fastest web
+  frameworks in town, depending on the code complexity we can serve up to 76+
+  thousand requests per second.
+- **Extensible:** Fastify is fully extensible via its hooks, plugins, and
+  decorators.
+- **Schema-based:** even if it is not mandatory we recommend using [JSON
+  Schema](https://json-schema.org/) to validate your routes and serialize your
+  outputs. Internally Fastify compiles the schema in a highly performant
+  function.
+- **Logging:** logs are extremely important but are costly; we chose the best
+  logger to almost remove this cost, [Pino](https://github.com/pinojs/pino)!
+- **Developer friendly:** the framework is built to be very expressive and help
+  developers in their daily use without sacrificing performance and
+  security.
+
+### Benchmarks
+
+__Machine:__ EX41S-SSD, Intel Core i7, 4Ghz, 64GB RAM, 4C/8T, SSD.
+
+__Method__: `autocannon -c 100 -d 40 -p 10 localhost:3000` * 2, taking the
+second average
+
+| Framework          | Version                    | Router?      |  Requests/sec |
+| :----------------- | :------------------------- | :----------: | ------------: |
+| Express            | 4.17.3                     | &#10003;     | 14,200        |
+| hapi       
+
+---
+
+FILE: CONTRIBUTING.md
+# Fastify is an OPEN Open Source Project
+
+## What?
+
+Individuals making significant and valuable contributions are given
+commit-access to the project to contribute as they see fit. This project is more
+like an open wiki than a standard guarded open source project.
+
+See our [informal contributing guide](./docs/Guides/Contributing.md) for more
+details on contributing to this project.
+
+### I want to be a collaborator!
+
+If you think you meet the above criteria and we have not invited you yet, we are
+sorry! Feel free to reach out to a [Lead
+Maintainer](https://github.com/fastify/fastify#team) privately with a few links
+to your valuable contributions. Read the [GOVERNANCE](GOVERNANCE.md) to get more
+information.
+
+## Rules
+
+There are a few basic ground rules for contributors:
+
+1. **No `--force` pushes** on `main` or modifying the Git history in any way
+   after a PR has been merged.
+1. **Non-main branches** ought to be used for ongoing work.
+1. **External API changes and significant modifications** ought to be subject to
+   an **internal pull request** to solicit feedback from other contributors.
+1. Internal pull requests to solicit feedback are *encouraged* for any other
+   non-trivial contribution but are left to the discretion of the contributor.
+1. Contributors should attempt to adhere to the prevailing code style.
+1. At least two contributors, or one core member, must approve pull requests
+   before merging.
+1. All integrated CI services must be green before a pull request can be merged.
+1. A lead maintainer must merge SemVer-major changes in this repository.
+1. If it is not possible to reach a consensus in a pull request, the decision
+   is left to the lead maintainer's team.
+1. Pure-AI contributions with no human in the loop are not welcome. Pull
+requests ***MUST*** be opened by a human. Pull requests opened by bots not
+managed by the Fastify organization will result in the bot being banned
+from the organization.
+
+### Fastify previous versions
+
+Every version of Fastify has its own branch. All Fastify related
+changes should be based on the corresponding branch.
+
+We have a [Long Term Support](./docs/Reference/LTS.md) policy that defines
+the organization's efforts for each Fastify's version.
+
+|Version|Branch|
+|-------|------|
+**v1.x**|[branch 1.x](https://github.com/fastify/fastify/tree/1.x)|
+**v2.x**|[branch 2.x](https://github.com/fastify/fastify/tree/2.x)|
+**v3.x**|[branch 3.x](https://github.com/fastify/fastify/tree/3.x)|
+**v4.x**|[branch 4.x](https://github.com/fastify/fastify/tree/4.x)|
+
+## Releases
+
+Declaring formal releases remains the prerogative of the lead maintainers. Do
+not bump version numbers in pull requests.
+
+## Plugins
+
+Contributors to Fastify plugins must follow the same rules as the main Fastify repository,
+ with a few adjustments:
+
+1. Any member can publish a release.
+1. The plugin version must follow the [semver](https://semver.org/)
+   specification.
+1. The Node.js compatibility must match with Fastify's main branch.
+1. The new release must have the changelog information stored in the GitHub
+     release. For this we suggest adopting a tool like
+     [`releasify`](https://github.com/fastify/releasify) to achieve this.
+1. PR opened by bots (like Dependabot) can be merged if the CI is green and the
+   Node.js versions supported are the same as the plugin.
+
+## Changes to this arrangement
+
+This is an experiment and feedback is welcome! This document may also be subject
+to pull requests or changes by contributors where you believe you have something
+valuable to add or change.
+
+# Fastify Organization Structure
+
+The Fastify structure is detailed in the [GOVERNANCE](GOVERNANCE.md) document.
+
+### Onboarding Collaborators
+
+Welcome to the team! We are happy to have you. Before you start, please complete
+the following tasks:
+1. Set up 2 factor authentication for GitHub and NPM
+    - [GitHub
+    2FA](https://docs.github.com/en/authentication/securing-your-account-with-two-factor-authentication-2fa)
+    - [NPM 2FA](https://docs.npmjs.com/about-two-factor-authentication/)
+2. Choose which team to join *(more than one is ok!)* based on how you want to
+   help.
+    - Core team: maintains core Fastify and its documentation
+    - Plugins team: maintains Fastify's plugins and its ecosystem
+3. Open a pull request to
+   [`fastify/fastify:HEAD`](https://github.com/fastify/fastify/pulls) that adds
+   your name, username, and email to the team you have chosen in the
+   [README.md](./README.md) and [package.json](./package.json) *(if you are part
+   of the core team)* files. The member lists are sorted alphabetically by last
+   name; make sure to add your name in the proper order.
+4. Open a pull request to
+   [`fastify/website:HEAD`](https://github.com/fastify/website/pulls) adding
+   yourself to the
+   [team.yml](https://github.com/fastify/website/blob/HEAD/static/data/team.yml)
+   file. This list is also sorted alphabetically so make sure to add your name
+   in the proper order. Use your GitHub profile icon for the `picture:` field.
+5. Read the [pinned announcements](https://github.com/orgs/fastify/discussions/categories/announcements)
+   to be updated with the organization’s news.
+6. The person who does the onboarding must open a pull request to
+   [`fastify/org-admin`](https://github.com/fastify/org-admin?tab=readme-ov-file#org-admin)
+   so an admin can add the new member to the
+   [npm org](https://www.npmjs.com/org/fastify) and the GitHub Team,
+   so that the new joiner can help maintain the official plugins.
+8. Optionally, the person can be added as an Open Collective member
+   by the lead team.
+
+### Offboarding Collaborators
+
+We are thankful to you and we are really glad to have worked with you. We'd be
+really happy to see you here again if you want to come back, but for now the
+person that did the onboarding must:
+1. Ask the collaborator if they want to stay or not.
+1. If the collaborator can't work with us anymore, they should:
+  1. Open a pull request to
+     [`fastify/fastify:HEAD`](https://github.com/fastify/fastify/pulls) and move
+     themselves to the *Past Collaborators* section.
+  2. Open a pull request to
+     [`fastify/website:HEAD`](https://github.com/fastify/website/pulls) and move
+     themselves to the *Past Collaborators* section in the
+     [team.yml](https://github.com/fastify/website/blob/HEAD/static/data/team.yml)
+     file.
+
+The person that did the onboarding must:
+1. If the collaborator does not reply to the ping in a reasonable time, open the
+   pull req
+
+---
+
+FILE: docs/Guides/Contributing.md
+# Contributing To Fastify
+<a id="contributing"></a>
+
+Thank you for taking an interest in contributing to Fastify. We are excited to
+receive your support and knowledge. This guide is our attempt to help you help
+us.
+
+> ## Note
+> This is an informal guide. For full details, please review the formal
+> [CONTRIBUTING
+> document](https://github.com/fastify/fastify/blob/main/CONTRIBUTING.md)
+> our [Developer Certificate of
+> Origin](https://en.wikipedia.org/wiki/Developer_Certificate_of_Origin).
+
+## Table Of Contents
+<a id="contributing-toc"></a>
+
+- [Table Of Contents](#table-of-contents)
+- [Types Of Contributions We're Looking
+  For](#types-of-contributions-were-looking-for)
+- [Ground Rules & Expectations](#ground-rules--expectations)
+- [How To Contribute](#how-to-contribute)
+- [Setting Up Your Environment](#setting-up-your-environment)
+  - [Using Visual Studio Code](#using-visual-studio-code)
+
+## Types Of Contributions We're Looking For
+<a id="contribution-types"></a>
+
+In short, we welcome any type of contribution you are willing to provide. No
+contribution is too small. We gladly accept contributions such as:
+
+* Documentation improvements: from small typo corrections to major document
+  reworks
+* Helping others by answering questions in pull requests and
+  [discussions](https://github.com/fastify/fastify/discussions)
+* Fixing [known
+  bugs](https://github.com/fastify/fastify/issues?q=is%3Aissue+is%3Aopen+label%3Abug)
+* Reporting previously unknown bugs by opening an issue with a minimal
+  reproduction
+
+## Ground Rules & Expectations
+<a id="contributing-rules"></a>
+
+Before we get started, here are a few things we expect from you (and that you
+should expect from others):
+
+* Be respectful and thoughtful in your conversations around this project. This
+  project is maintained by a diverse set of people from all across the globe.
+  Each person has their own views and opinions about the project. Try to listen
+  to each other and reach an agreement or compromise.
+* We have a [Code of
+  Conduct](https://github.com/fastify/fastify/blob/main/CODE_OF_CONDUCT.md). You
+  must adhere to it to participate in this project.
+* If you open a pull request, please ensure your contribution passes all
+  tests. If there are test failures, you will need to address them before we can
+  merge your contribution.
+
+## How To Contribute
+<a id="contributing-how-to"></a>
+
+If you'd like to contribute, start by searching through the
+[issues](https://github.com/fastify/fastify/issues) and [pull
+requests](https://github.com/fastify/fastify/pulls) to see whether someone else
+has raised a similar idea or question.
+
+If you don't see your idea listed, and you think it fits into the goals of this
+guide, do one of the following:
+* **If your contribution is minor,** such as a typo fix, open a pull request.
+* **If your contribution is major,** such as a new feature, start by opening an
+  issue first. That way, other people can weigh in on the discussion before you
+  do any work.
+
+<!--
+TODO: add link to a style guide, when we have one, here as in
+https://github.com/github/opensource.guide/blob/2868efbf0c14aec821909c19e210c3603a4a7805/CONTRIBUTING.md#style-guide
+-->
+
+## Setting Up Your Environment
+<a id="contributing-environment"></a>
+
+Please adhere to the project's code and documentation style. Some popular tools
+that automatically "correct" code and documentation do not follow a style that
+conforms to this project's styles. Notably, this project uses
+[StandardJS](https://standardjs.com) for code formatting.
+
+[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/fastify/fastify)
+
+### Using Visual Studio Code
+<a id="contributing-vscode"></a>
+
+What follows is how to use [Visual Studio Code (VSCode)
+portable](https://code.visualstudio.com/docs/editor/portable) to create a
+Fastify specific environment. This guide is written as if you are setting up the
+environment on macOS, but the principles are the same across all platforms. See
+the previously linked VSCode portable guide for help with other platforms.
+
+First, [download VSCode](https://code.visualstudio.com/download) and unpackage
+it to `/Applications/VSCodeFastify/`. Upon doing so, the following should output
+"found" when run in a terminal:
+
+```sh
+[ -d /Applications/VSCodeFastify/Visual\ Studio\ Code.app ] && echo "found"
+```
+
+As mentioned in the VSCode portable guide, we need to unsandbox the application
+for the portable mode to work correctly. So issue the following in a terminal:
+
+```sh
+xattr -dr com.apple.quarantine /Applications/VSCodeFastify/Visual\ Studio\ Code.app
+```
+
+Next, create the required data directories for VSCode:
+
+```sh
+mkdir -p /Applications/VSCodeFastify/code-portable-data/{user-data,extensions}
+```
+
+Before continuing, we need to add the `code` command to your terminal's `PATH`.
+To do so, we will [manually add VSCode to the
+`PATH`](https://code.visualstudio.com/docs/setup/mac#_launch-vs-code-from-the-command-line).
+As outlined in that document, the instructions vary depending on your default
+shell, so you should follow the instructions in that guide as relates to your
+preferred shell. However, we will tweak them slightly by defining an alias
+instead of a direct reference to the `code` tool. This is so we do not conflict
+with any other installation of VSCode you may have, and to keep this guide
+specific to Fastify. So, ultimately, we want the following:
+
+```sh
+alias code-fastify="/Applications/VSCodeFastify/Visual\ Studio\ Code.app/Contents/Resources/app/bin/code"
+```
+
+The result should be that `code-fastify --version` results in something like:
+
+```sh
+❯ code-fastify --version
+1.50.0
+93c2f0fbf16c5a4b10e4d5f89737d9c2c25488a3
+x64
+```
+
+Now that VSCode is installed, and we can work with it via the command line, we
+need to install an extension that will aid in keeping any JavaScript you write
+for the project formatted according to the project's style:
+
+```sh
+code-fastify --install-extension dbaeumer.vscode-eslint
+```
+
+Upon successful execution of the previous command, the following command should
+result in "found" being output:
+
+```sh
+[ -d /Applications/VSCodeFastify/code-portable-data/extensions/dbaeumer.vscode-eslint-* ] && echo "found"
+```
+
+Now, from within the directory of your local clone of the Fastify project, we
+can open VSCode:
+
+```sh
+code-fastify .
+```
+
+A new VSCode window should open and you should see the Fastify project files in
+the left sidebar. But wait! We are not quite done yet. There are a few more
+
+
+---
+
+FILE: docs/Guides/Testing.md
+<h1 style="text-align: center;">Fastify</h1>
+
+# Testing
+<a id="testing"></a>
+
+Testing is one of the most important parts of developing an application. Fastify
+is very flexible when it comes to testing and is compatible with most testing
+frameworks (such as [Node Test Runner](https://nodejs.org/api/test.html),
+which is used in the examples below).
+
+## Application
+
+Let's `cd` into a fresh directory called 'testing-example' and type `npm init
+-y` in our terminal.
+
+Run `npm i fastify && npm i pino-pretty -D`
+
+### Separating concerns makes testing easy
+
+First, we are going to separate our application code from our server code:
+
+**app.js**:
+
+```js
+'use strict'
+
+const fastify = require('fastify')
+
+function build(opts={}) {
+  const app = fastify(opts)
+  app.get('/', async function (request, reply) {
+    return { hello: 'world' }
+  })
+
+  return app
+}
+
+module.exports = build
+```
+
+**server.js**:
+
+```js
+'use strict'
+
+const server = require('./app')({
+  logger: {
+    level: 'info',
+    transport: {
+      target: 'pino-pretty'
+    }
+  }
+})
+
+server.listen({ port: 3000 }, (err, address) => {
+  if (err) {
+    server.log.error(err)
+    process.exit(1)
+  }
+})
+```
+
+### Benefits of using fastify.inject()
+
+Fastify comes with built-in support for fake HTTP injection thanks to
+[`light-my-request`](https://github.com/fastify/light-my-request).
+
+Before introducing any tests, we will use the `.inject` method to make a fake
+request to our route:
+
+**app.test.js**:
+
+```js
+'use strict'
+
+const build = require('./app')
+
+const test = async () => {
+  const app = build()
+
+  const response = await app.inject({
+    method: 'GET',
+    url: '/'
+  })
+
+  console.log('status code: ', response.statusCode)
+  console.log('body: ', response.body)
+}
+test()
+```
+
+First, our code will run inside an asynchronous function, giving us access to
+async/await.
+
+`.inject` ensures all registered plugins have booted up and our application is
+ready to test. Finally, we pass the request method we want to use and a route.
+Using await we can store the response without a callback.
+
+
+
+Run the test file in your terminal `node app.test.js`
+
+```sh
+status code:  200
+body:  {"hello":"world"}
+```
+
+
+
+### Testing with HTTP injection
+
+Now we can replace our `console.log` calls with actual tests!
+
+In your `package.json` change the "test" script to:
+
+`"test": "node --test --watch"`
+
+**app.test.js**:
+
+```js
+'use strict'
+
+const { test } = require('node:test')
+const build = require('./app')
+
+test('requests the "/" route', async t => {
+  t.plan(1)
+  const app = build()
+
+  const response = await app.inject({
+    method: 'GET',
+    url: '/'
+  })
+  t.assert.strictEqual(response.statusCode, 200, 'returns a status code of 200')
+})
+```
+
+Finally, run `npm test` in the terminal and see your test results!
+
+The `inject` method can do much more than a simple GET request to a URL:
+```js
+fastify.inject({
+  method: String,
+  url: String,
+  query: Object,
+  payload: Object,
+  headers: Object,
+  cookies: Object
+}, (error, response) => {
+  // your tests
+})
+```
+
+`.inject` methods can also be chained by omitting the callback function:
+
+```js
+fastify
+  .inject()
+  .get('/')
+  .headers({ foo: 'bar' })
+  .query({ foo: 'bar' })
+  .end((err, res) => { // the .end call will trigger the request
+    console.log(res.payload)
+  })
+```
+
+or in the promisified version
+
+```js
+fastify
+  .inject({
+    method: String,
+    url: String,
+    query: Object,
+    payload: Object,
+    headers: Object,
+    cookies: Object
+  })
+  .then(response => {
+    // your tests
+  })
+  .catch(err => {
+    // handle error
+  })
+```
+
+Async await is supported as well!
+```js
+try {
+  const res = await fastify.inject({ method: String, url: String, payload: Object, headers: Object })
+  // your tests
+} catch (err) {
+  // handle error
+}
+```
+
+#### Another Example:
+
+**app.js**
+```js
+const Fastify = require('fastify')
+
+function buildFastify () {
+  const fastify = Fastify()
+
+  fastify.get('/', function (request, reply) {
+    reply.send({ hello: 'world' })
+  })
+
+  return fastify
+}
+
+module.exports = buildFastify
+```
+
+**test.js**
+```js
+const { test } = require('node:test')
+const buildFastify = require('./app')
+
+test('GET `/` route', t => {
+  t.plan(4)
+
+  const fastify = buildFastify()
+
+  // At the end of your tests it is highly recommended to call `.close()`
+  // to ensure that all connections to external services get closed.
+  t.after(() => fastify.close())
+
+  fastify.inject({
+    method: 'GET',
+    url: '/'
+  }, (err, response) => {
+    t.assert.ifError(err)
+    t.assert.strictEqual(response.statusCode, 200)
+    t.assert.strictEqual(response.headers['content-type'], 'application/json; charset=utf-8')
+    t.assert.deepStrictEqual(response.json(), { hello: 'world' })
+  })
+})
+```
+
+### Testing with a running server
+Fastify can also be tested after starting the server with `fastify.listen()` or
+after initializing routes and plugins with `fastify.ready()`.
+
+#### Example:
+
+Uses **app.js** from the previous example.
+
+**test-listen.js** (testing with [`undici`](https://www.npmjs.com/package/undici))
+```js
+const { test } = require('node:test')
+const { Client } = require('undici')
+const buildFastify = require('./app')
+
+test('should work with undici', async t => {
+  t.plan(2)
+
+  const fastify = buildFastify()
+
+  await fastify.listen()
+
+   const client = new Client(
+    'http://localhost:' + fastify.server.address().port, {
+      keepAliveTimeout: 10,
+      keepAliveMaxTimeout: 10
+    }
+  )
+
+  t.after(() => {
+    fastify.close()
+    client.close()
+  })
+
+  const response = await client.request({ method: 'GET', path: '/' })
+
+  t.assert.strictEqual(await response.body.text(), '{"hello":"world"}')
+  t.assert.strictEqual(response.statusCode, 200)
+})
+```
+
+Alternatively, starting with Node.js 18,
+[`fetch`](https://nodejs.org/docs/latest-v18.x/api/globals.html#fetch)
+may be used without requiring any extra dependencies:
+
+**test-listen.js**
+```js
+const { test } = require('node:test')
+const buildFastify = require('./app')
+
+test('should work with fetch', async t => {
+  t.plan(3)
+
+  const fastify = buildFastify()
+
+  t.after(() => fastify.close())
+
+  await fastify.listen()
+
+  const response = await fetch(
+    'http://localhost:' + fastify.server.address().port
+  )
+
+  t.assert.strictEqual(response.status, 200)
+  t.assert.strictEqual(
+    response.headers.get('content-type'),
+    'application/json; charset=utf-8'
+  )
+  const jsonResult = await response.json()
+  t.assert.strictEqual(jsonResult.hello, 'world')
+})
+```
+
+**test-ready.js** (testing with
+[`SuperT
+
+---
+
+FILE: test/bundler/esbuild/package.json
+{
+  "version": "0.0.1",
+  "scripts": {
+    "bundle": "esbuild success=src/index.js failPlugin=src/fail-plugin-version.js --bundle  --outdir=dist --platform=node",
+    "test": "npm run bundle && node bundler-test.js"
+  },
+  "devDependencies": {
+    "esbuild": "^0.25.0"
+  }
+}
+
+
+---
+
+FILE: test/bundler/webpack/package.json
+{
+  "version":"0.0.1",
+  "scripts": {
+    "bundle": "webpack",
+    "test": "npm run bundle && node bundler-test.js"
+  },
+  "devDependencies": {
+    "webpack": "^5.49.0",
+    "webpack-cli": "^4.7.2"
+  }
+}
+
+
+---
+
+FILE: lib/config-validator.js
+// This file is autogenerated by build/build-validation.js, do not edit
+/* c8 ignore start */
+"use strict";
+module.exports = validate10;
+module.exports.default = validate10;
+const schema11 = {"type":"object","additionalProperties":false,"properties":{"connectionTimeout":{"type":"integer","default":0},"keepAliveTimeout":{"type":"integer","default":72000},"forceCloseConnections":{"oneOf":[{"type":"string","pattern":"idle"},{"type":"boolean"}]},"maxRequestsPerSocket":{"type":"integer","default":0,"nullable":true},"requestTimeout":{"type":"integer","default":0},"handlerTimeout":{"type":"integer","default":0},"bodyLimit":{"type":"integer","default":1048576},"caseSensitive":{"type":"boolean","default":true},"allowUnsafeRegex":{"type":"boolean","default":false},"http2":{"type":"boolean"},"https":{"if":{"not":{"oneOf":[{"type":"boolean"},{"type":"null"},{"type":"object","additionalProperties":false,"required":["allowHTTP1"],"properties":{"allowHTTP1":{"type":"boolean"}}}]}},"then":{"setDefaultValue":true}},"ignoreTrailingSlash":{"type":"boolean","default":false},"ignoreDuplicateSlashes":{"type":"boolean","default":false},"disableRequestLogging":{"default":false},"maxParamLength":{"type":"integer","default":100},"onProtoPoisoning":{"type":"string","default":"error"},"onConstructorPoisoning":{"type":"string","default":"error"},"pluginTimeout":{"type":"integer","default":10000},"requestIdHeader":{"anyOf":[{"type":"boolean"},{"type":"string"}],"default":false},"requestIdLogLabel":{"type":"string","default":"reqId"},"http2SessionTimeout":{"type":"integer","default":72000},"exposeHeadRoutes":{"type":"boolean","default":true},"useSemicolonDelimiter":{"type":"boolean","default":false},"routerOptions":{"type":"object","additionalProperties":true,"properties":{"ignoreTrailingSlash":{"type":"boolean","default":false},"ignoreDuplicateSlashes":{"type":"boolean","default":false},"maxParamLength":{"type":"integer","default":100},"allowUnsafeRegex":{"type":"boolean","default":false},"useSemicolonDelimiter":{"type":"boolean","default":false}}},"constraints":{"type":"object","additionalProperties":{"type":"object","required":["name","storage","validate","deriveConstraint"],"additionalProperties":true,"properties":{"name":{"type":"string"},"storage":{},"validate":{},"deriveConstraint":{}}}}}};
+const func2 = Object.prototype.hasOwnProperty;
+const pattern0 = new RegExp("idle", "u");
+
+function validate10(data, {instancePath="", parentData, parentDataProperty, rootData=data}={}){
+let vErrors = null;
+let errors = 0;
+if(errors === 0){
+if(data && typeof data == "object" && !Array.isArray(data)){
+if(data.connectionTimeout === undefined){
+data.connectionTimeout = 0;
+}
+if(data.keepAliveTimeout === undefined){
+data.keepAliveTimeout = 72000;
+}
+if(data.maxRequestsPerSocket === undefined){
+data.maxRequestsPerSocket = 0;
+}
+if(data.requestTimeout === undefined){
+data.requestTimeout = 0;
+}
+if(data.handlerTimeout === undefined){
+data.handlerTimeout = 0;
+}
+if(data.bodyLimit === undefined){
+data.bodyLimit = 1048576;
+}
+if(data.caseSensitive === undefined){
+data.caseSensitive = true;
+}
+if(data.allowUnsafeRegex === undefined){
+data.allowUnsafeRegex = false;
+}
+if(data.ignoreTrailingSlash === undefined){
+data.ignoreTrailingSlash = false;
+}
+if(data.ignoreDuplicateSlashes === undefined){
+data.ignoreDuplicateSlashes = false;
+}
+if(data.disableRequestLogging === undefined){
+data.disableRequestLogging = false;
+}
+if(data.maxParamLength === undefined){
+data.maxParamLength = 100;
+}
+if(data.onProtoPoisoning === undefined){
+data.onProtoPoisoning = "error";
+}
+if(data.onConstructorPoisoning === undefined){
+data.onConstructorPoisoning = "error";
+}
+if(data.pluginTimeout === undefined){
+data.pluginTimeout = 10000;
+}
+if(data.requestIdHeader === undefined){
+data.requestIdHeader = false;
+}
+if(data.requestIdLogLabel === undefined){
+data.requestIdLogLabel = "reqId";
+}
+if(data.http2SessionTimeout === undefined){
+data.http2SessionTimeout = 72000;
+}
+if(data.exposeHeadRoutes === undefined){
+data.exposeHeadRoutes = true;
+}
+if(data.useSemicolonDelimiter === undefined){
+data.useSemicolonDelimiter = false;
+}
+const _errs1 = errors;
+for(const key0 in data){
+if(!(func2.call(schema11.properties, key0))){
+delete data[key0];
+}
+}
+if(_errs1 === errors){
+let data0 = data.connectionTimeout;
+const _errs2 = errors;
+if(!(((typeof data0 == "number") && (!(data0 % 1) && !isNaN(data0))) && (isFinite(data0)))){
+let dataType0 = typeof data0;
+let coerced0 = undefined;
+if(!(coerced0 !== undefined)){
+if(dataType0 === "boolean" || data0 === null
+              || (dataType0 === "string" && data0 && data0 == +data0 && !(data0 % 1))){
+coerced0 = +data0;
+}
+else {
+validate10.errors = [{instancePath:instancePath+"/connectionTimeout",schemaPath:"#/properties/connectionTimeout/type",keyword:"type",params:{type: "integer"},message:"must be integer"}];
+return false;
+}
+}
+if(coerced0 !== undefined){
+data0 = coerced0;
+if(data !== undefined){
+data["connectionTimeout"] = coerced0;
+}
+}
+}
+var valid0 = _errs2 === errors;
+if(valid0){
+let data1 = data.keepAliveTimeout;
+const _errs4 = errors;
+if(!(((typeof data1 == "number") && (!(data1 % 1) && !isNaN(data1))) && (isFinite(data1)))){
+let dataType1 = typeof data1;
+let coerced1 = undefined;
+if(!(coerced1 !== undefined)){
+if(dataType1 === "boolean" || data1 === null
+              || (dataType1 === "string" && data1 && data1 == +data1 && !(data1 % 1))){
+coerced1 = +data1;
+}
+else {
+validate10.errors = [{instancePath:instancePath+"/keepAliveTimeout",schemaPath:"#/properties/keepAliveTimeout/type",keyword:"type",params:{type: "integer"},message:"must be integer"}];
+return false;
+}
+}
+if(coerced1 !== undefined){
+data1 = coerced1;
+if(data !== undefined){
+data["keepAliveTimeout"] = coerced1;
+}
+}
+}
+var valid0 = _errs4 === errors;
+if(valid0){
+if(data.forceCloseConnections !== undefined){
+let data2 = data.forceCloseConnections;
+const _errs6 = errors;
+const _errs7 = errors;
+let valid1 = false;
+let passing0 = null;
+const _errs8 = errors;
+if(typeof data2 !== "string"){
+let dataType2 = typeof data2;
+let coerced2 = undefined;
+if(!(coerced2 !== undefined)){
+if(dataType2 == "number" || dataType2 == "boolean"){
+coerced2 = "" + data2;
+}
+else if(data2 === null){
+coerced2 = "";
+}
+else {
+const err0 = {instancePath:instancePath+"/forceCloseConnections",schemaPath:"#/properties/forceCloseConnections/oneOf/0/type",keyword:"type",params:{type: "string"},message:"must be string"};
+if(vErrors === null){
+vErrors = [err0];
+}
+else {
+vErrors.push(err0);
+}
+errors++;
+}
+}
+if(coerced2 !==
+
+---
+
+FILE: lib/content-type-parser.js
+'use strict'
+
+const { AsyncResource } = require('node:async_hooks')
+const { FifoMap: Fifo, LruMap: Lru } = require('toad-cache')
+const { parse: secureJsonParse } = require('secure-json-parse')
+const ContentType = require('./content-type')
+const {
+  kDefaultJsonParse,
+  kContentTypeParser,
+  kBodyLimit,
+  kRequestPayloadStream,
+  kState,
+  kTestInternals,
+  kReplyIsError,
+  kRouteContext
+} = require('./symbols')
+
+const {
+  FST_ERR_CTP_INVALID_TYPE,
+  FST_ERR_CTP_EMPTY_TYPE,
+  FST_ERR_CTP_ALREADY_PRESENT,
+  FST_ERR_CTP_INVALID_HANDLER,
+  FST_ERR_CTP_INVALID_PARSE_TYPE,
+  FST_ERR_CTP_BODY_TOO_LARGE,
+  FST_ERR_CTP_INVALID_MEDIA_TYPE,
+  FST_ERR_CTP_INVALID_CONTENT_LENGTH,
+  FST_ERR_CTP_EMPTY_JSON_BODY,
+  FST_ERR_CTP_INSTANCE_ALREADY_STARTED,
+  FST_ERR_CTP_INVALID_JSON_BODY
+} = require('./errors')
+const { FSTSEC001 } = require('./warnings')
+
+function ContentTypeParser (bodyLimit, onProtoPoisoning, onConstructorPoisoning) {
+  this[kDefaultJsonParse] = getDefaultJsonParser(onProtoPoisoning, onConstructorPoisoning)
+  // using a map instead of a plain object to avoid prototype hijack attacks
+  this.customParsers = new Map()
+  this.customParsers.set('application/json', new Parser(true, false, bodyLimit, this[kDefaultJsonParse]))
+  this.customParsers.set('text/plain', new Parser(true, false, bodyLimit, defaultPlainTextParser))
+  this.parserList = ['application/json', 'text/plain']
+  this.parserRegExpList = []
+  this.cache = new Fifo(100)
+  this.ctCache = new Lru(100)
+}
+
+ContentTypeParser.prototype.getContentType = function (raw) {
+  let ct = this.ctCache.get(raw)
+  if (ct !== undefined) return ct
+  ct = new ContentType(raw)
+  this.ctCache.set(raw, ct)
+  return ct
+}
+
+ContentTypeParser.prototype.add = function (contentType, opts, parserFn) {
+  const contentTypeIsString = typeof contentType === 'string'
+
+  if (contentTypeIsString) {
+    contentType = contentType.trim().toLowerCase()
+    if (contentType.length === 0) throw new FST_ERR_CTP_EMPTY_TYPE()
+  } else if (!(contentType instanceof RegExp)) {
+    throw new FST_ERR_CTP_INVALID_TYPE()
+  }
+
+  if (typeof parserFn !== 'function') {
+    throw new FST_ERR_CTP_INVALID_HANDLER()
+  }
+
+  if (this.existingParser(contentType)) {
+    throw new FST_ERR_CTP_ALREADY_PRESENT(contentType)
+  }
+
+  if (opts.parseAs !== undefined) {
+    if (opts.parseAs !== 'string' && opts.parseAs !== 'buffer') {
+      throw new FST_ERR_CTP_INVALID_PARSE_TYPE(opts.parseAs)
+    }
+  }
+
+  const parser = new Parser(
+    opts.parseAs === 'string',
+    opts.parseAs === 'buffer',
+    opts.bodyLimit,
+    parserFn
+  )
+
+  if (contentType === '*') {
+    this.customParsers.set('', parser)
+  } else {
+    if (contentTypeIsString) {
+      const ct = new ContentType(contentType)
+      if (ct.isValid === false) {
+        throw new FST_ERR_CTP_INVALID_TYPE()
+      }
+      const normalizedContentType = ct.toString()
+      this.parserList.unshift(normalizedContentType)
+      this.customParsers.set(normalizedContentType, parser)
+    } else {
+      validateRegExp(contentType)
+      this.parserRegExpList.unshift(contentType)
+      this.customParsers.set(contentType.toString(), parser)
+    }
+  }
+}
+
+ContentTypeParser.prototype.hasParser = function (contentType) {
+  if (typeof contentType === 'string') {
+    contentType = new ContentType(contentType).toString()
+  } else {
+    if (!(contentType instanceof RegExp)) throw new FST_ERR_CTP_INVALID_TYPE()
+    contentType = contentType.toString()
+  }
+
+  return this.customParsers.has(contentType)
+}
+
+ContentTypeParser.prototype.existingParser = function (contentType) {
+  if (typeof contentType === 'string') {
+    const ct = new ContentType(contentType).toString()
+    if (contentType === 'application/json' && this.customParsers.has(contentType)) {
+      return this.customParsers.get(ct).fn !== this[kDefaultJsonParse]
+    }
+    if (contentType === 'text/plain' && this.customParsers.has(contentType)) {
+      return this.customParsers.get(ct).fn !== defaultPlainTextParser
+    }
+  }
+
+  return this.hasParser(contentType)
+}
+
+ContentTypeParser.prototype.getParser = function (contentType) {
+  if (typeof contentType === 'string') {
+    const cached = this.cache.get(contentType)
+    if (cached !== undefined) return cached
+    contentType = new ContentType(contentType)
+  }
+  const ct = contentType.toString()
+
+  let parser = this.cache.get(ct)
+  if (parser !== undefined) return parser
+  parser = this.customParsers.get(ct)
+  if (parser !== undefined) {
+    this.cache.set(ct, parser)
+    return parser
+  }
+
+  // We have conflicting desires across our test suite. In some cases, we
+  // expect to get a parser by just passing the media-type. In others, we expect
+  // to get a parser registered under the media-type while also providing
+  // parameters. And in yet others, we expect to register a parser under the
+  // media-type and have it apply to any request with a header that starts
+  // with that type.
+  parser = this.customParsers.get(contentType.mediaType)
+  if (parser !== undefined) {
+    return parser
+  }
+
+  for (let j = 0; j !== this.parserRegExpList.length; ++j) {
+    const parserRegExp = this.parserRegExpList[j]
+    if (parserRegExp.test(ct)) {
+      parser = this.customParsers.get(parserRegExp.toString())
+      this.cache.set(ct, parser)
+      return parser
+    }
+  }
+
+  return this.customParsers.get('')
+}
+
+ContentTypeParser.prototype.removeAll = function () {
+  this.customParsers = new Map()
+  this.parserRegExpList = []
+  this.parserList = []
+  this.cache = new Fifo(100)
+  this.ctCache = new Lru(100)
+}
+
+ContentTypeParser.prototype.remove = function (contentType) {
+  let parsers
+
+  if (typeof contentType === 'string') {
+    contentType = new ContentType(contentType).toString()
+    parsers = this.parserList
+  } else {
+    if (!(contentType instanceof RegExp)) throw new FST_ERR_CTP_INVALID_TYPE()
+    contentType = contentType.toString()
+    parsers = this.parserRegExpList
+  }
+
+  const removed = this.customParsers.delete(contentType)
+  const idx = parsers.findIndex(ct => ct.toString() === contentType)
+
+  if (idx > -1) {
+    parsers.splice(idx, 1)
+  }
+
+  return removed || idx > -1
+}
+
+ContentTypeParser.prototype.run = function (contentType, handler, request, reply) {
+  const parser = this.getParser(contentType)
+
+  if (parser === undefined) {
+    if (request.is404 === true) {
+      handler(request, reply)
+      return
+    }
+
+    reply[kReplyIsError] = true
+    reply.send(new FST_ERR_CTP_INVALID_MEDIA_TYPE())
+    return
+  }
+
+  const resource = new AsyncResource('content-type-
+
+---
+
+FILE: lib/content-type.js
+'use strict'
+
+/**
+ * keyValuePairsReg is used to split the parameters list into associated
+ * key value pairings. The leading `(?:^|;)\s*` anchor ensures the regex
+ * only attempts matches at parameter boundaries, preventing quadratic
+ * backtracking on malformed input.
+ *
+ * @see https://httpwg.org/specs/rfc9110.html#parameter
+ * @type {RegExp}
+ */
+const keyValuePairsReg = /(?:^|;)\s*([\w!#$%&'*+.^`|~-]+)=([^;]*)/gm
+
+/**
+ * typeNameReg is used to validate that the first part of the media-type
+ * does not use disallowed characters. Types must consist solely of
+ * characters that match the specified character class. It must terminate
+ * with a matching character.
+ *
+ * @see https://httpwg.org/specs/rfc9110.html#rule.token.separators
+ * @type {RegExp}
+ */
+const typeNameReg = /^[\w!#$%&'*+.^`|~-]+$/
+
+/**
+ * subtypeNameReg is used to validate that the second part of the media-type
+ * does not use disallowed characters. Subtypes must consist solely of
+ * characters that match the specified character class, and optionally
+ * terminated with any amount of whitespace characters. Without the terminating
+ * anchor (`$`), the regular expression will match the leading portion of a
+ * string instead of the whole string.
+ *
+ * @see https://httpwg.org/specs/rfc9110.html#rule.token.separators
+ * @type {RegExp}
+ */
+const subtypeNameReg = /^[\w!#$%&'*+.^`|~-]+\s*$/
+
+/**
+ * ContentType parses and represents the value of the content-type header.
+ *
+ * @see https://httpwg.org/specs/rfc9110.html#media.type
+ * @see https://httpwg.org/specs/rfc9110.html#parameter
+ */
+class ContentType {
+  #valid = false
+  #empty = true
+  #type = ''
+  #subtype = ''
+  #parameters = new Map()
+  #string
+
+  constructor (headerValue) {
+    if (headerValue == null || headerValue === '' || headerValue === 'undefined') {
+      return
+    }
+
+    let sepIdx = headerValue.indexOf(';')
+    if (sepIdx === -1) {
+      // The value is the simplest `type/subtype` variant.
+      sepIdx = headerValue.indexOf('/')
+      if (sepIdx === -1) {
+        // Got a string without the correct `type/subtype` format.
+        return
+      }
+
+      const type = headerValue.slice(0, sepIdx).trimStart().toLowerCase()
+      const subtype = headerValue.slice(sepIdx + 1).trimEnd().toLowerCase()
+
+      if (
+        typeNameReg.test(type) === true &&
+        subtypeNameReg.test(subtype) === true
+      ) {
+        this.#valid = true
+        this.#empty = false
+        this.#type = type
+        this.#subtype = subtype
+      }
+
+      return
+    }
+
+    // We have a `type/subtype; params=list...` header value.
+    const mediaType = headerValue.slice(0, sepIdx).toLowerCase()
+    const paramsList = headerValue.slice(sepIdx + 1).trim()
+
+    sepIdx = mediaType.indexOf('/')
+    if (sepIdx === -1) {
+      // We got an invalid string like `something; params=list...`.
+      return
+    }
+    const type = mediaType.slice(0, sepIdx).trimStart()
+    const subtype = mediaType.slice(sepIdx + 1).trimEnd()
+
+    if (
+      typeNameReg.test(type) === false ||
+      subtypeNameReg.test(subtype) === false
+    ) {
+      // Some portion of the media-type is using invalid characters. Therefore,
+      // the content-type header is invalid.
+      return
+    }
+    this.#type = type
+    this.#subtype = subtype
+    this.#valid = true
+    this.#empty = false
+
+    let matches = keyValuePairsReg.exec(paramsList)
+    while (matches) {
+      const key = matches[1]
+      const value = matches[2]
+      if (value[0] === '"') {
+        if (value.at(-1) !== '"') {
+          this.#parameters.set(key, 'invalid quoted string')
+          matches = keyValuePairsReg.exec(paramsList)
+          continue
+        }
+        // We should probably verify the value matches a quoted string
+        // (https://httpwg.org/specs/rfc9110.html#rule.quoted-string) value.
+        // But we are not really doing much with the parameter values, so we
+        // are omitting that at this time.
+        this.#parameters.set(key, value.slice(1, value.length - 1))
+      } else {
+        this.#parameters.set(key, value)
+      }
+      matches = keyValuePairsReg.exec(paramsList)
+    }
+  }
+
+  get [Symbol.toStringTag] () { return 'ContentType' }
+
+  get isEmpty () { return this.#empty }
+
+  get isValid () { return this.#valid }
+
+  get mediaType () { return `${this.#type}/${this.#subtype}` }
+
+  get type () { return this.#type }
+
+  get subtype () { return this.#subtype }
+
+  get parameters () { return this.#parameters }
+
+  toString () {
+    /* c8 ignore next: we don't need to verify the cache */
+    if (this.#string) return this.#string
+    const parameters = []
+    for (const [key, value] of this.#parameters.entries()) {
+      parameters.push(`${key}="${value}"`)
+    }
+    const result = [this.#type, '/', this.#subtype]
+    if (parameters.length > 0) {
+      result.push('; ')
+      result.push(parameters.join('; '))
+    }
+    this.#string = result.join('')
+    return this.#string
+  }
+}
+
+module.exports = ContentType
+
+
+---
+
+FILE: lib/context.js
+'use strict'
+
+const {
+  kFourOhFourContext,
+  kReplySerializerDefault,
+  kSchemaErrorFormatter,
+  kErrorHandler,
+  kChildLoggerFactory,
+  kOptions,
+  kReply,
+  kRequest,
+  kBodyLimit,
+  kLogLevel,
+  kContentTypeParser,
+  kRouteByFastify,
+  kRequestCacheValidateFns,
+  kReplyCacheSerializeFns,
+  kHandlerTimeout
+} = require('./symbols.js')
+
+// Object that holds the context of every request
+// Every route holds an instance of this object.
+function Context ({
+  schema,
+  handler,
+  config,
+  requestIdLogLabel,
+  childLoggerFactory,
+  errorHandler,
+  bodyLimit,
+  logLevel,
+  logSerializers,
+  attachValidation,
+  validatorCompiler,
+  serializerCompiler,
+  replySerializer,
+  schemaErrorFormatter,
+  exposeHeadRoute,
+  prefixTrailingSlash,
+  server,
+  isFastify,
+  handlerTimeout
+}) {
+  this.schema = schema
+  this.handler = handler
+  this.Reply = server[kReply]
+  this.Request = server[kRequest]
+  this.contentTypeParser = server[kContentTypeParser]
+  this.onRequest = null
+  this.onSend = null
+  this.onError = null
+  this.onTimeout = null
+  this.preHandler = null
+  this.onResponse = null
+  this.preSerialization = null
+  this.onRequestAbort = null
+  this.config = config
+  this.errorHandler = errorHandler || server[kErrorHandler]
+  this.requestIdLogLabel = requestIdLogLabel || server[kOptions].requestIdLogLabel
+  this.childLoggerFactory = childLoggerFactory || server[kChildLoggerFactory]
+  this._middie = null
+  this._parserOptions = {
+    limit: bodyLimit || server[kBodyLimit]
+  }
+  this.exposeHeadRoute = exposeHeadRoute
+  this.prefixTrailingSlash = prefixTrailingSlash
+  this.logLevel = logLevel || server[kLogLevel]
+  this.logSerializers = logSerializers
+  this[kFourOhFourContext] = null
+  this.attachValidation = attachValidation
+  this[kReplySerializerDefault] = replySerializer
+  this.schemaErrorFormatter =
+    schemaErrorFormatter ||
+    server[kSchemaErrorFormatter] ||
+    defaultSchemaErrorFormatter
+  this[kRouteByFastify] = isFastify
+
+  this[kRequestCacheValidateFns] = null
+  this[kReplyCacheSerializeFns] = null
+  this.validatorCompiler = validatorCompiler || null
+  this.serializerCompiler = serializerCompiler || null
+
+  this.handlerTimeout = handlerTimeout || server[kHandlerTimeout] || 0
+  this.server = server
+}
+
+function defaultSchemaErrorFormatter (errors, dataVar) {
+  let text = ''
+  const separator = ', '
+
+  for (let i = 0; i !== errors.length; ++i) {
+    const e = errors[i]
+    text += dataVar + (e.instancePath || '') + ' ' + e.message + separator
+  }
+  return new Error(text.slice(0, -separator.length))
+}
+
+module.exports = Context
+
+
+---
+
+FILE: lib/decorate.js
+'use strict'
+
+const {
+  kReply,
+  kRequest,
+  kState,
+  kHasBeenDecorated
+} = require('./symbols.js')
+
+const {
+  FST_ERR_DEC_ALREADY_PRESENT,
+  FST_ERR_DEC_MISSING_DEPENDENCY,
+  FST_ERR_DEC_AFTER_START,
+  FST_ERR_DEC_REFERENCE_TYPE,
+  FST_ERR_DEC_DEPENDENCY_INVALID_TYPE,
+  FST_ERR_DEC_UNDECLARED
+} = require('./errors')
+
+function decorate (instance, name, fn, dependencies) {
+  if (Object.hasOwn(instance, name)) {
+    throw new FST_ERR_DEC_ALREADY_PRESENT(name)
+  }
+
+  checkDependencies(instance, name, dependencies)
+
+  if (fn && (typeof fn.getter === 'function' || typeof fn.setter === 'function')) {
+    Object.defineProperty(instance, name, {
+      get: fn.getter,
+      set: fn.setter
+    })
+  } else {
+    instance[name] = fn
+  }
+}
+
+function getInstanceDecorator (name) {
+  if (!checkExistence(this, name)) {
+    throw new FST_ERR_DEC_UNDECLARED(name, 'instance')
+  }
+
+  if (typeof this[name] === 'function') {
+    return this[name].bind(this)
+  }
+
+  return this[name]
+}
+
+function decorateConstructor (konstructor, name, fn, dependencies) {
+  const instance = konstructor.prototype
+  if (Object.hasOwn(instance, name) || hasKey(konstructor, name)) {
+    throw new FST_ERR_DEC_ALREADY_PRESENT(name)
+  }
+
+  konstructor[kHasBeenDecorated] = true
+  checkDependencies(konstructor, name, dependencies)
+
+  if (fn && (typeof fn.getter === 'function' || typeof fn.setter === 'function')) {
+    Object.defineProperty(instance, name, {
+      get: fn.getter,
+      set: fn.setter
+    })
+  } else if (typeof fn === 'function') {
+    instance[name] = fn
+  } else {
+    konstructor.props.push({ key: name, value: fn })
+  }
+}
+
+function checkReferenceType (name, fn) {
+  if (typeof fn === 'object' && fn && !(typeof fn.getter === 'function' || typeof fn.setter === 'function')) {
+    throw new FST_ERR_DEC_REFERENCE_TYPE(name, typeof fn)
+  }
+}
+
+function decorateFastify (name, fn, dependencies) {
+  assertNotStarted(this, name)
+  decorate(this, name, fn, dependencies)
+  return this
+}
+
+function checkExistence (instance, name) {
+  if (name) {
+    return name in instance || (instance.prototype && name in instance.prototype) || hasKey(instance, name)
+  }
+
+  return instance in this
+}
+
+function hasKey (fn, name) {
+  if (fn.props) {
+    return fn.props.find(({ key }) => key === name)
+  }
+  return false
+}
+
+function checkRequestExistence (name) {
+  if (name && hasKey(this[kRequest], name)) return true
+  return checkExistence(this[kRequest].prototype, name)
+}
+
+function checkReplyExistence (name) {
+  if (name && hasKey(this[kReply], name)) return true
+  return checkExistence(this[kReply].prototype, name)
+}
+
+function checkDependencies (instance, name, deps) {
+  if (deps === undefined || deps === null) {
+    return
+  }
+
+  if (!Array.isArray(deps)) {
+    throw new FST_ERR_DEC_DEPENDENCY_INVALID_TYPE(name)
+  }
+
+  for (let i = 0; i !== deps.length; ++i) {
+    if (!checkExistence(instance, deps[i])) {
+      throw new FST_ERR_DEC_MISSING_DEPENDENCY(deps[i])
+    }
+  }
+}
+
+function decorateReply (name, fn, dependencies) {
+  assertNotStarted(this, name)
+  checkReferenceType(name, fn)
+  decorateConstructor(this[kReply], name, fn, dependencies)
+  return this
+}
+
+function decorateRequest (name, fn, dependencies) {
+  assertNotStarted(this, name)
+  checkReferenceType(name, fn)
+  decorateConstructor(this[kRequest], name, fn, dependencies)
+  return this
+}
+
+function assertNotStarted (instance, name) {
+  if (instance[kState].started) {
+    throw new FST_ERR_DEC_AFTER_START(name)
+  }
+}
+
+module.exports = {
+  add: decorateFastify,
+  exist: checkExistence,
+  existRequest: checkRequestExistence,
+  existReply: checkReplyExistence,
+  dependencies: checkDependencies,
+  decorateReply,
+  decorateRequest,
+  getInstanceDecorator,
+  hasKey
+}
+
+
+---
+
+FILE: lib/error-handler.js
+'use strict'
+
+const statusCodes = require('node:http').STATUS_CODES
+const wrapThenable = require('./wrap-thenable.js')
+const { setErrorStatusCode } = require('./error-status.js')
+const {
+  kReplyHeaders,
+  kReplyNextErrorHandler,
+  kReplyIsRunningOnErrorHook,
+  kRouteContext,
+  kDisableRequestLogging
+} = require('./symbols.js')
+
+const {
+  FST_ERR_REP_INVALID_PAYLOAD_TYPE,
+  FST_ERR_FAILED_ERROR_SERIALIZATION
+} = require('./errors')
+
+const { getSchemaSerializer } = require('./schemas')
+
+const serializeError = require('./error-serializer')
+
+const rootErrorHandler = {
+  func: defaultErrorHandler,
+  toJSON () {
+    return this.func.name.toString() + '()'
+  }
+}
+
+function handleError (reply, error, cb) {
+  reply[kReplyIsRunningOnErrorHook] = false
+
+  const context = reply[kRouteContext]
+  if (reply[kReplyNextErrorHandler] === false) {
+    fallbackErrorHandler(error, reply, function (reply, payload) {
+      try {
+        reply.raw.writeHead(reply.raw.statusCode, reply[kReplyHeaders])
+      } catch (error) {
+        if (!reply.log[kDisableRequestLogging]) {
+          reply.log.warn(
+            { req: reply.request, res: reply, err: error },
+            error?.message
+          )
+        }
+        reply.raw.writeHead(reply.raw.statusCode)
+      }
+      reply.raw.end(payload)
+    })
+    return
+  }
+  const errorHandler = reply[kReplyNextErrorHandler] || context.errorHandler
+
+  // In case the error handler throws, we set the next errorHandler so we can error again
+  reply[kReplyNextErrorHandler] = Object.getPrototypeOf(errorHandler)
+
+  // we need to remove content-type to allow content-type guessing for serialization
+  delete reply[kReplyHeaders]['content-type']
+  delete reply[kReplyHeaders]['content-length']
+
+  const func = errorHandler.func
+
+  if (!func) {
+    reply[kReplyNextErrorHandler] = false
+    fallbackErrorHandler(error, reply, cb)
+    return
+  }
+
+  try {
+    const result = func(error, reply.request, reply)
+    if (result !== undefined) {
+      if (result !== null && typeof result.then === 'function') {
+        wrapThenable(result, reply)
+      } else {
+        reply.send(result)
+      }
+    }
+  } catch (err) {
+    reply.send(err)
+  }
+}
+
+function defaultErrorHandler (error, request, reply) {
+  setErrorHeaders(error, reply)
+  setErrorStatusCode(reply, error)
+  if (reply.statusCode < 500) {
+    if (!reply.log[kDisableRequestLogging]) {
+      reply.log.info(
+        { res: reply, err: error },
+        error?.message
+      )
+    }
+  } else {
+    if (!reply.log[kDisableRequestLogging]) {
+      reply.log.error(
+        { req: request, res: reply, err: error },
+        error?.message
+      )
+    }
+  }
+  reply.send(error)
+}
+
+function fallbackErrorHandler (error, reply, cb) {
+  const res = reply.raw
+  const statusCode = reply.statusCode
+  reply[kReplyHeaders]['content-type'] = reply[kReplyHeaders]['content-type'] ?? 'application/json; charset=utf-8'
+  let payload
+  try {
+    const serializerFn = getSchemaSerializer(reply[kRouteContext], statusCode, reply[kReplyHeaders]['content-type'])
+    if (serializerFn === false) {
+      payload = serializeError({
+        error: statusCodes[statusCode + ''],
+        code: error.code,
+        message: error.message,
+        statusCode
+      })
+    } else {
+      payload = serializerFn(Object.create(error, {
+        error: { value: statusCodes[statusCode + ''] },
+        message: { value: error.message },
+        statusCode: { value: statusCode }
+      }))
+    }
+  } catch (err) {
+    if (!reply.log[kDisableRequestLogging]) {
+      // error is always FST_ERR_SCH_SERIALIZATION_BUILD because this is called from route/compileSchemasForSerialization
+      reply.log.error({ err, statusCode: res.statusCode }, 'The serializer for the given status code failed')
+    }
+    reply.code(500)
+    payload = serializeError(new FST_ERR_FAILED_ERROR_SERIALIZATION(err.message, error.message))
+  }
+
+  if (typeof payload !== 'string' && !Buffer.isBuffer(payload)) {
+    payload = serializeError(new FST_ERR_REP_INVALID_PAYLOAD_TYPE(typeof payload))
+  }
+
+  reply[kReplyHeaders]['content-length'] = '' + Buffer.byteLength(payload)
+
+  cb(reply, payload)
+}
+
+function buildErrorHandler (parent = rootErrorHandler, func) {
+  if (!func) {
+    return parent
+  }
+
+  const errorHandler = Object.create(parent)
+  errorHandler.func = func
+  return errorHandler
+}
+
+function setErrorHeaders (error, reply) {
+  const res = reply.raw
+  let statusCode = res.statusCode
+  statusCode = (statusCode >= 400) ? statusCode : 500
+  // treat undefined and null as same
+  if (error != null) {
+    if (error.headers !== undefined) {
+      reply.headers(error.headers)
+    }
+    if (error.status >= 400) {
+      statusCode = error.status
+    } else if (error.statusCode >= 400) {
+      statusCode = error.statusCode
+    }
+  }
+  res.statusCode = statusCode
+}
+
+module.exports = {
+  buildErrorHandler,
+  handleError
+}
+
+
+---
+
+FILE: lib/error-serializer.js
+// This file is autogenerated by build/build-error-serializer.js, do not edit
+/* c8 ignore start */
+
+  'use strict'
+
+  const Serializer = require('fast-json-stringify/lib/serializer')
+  const serializerState = {"mode":"standalone"}
+  const serializer = Serializer.restoreFromState(serializerState)
+
+  const validator = null
+
+
+  module.exports = function anonymous(validator,serializer
+) {
+
+    
+const {
+  asString,
+  asNumber,
+  asBoolean,
+  asDateTime,
+  asDate,
+  asTime,
+  asUnsafeString
+} = serializer
+
+const asInteger = serializer.asInteger.bind(serializer)
+
+
+    const JSON_STR_BEGIN_OBJECT = '{'
+    const JSON_STR_END_OBJECT = '}'
+    const JSON_STR_BEGIN_ARRAY = '['
+    const JSON_STR_END_ARRAY = ']'
+    const JSON_STR_COMMA = ','
+    const JSON_STR_COLONS = ':'
+    const JSON_STR_QUOTE = '"'
+    const JSON_STR_EMPTY_OBJECT = JSON_STR_BEGIN_OBJECT + JSON_STR_END_OBJECT
+    const JSON_STR_EMPTY_ARRAY = JSON_STR_BEGIN_ARRAY + JSON_STR_END_ARRAY
+    const JSON_STR_EMPTY_STRING = JSON_STR_QUOTE + JSON_STR_QUOTE
+    const JSON_STR_NULL = 'null'
+  
+    
+  
+    // #
+    function anonymous0 (input) {
+      const obj = (input && typeof input.toJSON === 'function')
+    ? input.toJSON()
+    : input
+  
+      if (obj === null) return JSON_STR_EMPTY_OBJECT
+
+      let value
+let json = JSON_STR_BEGIN_OBJECT
+let addComma = false
+
+      value = obj["statusCode"]
+      if (value !== undefined) {
+        !addComma && (addComma = true) || (json += JSON_STR_COMMA)
+        json += "\"statusCode\":"
+        json += asNumber(value)
+      }
+
+      value = obj["code"]
+      if (value !== undefined) {
+        !addComma && (addComma = true) || (json += JSON_STR_COMMA)
+        json += "\"code\":"
+        
+        if (typeof value !== 'string') {
+          if (value === null) {
+            json += JSON_STR_EMPTY_STRING
+          } else if (value instanceof Date) {
+            json += JSON_STR_QUOTE + value.toISOString() + JSON_STR_QUOTE
+          } else if (value instanceof RegExp) {
+            json += asString(value.source)
+          } else {
+            json += asString(value.toString())
+          }
+        } else {
+          json += asString(value)
+        }
+        
+      }
+
+      value = obj["error"]
+      if (value !== undefined) {
+        !addComma && (addComma = true) || (json += JSON_STR_COMMA)
+        json += "\"error\":"
+        
+        if (typeof value !== 'string') {
+          if (value === null) {
+            json += JSON_STR_EMPTY_STRING
+          } else if (value instanceof Date) {
+            json += JSON_STR_QUOTE + value.toISOString() + JSON_STR_QUOTE
+          } else if (value instanceof RegExp) {
+            json += asString(value.source)
+          } else {
+            json += asString(value.toString())
+          }
+        } else {
+          json += asString(value)
+        }
+        
+      }
+
+      value = obj["message"]
+      if (value !== undefined) {
+        !addComma && (addComma = true) || (json += JSON_STR_COMMA)
+        json += "\"message\":"
+        
+        if (typeof value !== 'string') {
+          if (value === null) {
+            json += JSON_STR_EMPTY_STRING
+          } else if (value instanceof Date) {
+            json += JSON_STR_QUOTE + value.toISOString() + JSON_STR_QUOTE
+          } else if (value instanceof RegExp) {
+            json += asString(value.source)
+          } else {
+            json += asString(value.toString())
+          }
+        } else {
+          json += asString(value)
+        }
+        
+      }
+
+    return json + JSON_STR_END_OBJECT
+  
+    }
+  
+    const main = anonymous0
+    return main
+    
+}(validator, serializer)
+/* c8 ignore stop */
+
+
+---
+
+FILE: lib/error-status.js
+'use strict'
+
+const {
+  kReplyHasStatusCode
+} = require('./symbols')
+
+function setErrorStatusCode (reply, err) {
+  if (!reply[kReplyHasStatusCode] || reply.statusCode === 200) {
+    const statusCode = err && (err.statusCode || err.status)
+    reply.code(statusCode >= 400 ? statusCode : 500)
+  }
+}
+
+module.exports = { setErrorStatusCode }
+
+
+---
+
+FILE: lib/errors.js
+'use strict'
+
+const createError = require('@fastify/error')
+
+const codes = {
+  /**
+   * Basic
+   */
+  FST_ERR_NOT_FOUND: createError(
+    'FST_ERR_NOT_FOUND',
+    'Not Found',
+    404
+  ),
+  FST_ERR_OPTIONS_NOT_OBJ: createError(
+    'FST_ERR_OPTIONS_NOT_OBJ',
+    'Options must be an object',
+    500,
+    TypeError
+  ),
+  FST_ERR_QSP_NOT_FN: createError(
+    'FST_ERR_QSP_NOT_FN',
+    "querystringParser option should be a function, instead got '%s'",
+    500,
+    TypeError
+  ),
+  FST_ERR_SCHEMA_CONTROLLER_BUCKET_OPT_NOT_FN: createError(
+    'FST_ERR_SCHEMA_CONTROLLER_BUCKET_OPT_NOT_FN',
+    "schemaController.bucket option should be a function, instead got '%s'",
+    500,
+    TypeError
+  ),
+  FST_ERR_SCHEMA_ERROR_FORMATTER_NOT_FN: createError(
+    'FST_ERR_SCHEMA_ERROR_FORMATTER_NOT_FN',
+    "schemaErrorFormatter option should be a non async function. Instead got '%s'.",
+    500,
+    TypeError
+  ),
+  FST_ERR_AJV_CUSTOM_OPTIONS_OPT_NOT_OBJ: createError(
+    'FST_ERR_AJV_CUSTOM_OPTIONS_OPT_NOT_OBJ',
+    "ajv.customOptions option should be an object, instead got '%s'",
+    500,
+    TypeError
+  ),
+  FST_ERR_AJV_CUSTOM_OPTIONS_OPT_NOT_ARR: createError(
+    'FST_ERR_AJV_CUSTOM_OPTIONS_OPT_NOT_ARR',
+    "ajv.plugins option should be an array, instead got '%s'",
+    500,
+    TypeError
+  ),
+  FST_ERR_VALIDATION: createError(
+    'FST_ERR_VALIDATION',
+    '%s',
+    400
+  ),
+  FST_ERR_LISTEN_OPTIONS_INVALID: createError(
+    'FST_ERR_LISTEN_OPTIONS_INVALID',
+    "Invalid listen options: '%s'",
+    500,
+    TypeError
+  ),
+  FST_ERR_ERROR_HANDLER_NOT_FN: createError(
+    'FST_ERR_ERROR_HANDLER_NOT_FN',
+    'Error Handler must be a function',
+    500,
+    TypeError
+  ),
+  FST_ERR_ERROR_HANDLER_ALREADY_SET: createError(
+    'FST_ERR_ERROR_HANDLER_ALREADY_SET',
+    "Error Handler already set in this scope. Set 'allowErrorHandlerOverride: true' to allow overriding.",
+    500,
+    TypeError
+  ),
+
+  /**
+   * ContentTypeParser
+  */
+  FST_ERR_CTP_ALREADY_PRESENT: createError(
+    'FST_ERR_CTP_ALREADY_PRESENT',
+    "Content type parser '%s' already present."
+  ),
+  FST_ERR_CTP_INVALID_TYPE: createError(
+    'FST_ERR_CTP_INVALID_TYPE',
+    'The content type should be a string or a RegExp',
+    500,
+    TypeError
+  ),
+  FST_ERR_CTP_EMPTY_TYPE: createError(
+    'FST_ERR_CTP_EMPTY_TYPE',
+    'The content type cannot be an empty string',
+    500,
+    TypeError
+  ),
+  FST_ERR_CTP_INVALID_HANDLER: createError(
+    'FST_ERR_CTP_INVALID_HANDLER',
+    'The content type handler should be a function',
+    500,
+    TypeError
+  ),
+  FST_ERR_CTP_INVALID_PARSE_TYPE: createError(
+    'FST_ERR_CTP_INVALID_PARSE_TYPE',
+    "The body parser can only parse your data as 'string' or 'buffer', you asked '%s' which is not supported.",
+    500,
+    TypeError
+  ),
+  FST_ERR_CTP_BODY_TOO_LARGE: createError(
+    'FST_ERR_CTP_BODY_TOO_LARGE',
+    'Request body is too large',
+    413,
+    RangeError
+  ),
+  FST_ERR_CTP_INVALID_MEDIA_TYPE: createError(
+    'FST_ERR_CTP_INVALID_MEDIA_TYPE',
+    'Unsupported Media Type',
+    415
+  ),
+  FST_ERR_CTP_INVALID_CONTENT_LENGTH: createError(
+    'FST_ERR_CTP_INVALID_CONTENT_LENGTH',
+    'Request body size did not match Content-Length',
+    400,
+    RangeError
+  ),
+  FST_ERR_CTP_EMPTY_JSON_BODY: createError(
+    'FST_ERR_CTP_EMPTY_JSON_BODY',
+    "Body cannot be empty when content-type is set to 'application/json'",
+    400
+  ),
+  FST_ERR_CTP_INVALID_JSON_BODY: createError(
+    'FST_ERR_CTP_INVALID_JSON_BODY',
+    "Body is not valid JSON but content-type is set to 'application/json'",
+    400
+  ),
+  FST_ERR_CTP_INSTANCE_ALREADY_STARTED: createError(
+    'FST_ERR_CTP_INSTANCE_ALREADY_STARTED',
+    'Cannot call "%s" when fastify instance is already started!',
+    400
+  ),
+
+  /**
+   * decorate
+  */
+  FST_ERR_DEC_ALREADY_PRESENT: createError(
+    'FST_ERR_DEC_ALREADY_PRESENT',
+    "The decorator '%s' has already been added!"
+  ),
+  FST_ERR_DEC_DEPENDENCY_INVALID_TYPE: createError(
+    'FST_ERR_DEC_DEPENDENCY_INVALID_TYPE',
+    "The dependencies of decorator '%s' must be of type Array.",
+    500,
+    TypeError
+  ),
+  FST_ERR_DEC_MISSING_DEPENDENCY: createError(
+    'FST_ERR_DEC_MISSING_DEPENDENCY',
+    "The decorator is missing dependency '%s'."
+  ),
+  FST_ERR_DEC_AFTER_START: createError(
+    'FST_ERR_DEC_AFTER_START',
+    "The decorator '%s' has been added after start!"
+  ),
+  FST_ERR_DEC_REFERENCE_TYPE: createError(
+    'FST_ERR_DEC_REFERENCE_TYPE',
+    "The decorator '%s' of type '%s' is a reference type. Use the { getter, setter } interface instead."
+  ),
+  FST_ERR_DEC_UNDECLARED: createError(
+    'FST_ERR_DEC_UNDECLARED',
+    "No decorator '%s' has been declared on %s."
+  ),
+
+  /**
+   * hooks
+  */
+  FST_ERR_HOOK_INVALID_TYPE: createError(
+    'FST_ERR_HOOK_INVALID_TYPE',
+    'The hook name must be a string',
+    500,
+    TypeError
+  ),
+  FST_ERR_HOOK_INVALID_HANDLER: createError(
+    'FST_ERR_HOOK_INVALID_HANDLER',
+    '%s hook should be a function, instead got %s',
+    500,
+    TypeError
+  ),
+  FST_ERR_HOOK_INVALID_ASYNC_HANDLER: createError(
+    'FST_ERR_HOOK_INVALID_ASYNC_HANDLER',
+    'Async function has too many arguments. Async hooks should not use the \'done\' argument.',
+    500,
+    TypeError
+  ),
+  FST_ERR_HOOK_NOT_SUPPORTED: createError(
+    'FST_ERR_HOOK_NOT_SUPPORTED',
+    '%s hook not supported!',
+    500,
+    TypeError
+  ),
+
+  /**
+   * Middlewares
+   */
+  FST_ERR_MISSING_MIDDLEWARE: createError(
+    'FST_ERR_MISSING_MIDDLEWARE',
+    'You must register a plugin for handling middlewares, visit fastify.dev/docs/latest/Reference/Middleware/ for more info.',
+    500
+  ),
+
+  FST_ERR_HOOK_TIMEOUT: createError(
+    'FST_ERR_HOOK_TIMEOUT',
+    "A callback for '%s' hook%s timed out. You may have forgotten to call 'done' function or to resolve a Promise"
+  ),
+
+  /**
+   * logger
+  */
+  FST_ERR_LOG_INVALID_DESTINATION: createError(
+    'FST_ERR_LOG_INVALID_DESTINATION',
+    'Cannot specify both logger.stream and logger.file options'
+  ),
+
+  FST_ERR_LOG_INVALID_LOGGER: createError(
+    'FST_ERR_LOG_INVALID_LOGGER',
+    "Invalid logger object provided. The logger instance should have these functions(s): '%s'.",
+    500,
+    TypeError
+  ),
+
+  FST_ERR_LOG_INVALID_LOGGER_INSTANCE: createError(
+    'FST_ERR_LOG_INVALID_LOGGER_INSTANCE',
+    'loggerInstance only accepts a logger instance.',
+    500,
+    TypeError
+  ),
+
+  FST_ERR_LOG_INVALID_LOGGER_CONFIG: createError(
+    'FST_ERR_LOG_INVALID_LOGGER_CONFIG',
+    'logger options only accepts a configuration object.',
+    500,
+    TypeError
+  ),
+
+  FS
+
+---
+
+FILE: lib/four-oh-four.js
+'use strict'
+
+const FindMyWay = require('find-my-way')
+
+const Reply = require('./reply')
+const Request = require('./request')
+const Context = require('./context')
+const {
+  kRoutePrefix,
+  kCanSetNotFoundHandler,
+  kFourOhFourLevelInstance,
+  kFourOhFourContext,
+  kHooks,
+  kErrorHandler
+} = require('./symbols.js')
+const { lifecycleHooks } = require('./hooks')
+const { buildErrorHandler } = require('./error-handler.js')
+const {
+  FST_ERR_NOT_FOUND
+} = require('./errors')
+const { createChildLogger } = require('./logger-factory')
+const { getGenReqId } = require('./req-id-gen-factory.js')
+
+/**
+ * Each fastify instance have a:
+ * kFourOhFourLevelInstance: point to a fastify instance that has the 404 handler set
+ * kCanSetNotFoundHandler: bool to track if the 404 handler has already been set
+ * kFourOhFour: the singleton instance of this 404 module
+ * kFourOhFourContext: the context in the reply object where the handler will be executed
+ */
+function fourOhFour (options) {
+  const { logger, disableRequestLogging } = options
+
+  // 404 router, used for handling encapsulated 404 handlers
+  const router = FindMyWay({ onBadUrl: createOnBadUrl(), defaultRoute: fourOhFourFallBack })
+  let _onBadUrlHandler = null
+
+  return { router, setNotFoundHandler, setContext, arrange404 }
+
+  function arrange404 (instance) {
+    // Change the pointer of the fastify instance to itself, so register + prefix can add new 404 handler
+    instance[kFourOhFourLevelInstance] = instance
+    instance[kCanSetNotFoundHandler] = true
+    // we need to bind instance for the context
+    router.onBadUrl = router.onBadUrl.bind(instance)
+    router.defaultRoute = router.defaultRoute.bind(instance)
+  }
+
+  function basic404 (request, reply) {
+    const { url, method } = request.raw
+    const message = `Route ${method}:${url} not found`
+    const resolvedDisableRequestLogging = typeof disableRequestLogging === 'function' ? disableRequestLogging(request.raw) : disableRequestLogging
+    if (!resolvedDisableRequestLogging) {
+      request.log.info(message)
+    }
+    reply.code(404).send({
+      message,
+      error: 'Not Found',
+      statusCode: 404
+    })
+  }
+
+  function createOnBadUrl () {
+    return function onBadUrl (path, req, res) {
+      const fourOhFourContext = this[kFourOhFourLevelInstance][kFourOhFourContext]
+      const id = getGenReqId(fourOhFourContext.server, req)
+      const childLogger = createChildLogger(fourOhFourContext, logger, req, id)
+      const request = new Request(id, null, req, null, childLogger, fourOhFourContext)
+      const reply = new Reply(res, request, childLogger)
+
+      _onBadUrlHandler(request, reply)
+    }
+  }
+
+  function setContext (instance, context) {
+    const _404Context = Object.assign({}, instance[kFourOhFourContext])
+    _404Context.onSend = context.onSend
+    context[kFourOhFourContext] = _404Context
+  }
+
+  function setNotFoundHandler (opts, handler, avvio, routeHandler) {
+    // First initialization of the fastify root instance
+    if (this[kCanSetNotFoundHandler] === undefined) {
+      this[kCanSetNotFoundHandler] = true
+    }
+    if (this[kFourOhFourContext] === undefined) {
+      this[kFourOhFourContext] = null
+    }
+
+    const _fastify = this
+    const prefix = this[kRoutePrefix] || '/'
+
+    if (this[kCanSetNotFoundHandler] === false) {
+      throw new Error(`Not found handler already set for Fastify instance with prefix: '${prefix}'`)
+    }
+
+    if (typeof opts === 'object') {
+      if (opts.preHandler) {
+        if (Array.isArray(opts.preHandler)) {
+          opts.preHandler = opts.preHandler.map(hook => hook.bind(_fastify))
+        } else {
+          opts.preHandler = opts.preHandler.bind(_fastify)
+        }
+      }
+
+      if (opts.preValidation) {
+        if (Array.isArray(opts.preValidation)) {
+          opts.preValidation = opts.preValidation.map(hook => hook.bind(_fastify))
+        } else {
+          opts.preValidation = opts.preValidation.bind(_fastify)
+        }
+      }
+    }
+
+    if (typeof opts === 'function') {
+      handler = opts
+      opts = undefined
+    }
+    opts = opts || {}
+
+    if (handler) {
+      this[kFourOhFourLevelInstance][kCanSetNotFoundHandler] = false
+      handler = handler.bind(this)
+      // update onBadUrl handler
+      _onBadUrlHandler = handler
+    } else {
+      handler = basic404
+      // update onBadUrl handler
+      _onBadUrlHandler = basic404
+    }
+
+    this.after((notHandledErr, done) => {
+      _setNotFoundHandler.call(this, prefix, opts, handler, avvio, routeHandler)
+      done(notHandledErr)
+    })
+  }
+
+  function _setNotFoundHandler (prefix, opts, handler, avvio, routeHandler) {
+    const context = new Context({
+      schema: opts.schema,
+      handler,
+      config: opts.config || {},
+      server: this
+    })
+
+    avvio.once('preReady', () => {
+      const context = this[kFourOhFourContext]
+      for (const hook of lifecycleHooks) {
+        const toSet = this[kHooks][hook]
+          .concat(opts[hook] || [])
+          .map(h => h.bind(this))
+        context[hook] = toSet.length ? toSet : null
+      }
+      context.errorHandler = opts.errorHandler
+        ? buildErrorHandler(this[kErrorHandler], opts.errorHandler)
+        : this[kErrorHandler]
+    })
+
+    if (this[kFourOhFourContext] !== null && prefix === '/') {
+      Object.assign(this[kFourOhFourContext], context) // Replace the default 404 handler
+      return
+    }
+
+    this[kFourOhFourLevelInstance][kFourOhFourContext] = context
+
+    router.all(prefix + (prefix.endsWith('/') ? '*' : '/*'), routeHandler, context)
+    router.all(prefix, routeHandler, context)
+  }
+
+  function fourOhFourFallBack (req, res) {
+    // if this happen, we have a very bad bug
+    // we might want to do some hard debugging
+    // here, let's print out as much info as
+    // we can
+    const fourOhFourContext = this[kFourOhFourLevelInstance][kFourOhFourContext]
+    const id = getGenReqId(fourOhFourContext.server, req)
+    const childLogger = createChildLogger(fourOhFourContext, logger, req, id)
+
+    childLogger.info({ req }, 'incoming request')
+
+    const request = new Request(id, null, req, null, childLogger, fourOhFourContext)
+    const reply = new Reply(res, request, childLogger)
+
+    request.log.warn('the default handler for 404 did not catch this, this is likely a fastify bug, please report it')
+    request.log.warn(router.prettyPrint())
+    reply.code(404).send(new FST_ERR_NOT_FOUND())
+  }
+}
+
+module.exports = fourOhFour
+
+
+---
+
+FILE: lib/handle-request.js
+'use strict'
+
+const diagnostics = require('node:diagnostics_channel')
+const wrapThenable = require('./wrap-thenable')
+const { validate: validateSchema } = require('./validation')
+const { preValidationHookRunner, preHandlerHookRunner } = require('./hooks')
+const { FST_ERR_CTP_INVALID_MEDIA_TYPE } = require('./errors')
+const { setErrorStatusCode } = require('./error-status')
+const {
+  kReplyIsError,
+  kRouteContext,
+  kFourOhFourContext,
+  kSupportedHTTPMethods,
+  kRequestContentType
+} = require('./symbols')
+
+const channels = diagnostics.tracingChannel('fastify.request.handler')
+
+function handleRequest (err, request, reply) {
+  if (reply.sent === true) return
+  if (err != null) {
+    reply[kReplyIsError] = true
+    reply.send(err)
+    return
+  }
+
+  const method = request.method
+
+  if (this[kSupportedHTTPMethods].bodyless.has(method)) {
+    handler(request, reply)
+    return
+  }
+
+  if (this[kSupportedHTTPMethods].bodywith.has(method)) {
+    const headers = request.headers
+    const ctHeader = headers['content-type']
+
+    if (ctHeader === undefined) {
+      const contentLength = headers['content-length']
+      const transferEncoding = headers['transfer-encoding']
+      const isEmptyBody = transferEncoding === undefined &&
+        (contentLength === undefined || contentLength === '0')
+
+      if (isEmptyBody) {
+        // Request has no body to parse
+        handler(request, reply)
+        return
+      }
+
+      request[kRouteContext].contentTypeParser.run('', handler, request, reply)
+      return
+    }
+
+    // Conditional assignment to avoid creating a new ContentType instance
+    // It can be assigned when accessing the .mediaType in hooks
+    if (!request[kRequestContentType]) {
+      request[kRequestContentType] = request[kRouteContext].contentTypeParser.getContentType(ctHeader)
+    }
+    if (request[kRequestContentType].isValid === false) {
+      reply[kReplyIsError] = true
+      reply.status(415).send(new FST_ERR_CTP_INVALID_MEDIA_TYPE())
+      return
+    }
+    request[kRouteContext].contentTypeParser.run(request[kRequestContentType].toString(), handler, request, reply)
+    return
+  }
+
+  // Return 404 instead of 405 see https://github.com/fastify/fastify/pull/862 for discussion
+  handler(request, reply)
+}
+
+function handler (request, reply) {
+  try {
+    if (request[kRouteContext].preValidation !== null) {
+      preValidationHookRunner(
+        request[kRouteContext].preValidation,
+        request,
+        reply,
+        preValidationCallback
+      )
+    } else {
+      preValidationCallback(null, request, reply)
+    }
+  } catch (err) {
+    preValidationCallback(err, request, reply)
+  }
+}
+
+function preValidationCallback (err, request, reply) {
+  if (reply.sent === true) return
+
+  if (err != null) {
+    reply[kReplyIsError] = true
+    reply.send(err)
+    return
+  }
+
+  const validationErr = validateSchema(reply[kRouteContext], request)
+  const isAsync = (validationErr && typeof validationErr.then === 'function') || false
+
+  if (isAsync) {
+    const cb = validationCompleted.bind(null, request, reply)
+    validationErr.then(cb, cb)
+  } else {
+    validationCompleted(request, reply, validationErr)
+  }
+}
+
+function validationCompleted (request, reply, validationErr) {
+  if (validationErr) {
+    if (reply[kRouteContext].attachValidation === false) {
+      reply.send(validationErr)
+      return
+    }
+
+    reply.request.validationError = validationErr
+  }
+
+  // preHandler hook
+  if (request[kRouteContext].preHandler !== null) {
+    preHandlerHookRunner(
+      request[kRouteContext].preHandler,
+      request,
+      reply,
+      preHandlerCallback
+    )
+  } else {
+    preHandlerCallback(null, request, reply)
+  }
+}
+
+function preHandlerCallback (err, request, reply) {
+  if (reply.sent) return
+
+  const context = request[kRouteContext]
+
+  if (!channels.hasSubscribers || context[kFourOhFourContext] === null) {
+    preHandlerCallbackInner(err, request, reply)
+  } else {
+    const store = {
+      request,
+      reply,
+      async: false,
+      route: {
+        url: context.config.url,
+        method: context.config.method
+      }
+    }
+    channels.start.runStores(store, preHandlerCallbackInner, undefined, err, request, reply, store)
+  }
+}
+
+function preHandlerCallbackInner (err, request, reply, store) {
+  const context = request[kRouteContext]
+
+  try {
+    if (err != null) {
+      reply[kReplyIsError] = true
+      if (store) {
+        store.error = err
+        // Set status code before publishing so subscribers see the correct value
+        setErrorStatusCode(reply, err)
+        channels.error.publish(store)
+      }
+      reply.send(err)
+      return
+    }
+
+    let result
+
+    try {
+      result = context.handler(request, reply)
+    } catch (err) {
+      if (store) {
+        store.error = err
+        // Set status code before publishing so subscribers see the correct value
+        setErrorStatusCode(reply, err)
+        channels.error.publish(store)
+      }
+
+      reply[kReplyIsError] = true
+      reply.send(err)
+      return
+    }
+
+    if (result !== undefined) {
+      if (result !== null && typeof result.then === 'function') {
+        wrapThenable(result, reply, store)
+      } else {
+        reply.send(result)
+      }
+    }
+  } finally {
+    if (store) channels.end.publish(store)
+  }
+}
+
+module.exports = handleRequest
+module.exports[Symbol.for('internals')] = { handler, preHandlerCallback }
+
+
+---
+
+FILE: lib/head-route.js
+'use strict'
+function headRouteOnSendHandler (req, reply, payload, done) {
+  // If payload is undefined
+  if (payload === undefined) {
+    reply.header('content-length', '0')
+    done(null, null)
+    return
+  }
+
+  // node:stream
+  if (typeof payload.resume === 'function') {
+    payload.on('error', (err) => {
+      reply.log.error({ err }, 'Error on Stream found for HEAD route')
+    })
+    payload.resume()
+    done(null, null)
+    return
+  }
+
+  // node:stream/web
+  if (typeof payload.getReader === 'function') {
+    payload.cancel('Stream cancelled by HEAD route').catch((err) => {
+      reply.log.error({ err }, 'Error on Stream found for HEAD route')
+    })
+    done(null, null)
+    return
+  }
+
+  const size = '' + Buffer.byteLength(payload)
+
+  reply.header('content-length', size)
+
+  done(null, null)
+}
+
+function parseHeadOnSendHandlers (onSendHandlers) {
+  if (onSendHandlers == null) return headRouteOnSendHandler
+  return Array.isArray(onSendHandlers)
+    ? [...onSendHandlers, headRouteOnSendHandler]
+    : [onSendHandlers, headRouteOnSendHandler]
+}
+
+module.exports = {
+  parseHeadOnSendHandlers
+}
+
+
+---
+
+FILE: lib/hooks.js
+'use strict'
+
+const applicationHooks = [
+  'onRoute',
+  'onRegister',
+  'onReady',
+  'onListen',
+  'preClose',
+  'onClose'
+]
+const lifecycleHooks = [
+  'onTimeout',
+  'onRequest',
+  'preParsing',
+  'preValidation',
+  'preSerialization',
+  'preHandler',
+  'onSend',
+  'onResponse',
+  'onError',
+  'onRequestAbort'
+]
+const supportedHooks = lifecycleHooks.concat(applicationHooks)
+const {
+  FST_ERR_HOOK_INVALID_TYPE,
+  FST_ERR_HOOK_INVALID_HANDLER,
+  FST_ERR_SEND_UNDEFINED_ERR,
+  FST_ERR_HOOK_TIMEOUT,
+  FST_ERR_HOOK_NOT_SUPPORTED,
+  AVVIO_ERRORS_MAP,
+  appendStackTrace
+} = require('./errors')
+
+const {
+  kChildren,
+  kHooks,
+  kRequestPayloadStream
+} = require('./symbols')
+
+function Hooks () {
+  this.onRequest = []
+  this.preParsing = []
+  this.preValidation = []
+  this.preSerialization = []
+  this.preHandler = []
+  this.onResponse = []
+  this.onSend = []
+  this.onError = []
+  this.onRoute = []
+  this.onRegister = []
+  this.onReady = []
+  this.onListen = []
+  this.onTimeout = []
+  this.onRequestAbort = []
+  this.preClose = []
+}
+
+Hooks.prototype = Object.create(null)
+
+Hooks.prototype.validate = function (hook, fn) {
+  if (typeof hook !== 'string') throw new FST_ERR_HOOK_INVALID_TYPE()
+  if (Array.isArray(this[hook]) === false) {
+    throw new FST_ERR_HOOK_NOT_SUPPORTED(hook)
+  }
+  if (typeof fn !== 'function') throw new FST_ERR_HOOK_INVALID_HANDLER(hook, Object.prototype.toString.call(fn))
+}
+
+Hooks.prototype.add = function (hook, fn) {
+  this.validate(hook, fn)
+  this[hook].push(fn)
+}
+
+function buildHooks (h) {
+  const hooks = new Hooks()
+  hooks.onRequest = h.onRequest.slice()
+  hooks.preParsing = h.preParsing.slice()
+  hooks.preValidation = h.preValidation.slice()
+  hooks.preSerialization = h.preSerialization.slice()
+  hooks.preHandler = h.preHandler.slice()
+  hooks.onSend = h.onSend.slice()
+  hooks.onResponse = h.onResponse.slice()
+  hooks.onError = h.onError.slice()
+  hooks.onRoute = h.onRoute.slice()
+  hooks.onRegister = h.onRegister.slice()
+  hooks.onTimeout = h.onTimeout.slice()
+  hooks.onRequestAbort = h.onRequestAbort.slice()
+  hooks.onReady = []
+  hooks.onListen = []
+  hooks.preClose = []
+  return hooks
+}
+
+function hookRunnerApplication (hookName, boot, server, cb) {
+  const hooks = server[kHooks][hookName]
+  let i = 0
+  let c = 0
+
+  next()
+
+  function exit (err) {
+    const hookFnName = hooks[i - 1]?.name
+    const hookFnFragment = hookFnName ? ` "${hookFnName}"` : ''
+
+    if (err) {
+      if (err.code === 'AVV_ERR_READY_TIMEOUT') {
+        err = appendStackTrace(err, new FST_ERR_HOOK_TIMEOUT(hookName, hookFnFragment))
+      } else {
+        err = AVVIO_ERRORS_MAP[err.code] != null
+          ? appendStackTrace(err, new AVVIO_ERRORS_MAP[err.code](err.message))
+          : err
+      }
+
+      cb(err)
+      return
+    }
+    cb()
+  }
+
+  function next (err) {
+    if (err) {
+      exit(err)
+      return
+    }
+
+    if (i === hooks.length && c === server[kChildren].length) {
+      if (i === 0 && c === 0) { // speed up start
+        exit()
+      } else {
+        // This is the last function executed for every fastify instance
+        boot(function manageTimeout (err, done) {
+          // this callback is needed by fastify to provide an hook interface without the error
+          // as first parameter and managing it on behalf the user
+          exit(err)
+
+          // this callback is needed by avvio to continue the loading of the next `register` plugins
+          done(err)
+        })
+      }
+      return
+    }
+
+    if (i === hooks.length && c < server[kChildren].length) {
+      const child = server[kChildren][c++]
+      hookRunnerApplication(hookName, boot, child, next)
+      return
+    }
+
+    boot(wrap(hooks[i++], server))
+    next()
+  }
+
+  function wrap (fn, server) {
+    return function (err, done) {
+      if (err) {
+        done(err)
+        return
+      }
+
+      if (fn.length === 1) {
+        try {
+          fn.call(server, done)
+        } catch (error) {
+          done(error)
+        }
+        return
+      }
+
+      try {
+        const ret = fn.call(server)
+        if (ret && typeof ret.then === 'function') {
+          ret.then(done, done)
+          return
+        }
+      } catch (error) {
+        err = error
+      }
+
+      done(err) // auto done
+    }
+  }
+}
+
+function onListenHookRunner (server) {
+  const hooks = server[kHooks].onListen
+  const hooksLen = hooks.length
+
+  let i = 0
+  let c = 0
+
+  next()
+
+  function next (err) {
+    err && server.log.error(err)
+
+    if (
+      i === hooksLen
+    ) {
+      while (c < server[kChildren].length) {
+        const child = server[kChildren][c++]
+        onListenHookRunner(child)
+      }
+      return
+    }
+
+    wrap(hooks[i++], server, next)
+  }
+
+  async function wrap (fn, server, done) {
+    if (fn.length === 1) {
+      try {
+        fn.call(server, done)
+      } catch (e) {
+        done(e)
+      }
+      return
+    }
+    try {
+      const ret = fn.call(server)
+      if (ret && typeof ret.then === 'function') {
+        ret.then(done, done)
+        return
+      }
+      done()
+    } catch (error) {
+      done(error)
+    }
+  }
+}
+
+function hookRunnerGenerator (iterator) {
+  return function hookRunner (functions, request, reply, cb) {
+    let i = 0
+
+    function next (err) {
+      if (err || i === functions.length) {
+        cb(err, request, reply)
+        return
+      }
+
+      let result
+      try {
+        result = iterator(functions[i++], request, reply, next)
+      } catch (error) {
+        cb(error, request, reply)
+        return
+      }
+      if (result && typeof result.then === 'function') {
+        result.then(handleResolve, handleReject)
+      }
+    }
+
+    function handleResolve () {
+      next()
+    }
+
+    function handleReject (err) {
+      if (!err) {
+        err = new FST_ERR_SEND_UNDEFINED_ERR()
+      }
+
+      cb(err, request, reply)
+    }
+
+    next()
+  }
+}
+
+function onResponseHookIterator (fn, request, reply, next) {
+  return fn(request, reply, next)
+}
+
+const onResponseHookRunner = hookRunnerGenerator(onResponseHookIterator)
+const preValidationHookRunner = hookRunnerGenerator(hookIterator)
+const preHandlerHookRunner = hookRunnerGenerator(hookIterator)
+const onTimeoutHookRunner = hookRunnerGenerator(hookIterator)
+const onRequestHookRunner = hookRunnerGenerator(hookIterator)
+
+function onSendHookRunner (functions, request, reply, payload, cb) {
+  let i = 0
+
+  function next (err, newPayload) {
+    if (err) {
+      cb(err, request, reply, payload)
+      return
+    }
+
+    if (newPayload !== undefined) {
+      payload = newPayload
+    }
+
+
+---
+
+FILE: lib/initial-config-validation.js
+'use strict'
+
+const validate = require('./config-validator')
+const deepClone = require('rfdc')({ circles: true, proto: false })
+const { FST_ERR_INIT_OPTS_INVALID } = require('./errors')
+
+function validateInitialConfig (options) {
+  const opts = deepClone(options)
+
+  if (!validate(opts)) {
+    const error = new FST_ERR_INIT_OPTS_INVALID(JSON.stringify(validate.errors.map(e => e.message)))
+    error.errors = validate.errors
+    throw error
+  }
+
+  return deepFreezeObject(opts)
+}
+
+function deepFreezeObject (object) {
+  const properties = Object.getOwnPropertyNames(object)
+
+  for (const name of properties) {
+    const value = object[name]
+
+    if (ArrayBuffer.isView(value) && !(value instanceof DataView)) {
+      continue
+    }
+
+    object[name] = value && typeof value === 'object' ? deepFreezeObject(value) : value
+  }
+
+  return Object.freeze(object)
+}
+
+module.exports = validateInitialConfig
+module.exports.defaultInitOptions = validate.defaultInitOptions
+module.exports.utils = { deepFreezeObject }
+
+
+---
+
+FILE: lib/logger-factory.js
+'use strict'
+
+const {
+  FST_ERR_LOG_LOGGER_AND_LOGGER_INSTANCE_PROVIDED,
+  FST_ERR_LOG_INVALID_LOGGER_CONFIG,
+  FST_ERR_LOG_INVALID_LOGGER_INSTANCE,
+  FST_ERR_LOG_INVALID_LOGGER
+} = require('./errors')
+
+/**
+ * Utility for creating a child logger with the appropriate bindings, logger factory
+ * and validation.
+ * @param {object} context
+ * @param {import('../fastify').FastifyBaseLogger} logger
+ * @param {import('../fastify').RawRequestDefaultExpression<any>} req
+ * @param {string} reqId
+ * @param {import('../types/logger.js').ChildLoggerOptions?} loggerOpts
+ *
+ * @returns {object} New logger instance, inheriting all parent bindings,
+ * with child bindings added.
+ */
+function createChildLogger (context, logger, req, reqId, loggerOpts) {
+  const loggerBindings = {
+    [context.requestIdLogLabel]: reqId
+  }
+  const child = context.childLoggerFactory.call(context.server, logger, loggerBindings, loggerOpts || {}, req)
+
+  // Optimization: bypass validation if the factory is our own default factory
+  if (context.childLoggerFactory !== defaultChildLoggerFactory) {
+    validateLogger(child, true) // throw if the child is not a valid logger
+  }
+
+  return child
+}
+
+/** Default factory to create child logger instance
+ *
+ * @param {import('../fastify.js').FastifyBaseLogger} logger
+ * @param {import('../types/logger.js').Bindings} bindings
+ * @param {import('../types/logger.js').ChildLoggerOptions} opts
+ *
+ * @returns {import('../types/logger.js').FastifyBaseLogger}
+ */
+function defaultChildLoggerFactory (logger, bindings, opts) {
+  return logger.child(bindings, opts)
+}
+
+/**
+ * Determines if a provided logger object meets the requirements
+ * of a Fastify compatible logger.
+ *
+ * @param {object} logger Object to validate.
+ * @param {boolean?} strict `true` if the object must be a logger (always throw if any methods missing)
+ *
+ * @returns {boolean} `true` when the logger meets the requirements.
+ *
+ * @throws {FST_ERR_LOG_INVALID_LOGGER} When the logger object is
+ * missing required methods.
+ */
+function validateLogger (logger, strict) {
+  const methods = ['info', 'error', 'debug', 'fatal', 'warn', 'trace', 'child']
+  const missingMethods = logger
+    ? methods.filter(method => !logger[method] || typeof logger[method] !== 'function')
+    : methods
+
+  if (!missingMethods.length) {
+    return true
+  } else if ((missingMethods.length === methods.length) && !strict) {
+    return false
+  } else {
+    throw FST_ERR_LOG_INVALID_LOGGER(missingMethods.join(','))
+  }
+}
+
+function createLogger (options) {
+  if (options.logger && options.loggerInstance) {
+    throw new FST_ERR_LOG_LOGGER_AND_LOGGER_INSTANCE_PROVIDED()
+  }
+
+  if (!options.loggerInstance && !options.logger) {
+    const nullLogger = require('abstract-logging')
+    const logger = nullLogger
+    logger.child = () => logger
+    return { logger, hasLogger: false }
+  }
+
+  const { createPinoLogger, serializers } = require('./logger-pino.js')
+
+  // check if the logger instance has all required properties
+  if (validateLogger(options.loggerInstance)) {
+    const logger = createPinoLogger({
+      logger: options.loggerInstance,
+      serializers: Object.assign({}, serializers, options.loggerInstance.serializers)
+    })
+    return { logger, hasLogger: true }
+  }
+
+  // if a logger instance is passed to logger, throw an exception
+  if (validateLogger(options.logger)) {
+    throw FST_ERR_LOG_INVALID_LOGGER_CONFIG()
+  }
+
+  if (options.loggerInstance) {
+    throw FST_ERR_LOG_INVALID_LOGGER_INSTANCE()
+  }
+
+  const localLoggerOptions = {}
+  if (Object.prototype.toString.call(options.logger) === '[object Object]') {
+    Reflect.ownKeys(options.logger).forEach(prop => {
+      Object.defineProperty(localLoggerOptions, prop, {
+        value: options.logger[prop],
+        writable: true,
+        enumerable: true,
+        configurable: true
+      })
+    })
+  }
+  localLoggerOptions.level = localLoggerOptions.level || 'info'
+  localLoggerOptions.serializers = Object.assign({}, serializers, localLoggerOptions.serializers)
+  options.logger = localLoggerOptions
+  const logger = createPinoLogger(options.logger)
+  return { logger, hasLogger: true }
+}
+
+function now () {
+  const ts = process.hrtime()
+  return (ts[0] * 1e3) + (ts[1] / 1e6)
+}
+
+module.exports = {
+  createChildLogger,
+  defaultChildLoggerFactory,
+  createLogger,
+  validateLogger,
+  now
+}
+
+
+---
+
+FILE: lib/logger-pino.js
+'use strict'
+
+/**
+ * Code imported from `pino-http`
+ * Repo: https://github.com/pinojs/pino-http
+ * License: MIT (https://raw.githubusercontent.com/pinojs/pino-http/master/LICENSE)
+ */
+
+const pino = require('pino')
+const { serializersSym } = pino.symbols
+const {
+  FST_ERR_LOG_INVALID_DESTINATION
+} = require('./errors')
+
+function createPinoLogger (opts) {
+  if (opts.stream && opts.file) {
+    throw new FST_ERR_LOG_INVALID_DESTINATION()
+  } else if (opts.file) {
+    // we do not have stream
+    opts.stream = pino.destination(opts.file)
+    delete opts.file
+  }
+
+  const prevLogger = opts.logger
+  const prevGenReqId = opts.genReqId
+  let logger = null
+
+  if (prevLogger) {
+    opts.logger = undefined
+    opts.genReqId = undefined
+    // we need to tap into pino internals because in v5 it supports
+    // adding serializers in child loggers
+    if (prevLogger[serializersSym]) {
+      opts.serializers = Object.assign({}, opts.serializers, prevLogger[serializersSym])
+    }
+    logger = prevLogger.child({}, opts)
+    opts.logger = prevLogger
+    opts.genReqId = prevGenReqId
+  } else {
+    logger = pino(opts, opts.stream)
+  }
+
+  return logger
+}
+
+const serializers = {
+  req: function asReqValue (req) {
+    return {
+      method: req.method,
+      url: req.url,
+      version: req.headers && req.headers['accept-version'],
+      host: req.host,
+      remoteAddress: req.ip,
+      remotePort: req.socket ? req.socket.remotePort : undefined
+    }
+  },
+  err: pino.stdSerializers.err,
+  res: function asResValue (reply) {
+    return {
+      statusCode: reply.statusCode
+    }
+  }
+}
+
+module.exports = {
+  serializers,
+  createPinoLogger
+}
+
+
+---
+
+FILE: lib/noop-set.js
+'use strict'
+
+module.exports = function noopSet () {
+  return {
+    [Symbol.iterator]: function * () {},
+    add () {},
+    delete () {},
+    has () { return true }
+  }
+}
+
+
+---
+
+FILE: lib/plugin-override.js
+'use strict'
+
+const {
+  kAvvioBoot,
+  kChildren,
+  kRoutePrefix,
+  kLogLevel,
+  kLogSerializers,
+  kHooks,
+  kSchemaController,
+  kContentTypeParser,
+  kReply,
+  kRequest,
+  kFourOhFour,
+  kPluginNameChain,
+  kErrorHandlerAlreadySet
+} = require('./symbols.js')
+
+const Reply = require('./reply')
+const Request = require('./request')
+const SchemaController = require('./schema-controller')
+const ContentTypeParser = require('./content-type-parser.js')
+const { buildHooks } = require('./hooks')
+const pluginUtils = require('./plugin-utils.js')
+
+// Function that runs the encapsulation magic.
+// Everything that need to be encapsulated must be handled in this function.
+module.exports = function override (old, fn, opts) {
+  const shouldSkipOverride = pluginUtils.registerPlugin.call(old, fn)
+
+  const fnName = pluginUtils.getPluginName(fn) || pluginUtils.getFuncPreview(fn)
+  if (shouldSkipOverride) {
+    // after every plugin registration we will enter a new name
+    old[kPluginNameChain].push(fnName)
+    return old
+  }
+
+  const instance = Object.create(old)
+  old[kChildren].push(instance)
+  instance.ready = old[kAvvioBoot].bind(instance)
+  instance[kChildren] = []
+
+  instance[kReply] = Reply.buildReply(instance[kReply])
+  instance[kRequest] = Request.buildRequest(instance[kRequest])
+
+  instance[kContentTypeParser] = ContentTypeParser.helpers.buildContentTypeParser(instance[kContentTypeParser])
+  instance[kHooks] = buildHooks(instance[kHooks])
+  instance[kRoutePrefix] = buildRoutePrefix(instance[kRoutePrefix], opts.prefix)
+  instance[kLogLevel] = opts.logLevel || instance[kLogLevel]
+  instance[kSchemaController] = SchemaController.buildSchemaController(old[kSchemaController])
+  instance.getSchema = instance[kSchemaController].getSchema.bind(instance[kSchemaController])
+  instance.getSchemas = instance[kSchemaController].getSchemas.bind(instance[kSchemaController])
+
+  // Track the registered and loaded plugins since the root instance.
+  // It does not track the current encapsulated plugin.
+  instance[pluginUtils.kRegisteredPlugins] = Object.create(instance[pluginUtils.kRegisteredPlugins])
+
+  // Track the plugin chain since the root instance.
+  // When an non-encapsulated plugin is added, the chain will be updated.
+  instance[kPluginNameChain] = [fnName]
+  instance[kErrorHandlerAlreadySet] = false
+
+  if (instance[kLogSerializers] || opts.logSerializers) {
+    instance[kLogSerializers] = Object.assign(Object.create(instance[kLogSerializers]), opts.logSerializers)
+  }
+
+  if (opts.prefix) {
+    instance[kFourOhFour].arrange404(instance)
+  }
+
+  for (const hook of instance[kHooks].onRegister) hook.call(old, instance, opts)
+
+  return instance
+}
+
+function buildRoutePrefix (instancePrefix, pluginPrefix) {
+  if (!pluginPrefix) {
+    return instancePrefix
+  }
+
+  // Ensure that there is a '/' between the prefixes
+  if (instancePrefix.endsWith('/') && pluginPrefix[0] === '/') {
+    // Remove the extra '/' to avoid: '/first//second'
+    pluginPrefix = pluginPrefix.slice(1)
+  } else if (pluginPrefix[0] !== '/') {
+    pluginPrefix = '/' + pluginPrefix
+  }
+
+  return instancePrefix + pluginPrefix
+}
+
+
+---
+
+FILE: lib/plugin-utils.js
+'use strict'
+
+const semver = require('semver')
+const assert = require('node:assert')
+const kRegisteredPlugins = Symbol.for('registered-plugin')
+const {
+  kTestInternals
+} = require('./symbols.js')
+const { exist, existReply, existRequest } = require('./decorate.js')
+const {
+  FST_ERR_PLUGIN_VERSION_MISMATCH,
+  FST_ERR_PLUGIN_NOT_PRESENT_IN_INSTANCE,
+  FST_ERR_PLUGIN_INVALID_ASYNC_HANDLER
+} = require('./errors.js')
+
+const rcRegex = /-(?:rc|pre|alpha).+$/u
+
+function getMeta (fn) {
+  return fn[Symbol.for('plugin-meta')]
+}
+
+function getPluginName (func) {
+  const display = getDisplayName(func)
+  if (display) {
+    return display
+  }
+
+  // let's see if this is a file, and in that case use that
+  // this is common for plugins
+  const cache = require.cache
+  // cache is undefined inside SEA
+  if (cache) {
+    const keys = Object.keys(cache)
+
+    for (let i = 0; i < keys.length; i++) {
+      const key = keys[i]
+      if (cache[key].exports === func) {
+        return key
+      }
+    }
+  }
+
+  // if not maybe it's a named function, so use that
+  if (func.name) {
+    return func.name
+  }
+
+  return null
+}
+
+function getFuncPreview (func) {
+  // takes the first two lines of the function if nothing else works
+  return func.toString().split('\n', 2).map(s => s.trim()).join(' -- ')
+}
+
+function getDisplayName (fn) {
+  return fn[Symbol.for('fastify.display-name')]
+}
+
+function shouldSkipOverride (fn) {
+  return !!fn[Symbol.for('skip-override')]
+}
+
+function checkDependencies (fn) {
+  const meta = getMeta(fn)
+  if (!meta) return
+
+  const dependencies = meta.dependencies
+  if (!dependencies) return
+  assert(Array.isArray(dependencies), 'The dependencies should be an array of strings')
+
+  dependencies.forEach(dependency => {
+    assert(
+      this[kRegisteredPlugins].indexOf(dependency) > -1,
+      `The dependency '${dependency}' of plugin '${meta.name}' is not registered`
+    )
+  })
+}
+
+function checkDecorators (fn) {
+  const meta = getMeta(fn)
+  if (!meta) return
+
+  const { decorators, name } = meta
+  if (!decorators) return
+
+  if (decorators.fastify) _checkDecorators(this, 'Fastify', decorators.fastify, name)
+  if (decorators.reply) _checkDecorators(this, 'Reply', decorators.reply, name)
+  if (decorators.request) _checkDecorators(this, 'Request', decorators.request, name)
+}
+
+const checks = {
+  Fastify: exist,
+  Request: existRequest,
+  Reply: existReply
+}
+
+function _checkDecorators (that, instance, decorators, name) {
+  assert(Array.isArray(decorators), 'The decorators should be an array of strings')
+
+  decorators.forEach(decorator => {
+    const withPluginName = typeof name === 'string' ? ` required by '${name}'` : ''
+    if (!checks[instance].call(that, decorator)) {
+      throw new FST_ERR_PLUGIN_NOT_PRESENT_IN_INSTANCE(decorator, withPluginName, instance)
+    }
+  })
+}
+
+function checkVersion (fn) {
+  const meta = getMeta(fn)
+  if (meta?.fastify == null) return
+
+  const requiredVersion = meta.fastify
+
+  const fastifyRc = rcRegex.test(this.version)
+  if (fastifyRc === true && semver.gt(this.version, semver.coerce(requiredVersion)) === true) {
+    // A Fastify release candidate phase is taking place. In order to reduce
+    // the effort needed to test plugins with the RC, we allow plugins targeting
+    // the prior Fastify release to be loaded.
+    return
+  }
+  if (requiredVersion && semver.satisfies(this.version, requiredVersion, { includePrerelease: fastifyRc }) === false) {
+    // We are not in a release candidate phase. Thus, we must honor the semver
+    // ranges defined by the plugin's metadata. Which is to say, if the plugin
+    // expects an older version of Fastify than the _current_ version, we will
+    // throw an error.
+    throw new FST_ERR_PLUGIN_VERSION_MISMATCH(meta.name, requiredVersion, this.version)
+  }
+}
+
+function registerPluginName (fn) {
+  const meta = getMeta(fn)
+  if (!meta) return
+
+  const name = meta.name
+  if (!name) return
+  this[kRegisteredPlugins].push(name)
+  return name
+}
+
+function checkPluginHealthiness (fn, pluginName) {
+  if (fn.constructor.name === 'AsyncFunction' && fn.length === 3) {
+    throw new FST_ERR_PLUGIN_INVALID_ASYNC_HANDLER(pluginName)
+  }
+}
+
+function registerPlugin (fn) {
+  const pluginName = registerPluginName.call(this, fn) || getPluginName(fn)
+  checkPluginHealthiness.call(this, fn, pluginName)
+  checkVersion.call(this, fn)
+  checkDecorators.call(this, fn)
+  checkDependencies.call(this, fn)
+  return shouldSkipOverride(fn)
+}
+
+module.exports = {
+  getPluginName,
+  getFuncPreview,
+  kRegisteredPlugins,
+  getDisplayName,
+  registerPlugin
+}
+
+module.exports[kTestInternals] = {
+  shouldSkipOverride,
+  getMeta,
+  checkDecorators,
+  checkDependencies
+}
+
+
+---
+
+FILE: lib/promise.js
+'use strict'
+
+const { kTestInternals } = require('./symbols')
+
+function withResolvers () {
+  let res, rej
+  const promise = new Promise((resolve, reject) => {
+    res = resolve
+    rej = reject
+  })
+  return { promise, resolve: res, reject: rej }
+}
+
+module.exports = {
+  // TODO(20.x): remove when node@20 is not supported
+  withResolvers: typeof Promise.withResolvers === 'function'
+    ? Promise.withResolvers.bind(Promise) // Promise.withResolvers must bind to itself
+    /* c8 ignore next */
+    : withResolvers, // Tested using the kTestInternals
+  [kTestInternals]: {
+    withResolvers
+  }
+}
+
+
+---
+
+FILE: lib/reply.js
+'use strict'
+
+const eos = require('node:stream').finished
+
+const {
+  kFourOhFourContext,
+  kReplyErrorHandlerCalled,
+  kReplyHijacked,
+  kReplyStartTime,
+  kReplyEndTime,
+  kReplySerializer,
+  kReplySerializerDefault,
+  kReplyIsError,
+  kReplyHeaders,
+  kReplyTrailers,
+  kReplyHasStatusCode,
+  kReplyIsRunningOnErrorHook,
+  kReplyNextErrorHandler,
+  kDisableRequestLogging,
+  kSchemaResponse,
+  kReplyCacheSerializeFns,
+  kSchemaController,
+  kOptions,
+  kRouteContext,
+  kTimeoutTimer,
+  kOnAbort,
+  kRequestSignal
+} = require('./symbols.js')
+const {
+  onSendHookRunner,
+  onResponseHookRunner,
+  preHandlerHookRunner,
+  preSerializationHookRunner
+} = require('./hooks')
+
+const internals = require('./handle-request.js')[Symbol.for('internals')]
+const loggerUtils = require('./logger-factory')
+const now = loggerUtils.now
+const { handleError } = require('./error-handler')
+const { getSchemaSerializer } = require('./schemas')
+
+const CONTENT_TYPE = {
+  JSON: 'application/json; charset=utf-8',
+  PLAIN: 'text/plain; charset=utf-8',
+  OCTET: 'application/octet-stream'
+}
+const {
+  FST_ERR_REP_INVALID_PAYLOAD_TYPE,
+  FST_ERR_REP_RESPONSE_BODY_CONSUMED,
+  FST_ERR_REP_READABLE_STREAM_LOCKED,
+  FST_ERR_REP_ALREADY_SENT,
+  FST_ERR_SEND_INSIDE_ONERR,
+  FST_ERR_BAD_STATUS_CODE,
+  FST_ERR_BAD_TRAILER_NAME,
+  FST_ERR_BAD_TRAILER_VALUE,
+  FST_ERR_MISSING_SERIALIZATION_FN,
+  FST_ERR_MISSING_CONTENTTYPE_SERIALIZATION_FN,
+  FST_ERR_DEC_UNDECLARED
+} = require('./errors')
+const decorators = require('./decorate')
+
+const toString = Object.prototype.toString
+
+function Reply (res, request, log) {
+  this.raw = res
+  this[kReplySerializer] = null
+  this[kReplyErrorHandlerCalled] = false
+  this[kReplyIsError] = false
+  this[kReplyIsRunningOnErrorHook] = false
+  this.request = request
+  this[kReplyHeaders] = {}
+  this[kReplyTrailers] = null
+  this[kReplyHasStatusCode] = false
+  this[kReplyStartTime] = undefined
+  this.log = log
+}
+Reply.props = []
+
+Object.defineProperties(Reply.prototype, {
+  [kRouteContext]: {
+    get () {
+      return this.request[kRouteContext]
+    }
+  },
+  elapsedTime: {
+    get () {
+      if (this[kReplyStartTime] === undefined) {
+        return 0
+      }
+      return (this[kReplyEndTime] || now()) - this[kReplyStartTime]
+    }
+  },
+  server: {
+    get () {
+      return this.request[kRouteContext].server
+    }
+  },
+  sent: {
+    enumerable: true,
+    get () {
+      // We are checking whether reply was hijacked or the response has ended.
+      return (this[kReplyHijacked] || this.raw.writableEnded) === true
+    }
+  },
+  statusCode: {
+    get () {
+      return this.raw.statusCode
+    },
+    set (value) {
+      this.code(value)
+    }
+  },
+  routeOptions: {
+    get () {
+      return this.request.routeOptions
+    }
+  }
+})
+
+Reply.prototype.writeEarlyHints = function (hints, callback) {
+  this.raw.writeEarlyHints(hints, callback)
+  return this
+}
+
+Reply.prototype.hijack = function () {
+  this[kReplyHijacked] = true
+  // Clear handler timeout and signal — hijacked replies manage their own lifecycle
+  if (this.request[kRequestSignal]) {
+    clearTimeout(this.request[kTimeoutTimer])
+    this.request[kTimeoutTimer] = null
+    if (this.request[kOnAbort]) {
+      this.request.raw.removeListener('close', this.request[kOnAbort])
+      this.request[kOnAbort] = null
+    }
+  }
+  return this
+}
+
+Reply.prototype.send = function (payload) {
+  if (this[kReplyIsRunningOnErrorHook]) {
+    throw new FST_ERR_SEND_INSIDE_ONERR()
+  }
+
+  if (this.sent === true) {
+    this.log.warn({ err: new FST_ERR_REP_ALREADY_SENT(this.request.url, this.request.method) })
+    return this
+  }
+
+  if (this[kReplyIsError] || payload instanceof Error) {
+    this[kReplyIsError] = false
+    onErrorHook(this, payload, onSendHook)
+    return this
+  }
+
+  if (payload === undefined) {
+    onSendHook(this, payload)
+    return this
+  }
+
+  const contentType = this.getHeader('content-type')
+  const hasContentType = contentType !== undefined
+
+  if (payload !== null) {
+    if (
+      // node:stream
+      typeof payload.pipe === 'function' ||
+      // node:stream/web
+      typeof payload.getReader === 'function' ||
+      // Response
+      (typeof payload === 'object' && toString.call(payload) === '[object Response]')
+    ) {
+      onSendHook(this, payload)
+      return this
+    }
+
+    if (payload.buffer instanceof ArrayBuffer) {
+      if (!hasContentType) {
+        this[kReplyHeaders]['content-type'] = CONTENT_TYPE.OCTET
+      }
+      const payloadToSend = Buffer.isBuffer(payload)
+        ? payload
+        : Buffer.from(payload.buffer, payload.byteOffset, payload.byteLength)
+      onSendHook(this, payloadToSend)
+      return this
+    }
+
+    if (!hasContentType && typeof payload === 'string') {
+      this[kReplyHeaders]['content-type'] = CONTENT_TYPE.PLAIN
+      onSendHook(this, payload)
+      return this
+    }
+  }
+
+  if (this[kReplySerializer] !== null) {
+    if (typeof payload !== 'string') {
+      preSerializationHook(this, payload)
+      return this
+    }
+    payload = this[kReplySerializer](payload)
+
+    // The indexOf below also matches custom json mimetypes such as 'application/hal+json' or 'application/ld+json'
+  } else if (!hasContentType || contentType.indexOf('json') !== -1) {
+    if (!hasContentType) {
+      this[kReplyHeaders]['content-type'] = CONTENT_TYPE.JSON
+    } else if (contentType.indexOf('charset') === -1) {
+      // If user doesn't set charset, we will set charset to utf-8
+      const customContentType = contentType.trim()
+      if (customContentType.endsWith(';')) {
+        // custom content-type is ended with ';'
+        this[kReplyHeaders]['content-type'] = `${customContentType} charset=utf-8`
+      } else {
+        this[kReplyHeaders]['content-type'] = `${customContentType}; charset=utf-8`
+      }
+    }
+
+    if (typeof payload !== 'string') {
+      preSerializationHook(this, payload)
+      return this
+    }
+  }
+
+  onSendHook(this, payload)
+
+  return this
+}
+
+Reply.prototype.getHeader = function (key) {
+  key = key.toLowerCase()
+  const value = this[kReplyHeaders][key]
+  return value !== undefined ? value : this.raw.getHeader(key)
+}
+
+Reply.prototype.getHeaders = function () {
+  return {
+    ...this.raw.getHeaders(),
+    ...this[kReplyHeaders]
+  }
+}
+
+Reply.prototype.hasHeader = function (key) {
+  key = key.toLowerCase()
+
+  return this[kReplyHeaders][key] !== undefined || this.raw.hasHeader(key)
+}
+
+Reply.prototype.removeHeader = function (key) {
+  // Node.js does not like headers with keys set to undefined,
+  // so we have to delete the k

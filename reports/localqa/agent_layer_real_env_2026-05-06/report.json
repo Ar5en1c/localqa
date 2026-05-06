@@ -1,0 +1,97 @@
+{
+  "ok": true,
+  "generatedAt": "2026-05-06T17:01:29.562Z",
+  "worktree": "/Users/kuldeepsingh/MyProjects/localqa",
+  "outDir": "/Users/kuldeepsingh/MyProjects/localqa/reports/localqa/agent_layer_real_env_2026-05-06",
+  "evidencePath": "/Users/kuldeepsingh/MyProjects/localqa/reports/localqa/opencode_oss_codebases_2026-05-05/fastify_fastify/raw-codebase-evidence.txt",
+  "evidenceBytes": 167490,
+  "evidenceApproxTokens": 41848,
+  "results": [
+    {
+      "name": "record_memory",
+      "ok": true,
+      "controlMode": "record",
+      "selectedMode": "record_work",
+      "durationMs": 64.67,
+      "tokenSavings": null,
+      "compactApproxTokens": 204,
+      "memoryWritten": true,
+      "memoryPath": "/Users/kuldeepsingh/MyProjects/localqa/reports/localqa/agent_layer_real_env_2026-05-06/memory/2026-05-06.json",
+      "stepCount": 1,
+      "error": null,
+      "note": "writes local daily memory"
+    },
+    {
+      "name": "directed_memory_plus_codebase_cleanup",
+      "ok": true,
+      "controlMode": "directed",
+      "selectedMode": "directed",
+      "durationMs": 81.38,
+      "tokenSavings": {
+        "rawEvidenceApproxTokens": 41857,
+        "compactReportApproxTokens": 843,
+        "savedApproxTokens": 41014,
+        "reductionRatio": 97.99
+      },
+      "compactApproxTokens": 843,
+      "memoryWritten": true,
+      "memoryPath": "/Users/kuldeepsingh/MyProjects/localqa/reports/localqa/agent_layer_real_env_2026-05-06/memory/2026-05-06.json",
+      "stepCount": 2,
+      "error": null,
+      "note": "frontier model specifies exact local steps"
+    },
+    {
+      "name": "strict_rejects_unknown_tool",
+      "ok": false,
+      "controlMode": "strict",
+      "selectedMode": "directed",
+      "durationMs": 68.71,
+      "tokenSavings": null,
+      "compactApproxTokens": 21,
+      "memoryWritten": true,
+      "memoryPath": "/Users/kuldeepsingh/MyProjects/localqa/reports/localqa/agent_layer_real_env_2026-05-06/memory/2026-05-06.json",
+      "stepCount": 1,
+      "error": null,
+      "note": "rejected as expected"
+    },
+    {
+      "name": "directed_handoff_redaction",
+      "ok": true,
+      "controlMode": "directed",
+      "selectedMode": "directed",
+      "durationMs": 69.16,
+      "tokenSavings": {
+        "rawEvidenceApproxTokens": 35,
+        "compactReportApproxTokens": 65,
+        "savedApproxTokens": 0,
+        "reductionRatio": 0
+      },
+      "compactApproxTokens": 65,
+      "memoryWritten": true,
+      "memoryPath": "/Users/kuldeepsingh/MyProjects/localqa/reports/localqa/agent_layer_real_env_2026-05-06/memory/2026-05-06.json",
+      "stepCount": 1,
+      "error": null,
+      "leakedSyntheticSecret": false,
+      "note": "no runner-output leak"
+    },
+    {
+      "name": "query_project_memory",
+      "ok": true,
+      "controlMode": "memory",
+      "selectedMode": "memory",
+      "durationMs": 73.72,
+      "tokenSavings": {
+        "rawEvidenceApproxTokens": 1282,
+        "compactReportApproxTokens": 538,
+        "savedApproxTokens": 744,
+        "reductionRatio": 58.03
+      },
+      "compactApproxTokens": 538,
+      "memoryWritten": false,
+      "memoryPath": null,
+      "stepCount": 1,
+      "error": null,
+      "note": "reads local memory ledger"
+    }
+  ]
+}

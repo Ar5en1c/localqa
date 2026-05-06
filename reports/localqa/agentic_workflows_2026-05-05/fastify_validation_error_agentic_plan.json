@@ -1,0 +1,103 @@
+{
+  "id": "fastify_validation_error_agentic_plan",
+  "title": "Fastify validation/error contract investigation",
+  "evidencePath": "/Users/kuldeepsingh/MyProjects/qwen2.5-1.5b-turboquant-mlc-experiment/reports/localqa/opencode_oss_codebases_2026-05-05/fastify_fastify/raw-codebase-evidence.txt",
+  "evidenceBytes": 167490,
+  "rawTokens": 41848,
+  "record": {
+    "ok": true,
+    "runtimeMs": 70.22,
+    "memoryWritten": true
+  },
+  "normalBaseline": {
+    "approxToolCalls": 3,
+    "rawContextApproxTokens": 41848,
+    "compactContextApproxTokens": 41848,
+    "savedApproxTokens": 0,
+    "reductionRatio": 0,
+    "memoryWritten": false,
+    "risk": "frontier model receives full raw evidence or must spend repeated tool calls finding source/test signals"
+  },
+  "localqaWorkflow": {
+    "approxToolCallsFromMainAgent": 1,
+    "internalLocalSteps": 3,
+    "baselineRawContextApproxTokens": 41848,
+    "internalLocalRawTokensProcessed": 83714,
+    "compactContextApproxTokens": 1912,
+    "savedApproxTokens": 39936,
+    "reductionRatio": 95.43,
+    "internalLocalProcessingReductionRatio": 97.72,
+    "memoryWritten": true,
+    "runtimeMs": 104.4
+  },
+  "signalScore": {
+    "score": 1,
+    "coverage": 1,
+    "mustCoverage": 1,
+    "matched": [
+      "fastify",
+      "validation",
+      "error-handler",
+      "test:validator:integrity",
+      "test:typescript",
+      "lib/validation.js",
+      "lib/error-handler.js",
+      "package.json"
+    ],
+    "missing": [],
+    "mustMatched": [
+      "validation",
+      "test:validator:integrity",
+      "test:typescript"
+    ],
+    "mustMissing": []
+  },
+  "actionabilityScore": {
+    "score": 1,
+    "passed": 7,
+    "total": 7,
+    "paths": [
+      "lib/validation.js",
+      "docs/Reference/Server.md",
+      "docs/Reference/Errors.md",
+      "docs/Reference/Lifecycle.md",
+      "lib/error-handler.js",
+      "docs/Reference/TypeScript.md",
+      "docs/Reference/Validation-and-Serialization.md",
+      "docs/Reference/Routes.md",
+      "docs/Reference/Decorators.md",
+      "package.json"
+    ],
+    "commands": [
+      "test:validator:integrit",
+      "test:validator:integrity",
+      "npm run build:validation",
+      "test:typescript",
+      "npm run lint:eslint",
+      "test:watch",
+      "npm run unit"
+    ],
+    "riskSignals": [
+      "validation",
+      "generated",
+      "integrity",
+      "TypeScript",
+      "contract",
+      "router",
+      "middleware",
+      "compatibility",
+      "Validation",
+      "typescript"
+    ],
+    "hasSource": true,
+    "hasTests": true,
+    "hasMemory": true,
+    "hasNextReads": true
+  },
+  "quality": {
+    "score": 1,
+    "label": "strong",
+    "pass": true
+  },
+  "compactPreview": "## Step 1: memory_query\nTask: Frontier agent task: plan a safe Fastify validation/error response change. Use local evidence to identify likely files, test commands, generated/integrity risks, TypeScript checks, and next exact reads before implementation.\nMode: memory\nStatus: ok\nProject memory query: What has already been recorded for Fastify validation/error contract investigation? Memory dir: /Users/kuldeepsingh/MyProjects/qwen2.5-1.5b-turboquant-mlc-experiment/reports/localqa/agentic_workflows_2026-05-05/memory Matched entries: 12/55 1. 2026-05-05T21:39:53.022Z | directed_plan | completed | directed task: Frontier agent task: plan a safe Express router or middleware behavior change. Use local evidence to identify source areas, test areas, package scripts, compatibility risks, and next exact reads before implementation. summary: ## Step 1: memory_query Task: Frontier agent task: plan a safe Express router or middleware behavior change. Use local evidence to identify source areas, test areas, package scripts, compatibility risks, and next exact reads before implementation. Mode: memory Status: ok Project memory query: What has already been recorded for Express router/middleware investigation? Memory dir: /Users/kuldeepsingh/MyProjects/qwen2.5 tokens: raw=47892 compact=1873 saved=46019 reduction=96.09% 2. 2026-05-05T21:39:52.845Z | directed_plan | completed | directed task: Frontier agent task: plan a safe Fastify validation/error response change. Use local evidence to identify likely files, test commands, generated/integrity risks, TypeScript checks, and next exact reads before implementation. summary: ## Step 1: memory_query Task: Frontier agent task: plan a safe Fastify validation/error response change. Use local evidence to identify likely files, test commands, generated/integrity risks, TypeScript checks, and next exact reads before implementation. Mode: memory Status: ok Project memory query: What has already been recorded for Fastify validation/error contract investigation? Memory dir: /Users/kuldeepsingh/MyP tokens: raw=83714 compact=19\n\n## Step 2: context_cleanup\nTask: Frontier agent task: plan a safe Fastify validation/error response change. Use local evidence to identify likely files, test commands, generated/integrity risks, TypeScript checks, and next exact reads before implementation.\nMode: context_cleanup\nStatus: ok\nToken savings: raw=41857 compact=965 saved=40892 reduction=97.69%\nTask: Frontier agent task: plan a safe Fastify validation/error response change. Use local evidence to identify likely files, test commands, generated/integrity r"
+}

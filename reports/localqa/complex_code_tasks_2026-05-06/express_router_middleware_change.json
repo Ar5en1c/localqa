@@ -1,0 +1,272 @@
+{
+  "id": "express_router_middleware_change",
+  "project": "expressjs/express",
+  "category": "multi-file orientation + fix planning",
+  "evidencePath": "/Users/kuldeepsingh/MyProjects/localqa/reports/localqa/opencode_oss_codebases_2026-05-05/expressjs_express/raw-codebase-evidence.txt",
+  "rawApproxTokens": 23936,
+  "expected": [
+    "express",
+    "router",
+    "middleware",
+    "mocha",
+    "test",
+    "package.json"
+  ],
+  "mustHave": [
+    "router",
+    "middleware",
+    "test"
+  ],
+  "singlePasses": [
+    {
+      "budget": 800,
+      "durationMs": 79.06,
+      "selectedMode": "context_cleanup",
+      "telemetry": {
+        "internalStepCount": 1,
+        "externalCalls": 0,
+        "localFileInputCount": 1,
+        "localFileInputBytes": 95763
+      },
+      "tokenSavings": {
+        "rawEvidenceApproxTokens": 23946,
+        "compactReportApproxTokens": 862,
+        "savedApproxTokens": 23084,
+        "reductionRatio": 96.4
+      },
+      "compactApproxTokens": 862,
+      "rawApproxTokens": 23946,
+      "savedApproxTokens": 23084,
+      "reductionRatio": 96.4,
+      "score": {
+        "score": 1,
+        "coverage": 1,
+        "mustCoverage": 1,
+        "matched": [
+          "express",
+          "router",
+          "middleware",
+          "mocha",
+          "test",
+          "package.json"
+        ],
+        "missing": [],
+        "mustMatched": [
+          "router",
+          "middleware",
+          "test"
+        ],
+        "mustMissing": [],
+        "pass": true
+      },
+      "actionability": {
+        "score": 1,
+        "passedChecks": 6,
+        "totalChecks": 6,
+        "pass": true,
+        "filePathCount": 16,
+        "testCommandCount": 1,
+        "hasSourceArea": true,
+        "hasTestArea": true,
+        "hasPackageSignal": true,
+        "riskSignalCount": 2,
+        "samplePaths": [
+          "package.json",
+          "examples/README.md",
+          "examples/route-middleware/index.js",
+          "examples/web-service/index.js",
+          "test/res.download.js",
+          "test/res.sendFile.js",
+          "test/app.routes.error.js",
+          "test/acceptance/mvc.js"
+        ],
+        "sampleTestCommands": [
+          "npm test"
+        ],
+        "sampleRiskSignals": [
+          "middleware",
+          "Router"
+        ]
+      },
+      "frontierReadiness": {
+        "score": 1,
+        "signalScore": 1,
+        "actionabilityScore": 1,
+        "pass": true,
+        "label": "orientation-ready"
+      },
+      "compactPreview": "Task: Complex task: A maintainer wants to change routing or middleware behavior in Express. Identify the likely source areas, test areas, npm test command signals, and risks before editing. Return only compact codebase evidence for a frontier model to plan a patch.\nMode: context_cleanup\nHigh-signal lines:\npackage.json:94: \"test\": \"mocha --require test/support/env --reporter spec --check-leaks test/ test/acceptance/\",\nTASK: Analyze this Express OSS codebase evidence. Identify project purpose, likely test command, major source/test areas, and any high-signal maintenance risks. Do not quote raw files; compact to actionable codebase evidence.\nexamples/README.md:12: - [error](./error) - Working with error middleware\npackage.json:92: \"lint\": \"eslint .\",\nexamples/README.md:11: - [error-pages](./error-pages) - Creating error pages\npackage.json:97: \"test-tap\": \"mocha --require test/support/env --reporter tap --check-leaks test/ test/acceptance/\"\n\"test\": \"mocha --require test/support/env --reporter spec --check-leaks test/ test/acceptance/\", [repeated 2x]\nexamples/route-middleware/index.js:46: next(new Error('Unauthorized'));\nexamples/route-middleware/index.js:55: next(new Error('Unauthorized'));\nexamples/web-service/index.js:34: if (!key) return next(error(400, 'api key required'));\nexamples/web-service/index.js:37: if (apiKeys.indexOf(key) === -1) return next(error(401, 'invalid api key'))\ntest/res.download.js:145: .expect('got 404 error')\ntest/res.sendFile.js:333: .expect('got 404 error')\ntest/res.sendFile.js:277: .expect(200, 'got 404 error', done)\ntest/app.routes.error.js:22: .expect(500, /Error: boom!/, done);\ntest/acceptance/mvc.js:96: it('should 500 on error', function(done){\ntest/res.render.js:128: .expect(500, 'got error: RenderError', done)\ntest/res.render.js:355: .expect(500, 'got error: RenderError', done)\ntest/res.render.js:123: res.status(500).send('got error: ' + err.name)\ntest/res.render.js:348: res.status(500).send('got error: ' + err.name)\ntest/Router.js:209: it('should skip non error middleware', function (done) {\ntest/acceptance/error-pages.js:55: .expect(404, { error: 'Not found' }, done)\nexamples/error-pages/index.js:79: // error-handling middleware, take the same form\ntest/acceptance/web-service.js:102: .expect(404, '{\"error\":\"Sorry, can\\'t find that\"}', done)\ntest/Router.js:213: next(new Error('foo'));\ntest/Router.js:217: next(new Error('bar')"
+    },
+    {
+      "budget": 1600,
+      "durationMs": 78.33,
+      "selectedMode": "context_cleanup",
+      "telemetry": {
+        "internalStepCount": 1,
+        "externalCalls": 0,
+        "localFileInputCount": 1,
+        "localFileInputBytes": 95763
+      },
+      "tokenSavings": {
+        "rawEvidenceApproxTokens": 23946,
+        "compactReportApproxTokens": 1666,
+        "savedApproxTokens": 22280,
+        "reductionRatio": 93.04
+      },
+      "compactApproxTokens": 1666,
+      "rawApproxTokens": 23946,
+      "savedApproxTokens": 22280,
+      "reductionRatio": 93.04,
+      "score": {
+        "score": 1,
+        "coverage": 1,
+        "mustCoverage": 1,
+        "matched": [
+          "express",
+          "router",
+          "middleware",
+          "mocha",
+          "test",
+          "package.json"
+        ],
+        "missing": [],
+        "mustMatched": [
+          "router",
+          "middleware",
+          "test"
+        ],
+        "mustMissing": [],
+        "pass": true
+      },
+      "actionability": {
+        "score": 1,
+        "passedChecks": 6,
+        "totalChecks": 6,
+        "pass": true,
+        "filePathCount": 26,
+        "testCommandCount": 1,
+        "hasSourceArea": true,
+        "hasTestArea": true,
+        "hasPackageSignal": true,
+        "riskSignalCount": 4,
+        "samplePaths": [
+          "package.json",
+          "examples/README.md",
+          "examples/route-middleware/index.js",
+          "examples/web-service/index.js",
+          "test/res.download.js",
+          "test/res.sendFile.js",
+          "test/app.routes.error.js",
+          "test/acceptance/mvc.js"
+        ],
+        "sampleTestCommands": [
+          "npm test"
+        ],
+        "sampleRiskSignals": [
+          "middleware",
+          "Router",
+          "router",
+          "parser"
+        ]
+      },
+      "frontierReadiness": {
+        "score": 1,
+        "signalScore": 1,
+        "actionabilityScore": 1,
+        "pass": true,
+        "label": "orientation-ready"
+      },
+      "compactPreview": "Task: Complex task: A maintainer wants to change routing or middleware behavior in Express. Identify the likely source areas, test areas, npm test command signals, and risks before editing. Return only compact codebase evidence for a frontier model to plan a patch.\nMode: context_cleanup\nHigh-signal lines:\npackage.json:94: \"test\": \"mocha --require test/support/env --reporter spec --check-leaks test/ test/acceptance/\",\nTASK: Analyze this Express OSS codebase evidence. Identify project purpose, likely test command, major source/test areas, and any high-signal maintenance risks. Do not quote raw files; compact to actionable codebase evidence.\nexamples/README.md:12: - [error](./error) - Working with error middleware\npackage.json:92: \"lint\": \"eslint .\",\nexamples/README.md:11: - [error-pages](./error-pages) - Creating error pages\npackage.json:97: \"test-tap\": \"mocha --require test/support/env --reporter tap --check-leaks test/ test/acceptance/\"\n\"test\": \"mocha --require test/support/env --reporter spec --check-leaks test/ test/acceptance/\", [repeated 2x]\nexamples/route-middleware/index.js:46: next(new Error('Unauthorized'));\nexamples/route-middleware/index.js:55: next(new Error('Unauthorized'));\nexamples/web-service/index.js:34: if (!key) return next(error(400, 'api key required'));\nexamples/web-service/index.js:37: if (apiKeys.indexOf(key) === -1) return next(error(401, 'invalid api key'))\ntest/res.download.js:145: .expect('got 404 error')\ntest/res.sendFile.js:333: .expect('got 404 error')\ntest/res.sendFile.js:277: .expect(200, 'got 404 error', done)\ntest/app.routes.error.js:22: .expect(500, /Error: boom!/, done);\ntest/acceptance/mvc.js:96: it('should 500 on error', function(done){\ntest/res.render.js:128: .expect(500, 'got error: RenderError', done)\ntest/res.render.js:355: .expect(500, 'got error: RenderError', done)\ntest/res.render.js:123: res.status(500).send('got error: ' + err.name)\ntest/res.render.js:348: res.status(500).send('got error: ' + err.name)\ntest/Router.js:209: it('should skip non error middleware', function (done) {\ntest/acceptance/error-pages.js:55: .expect(404, { error: 'Not found' }, done)\nexamples/error-pages/index.js:79: // error-handling middleware, take the same form\ntest/acceptance/web-service.js:102: .expect(404, '{\"error\":\"Sorry, can\\'t find that\"}', done)\ntest/Router.js:213: next(new Error('foo'));\ntest/Router.js:217: next(new Error('bar')"
+    },
+    {
+      "budget": 3200,
+      "durationMs": 77.7,
+      "selectedMode": "context_cleanup",
+      "telemetry": {
+        "internalStepCount": 1,
+        "externalCalls": 0,
+        "localFileInputCount": 1,
+        "localFileInputBytes": 95763
+      },
+      "tokenSavings": {
+        "rawEvidenceApproxTokens": 23946,
+        "compactReportApproxTokens": 3270,
+        "savedApproxTokens": 20676,
+        "reductionRatio": 86.34
+      },
+      "compactApproxTokens": 3270,
+      "rawApproxTokens": 23946,
+      "savedApproxTokens": 20676,
+      "reductionRatio": 86.34,
+      "score": {
+        "score": 1,
+        "coverage": 1,
+        "mustCoverage": 1,
+        "matched": [
+          "express",
+          "router",
+          "middleware",
+          "mocha",
+          "test",
+          "package.json"
+        ],
+        "missing": [],
+        "mustMatched": [
+          "router",
+          "middleware",
+          "test"
+        ],
+        "mustMissing": [],
+        "pass": true
+      },
+      "actionability": {
+        "score": 1,
+        "passedChecks": 6,
+        "totalChecks": 6,
+        "pass": true,
+        "filePathCount": 32,
+        "testCommandCount": 1,
+        "hasSourceArea": true,
+        "hasTestArea": true,
+        "hasPackageSignal": true,
+        "riskSignalCount": 5,
+        "samplePaths": [
+          "package.json",
+          "examples/README.md",
+          "examples/route-middleware/index.js",
+          "examples/web-service/index.js",
+          "test/res.download.js",
+          "test/res.sendFile.js",
+          "test/app.routes.error.js",
+          "test/acceptance/mvc.js"
+        ],
+        "sampleTestCommands": [
+          "npm test"
+        ],
+        "sampleRiskSignals": [
+          "middleware",
+          "Router",
+          "router",
+          "parser",
+          "regression"
+        ]
+      },
+      "frontierReadiness": {
+        "score": 1,
+        "signalScore": 1,
+        "actionabilityScore": 1,
+        "pass": true,
+        "label": "orientation-ready"
+      },
+      "compactPreview": "Task: Complex task: A maintainer wants to change routing or middleware behavior in Express. Identify the likely source areas, test areas, npm test command signals, and risks before editing. Return only compact codebase evidence for a frontier model to plan a patch.\nMode: context_cleanup\nHigh-signal lines:\npackage.json:94: \"test\": \"mocha --require test/support/env --reporter spec --check-leaks test/ test/acceptance/\",\nTASK: Analyze this Express OSS codebase evidence. Identify project purpose, likely test command, major source/test areas, and any high-signal maintenance risks. Do not quote raw files; compact to actionable codebase evidence.\nexamples/README.md:12: - [error](./error) - Working with error middleware\npackage.json:92: \"lint\": \"eslint .\",\nexamples/README.md:11: - [error-pages](./error-pages) - Creating error pages\npackage.json:97: \"test-tap\": \"mocha --require test/support/env --reporter tap --check-leaks test/ test/acceptance/\"\n\"test\": \"mocha --require test/support/env --reporter spec --check-leaks test/ test/acceptance/\", [repeated 2x]\nexamples/route-middleware/index.js:46: next(new Error('Unauthorized'));\nexamples/route-middleware/index.js:55: next(new Error('Unauthorized'));\nexamples/web-service/index.js:34: if (!key) return next(error(400, 'api key required'));\nexamples/web-service/index.js:37: if (apiKeys.indexOf(key) === -1) return next(error(401, 'invalid api key'))\ntest/res.download.js:145: .expect('got 404 error')\ntest/res.sendFile.js:333: .expect('got 404 error')\ntest/res.sendFile.js:277: .expect(200, 'got 404 error', done)\ntest/app.routes.error.js:22: .expect(500, /Error: boom!/, done);\ntest/acceptance/mvc.js:96: it('should 500 on error', function(done){\ntest/res.render.js:128: .expect(500, 'got error: RenderError', done)\ntest/res.render.js:355: .expect(500, 'got error: RenderError', done)\ntest/res.render.js:123: res.status(500).send('got error: ' + err.name)\ntest/res.render.js:348: res.status(500).send('got error: ' + err.name)\ntest/Router.js:209: it('should skip non error middleware', function (done) {\ntest/acceptance/error-pages.js:55: .expect(404, { error: 'Not found' }, done)\nexamples/error-pages/index.js:79: // error-handling middleware, take the same form\ntest/acceptance/web-service.js:102: .expect(404, '{\"error\":\"Sorry, can\\'t find that\"}', done)\ntest/Router.js:213: next(new Error('foo'));\ntest/Router.js:217: next(new Error('bar')"
+    }
+  ],
+  "targeted": null,
+  "recommended": {
+    "strategy": "single_800",
+    "score": 1,
+    "label": "orientation-ready",
+    "compactApproxTokens": 862,
+    "reductionRatio": 96.4
+  }
+}

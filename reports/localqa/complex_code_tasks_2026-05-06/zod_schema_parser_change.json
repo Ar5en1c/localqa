@@ -1,0 +1,299 @@
+{
+  "id": "zod_schema_parser_change",
+  "project": "colinhacks/zod",
+  "category": "library API/type-surface change",
+  "evidencePath": "/Users/kuldeepsingh/MyProjects/localqa/reports/localqa/opencode_oss_codebases_2026-05-05/colinhacks_zod/raw-codebase-evidence.txt",
+  "rawApproxTokens": 35140,
+  "expected": [
+    "zod",
+    "schema",
+    "test",
+    "typescript",
+    "package.json",
+    "packages",
+    "src"
+  ],
+  "mustHave": [
+    "zod",
+    "schema",
+    "test"
+  ],
+  "singlePasses": [
+    {
+      "budget": 800,
+      "durationMs": 94.63,
+      "selectedMode": "context_cleanup",
+      "telemetry": {
+        "internalStepCount": 1,
+        "externalCalls": 0,
+        "localFileInputCount": 1,
+        "localFileInputBytes": 140612
+      },
+      "tokenSavings": {
+        "rawEvidenceApproxTokens": 35149,
+        "compactReportApproxTokens": 879,
+        "savedApproxTokens": 34270,
+        "reductionRatio": 97.5
+      },
+      "compactApproxTokens": 879,
+      "rawApproxTokens": 35149,
+      "savedApproxTokens": 34270,
+      "reductionRatio": 97.5,
+      "score": {
+        "score": 1,
+        "coverage": 1,
+        "mustCoverage": 1,
+        "matched": [
+          "zod",
+          "schema",
+          "test",
+          "typescript",
+          "package.json",
+          "packages",
+          "src"
+        ],
+        "missing": [],
+        "mustMatched": [
+          "zod",
+          "schema",
+          "test"
+        ],
+        "mustMissing": [],
+        "pass": true
+      },
+      "actionability": {
+        "score": 1,
+        "passedChecks": 6,
+        "totalChecks": 6,
+        "pass": true,
+        "filePathCount": 15,
+        "testCommandCount": 6,
+        "hasSourceArea": true,
+        "hasTestArea": true,
+        "hasPackageSignal": true,
+        "riskSignalCount": 4,
+        "samplePaths": [
+          "packages/zod/package.json",
+          "packages/resolution/package.json",
+          "test-resolution.ts",
+          "packages/integration/package.json",
+          "types/tsconfig.bundler.json",
+          "types/tsconfig.nodenext.json",
+          "types/tsconfig.node16-cjs.json",
+          "packages/tsc/package.json"
+        ],
+        "sampleTestCommands": [
+          "pnpm vitest",
+          "test:watch",
+          "test:all",
+          "test:built",
+          "test:source",
+          "pnpm run -r"
+        ],
+        "sampleRiskSignals": [
+          "schema",
+          "type",
+          "TypeScript",
+          "migration"
+        ]
+      },
+      "frontierReadiness": {
+        "score": 1,
+        "signalScore": 1,
+        "actionabilityScore": 1,
+        "pass": true,
+        "label": "orientation-ready"
+      },
+      "compactPreview": "Task: Complex task: A maintainer wants to change Zod schema parsing behavior. Identify likely package/source areas, test/type-check command signals, TypeScript/type-surface risks, and docs or migration areas before editing. Return compact evidence for a frontier model to plan a patch.\nMode: context_cleanup\nHigh-signal lines:\npackages/zod/package.json:132: \"test\": \"pnpm vitest run\",\npackages/zod/package.json:131: \"test:watch\": \"pnpm vitest\",\npackages/resolution/package.json:19: \"test:all\": \"pnpm vitest run && tsx test-resolution.ts\"\npackages/integration/package.json:18: \"test:built\": \"tsc --project fixtures/internal-types/tsconfig.bundler.json && tsc --project fixtures/internal-types/tsconfig.nodenext.json && tsc --project fixtures/internal-types/tsconfig.node16-cjs.json\"\npackages/tsc/package.json:25: \"build\": \"tsc\",\npackages/docs/package.json:6: \"build\": \"next build\",\npackages/zod/package.json:129: \"build\": \"zshy --project tsconfig.build.json\",\npackages/integration/package.json:17: \"test:source\": \"tsc --project fixtures/drizzle-zod/tsconfig.json 2>&1 | (! grep -q 'excessively deep') && tsc --project fixtures/ai-sdk/tsconfig.json\",\npackage.json:76: \"test\": \"vitest run\",\npackage.json:75: \"test:watch\": \"vitest\",\npackage.json:74: \"build\": \"pnpm run -r --filter zod build\",\npackages/docs-v3/README.md:273: Build AI apps and workflows with <a href=\"https://retool.com/products/ai?utm_source=github&utm_medium=referral&utm_campaign=zod\">Retool AI</a>\npackages/zod/README.md:149: result.error; // ZodError instance\npackages/docs-v3/README.md:148: - [Error handling](#error-handling)\npackages/docs-v3/README.md:149: - [Error formatting](#error-formatting)\npackages/docs-v3/README.md:119: - [Customize error path](#customize-error-path)\nTASK: Analyze this Zod OSS codebase evidence. Identify project purpose, likely test command, major source/test areas, and any high-signal maintenance risks. Do not quote raw files; compact to actionable codebase evidence.\npackages/docs-v3/CONTRIBUTING.md:64: - runs all Jest tests and generates coverage badge\npackages/zod/src/v3/tests/error.test.ts:230: expect(error.confirm?._errors).toEqual([\"Invalid input\"]);\npackages/zod/src/v3/tests/error.test.ts:300: expect(error.inner?.name?._errors).toEqual([\"Invalid input\"]);\npackages/zod/src/v3/tests/error.test.ts:291: // expect(error.inner?.name?._errors).toEqual([\"Invalid input\"]);\npackages/zod/src/v3/"
+    },
+    {
+      "budget": 1600,
+      "durationMs": 98.27,
+      "selectedMode": "context_cleanup",
+      "telemetry": {
+        "internalStepCount": 1,
+        "externalCalls": 0,
+        "localFileInputCount": 1,
+        "localFileInputBytes": 140612
+      },
+      "tokenSavings": {
+        "rawEvidenceApproxTokens": 35149,
+        "compactReportApproxTokens": 1673,
+        "savedApproxTokens": 33476,
+        "reductionRatio": 95.24
+      },
+      "compactApproxTokens": 1673,
+      "rawApproxTokens": 35149,
+      "savedApproxTokens": 33476,
+      "reductionRatio": 95.24,
+      "score": {
+        "score": 1,
+        "coverage": 1,
+        "mustCoverage": 1,
+        "matched": [
+          "zod",
+          "schema",
+          "test",
+          "typescript",
+          "package.json",
+          "packages",
+          "src"
+        ],
+        "missing": [],
+        "mustMatched": [
+          "zod",
+          "schema",
+          "test"
+        ],
+        "mustMissing": [],
+        "pass": true
+      },
+      "actionability": {
+        "score": 1,
+        "passedChecks": 6,
+        "totalChecks": 6,
+        "pass": true,
+        "filePathCount": 23,
+        "testCommandCount": 12,
+        "hasSourceArea": true,
+        "hasTestArea": true,
+        "hasPackageSignal": true,
+        "riskSignalCount": 5,
+        "samplePaths": [
+          "packages/zod/package.json",
+          "packages/resolution/package.json",
+          "test-resolution.ts",
+          "packages/integration/package.json",
+          "types/tsconfig.bundler.json",
+          "types/tsconfig.nodenext.json",
+          "types/tsconfig.node16-cjs.json",
+          "packages/tsc/package.json"
+        ],
+        "sampleTestCommands": [
+          "pnpm vitest",
+          "test:watch",
+          "test:all",
+          "test:built",
+          "test:source",
+          "pnpm run -r",
+          "yarn build",
+          "npm run build"
+        ],
+        "sampleRiskSignals": [
+          "schema",
+          "type",
+          "TypeScript",
+          "migration",
+          "validation"
+        ]
+      },
+      "frontierReadiness": {
+        "score": 1,
+        "signalScore": 1,
+        "actionabilityScore": 1,
+        "pass": true,
+        "label": "orientation-ready"
+      },
+      "compactPreview": "Task: Complex task: A maintainer wants to change Zod schema parsing behavior. Identify likely package/source areas, test/type-check command signals, TypeScript/type-surface risks, and docs or migration areas before editing. Return compact evidence for a frontier model to plan a patch.\nMode: context_cleanup\nHigh-signal lines:\npackages/zod/package.json:132: \"test\": \"pnpm vitest run\",\npackages/zod/package.json:131: \"test:watch\": \"pnpm vitest\",\npackages/resolution/package.json:19: \"test:all\": \"pnpm vitest run && tsx test-resolution.ts\"\npackages/integration/package.json:18: \"test:built\": \"tsc --project fixtures/internal-types/tsconfig.bundler.json && tsc --project fixtures/internal-types/tsconfig.nodenext.json && tsc --project fixtures/internal-types/tsconfig.node16-cjs.json\"\npackages/tsc/package.json:25: \"build\": \"tsc\",\npackages/docs/package.json:6: \"build\": \"next build\",\npackages/zod/package.json:129: \"build\": \"zshy --project tsconfig.build.json\",\npackages/integration/package.json:17: \"test:source\": \"tsc --project fixtures/drizzle-zod/tsconfig.json 2>&1 | (! grep -q 'excessively deep') && tsc --project fixtures/ai-sdk/tsconfig.json\",\npackage.json:76: \"test\": \"vitest run\",\npackage.json:75: \"test:watch\": \"vitest\",\npackage.json:74: \"build\": \"pnpm run -r --filter zod build\",\npackages/docs-v3/README.md:273: Build AI apps and workflows with <a href=\"https://retool.com/products/ai?utm_source=github&utm_medium=referral&utm_campaign=zod\">Retool AI</a>\npackages/zod/README.md:149: result.error; // ZodError instance\npackages/docs-v3/README.md:148: - [Error handling](#error-handling)\npackages/docs-v3/README.md:149: - [Error formatting](#error-formatting)\npackages/docs-v3/README.md:119: - [Customize error path](#customize-error-path)\nTASK: Analyze this Zod OSS codebase evidence. Identify project purpose, likely test command, major source/test areas, and any high-signal maintenance risks. Do not quote raw files; compact to actionable codebase evidence.\npackages/docs-v3/CONTRIBUTING.md:64: - runs all Jest tests and generates coverage badge\npackages/zod/src/v3/tests/error.test.ts:230: expect(error.confirm?._errors).toEqual([\"Invalid input\"]);\npackages/zod/src/v3/tests/error.test.ts:300: expect(error.inner?.name?._errors).toEqual([\"Invalid input\"]);\npackages/zod/src/v3/tests/error.test.ts:291: // expect(error.inner?.name?._errors).toEqual([\"Invalid input\"]);\npackages/zod/src/v3/"
+    },
+    {
+      "budget": 3200,
+      "durationMs": 98.43,
+      "selectedMode": "context_cleanup",
+      "telemetry": {
+        "internalStepCount": 1,
+        "externalCalls": 0,
+        "localFileInputCount": 1,
+        "localFileInputBytes": 140612
+      },
+      "tokenSavings": {
+        "rawEvidenceApproxTokens": 35149,
+        "compactReportApproxTokens": 3279,
+        "savedApproxTokens": 31870,
+        "reductionRatio": 90.67
+      },
+      "compactApproxTokens": 3279,
+      "rawApproxTokens": 35149,
+      "savedApproxTokens": 31870,
+      "reductionRatio": 90.67,
+      "score": {
+        "score": 1,
+        "coverage": 1,
+        "mustCoverage": 1,
+        "matched": [
+          "zod",
+          "schema",
+          "test",
+          "typescript",
+          "package.json",
+          "packages",
+          "src"
+        ],
+        "missing": [],
+        "mustMatched": [
+          "zod",
+          "schema",
+          "test"
+        ],
+        "mustMissing": [],
+        "pass": true
+      },
+      "actionability": {
+        "score": 1,
+        "passedChecks": 6,
+        "totalChecks": 6,
+        "pass": true,
+        "filePathCount": 32,
+        "testCommandCount": 12,
+        "hasSourceArea": true,
+        "hasTestArea": true,
+        "hasPackageSignal": true,
+        "riskSignalCount": 6,
+        "samplePaths": [
+          "packages/zod/package.json",
+          "packages/resolution/package.json",
+          "test-resolution.ts",
+          "packages/integration/package.json",
+          "types/tsconfig.bundler.json",
+          "types/tsconfig.nodenext.json",
+          "types/tsconfig.node16-cjs.json",
+          "packages/tsc/package.json"
+        ],
+        "sampleTestCommands": [
+          "pnpm vitest",
+          "test:watch",
+          "test:all",
+          "test:built",
+          "test:source",
+          "pnpm run -r",
+          "yarn build",
+          "npm run build"
+        ],
+        "sampleRiskSignals": [
+          "schema",
+          "type",
+          "TypeScript",
+          "migration",
+          "validation",
+          "MIGRATION"
+        ]
+      },
+      "frontierReadiness": {
+        "score": 1,
+        "signalScore": 1,
+        "actionabilityScore": 1,
+        "pass": true,
+        "label": "orientation-ready"
+      },
+      "compactPreview": "Task: Complex task: A maintainer wants to change Zod schema parsing behavior. Identify likely package/source areas, test/type-check command signals, TypeScript/type-surface risks, and docs or migration areas before editing. Return compact evidence for a frontier model to plan a patch.\nMode: context_cleanup\nHigh-signal lines:\npackages/zod/package.json:132: \"test\": \"pnpm vitest run\",\npackages/zod/package.json:131: \"test:watch\": \"pnpm vitest\",\npackages/resolution/package.json:19: \"test:all\": \"pnpm vitest run && tsx test-resolution.ts\"\npackages/integration/package.json:18: \"test:built\": \"tsc --project fixtures/internal-types/tsconfig.bundler.json && tsc --project fixtures/internal-types/tsconfig.nodenext.json && tsc --project fixtures/internal-types/tsconfig.node16-cjs.json\"\npackages/tsc/package.json:25: \"build\": \"tsc\",\npackages/docs/package.json:6: \"build\": \"next build\",\npackages/zod/package.json:129: \"build\": \"zshy --project tsconfig.build.json\",\npackages/integration/package.json:17: \"test:source\": \"tsc --project fixtures/drizzle-zod/tsconfig.json 2>&1 | (! grep -q 'excessively deep') && tsc --project fixtures/ai-sdk/tsconfig.json\",\npackage.json:76: \"test\": \"vitest run\",\npackage.json:75: \"test:watch\": \"vitest\",\npackage.json:74: \"build\": \"pnpm run -r --filter zod build\",\npackages/docs-v3/README.md:273: Build AI apps and workflows with <a href=\"https://retool.com/products/ai?utm_source=github&utm_medium=referral&utm_campaign=zod\">Retool AI</a>\npackages/zod/README.md:149: result.error; // ZodError instance\npackages/docs-v3/README.md:148: - [Error handling](#error-handling)\npackages/docs-v3/README.md:149: - [Error formatting](#error-formatting)\npackages/docs-v3/README.md:119: - [Customize error path](#customize-error-path)\nTASK: Analyze this Zod OSS codebase evidence. Identify project purpose, likely test command, major source/test areas, and any high-signal maintenance risks. Do not quote raw files; compact to actionable codebase evidence.\npackages/docs-v3/CONTRIBUTING.md:64: - runs all Jest tests and generates coverage badge\npackages/zod/src/v3/tests/error.test.ts:230: expect(error.confirm?._errors).toEqual([\"Invalid input\"]);\npackages/zod/src/v3/tests/error.test.ts:300: expect(error.inner?.name?._errors).toEqual([\"Invalid input\"]);\npackages/zod/src/v3/tests/error.test.ts:291: // expect(error.inner?.name?._errors).toEqual([\"Invalid input\"]);\npackages/zod/src/v3/"
+    }
+  ],
+  "targeted": null,
+  "recommended": {
+    "strategy": "single_800",
+    "score": 1,
+    "label": "orientation-ready",
+    "compactApproxTokens": 879,
+    "reductionRatio": 97.5
+  }
+}

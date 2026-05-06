@@ -1,0 +1,40 @@
+{
+  "name": "localqa",
+  "version": "0.1.0-alpha.0",
+  "description": "Bonsai-backed local evidence and memory layer for frontier coding agents. MCP-first with an OpenCode plugin integration.",
+  "license": "MIT",
+  "type": "module",
+  "private": false,
+  "scripts": {
+    "test": "node --test ./tests/*.test.mjs",
+    "check:docs-paths": "node ./scripts/check_docs_absolute_paths.mjs",
+    "localqa:mcp": "node ./localqa/mcp-server-sdk.mjs",
+    "localqa:mcp:legacy": "node ./localqa/mcp-server.mjs",
+    "localqa:mcp:smoke": "node ./localqa/smoke-mcp-client.mjs",
+    "localqa:run": "node ./localqa/run-ui-qa.mjs",
+    "localqa:studio": "node ./localqa/studio-server.mjs",
+    "localqa:bonsai:serve": "bash ./scripts/start_bonsai_llama_server.sh",
+    "localqa:validate": "node --check ./localqa/mcp-server-sdk.mjs && node --check ./localqa/core/qa-core.mjs && node --check ./localqa/core/context-core.mjs && npm run localqa:mcp:smoke && node ./scripts/check_docs_absolute_paths.mjs",
+    "localqa:opencode:redaction": "node ./scripts/smoke_localqa_opencode_redaction.mjs",
+    "localqa:opencode:smoke": "node ./scripts/smoke_localqa_opencode_bridge.mjs",
+    "localqa:bench:opencode-oss-codebases": "node ./scripts/bench_localqa_opencode_oss_codebases.mjs",
+    "localqa:bench:agent-layer": "node ./scripts/bench_localqa_agent_layer.mjs",
+    "localqa:bench:agentic-workflows": "node ./scripts/bench_localqa_agentic_workflows.mjs",
+    "localqa:bench:ab-agent-workflows": "node ./scripts/bench_localqa_ab_agent_workflows.mjs",
+    "localqa:bench:long-horizon-300k": "node ./scripts/bench_localqa_long_horizon_300k.mjs",
+    "localqa:bench:complex-code-tasks": "node ./scripts/bench_localqa_complex_code_tasks.mjs",
+    "localqa:bench:provider-telemetry": "node ./scripts/bench_opencode_provider_telemetry_ab.mjs",
+    "localqa:launch-check": "node ./scripts/localqa_launch_check.mjs",
+    "localqa:release:prepare": "node ./scripts/prepare_localqa_public_release.mjs"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.29.0",
+    "zod": "^4.4.1"
+  },
+  "devDependencies": {
+    "playwright": "^1.59.1"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

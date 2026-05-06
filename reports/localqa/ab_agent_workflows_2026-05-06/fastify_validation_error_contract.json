@@ -1,0 +1,163 @@
+{
+  "id": "fastify_validation_error_contract",
+  "title": "Fastify validation/error contract pre-implementation plan",
+  "evidencePath": "/Users/kuldeepsingh/MyProjects/localqa/reports/localqa/opencode_oss_codebases_2026-05-05/fastify_fastify/raw-codebase-evidence.txt",
+  "rawEvidenceTokens": 41848,
+  "fullDumpUpperBound": {
+    "tokens": 41848,
+    "note": "Upper bound only; not used as primary baseline because a normal agent can grep/read selectively."
+  },
+  "targetedBaseline": {
+    "tokens": 9114,
+    "approxToolCalls": 6,
+    "percentOfFullEvidence": 21.78,
+    "quality": {
+      "score": 1,
+      "label": "strong",
+      "pass": true,
+      "signal": {
+        "score": 1,
+        "coverage": 1,
+        "mustCoverage": 1,
+        "matched": [
+          "fastify",
+          "validation",
+          "error-handler",
+          "test:validator:integrity",
+          "test:typescript",
+          "lib/validation.js",
+          "lib/error-handler.js",
+          "package.json"
+        ],
+        "missing": [],
+        "mustMatched": [
+          "validation",
+          "test:validator:integrity",
+          "test:typescript"
+        ],
+        "mustMissing": []
+      },
+      "actionability": {
+        "score": 1,
+        "passed": 6,
+        "total": 6,
+        "paths": [
+          "package.json",
+          "lib/error-serializer.js",
+          "lib/config-validator.js",
+          "test/types/import.ts",
+          "docs/Reference/TypeScript.md",
+          "docs/Guides/Contributing.md",
+          "docs/Guides/Migration-Guide-V5.md",
+          "docs/Guides/Testing.md",
+          "test/bundler/esbuild/package.json",
+          "test/bundler/README.md"
+        ],
+        "commands": [
+          "test:validator:integrity",
+          "npm run build:validation",
+          "test:typescript",
+          "npm run test:validator:integrity",
+          "npm run build:sync-version",
+          "npm run lint:eslint",
+          "test:watch",
+          "npm run unit",
+          "npm run lint",
+          "npm run test:typescript"
+        ],
+        "riskSignals": [
+          "validation",
+          "contract",
+          "integrity",
+          "typescript",
+          "TypeScript",
+          "Migration",
+          "schema",
+          "Validation",
+          "type",
+          "parser"
+        ]
+      }
+    },
+    "preview": "NORMAL_AGENT_TARGETED_BASELINE: Fastify validation/error contract pre-implementation plan\nAssumption: baseline agent does not ingest the full raw file. It performs normal targeted package/tree/grep/excerpt inspection and receives these tool outputs in cloud context.\nApprox tool calls: list/tree, read package.json, grep task terms, read source excerpts, read test excerpts, inspect docs/config.\n\nOSS_CODEBASE_BENCHMARK_PROJECT: fastify/fastify\nTASK: Analyze this Fastify OSS codebase evidence. Identify project purpose, likely test command, major source/test areas, and any high-signal maintenance risks. Do not quote raw files; compact to actionable codebase evidence.\nPACKAGE_SCRIPTS_JSON:\nFILE_TREE_HEAD:\npackage.json:25: \"test:validator:integrity\": \"npm run build:validation && git diff --quiet --ignore-all-space --ignore-blank-lines --ignore-cr-at-eol lib/error-serializer.js && git diff --quiet --ignore-all-space --ignore-blank-lines --ignore-cr-at-eol lib/config-validator.js\"\n  \"test:validator:integrity\": \"npm run build:validation && git diff --quiet --ignore-all-space --ignore-blank-lines --ignore-cr-at-eol lib/error-serializer.js && git diff --quiet --ignore-all-space --ignore-blank-lines --ignore-cr-at-eol lib/config-validator.js\",\npackage.json:26: \"test:typescript\": \"tsc test/types/import.ts --target es2022 --moduleResolution node16 --module node16 --noEmit && tsd\",\n  \"test:typescript\": \"tsc test/types/import.ts --target es2022 --moduleResolution node16 --module node16 --noEmit && tsd\",\ndocs/Reference/TypeScript.md:48: \"build\": \"tsc -p tsconfig.json\",\npackage.json:21: \"prepublishOnly\": \"cross-env PREPUBLISH=true borp --reporter=@jsumners/line-reporter && npm run test:validator:integrity && npm run build:sync-version\",\ndocs/Guides/Contributing.md:146: code-fastify --install-extension dbaeumer.vscode-eslint\ndocs/Guides/Contributing.md:153: [ -d /Applications/VSCodeFastify/code-portable-data/extensions/dbaeumer.vscode-eslint-* ] && echo \"found\"\ndocs/Guides/Migration-Guide-V5.md:228: | FSTDEP012 | You are trying to access the deprecated `request.context` property. | Use `request.routeOptions.config` or `request.routeOptions.schema`. | [#4216](https://github.com/fast"
+  },
+  "localqa": {
+    "tokens": 2258,
+    "approxMainAgentToolCalls": 1,
+    "internalLocalSteps": 3,
+    "runtimeMs": 95.8,
+    "memoryWritten": true,
+    "quality": {
+      "score": 1,
+      "label": "strong",
+      "pass": true,
+      "signal": {
+        "score": 1,
+        "coverage": 1,
+        "mustCoverage": 1,
+        "matched": [
+          "fastify",
+          "validation",
+          "error-handler",
+          "test:validator:integrity",
+          "test:typescript",
+          "lib/validation.js",
+          "lib/error-handler.js",
+          "package.json"
+        ],
+        "missing": [],
+        "mustMatched": [
+          "validation",
+          "test:validator:integrity",
+          "test:typescript"
+        ],
+        "mustMissing": []
+      },
+      "actionability": {
+        "score": 1,
+        "passed": 6,
+        "total": 6,
+        "paths": [
+          "package.json",
+          "lib/error-serializer.js",
+          "lib/config-validator.js",
+          "test/types/import.ts",
+          "build/build-error-serializer.js",
+          "build/build-validation.js",
+          "docs/Guides/Testing.md",
+          "examples/benchmark/parser.js",
+          "examples/benchmark/body.json",
+          "lib/validation.js"
+        ],
+        "commands": [
+          "test:validator:integrity",
+          "npm run build:validation",
+          "test:typescript",
+          "test:watch",
+          "npm run unit",
+          "npm run lint:eslint"
+        ],
+        "riskSignals": [
+          "validation",
+          "generated",
+          "integrity",
+          "TypeScript",
+          "contract",
+          "typescript",
+          "parser",
+          "type",
+          "schema"
+        ]
+      }
+    },
+    "preview": "## Step 1: memory_query\nTask: Plan a safe Fastify validation/error response behavior change. Identify source files, test commands, generated/integrity risks, TypeScript checks, and exact next reads.\nMode: memory\nStatus: ok\nProject memory query: What prior work exists for Fastify validation/error contract pre-implementation plan? Memory dir: /Users/kuldeepsingh/MyProjects/localqa/reports/localqa/ab_agent_workflows_2026-05-06/memory/fastify_validation_error_contract Matched entries: 0/0\n\n## Step 2: context_cleanup\nTask: Plan a safe Fastify validation/error response behavior change. Identify source files, test commands, generated/integrity risks, TypeScript checks, and exact next reads.\nMode: context_cleanup\nStatus: ok\nToken savings: raw=41857 compact=951 saved=40906 reduction=97.73%\nTask: Plan a safe Fastify validation/error response behavior change. Identify source files, test commands, generated/integrity risks, TypeScript checks, and exact next reads. Mode: context_cleanup High-signal lines: package.json:25: \"test:validator:integrity\": \"npm run build:validation && git diff --quiet --ignore-all-space --ignore-blank-lines --ignore-cr-at-eol lib/error-serializer.js && git diff --quiet --ignore-all-space --ignore-blank-lines --ignore-cr-at-eol lib/config-validator.js\" \"test:validator:integrity\": \"npm run build:validation && git diff --quiet --ignore-all-space --ignore-blank-lines --ignore-cr-at-eol lib/error-serializer.js && git diff --quiet --ignore-all-space --ignore-blank-lines --ignore-cr-at-eol lib/config-validator.js\", [repeated 2x] package.json:26: \"test:typescript\": \"tsc test/types/import.ts --target es2022 --moduleResolution node16 --module node16 --noEmit && tsd\", package.json:27: \"test:watch\": \"npm run unit -- --watch --coverage-report=none --reporter=terse\", package.json:13: \"build:validation\": \"node build/build-error-serializer.js && node build/build-validation.js\", package.json:17: \"lint\": \"npm run lint:eslint\", docs/Guides/Testing.md:149: }, (error, response) => { package.json:12: \"benchmark:parser:error\": \"concurrently -k -s first \\\"node ./examples/benchmark/parser.js\\\" \\\"autocannon -c 100 -d 30 -p 10 -i ./examples/benchmark/body.json -H \\\"content-t"
+  },
+  "comparison": {
+    "targetBaselineSavedTokens": 6856,
+    "targetBaselineReductionRatio": 75.22,
+    "qualityDelta": 0,
+    "bothPassQuality": true,
+    "localqaMaintainedOrImprovedQuality": true,
+    "toolCallReduction": 5
+  }
+}

@@ -1,0 +1,702 @@
+{
+  "ok": true,
+  "generatedAt": "2026-05-06T17:01:32.367Z",
+  "sourceOssBenchDir": "/Users/kuldeepsingh/MyProjects/localqa/reports/localqa/opencode_oss_codebases_2026-05-05",
+  "outDir": "/Users/kuldeepsingh/MyProjects/localqa/reports/localqa/long_horizon_300k_2026-05-06",
+  "aggregate": {
+    "rawTokens": 302772,
+    "compactTokens": 8842,
+    "savedTokens": 293930,
+    "reductionRatio": 97.08,
+    "avgQualityScore": 0.976,
+    "passCount": 9,
+    "totalRuntimeMs": 900.02,
+    "avgRuntimeMs": 100,
+    "memoryWrittenCount": 9
+  },
+  "projectSummaries": [
+    {
+      "projectId": "fastify_validation_error_contract",
+      "projectTitle": "Fastify validation/error contract migration",
+      "phaseCount": 3,
+      "rawTokens": 125544,
+      "compactTokens": 2979,
+      "savedTokens": 122565,
+      "reductionRatio": 97.63,
+      "avgQualityScore": 1,
+      "passCount": 3
+    },
+    {
+      "projectId": "express_router_middleware",
+      "projectTitle": "Express router/middleware behavior change",
+      "phaseCount": 3,
+      "rawTokens": 71808,
+      "compactTokens": 2938,
+      "savedTokens": 68870,
+      "reductionRatio": 95.91,
+      "avgQualityScore": 0.928,
+      "passCount": 3
+    },
+    {
+      "projectId": "zod_schema_parser",
+      "projectTitle": "Zod schema/parser type-surface change",
+      "phaseCount": 3,
+      "rawTokens": 105420,
+      "compactTokens": 2925,
+      "savedTokens": 102495,
+      "reductionRatio": 97.23,
+      "avgQualityScore": 1,
+      "passCount": 3
+    }
+  ],
+  "phases": [
+    {
+      "projectId": "fastify_validation_error_contract",
+      "projectTitle": "Fastify validation/error contract migration",
+      "phaseId": "day1_orientation",
+      "phaseLabel": "Day 1 orientation",
+      "rawTokens": 41848,
+      "compactTokens": 938,
+      "savedTokens": 40910,
+      "reductionRatio": 97.76,
+      "internalLocalRawTokensProcessed": 41857,
+      "runtimeMs": 88.08,
+      "memoryWritten": true,
+      "quality": {
+        "score": 1,
+        "label": "strong",
+        "pass": true,
+        "signal": {
+          "score": 1,
+          "coverage": 1,
+          "mustCoverage": 1,
+          "matched": [
+            "fastify",
+            "validation",
+            "error-handler",
+            "test:validator:integrity",
+            "test:typescript",
+            "package.json"
+          ],
+          "missing": [],
+          "mustMatched": [
+            "validation",
+            "test:validator:integrity",
+            "test:typescript"
+          ],
+          "mustMissing": []
+        },
+        "actionability": {
+          "score": 1,
+          "passed": 7,
+          "total": 7,
+          "paths": [
+            "package.json",
+            "lib/error-serializer.js",
+            "lib/config-validator.js",
+            "test/types/import.ts",
+            "build/build-error-serializer.js",
+            "build/build-validation.js",
+            "examples/benchmark/parser.js",
+            "examples/benchmark/body.json"
+          ],
+          "commands": [
+            "test:validator:integrity",
+            "test:typescript",
+            "npm run build:validation",
+            "test:watch",
+            "npm run unit",
+            "npm run lint:eslint"
+          ],
+          "riskSignals": [
+            "validation",
+            "contract",
+            "migration",
+            "integrity",
+            "typescript",
+            "parser",
+            "type"
+          ],
+          "hasMemory": true,
+          "hasNext": true,
+          "hasSource": true,
+          "hasTest": true
+        }
+      },
+      "compactPreview": "## Step 1: memory_query\nTask: Fastify validation/error contract migration: Orient on the project. Identify likely files, source/test areas, package scripts, risks, and exact next reads before implementation.\nMode: memory\nStatus: ok\nProject memory query: What prior work exists for Fastify validation/error contract migration? Include what worked, failed, skipped, and next actions. Memory dir: /Users/kuldeepsingh/MyProjects/localqa/reports/localqa/long_horizon_300k_2026-05-06/memory/fastify_validation_error_contract Matched entries: 0/0\n\n## Step 2: context_cleanup\nTask: Fastify validation/error contract migration: Orient on the project. Identify likely files, source/test areas, package scripts, risks, and exact next reads before implementation. Expected signals: fastify, validation, error-handler, test:validator:integrity, test:typescript, package.json. Task terms: validation, error-handler, validator integrity, typescript, contract.\nMode: context_cleanup\nStatus: ok\nToken savings: raw=41857 compact=938 saved=40919 reduction=97.76%\nTask: Fastify validation/error contract migration: Orient on the project. Identify likely files, source/test areas, package scripts, risks, and exact next reads before implementation. Expected signals: fastify, validation, error-handler, test:validator:integrity, test:typescript, package.json. Task terms: validation, error-handler, validator integrity, typescript, contract. Mode: context_cleanup High-signal lines: package.json:25: \"test:validator:integrity\": \"npm run build:validation && git diff --quiet --ignore-all-space --ignore-blank-lines --ignore-cr-at-eol lib/error-serializer.js && git diff --quiet --ignore-all-space --ignore-blank-lines --ignore-cr-at-eol lib/config-validator.js\" package.json:26: \"test:typescript\": \"tsc test/types/import.ts --target es2022 --moduleResolution node16 --module node16 --noEmit && tsd\", \"test:validator:integrity\": \"npm run build:validation && git diff --quiet --ignore-all-space --ignore-blank-lines --ignore"
+    },
+    {
+      "projectId": "fastify_validation_error_contract",
+      "projectTitle": "Fastify validation/error contract migration",
+      "phaseId": "day2_plan",
+      "phaseLabel": "Day 2 implementation plan",
+      "rawTokens": 41848,
+      "compactTokens": 1001,
+      "savedTokens": 40847,
+      "reductionRatio": 97.61,
+      "internalLocalRawTokensProcessed": 41857,
+      "runtimeMs": 85.54,
+      "memoryWritten": true,
+      "quality": {
+        "score": 1,
+        "label": "strong",
+        "pass": true,
+        "signal": {
+          "score": 1,
+          "coverage": 1,
+          "mustCoverage": 1,
+          "matched": [
+            "fastify",
+            "validation",
+            "error-handler",
+            "test:validator:integrity",
+            "test:typescript",
+            "package.json"
+          ],
+          "missing": [],
+          "mustMatched": [
+            "validation",
+            "test:validator:integrity",
+            "test:typescript"
+          ],
+          "mustMissing": []
+        },
+        "actionability": {
+          "score": 1,
+          "passed": 7,
+          "total": 7,
+          "paths": [
+            "package.json",
+            "lib/error-serializer.js",
+            "lib/config-validator.js",
+            "test/types/import.ts",
+            "build/build-error-serializer.js",
+            "build/build-validation.js",
+            "examples/benchmark/parser.js",
+            "examples/benchmark/body.json",
+            "docs/Guides/Testing.md"
+          ],
+          "commands": [
+            "test:validator:integrity",
+            "test:typescript",
+            "npm run build:validation",
+            "test:watch",
+            "npm run unit",
+            "npm run lint:eslint"
+          ],
+          "riskSignals": [
+            "validation",
+            "contract",
+            "migration",
+            "integrity",
+            "typescript",
+            "parser",
+            "type"
+          ],
+          "hasMemory": true,
+          "hasNext": true,
+          "hasSource": true,
+          "hasTest": true
+        }
+      },
+      "compactPreview": "## Step 1: memory_query\nTask: Fastify validation/error contract migration: Continue from prior memory. Build a safe implementation plan. Preserve test commands, likely files, risks, and what not to repeat.\nMode: memory\nStatus: ok\nProject memory query: What prior work exists for Fastify validation/error contract migration? Include what worked, failed, skipped, and next actions. Memory dir: /Users/kuldeepsingh/MyProjects/localqa/reports/localqa/long_horizon_300k_2026-05-06/memory/fastify_validation_error_contract Matched entries: 2/2 1. 2026-05-06T17:01:31.546Z | directed_plan | completed | directed task: Fastify validation/error contract migration: Orient on the project. Identify likely files, source/test areas, package scripts, risks, and exact next reads before implementation. summary: ## Step 1: memory_query Task: Fastify validation/error contract migration: Orient on the project. Identify likely files, source/test areas, package scripts, risks, and exact next reads before implementation. Mode: memory Status: ok Project memory query: What prior work exists for Fastify validation/error contract migration? Include what worked, failed, skipped, and next actions. Memory dir: /Users/kuldeepsingh/MyProj tokens: raw=41857 compact=938 saved=40919 reduction=97.76% 2. 2026-05-06T17:01:31.544Z | work_record | recorded | auto task: Record Day 1 orientation for Fastify validation/error contract migration. summary: Completed Day 1 orientation. LocalQA preserved compact evidence for validation, error-handler, validator integrity, typescript, contract and should avoid repeating full evidence scans next phase. next: Continue with Fastify validation/error contract migration using memory_query before reading evidence again.; Use exact file reads only after frontier model selects target files.\n\n## Step 2: context_cleanup\nTask: Fastify validation/error contract migration: Continue from prior memory. Build a safe implementation plan. Preserve test commands, likely files, risks, and wha"
+    },
+    {
+      "projectId": "fastify_validation_error_contract",
+      "projectTitle": "Fastify validation/error contract migration",
+      "phaseId": "day3_regression_review",
+      "phaseLabel": "Day 3 regression review",
+      "rawTokens": 41848,
+      "compactTokens": 1040,
+      "savedTokens": 40808,
+      "reductionRatio": 97.51,
+      "internalLocalRawTokensProcessed": 41857,
+      "runtimeMs": 100.6,
+      "memoryWritten": true,
+      "quality": {
+        "score": 1,
+        "label": "strong",
+        "pass": true,
+        "signal": {
+          "score": 1,
+          "coverage": 1,
+          "mustCoverage": 1,
+          "matched": [
+            "fastify",
+            "validation",
+            "error-handler",
+            "test:validator:integrity",
+            "test:typescript",
+            "package.json"
+          ],
+          "missing": [],
+          "mustMatched": [
+            "validation",
+            "test:validator:integrity",
+            "test:typescript"
+          ],
+          "mustMissing": []
+        },
+        "actionability": {
+          "score": 1,
+          "passed": 7,
+          "total": 7,
+          "paths": [
+            "package.json",
+            "lib/error-serializer.js",
+            "lib/config-validator.js",
+            "test/types/import.ts",
+            "build/build-error-serializer.js",
+            "build/build-validation.js",
+            "examples/benchmark/parser.js",
+            "examples/benchmark/body.json",
+            "docs/Guides/Testing.md"
+          ],
+          "commands": [
+            "test:validator:integrity",
+            "test:typescript",
+            "npm run build:validation",
+            "npm run lint:eslint",
+            "test:watch",
+            "npm run unit"
+          ],
+          "riskSignals": [
+            "validation",
+            "contract",
+            "migration",
+            "regression",
+            "integrity",
+            "typescript",
+            "parser",
+            "type"
+          ],
+          "hasMemory": true,
+          "hasNext": true,
+          "hasSource": true,
+          "hasTest": true
+        }
+      },
+      "compactPreview": "## Step 1: memory_query\nTask: Fastify validation/error contract migration: Continue from prior memory. Prepare a regression checklist and final next reads. Preserve commands, risky contracts, and skipped work.\nMode: memory\nStatus: ok\nProject memory query: What prior work exists for Fastify validation/error contract migration? Include what worked, failed, skipped, and next actions. Memory dir: /Users/kuldeepsingh/MyProjects/localqa/reports/localqa/long_horizon_300k_2026-05-06/memory/fastify_validation_error_contract Matched entries: 4/4 1. 2026-05-06T17:01:31.634Z | directed_plan | completed | directed task: Fastify validation/error contract migration: Continue from prior memory. Build a safe implementation plan. Preserve test commands, likely files, risks, and what not to repeat. summary: ## Step 1: memory_query Task: Fastify validation/error contract migration: Continue from prior memory. Build a safe implementation plan. Preserve test commands, likely files, risks, and what not to repeat. Mode: memory Status: ok Project memory query: What prior work exists for Fastify validation/error contract migration? Include what worked, failed, skipped, and next actions. Memory dir: /Users/kuldeepsingh/MyProjec tokens: raw=41857 compact=1001 saved=40856 reduction=97.61% 2. 2026-05-06T17:01:31.546Z | directed_plan | completed | directed task: Fastify validation/error contract migration: Orient on the project. Identify likely files, source/test areas, package scripts, risks, and exact next reads before implementation. summary: ## Step 1: memory_query Task: Fastify validation/error contract migration: Orient on the project. Identify likely files, source/test areas, package scripts, risks, and exact next reads before implementation. Mode: memory Status: ok Project memory query: What prior work exists for Fastify validation/error contract migration? Include what worked, failed, skipped, and next actions. Memory dir: /Users/kuldeepsingh/MyProj tokens: raw=41857 compact=938 saved=40"
+    },
+    {
+      "projectId": "express_router_middleware",
+      "projectTitle": "Express router/middleware behavior change",
+      "phaseId": "day1_orientation",
+      "phaseLabel": "Day 1 orientation",
+      "rawTokens": 23936,
+      "compactTokens": 935,
+      "savedTokens": 23001,
+      "reductionRatio": 96.09,
+      "internalLocalRawTokensProcessed": 23946,
+      "runtimeMs": 95.52,
+      "memoryWritten": true,
+      "quality": {
+        "score": 0.928,
+        "label": "strong",
+        "pass": true,
+        "signal": {
+          "score": 1,
+          "coverage": 1,
+          "mustCoverage": 1,
+          "matched": [
+            "express",
+            "router",
+            "middleware",
+            "mocha",
+            "test",
+            "package.json"
+          ],
+          "missing": [],
+          "mustMatched": [
+            "router",
+            "middleware",
+            "test"
+          ],
+          "mustMissing": []
+        },
+        "actionability": {
+          "score": 0.857,
+          "passed": 6,
+          "total": 7,
+          "paths": [
+            "package.json",
+            "examples/README.md",
+            "examples/route-middleware/index.js",
+            "examples/web-service/index.js",
+            "test/Router.js",
+            "examples/error-pages/index.js"
+          ],
+          "commands": [],
+          "riskSignals": [
+            "router",
+            "middleware",
+            "compatibility",
+            "Router"
+          ],
+          "hasMemory": true,
+          "hasNext": true,
+          "hasSource": true,
+          "hasTest": true
+        }
+      },
+      "compactPreview": "## Step 1: memory_query\nTask: Express router/middleware behavior change: Orient on the project. Identify likely files, source/test areas, package scripts, risks, and exact next reads before implementation.\nMode: memory\nStatus: ok\nProject memory query: What prior work exists for Express router/middleware behavior change? Include what worked, failed, skipped, and next actions. Memory dir: /Users/kuldeepsingh/MyProjects/localqa/reports/localqa/long_horizon_300k_2026-05-06/memory/express_router_middleware Matched entries: 0/0\n\n## Step 2: context_cleanup\nTask: Express router/middleware behavior change: Orient on the project. Identify likely files, source/test areas, package scripts, risks, and exact next reads before implementation. Expected signals: express, router, middleware, mocha, test, package.json. Task terms: router, middleware, mocha, compatibility, route.\nMode: context_cleanup\nStatus: ok\nToken savings: raw=23946 compact=935 saved=23011 reduction=96.1%\nTask: Express router/middleware behavior change: Orient on the project. Identify likely files, source/test areas, package scripts, risks, and exact next reads before implementation. Expected signals: express, router, middleware, mocha, test, package.json. Task terms: router, middleware, mocha, compatibility, route. Mode: context_cleanup High-signal lines: package.json:94: \"test\": \"mocha --require test/support/env --reporter spec --check-leaks test/ test/acceptance/\", examples/README.md:12: - [error](./error) - Working with error middleware package.json:92: \"lint\": \"eslint .\", TASK: Analyze this Express OSS codebase evidence. Identify project purpose, likely test command, major source/test areas, and any high-signal maintenance risks. Do not quote raw files; compact to actionable codebase evidence. examples/route-middleware/index.js:46: next(new Error('Unauthorized')); examples/route-middleware/index.js:55: next(new Error('Unauthorized')); examples/web-service/index.js:34: if (!key) return next(error(400, 'api key "
+    },
+    {
+      "projectId": "express_router_middleware",
+      "projectTitle": "Express router/middleware behavior change",
+      "phaseId": "day2_plan",
+      "phaseLabel": "Day 2 implementation plan",
+      "rawTokens": 23936,
+      "compactTokens": 976,
+      "savedTokens": 22960,
+      "reductionRatio": 95.92,
+      "internalLocalRawTokensProcessed": 23946,
+      "runtimeMs": 104.35,
+      "memoryWritten": true,
+      "quality": {
+        "score": 0.928,
+        "label": "strong",
+        "pass": true,
+        "signal": {
+          "score": 1,
+          "coverage": 1,
+          "mustCoverage": 1,
+          "matched": [
+            "express",
+            "router",
+            "middleware",
+            "mocha",
+            "test",
+            "package.json"
+          ],
+          "missing": [],
+          "mustMatched": [
+            "router",
+            "middleware",
+            "test"
+          ],
+          "mustMissing": []
+        },
+        "actionability": {
+          "score": 0.857,
+          "passed": 6,
+          "total": 7,
+          "paths": [
+            "package.json",
+            "examples/README.md",
+            "examples/route-middleware/index.js",
+            "examples/web-service/index.js",
+            "test/Router.js",
+            "examples/error-pages/index.js"
+          ],
+          "commands": [],
+          "riskSignals": [
+            "router",
+            "middleware",
+            "compatibility",
+            "Router"
+          ],
+          "hasMemory": true,
+          "hasNext": true,
+          "hasSource": true,
+          "hasTest": true
+        }
+      },
+      "compactPreview": "## Step 1: memory_query\nTask: Express router/middleware behavior change: Continue from prior memory. Build a safe implementation plan. Preserve test commands, likely files, risks, and what not to repeat.\nMode: memory\nStatus: ok\nProject memory query: What prior work exists for Express router/middleware behavior change? Include what worked, failed, skipped, and next actions. Memory dir: /Users/kuldeepsingh/MyProjects/localqa/reports/localqa/long_horizon_300k_2026-05-06/memory/express_router_middleware Matched entries: 2/2 1. 2026-05-06T17:01:31.831Z | directed_plan | completed | directed task: Express router/middleware behavior change: Orient on the project. Identify likely files, source/test areas, package scripts, risks, and exact next reads before implementation. summary: ## Step 1: memory_query Task: Express router/middleware behavior change: Orient on the project. Identify likely files, source/test areas, package scripts, risks, and exact next reads before implementation. Mode: memory Status: ok Project memory query: What prior work exists for Express router/middleware behavior change? Include what worked, failed, skipped, and next actions. Memory dir: /Users/kuldeepsingh/MyProjects tokens: raw=23946 compact=935 saved=23011 reduction=96.1% 2. 2026-05-06T17:01:31.829Z | work_record | recorded | auto task: Record Day 1 orientation for Express router/middleware behavior change. summary: Completed Day 1 orientation. LocalQA preserved compact evidence for router, middleware, mocha, compatibility, route and should avoid repeating full evidence scans next phase. next: Continue with Express router/middleware behavior change using memory_query before reading evidence again.; Use exact file reads only after frontier model selects target files.\n\n## Step 2: context_cleanup\nTask: Express router/middleware behavior change: Continue from prior memory. Build a safe implementation plan. Preserve test commands, likely files, risks, and what not to repeat. Expected signals: express"
+    },
+    {
+      "projectId": "express_router_middleware",
+      "projectTitle": "Express router/middleware behavior change",
+      "phaseId": "day3_regression_review",
+      "phaseLabel": "Day 3 regression review",
+      "rawTokens": 23936,
+      "compactTokens": 1027,
+      "savedTokens": 22909,
+      "reductionRatio": 95.71,
+      "internalLocalRawTokensProcessed": 23946,
+      "runtimeMs": 112.43,
+      "memoryWritten": true,
+      "quality": {
+        "score": 0.928,
+        "label": "strong",
+        "pass": true,
+        "signal": {
+          "score": 1,
+          "coverage": 1,
+          "mustCoverage": 1,
+          "matched": [
+            "express",
+            "router",
+            "middleware",
+            "mocha",
+            "test",
+            "package.json"
+          ],
+          "missing": [],
+          "mustMatched": [
+            "router",
+            "middleware",
+            "test"
+          ],
+          "mustMissing": []
+        },
+        "actionability": {
+          "score": 0.857,
+          "passed": 6,
+          "total": 7,
+          "paths": [
+            "package.json",
+            "examples/README.md",
+            "examples/route-middleware/index.js",
+            "examples/web-service/index.js",
+            "examples/error-pages/index.js",
+            "test/Router.js",
+            "examples/downloads/index.js"
+          ],
+          "commands": [],
+          "riskSignals": [
+            "router",
+            "middleware",
+            "regression",
+            "compatibility",
+            "Router"
+          ],
+          "hasMemory": true,
+          "hasNext": true,
+          "hasSource": true,
+          "hasTest": true
+        }
+      },
+      "compactPreview": "## Step 1: memory_query\nTask: Express router/middleware behavior change: Continue from prior memory. Prepare a regression checklist and final next reads. Preserve commands, risky contracts, and skipped work.\nMode: memory\nStatus: ok\nProject memory query: What prior work exists for Express router/middleware behavior change? Include what worked, failed, skipped, and next actions. Memory dir: /Users/kuldeepsingh/MyProjects/localqa/reports/localqa/long_horizon_300k_2026-05-06/memory/express_router_middleware Matched entries: 4/4 1. 2026-05-06T17:01:31.934Z | directed_plan | completed | directed task: Express router/middleware behavior change: Continue from prior memory. Build a safe implementation plan. Preserve test commands, likely files, risks, and what not to repeat. summary: ## Step 1: memory_query Task: Express router/middleware behavior change: Continue from prior memory. Build a safe implementation plan. Preserve test commands, likely files, risks, and what not to repeat. Mode: memory Status: ok Project memory query: What prior work exists for Express router/middleware behavior change? Include what worked, failed, skipped, and next actions. Memory dir: /Users/kuldeepsingh/MyProjects/l tokens: raw=23946 compact=976 saved=22970 reduction=95.92% 2. 2026-05-06T17:01:31.831Z | directed_plan | completed | directed task: Express router/middleware behavior change: Orient on the project. Identify likely files, source/test areas, package scripts, risks, and exact next reads before implementation. summary: ## Step 1: memory_query Task: Express router/middleware behavior change: Orient on the project. Identify likely files, source/test areas, package scripts, risks, and exact next reads before implementation. Mode: memory Status: ok Project memory query: What prior work exists for Express router/middleware behavior change? Include what worked, failed, skipped, and next actions. Memory dir: /Users/kuldeepsingh/MyProjects tokens: raw=23946 compact=935 saved=23011 reduction=96."
+    },
+    {
+      "projectId": "zod_schema_parser",
+      "projectTitle": "Zod schema/parser type-surface change",
+      "phaseId": "day1_orientation",
+      "phaseLabel": "Day 1 orientation",
+      "rawTokens": 35140,
+      "compactTokens": 921,
+      "savedTokens": 34219,
+      "reductionRatio": 97.38,
+      "internalLocalRawTokensProcessed": 35149,
+      "runtimeMs": 108.22,
+      "memoryWritten": true,
+      "quality": {
+        "score": 1,
+        "label": "strong",
+        "pass": true,
+        "signal": {
+          "score": 1,
+          "coverage": 1,
+          "mustCoverage": 1,
+          "matched": [
+            "zod",
+            "schema",
+            "parser",
+            "typescript",
+            "test",
+            "packages",
+            "package.json"
+          ],
+          "missing": [],
+          "mustMatched": [
+            "zod",
+            "schema",
+            "test"
+          ],
+          "mustMissing": []
+        },
+        "actionability": {
+          "score": 1,
+          "passed": 7,
+          "total": 7,
+          "paths": [
+            "package.json",
+            "packages/integration/package.json",
+            "types/tsconfig.bundler.json",
+            "types/tsconfig.nodenext.json",
+            "types/tsconfig.node16-cjs.json",
+            "packages/docs/package.json",
+            "packages/zod/package.json",
+            "build.json",
+            "packages/resolution/package.json",
+            "test-resolution.ts"
+          ],
+          "commands": [
+            "test:built",
+            "pnpm vitest",
+            "test:watch",
+            "test:all",
+            "test:source",
+            "pnpm run -r"
+          ],
+          "riskSignals": [
+            "schema",
+            "parser",
+            "type",
+            "typescript",
+            "migration"
+          ],
+          "hasMemory": true,
+          "hasNext": true,
+          "hasSource": true,
+          "hasTest": true
+        }
+      },
+      "compactPreview": "## Step 1: memory_query\nTask: Zod schema/parser type-surface change: Orient on the project. Identify likely files, source/test areas, package scripts, risks, and exact next reads before implementation.\nMode: memory\nStatus: ok\nProject memory query: What prior work exists for Zod schema/parser type-surface change? Include what worked, failed, skipped, and next actions. Memory dir: /Users/kuldeepsingh/MyProjects/localqa/reports/localqa/long_horizon_300k_2026-05-06/memory/zod_schema_parser Matched entries: 0/0\n\n## Step 2: context_cleanup\nTask: Zod schema/parser type-surface change: Orient on the project. Identify likely files, source/test areas, package scripts, risks, and exact next reads before implementation. Expected signals: zod, schema, parser, typescript, test, packages, package.json. Task terms: schema, parser, typescript, type surface, migration.\nMode: context_cleanup\nStatus: ok\nToken savings: raw=35149 compact=921 saved=34228 reduction=97.38%\nTask: Zod schema/parser type-surface change: Orient on the project. Identify likely files, source/test areas, package scripts, risks, and exact next reads before implementation. Expected signals: zod, schema, parser, typescript, test, packages, package.json. Task terms: schema, parser, typescript, type surface, migration. Mode: context_cleanup High-signal lines: packages/integration/package.json:18: \"test:built\": \"tsc --project fixtures/internal-types/tsconfig.bundler.json && tsc --project fixtures/internal-types/tsconfig.nodenext.json && tsc --project fixtures/internal-types/tsconfig.node16-cjs.json\" packages/docs/package.json:6: \"build\": \"next build\", packages/zod/package.json:132: \"test\": \"pnpm vitest run\", packages/zod/package.json:131: \"test:watch\": \"pnpm vitest\", packages/zod/package.json:129: \"build\": \"zshy --project tsconfig.build.json\", packages/resolution/package.json:19: \"test:all\": \"pnpm vitest run && tsx test-resolution.ts\" packages/integration/package.json:17: \"test:source\": \"tsc --project fixtures/drizzle-z"
+    },
+    {
+      "projectId": "zod_schema_parser",
+      "projectTitle": "Zod schema/parser type-surface change",
+      "phaseId": "day2_plan",
+      "phaseLabel": "Day 2 implementation plan",
+      "rawTokens": 35140,
+      "compactTokens": 976,
+      "savedTokens": 34164,
+      "reductionRatio": 97.22,
+      "internalLocalRawTokensProcessed": 35149,
+      "runtimeMs": 92.07,
+      "memoryWritten": true,
+      "quality": {
+        "score": 1,
+        "label": "strong",
+        "pass": true,
+        "signal": {
+          "score": 1,
+          "coverage": 1,
+          "mustCoverage": 1,
+          "matched": [
+            "zod",
+            "schema",
+            "parser",
+            "typescript",
+            "test",
+            "packages",
+            "package.json"
+          ],
+          "missing": [],
+          "mustMatched": [
+            "zod",
+            "schema",
+            "test"
+          ],
+          "mustMissing": []
+        },
+        "actionability": {
+          "score": 1,
+          "passed": 7,
+          "total": 7,
+          "paths": [
+            "package.json",
+            "packages/tsc/package.json",
+            "packages/docs/package.json",
+            "packages/zod/package.json",
+            "build.json",
+            "packages/resolution/package.json",
+            "test-resolution.ts",
+            "packages/integration/package.json",
+            "types/tsconfig.bundler.json",
+            "types/tsconfig.nodenext.json"
+          ],
+          "commands": [
+            "pnpm vitest",
+            "test:watch",
+            "test:all",
+            "test:built",
+            "pnpm run -r",
+            "test:source"
+          ],
+          "riskSignals": [
+            "schema",
+            "parser",
+            "type",
+            "typescript",
+            "migration"
+          ],
+          "hasMemory": true,
+          "hasNext": true,
+          "hasSource": true,
+          "hasTest": true
+        }
+      },
+      "compactPreview": "## Step 1: memory_query\nTask: Zod schema/parser type-surface change: Continue from prior memory. Build a safe implementation plan. Preserve test commands, likely files, risks, and what not to repeat.\nMode: memory\nStatus: ok\nProject memory query: What prior work exists for Zod schema/parser type-surface change? Include what worked, failed, skipped, and next actions. Memory dir: /Users/kuldeepsingh/MyProjects/localqa/reports/localqa/long_horizon_300k_2026-05-06/memory/zod_schema_parser Matched entries: 2/2 1. 2026-05-06T17:01:32.156Z | directed_plan | completed | directed task: Zod schema/parser type-surface change: Orient on the project. Identify likely files, source/test areas, package scripts, risks, and exact next reads before implementation. summary: ## Step 1: memory_query Task: Zod schema/parser type-surface change: Orient on the project. Identify likely files, source/test areas, package scripts, risks, and exact next reads before implementation. Mode: memory Status: ok Project memory query: What prior work exists for Zod schema/parser type-surface change? Include what worked, failed, skipped, and next actions. Memory dir: /Users/kuldeepsingh/MyProjects/localqa tokens: raw=35149 compact=921 saved=34228 reduction=97.38% 2. 2026-05-06T17:01:32.154Z | work_record | recorded | auto task: Record Day 1 orientation for Zod schema/parser type-surface change. summary: Completed Day 1 orientation. LocalQA preserved compact evidence for schema, parser, typescript, type surface, migration and should avoid repeating full evidence scans next phase. next: Continue with Zod schema/parser type-surface change using memory_query before reading evidence again.; Use exact file reads only after frontier model selects target files.\n\n## Step 2: context_cleanup\nTask: Zod schema/parser type-surface change: Continue from prior memory. Build a safe implementation plan. Preserve test commands, likely files, risks, and what not to repeat. Expected signals: zod, schema, parser, typescript, t"
+    },
+    {
+      "projectId": "zod_schema_parser",
+      "projectTitle": "Zod schema/parser type-surface change",
+      "phaseId": "day3_regression_review",
+      "phaseLabel": "Day 3 regression review",
+      "rawTokens": 35140,
+      "compactTokens": 1028,
+      "savedTokens": 34112,
+      "reductionRatio": 97.07,
+      "internalLocalRawTokensProcessed": 35149,
+      "runtimeMs": 113.21,
+      "memoryWritten": true,
+      "quality": {
+        "score": 1,
+        "label": "strong",
+        "pass": true,
+        "signal": {
+          "score": 1,
+          "coverage": 1,
+          "mustCoverage": 1,
+          "matched": [
+            "zod",
+            "schema",
+            "parser",
+            "typescript",
+            "test",
+            "packages",
+            "package.json"
+          ],
+          "missing": [],
+          "mustMatched": [
+            "zod",
+            "schema",
+            "test"
+          ],
+          "mustMissing": []
+        },
+        "actionability": {
+          "score": 1,
+          "passed": 7,
+          "total": 7,
+          "paths": [
+            "package.json",
+            "packages/docs/package.json",
+            "packages/tsc/package.json",
+            "packages/zod/package.json",
+            "build.json",
+            "packages/resolution/package.json",
+            "test-resolution.ts",
+            "packages/integration/package.json",
+            "types/tsconfig.bundler.json",
+            "types/tsconfig.nodenext.json"
+          ],
+          "commands": [
+            "pnpm vitest",
+            "test:watch",
+            "test:all",
+            "test:built",
+            "pnpm run -r",
+            "test:source"
+          ],
+          "riskSignals": [
+            "schema",
+            "parser",
+            "type",
+            "regression",
+            "typescript",
+            "migration"
+          ],
+          "hasMemory": true,
+          "hasNext": true,
+          "hasSource": true,
+          "hasTest": true
+        }
+      },
+      "compactPreview": "## Step 1: memory_query\nTask: Zod schema/parser type-surface change: Continue from prior memory. Prepare a regression checklist and final next reads. Preserve commands, risky contracts, and skipped work.\nMode: memory\nStatus: ok\nProject memory query: What prior work exists for Zod schema/parser type-surface change? Include what worked, failed, skipped, and next actions. Memory dir: /Users/kuldeepsingh/MyProjects/localqa/reports/localqa/long_horizon_300k_2026-05-06/memory/zod_schema_parser Matched entries: 4/4 1. 2026-05-06T17:01:32.249Z | directed_plan | completed | directed task: Zod schema/parser type-surface change: Continue from prior memory. Build a safe implementation plan. Preserve test commands, likely files, risks, and what not to repeat. summary: ## Step 1: memory_query Task: Zod schema/parser type-surface change: Continue from prior memory. Build a safe implementation plan. Preserve test commands, likely files, risks, and what not to repeat. Mode: memory Status: ok Project memory query: What prior work exists for Zod schema/parser type-surface change? Include what worked, failed, skipped, and next actions. Memory dir: /Users/kuldeepsingh/MyProjects/localqa/r tokens: raw=35149 compact=976 saved=34173 reduction=97.22% 2. 2026-05-06T17:01:32.156Z | directed_plan | completed | directed task: Zod schema/parser type-surface change: Orient on the project. Identify likely files, source/test areas, package scripts, risks, and exact next reads before implementation. summary: ## Step 1: memory_query Task: Zod schema/parser type-surface change: Orient on the project. Identify likely files, source/test areas, package scripts, risks, and exact next reads before implementation. Mode: memory Status: ok Project memory query: What prior work exists for Zod schema/parser type-surface change? Include what worked, failed, skipped, and next actions. Memory dir: /Users/kuldeepsingh/MyProjects/localqa tokens: raw=35149 compact=921 saved=34228 reduction=97.38% 3. 2026-05-06T17:01:"
+    }
+  ]
+}

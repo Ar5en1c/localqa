@@ -1,0 +1,896 @@
+{
+  "generatedAt": "2026-05-05T21:55:26.896Z",
+  "sourceOssBenchDir": "/Users/kuldeepsingh/MyProjects/qwen2.5-1.5b-turboquant-mlc-experiment/reports/localqa/opencode_oss_codebases_2026-05-05",
+  "outDir": "/Users/kuldeepsingh/MyProjects/qwen2.5-1.5b-turboquant-mlc-experiment/reports/localqa/complex_code_tasks_2026-05-05",
+  "budgets": [
+    800,
+    1600,
+    3200
+  ],
+  "tasks": [
+    {
+      "id": "express_router_middleware_change",
+      "project": "expressjs/express",
+      "category": "multi-file orientation + fix planning",
+      "evidencePath": "/Users/kuldeepsingh/MyProjects/qwen2.5-1.5b-turboquant-mlc-experiment/reports/localqa/opencode_oss_codebases_2026-05-05/expressjs_express/raw-codebase-evidence.txt",
+      "rawApproxTokens": 23936,
+      "expected": [
+        "express",
+        "router",
+        "middleware",
+        "mocha",
+        "test",
+        "package.json"
+      ],
+      "mustHave": [
+        "router",
+        "middleware",
+        "test"
+      ],
+      "singlePasses": [
+        {
+          "budget": 800,
+          "durationMs": 82.95,
+          "selectedMode": "context_cleanup",
+          "telemetry": {
+            "internalStepCount": 1,
+            "externalCalls": 0,
+            "localFileInputCount": 1,
+            "localFileInputBytes": 95763
+          },
+          "tokenSavings": {
+            "rawEvidenceApproxTokens": 23946,
+            "compactReportApproxTokens": 862,
+            "savedApproxTokens": 23084,
+            "reductionRatio": 96.4
+          },
+          "compactApproxTokens": 862,
+          "rawApproxTokens": 23946,
+          "savedApproxTokens": 23084,
+          "reductionRatio": 96.4,
+          "score": {
+            "score": 1,
+            "coverage": 1,
+            "mustCoverage": 1,
+            "matched": [
+              "express",
+              "router",
+              "middleware",
+              "mocha",
+              "test",
+              "package.json"
+            ],
+            "missing": [],
+            "mustMatched": [
+              "router",
+              "middleware",
+              "test"
+            ],
+            "mustMissing": [],
+            "pass": true
+          },
+          "actionability": {
+            "score": 1,
+            "passedChecks": 6,
+            "totalChecks": 6,
+            "pass": true,
+            "filePathCount": 16,
+            "testCommandCount": 1,
+            "hasSourceArea": true,
+            "hasTestArea": true,
+            "hasPackageSignal": true,
+            "riskSignalCount": 2,
+            "samplePaths": [
+              "package.json",
+              "examples/README.md",
+              "examples/route-middleware/index.js",
+              "examples/web-service/index.js",
+              "test/res.download.js",
+              "test/res.sendFile.js",
+              "test/app.routes.error.js",
+              "test/acceptance/mvc.js"
+            ],
+            "sampleTestCommands": [
+              "npm test"
+            ],
+            "sampleRiskSignals": [
+              "middleware",
+              "Router"
+            ]
+          },
+          "frontierReadiness": {
+            "score": 1,
+            "signalScore": 1,
+            "actionabilityScore": 1,
+            "pass": true,
+            "label": "orientation-ready"
+          },
+          "compactPreview": "Task: Complex task: A maintainer wants to change routing or middleware behavior in Express. Identify the likely source areas, test areas, npm test command signals, and risks before editing. Return only compact codebase evidence for a frontier model to plan a patch.\nMode: context_cleanup\nHigh-signal lines:\npackage.json:94: \"test\": \"mocha --require test/support/env --reporter spec --check-leaks test/ test/acceptance/\",\nTASK: Analyze this Express OSS codebase evidence. Identify project purpose, likely test command, major source/test areas, and any high-signal maintenance risks. Do not quote raw files; compact to actionable codebase evidence.\nexamples/README.md:12: - [error](./error) - Working with error middleware\npackage.json:92: \"lint\": \"eslint .\",\nexamples/README.md:11: - [error-pages](./error-pages) - Creating error pages\npackage.json:97: \"test-tap\": \"mocha --require test/support/env --reporter tap --check-leaks test/ test/acceptance/\"\n\"test\": \"mocha --require test/support/env --reporter spec --check-leaks test/ test/acceptance/\", [repeated 2x]\nexamples/route-middleware/index.js:46: next(new Error('Unauthorized'));\nexamples/route-middleware/index.js:55: next(new Error('Unauthorized'));\nexamples/web-service/index.js:34: if (!key) return next(error(400, 'api key required'));\nexamples/web-service/index.js:37: if (apiKeys.indexOf(key) === -1) return next(error(401, 'invalid api key'))\ntest/res.download.js:145: .expect('got 404 error')\ntest/res.sendFile.js:333: .expect('got 404 error')\ntest/res.sendFile.js:277: .expect(200, 'got 404 error', done)\ntest/app.routes.error.js:22: .expect(500, /Error: boom!/, done);\ntest/acceptance/mvc.js:96: it('should 500 on error', function(done){\ntest/res.render.js:128: .expect(500, 'got error: RenderError', done)\ntest/res.render.js:355: .expect(500, 'got error: RenderError', done)\ntest/res.render.js:123: res.status(500).send('got error: ' + err.name)\ntest/res.render.js:348: res.status(500).send('got error: ' + err.name)\ntest/Router.js:209: it('should skip non error middleware', function (done) {\ntest/acceptance/error-pages.js:55: .expect(404, { error: 'Not found' }, done)\nexamples/error-pages/index.js:79: // error-handling middleware, take the same form\ntest/acceptance/web-service.js:102: .expect(404, '{\"error\":\"Sorry, can\\'t find that\"}', done)\ntest/Router.js:213: next(new Error('foo'));\ntest/Router.js:217: next(new Error('bar')"
+        },
+        {
+          "budget": 1600,
+          "durationMs": 81.12,
+          "selectedMode": "context_cleanup",
+          "telemetry": {
+            "internalStepCount": 1,
+            "externalCalls": 0,
+            "localFileInputCount": 1,
+            "localFileInputBytes": 95763
+          },
+          "tokenSavings": {
+            "rawEvidenceApproxTokens": 23946,
+            "compactReportApproxTokens": 1666,
+            "savedApproxTokens": 22280,
+            "reductionRatio": 93.04
+          },
+          "compactApproxTokens": 1666,
+          "rawApproxTokens": 23946,
+          "savedApproxTokens": 22280,
+          "reductionRatio": 93.04,
+          "score": {
+            "score": 1,
+            "coverage": 1,
+            "mustCoverage": 1,
+            "matched": [
+              "express",
+              "router",
+              "middleware",
+              "mocha",
+              "test",
+              "package.json"
+            ],
+            "missing": [],
+            "mustMatched": [
+              "router",
+              "middleware",
+              "test"
+            ],
+            "mustMissing": [],
+            "pass": true
+          },
+          "actionability": {
+            "score": 1,
+            "passedChecks": 6,
+            "totalChecks": 6,
+            "pass": true,
+            "filePathCount": 26,
+            "testCommandCount": 1,
+            "hasSourceArea": true,
+            "hasTestArea": true,
+            "hasPackageSignal": true,
+            "riskSignalCount": 4,
+            "samplePaths": [
+              "package.json",
+              "examples/README.md",
+              "examples/route-middleware/index.js",
+              "examples/web-service/index.js",
+              "test/res.download.js",
+              "test/res.sendFile.js",
+              "test/app.routes.error.js",
+              "test/acceptance/mvc.js"
+            ],
+            "sampleTestCommands": [
+              "npm test"
+            ],
+            "sampleRiskSignals": [
+              "middleware",
+              "Router",
+              "router",
+              "parser"
+            ]
+          },
+          "frontierReadiness": {
+            "score": 1,
+            "signalScore": 1,
+            "actionabilityScore": 1,
+            "pass": true,
+            "label": "orientation-ready"
+          },
+          "compactPreview": "Task: Complex task: A maintainer wants to change routing or middleware behavior in Express. Identify the likely source areas, test areas, npm test command signals, and risks before editing. Return only compact codebase evidence for a frontier model to plan a patch.\nMode: context_cleanup\nHigh-signal lines:\npackage.json:94: \"test\": \"mocha --require test/support/env --reporter spec --check-leaks test/ test/acceptance/\",\nTASK: Analyze this Express OSS codebase evidence. Identify project purpose, likely test command, major source/test areas, and any high-signal maintenance risks. Do not quote raw files; compact to actionable codebase evidence.\nexamples/README.md:12: - [error](./error) - Working with error middleware\npackage.json:92: \"lint\": \"eslint .\",\nexamples/README.md:11: - [error-pages](./error-pages) - Creating error pages\npackage.json:97: \"test-tap\": \"mocha --require test/support/env --reporter tap --check-leaks test/ test/acceptance/\"\n\"test\": \"mocha --require test/support/env --reporter spec --check-leaks test/ test/acceptance/\", [repeated 2x]\nexamples/route-middleware/index.js:46: next(new Error('Unauthorized'));\nexamples/route-middleware/index.js:55: next(new Error('Unauthorized'));\nexamples/web-service/index.js:34: if (!key) return next(error(400, 'api key required'));\nexamples/web-service/index.js:37: if (apiKeys.indexOf(key) === -1) return next(error(401, 'invalid api key'))\ntest/res.download.js:145: .expect('got 404 error')\ntest/res.sendFile.js:333: .expect('got 404 error')\ntest/res.sendFile.js:277: .expect(200, 'got 404 error', done)\ntest/app.routes.error.js:22: .expect(500, /Error: boom!/, done);\ntest/acceptance/mvc.js:96: it('should 500 on error', function(done){\ntest/res.render.js:128: .expect(500, 'got error: RenderError', done)\ntest/res.render.js:355: .expect(500, 'got error: RenderError', done)\ntest/res.render.js:123: res.status(500).send('got error: ' + err.name)\ntest/res.render.js:348: res.status(500).send('got error: ' + err.name)\ntest/Router.js:209: it('should skip non error middleware', function (done) {\ntest/acceptance/error-pages.js:55: .expect(404, { error: 'Not found' }, done)\nexamples/error-pages/index.js:79: // error-handling middleware, take the same form\ntest/acceptance/web-service.js:102: .expect(404, '{\"error\":\"Sorry, can\\'t find that\"}', done)\ntest/Router.js:213: next(new Error('foo'));\ntest/Router.js:217: next(new Error('bar')"
+        },
+        {
+          "budget": 3200,
+          "durationMs": 82.7,
+          "selectedMode": "context_cleanup",
+          "telemetry": {
+            "internalStepCount": 1,
+            "externalCalls": 0,
+            "localFileInputCount": 1,
+            "localFileInputBytes": 95763
+          },
+          "tokenSavings": {
+            "rawEvidenceApproxTokens": 23946,
+            "compactReportApproxTokens": 3270,
+            "savedApproxTokens": 20676,
+            "reductionRatio": 86.34
+          },
+          "compactApproxTokens": 3270,
+          "rawApproxTokens": 23946,
+          "savedApproxTokens": 20676,
+          "reductionRatio": 86.34,
+          "score": {
+            "score": 1,
+            "coverage": 1,
+            "mustCoverage": 1,
+            "matched": [
+              "express",
+              "router",
+              "middleware",
+              "mocha",
+              "test",
+              "package.json"
+            ],
+            "missing": [],
+            "mustMatched": [
+              "router",
+              "middleware",
+              "test"
+            ],
+            "mustMissing": [],
+            "pass": true
+          },
+          "actionability": {
+            "score": 1,
+            "passedChecks": 6,
+            "totalChecks": 6,
+            "pass": true,
+            "filePathCount": 32,
+            "testCommandCount": 1,
+            "hasSourceArea": true,
+            "hasTestArea": true,
+            "hasPackageSignal": true,
+            "riskSignalCount": 5,
+            "samplePaths": [
+              "package.json",
+              "examples/README.md",
+              "examples/route-middleware/index.js",
+              "examples/web-service/index.js",
+              "test/res.download.js",
+              "test/res.sendFile.js",
+              "test/app.routes.error.js",
+              "test/acceptance/mvc.js"
+            ],
+            "sampleTestCommands": [
+              "npm test"
+            ],
+            "sampleRiskSignals": [
+              "middleware",
+              "Router",
+              "router",
+              "parser",
+              "regression"
+            ]
+          },
+          "frontierReadiness": {
+            "score": 1,
+            "signalScore": 1,
+            "actionabilityScore": 1,
+            "pass": true,
+            "label": "orientation-ready"
+          },
+          "compactPreview": "Task: Complex task: A maintainer wants to change routing or middleware behavior in Express. Identify the likely source areas, test areas, npm test command signals, and risks before editing. Return only compact codebase evidence for a frontier model to plan a patch.\nMode: context_cleanup\nHigh-signal lines:\npackage.json:94: \"test\": \"mocha --require test/support/env --reporter spec --check-leaks test/ test/acceptance/\",\nTASK: Analyze this Express OSS codebase evidence. Identify project purpose, likely test command, major source/test areas, and any high-signal maintenance risks. Do not quote raw files; compact to actionable codebase evidence.\nexamples/README.md:12: - [error](./error) - Working with error middleware\npackage.json:92: \"lint\": \"eslint .\",\nexamples/README.md:11: - [error-pages](./error-pages) - Creating error pages\npackage.json:97: \"test-tap\": \"mocha --require test/support/env --reporter tap --check-leaks test/ test/acceptance/\"\n\"test\": \"mocha --require test/support/env --reporter spec --check-leaks test/ test/acceptance/\", [repeated 2x]\nexamples/route-middleware/index.js:46: next(new Error('Unauthorized'));\nexamples/route-middleware/index.js:55: next(new Error('Unauthorized'));\nexamples/web-service/index.js:34: if (!key) return next(error(400, 'api key required'));\nexamples/web-service/index.js:37: if (apiKeys.indexOf(key) === -1) return next(error(401, 'invalid api key'))\ntest/res.download.js:145: .expect('got 404 error')\ntest/res.sendFile.js:333: .expect('got 404 error')\ntest/res.sendFile.js:277: .expect(200, 'got 404 error', done)\ntest/app.routes.error.js:22: .expect(500, /Error: boom!/, done);\ntest/acceptance/mvc.js:96: it('should 500 on error', function(done){\ntest/res.render.js:128: .expect(500, 'got error: RenderError', done)\ntest/res.render.js:355: .expect(500, 'got error: RenderError', done)\ntest/res.render.js:123: res.status(500).send('got error: ' + err.name)\ntest/res.render.js:348: res.status(500).send('got error: ' + err.name)\ntest/Router.js:209: it('should skip non error middleware', function (done) {\ntest/acceptance/error-pages.js:55: .expect(404, { error: 'Not found' }, done)\nexamples/error-pages/index.js:79: // error-handling middleware, take the same form\ntest/acceptance/web-service.js:102: .expect(404, '{\"error\":\"Sorry, can\\'t find that\"}', done)\ntest/Router.js:213: next(new Error('foo'));\ntest/Router.js:217: next(new Error('bar')"
+        }
+      ],
+      "targeted": null,
+      "recommended": {
+        "strategy": "single_800",
+        "score": 1,
+        "label": "orientation-ready",
+        "compactApproxTokens": 862,
+        "reductionRatio": 96.4
+      }
+    },
+    {
+      "id": "fastify_validation_error_contract",
+      "project": "fastify/fastify",
+      "category": "cross-file behavior contract",
+      "evidencePath": "/Users/kuldeepsingh/MyProjects/qwen2.5-1.5b-turboquant-mlc-experiment/reports/localqa/opencode_oss_codebases_2026-05-05/fastify_fastify/raw-codebase-evidence.txt",
+      "rawApproxTokens": 41848,
+      "expected": [
+        "fastify",
+        "validation",
+        "error-handler",
+        "test:validator:integrity",
+        "test:typescript",
+        "lib/validation.js",
+        "lib/error-handler.js",
+        "test"
+      ],
+      "mustHave": [
+        "validation",
+        "test:validator:integrity",
+        "test:typescript"
+      ],
+      "singlePasses": [
+        {
+          "budget": 800,
+          "durationMs": 101.93,
+          "selectedMode": "context_cleanup",
+          "telemetry": {
+            "internalStepCount": 1,
+            "externalCalls": 0,
+            "localFileInputCount": 1,
+            "localFileInputBytes": 167490
+          },
+          "tokenSavings": {
+            "rawEvidenceApproxTokens": 41857,
+            "compactReportApproxTokens": 865,
+            "savedApproxTokens": 40992,
+            "reductionRatio": 97.93
+          },
+          "compactApproxTokens": 865,
+          "rawApproxTokens": 41857,
+          "savedApproxTokens": 40992,
+          "reductionRatio": 97.93,
+          "score": {
+            "score": 1,
+            "coverage": 1,
+            "mustCoverage": 1,
+            "matched": [
+              "fastify",
+              "validation",
+              "error-handler",
+              "test:validator:integrity",
+              "test:typescript",
+              "lib/validation.js",
+              "lib/error-handler.js",
+              "test"
+            ],
+            "missing": [],
+            "mustMatched": [
+              "validation",
+              "test:validator:integrity",
+              "test:typescript"
+            ],
+            "mustMissing": [],
+            "pass": true
+          },
+          "actionability": {
+            "score": 1,
+            "passedChecks": 6,
+            "totalChecks": 6,
+            "pass": true,
+            "filePathCount": 14,
+            "testCommandCount": 8,
+            "hasSourceArea": true,
+            "hasTestArea": true,
+            "hasPackageSignal": true,
+            "riskSignalCount": 7,
+            "samplePaths": [
+              "package.json",
+              "lib/error-serializer.js",
+              "lib/config-validator.js",
+              "test/types/import.ts",
+              "build/build-error-serializer.js",
+              "build/build-validation.js",
+              "docs/Guides/Testing.md",
+              "examples/benchmark/parser.js"
+            ],
+            "sampleTestCommands": [
+              "test:validator:integrity",
+              "npm run build:validation",
+              "test:typescript",
+              "test:watch",
+              "npm run unit",
+              "npm run lint:eslint",
+              "npm run test:validator:integrity",
+              "npm run build:sync-version"
+            ],
+            "sampleRiskSignals": [
+              "validation",
+              "generated",
+              "integrity",
+              "TypeScript",
+              "typescript",
+              "parser",
+              "type"
+            ]
+          },
+          "frontierReadiness": {
+            "score": 1,
+            "signalScore": 1,
+            "actionabilityScore": 1,
+            "pass": true,
+            "label": "orientation-ready"
+          },
+          "compactPreview": "Task: Complex task: A maintainer wants to change Fastify validation/error response behavior. Identify likely source files, generated/validator integrity checks, test command signals, TypeScript checks, and maintenance risks before editing. Return compact evidence for a frontier model to plan a patch.\nMode: context_cleanup\nHigh-signal lines:\npackage.json:25: \"test:validator:integrity\": \"npm run build:validation && git diff --quiet --ignore-all-space --ignore-blank-lines --ignore-cr-at-eol lib/error-serializer.js && git diff --quiet --ignore-all-space --ignore-blank-lines --ignore-cr-at-eol lib/config-validator.js\"\n\"test:validator:integrity\": \"npm run build:validation && git diff --quiet --ignore-all-space --ignore-blank-lines --ignore-cr-at-eol lib/error-serializer.js && git diff --quiet --ignore-all-space --ignore-blank-lines --ignore-cr-at-eol lib/config-validator.js\", [repeated 2x]\npackage.json:26: \"test:typescript\": \"tsc test/types/import.ts --target es2022 --moduleResolution node16 --module node16 --noEmit && tsd\",\npackage.json:27: \"test:watch\": \"npm run unit -- --watch --coverage-report=none --reporter=terse\",\npackage.json:13: \"build:validation\": \"node build/build-error-serializer.js && node build/build-validation.js\",\npackage.json:17: \"lint\": \"npm run lint:eslint\",\nTASK: Analyze this Fastify OSS codebase evidence. Identify project purpose, likely test command, major source/test areas, and any high-signal maintenance risks. Do not quote raw files; compact to actionable codebase evidence.\ndocs/Guides/Testing.md:149: }, (error, response) => {\npackage.json:12: \"benchmark:parser:error\": \"concurrently -k -s first \\\"node ./examples/benchmark/parser.js\\\" \\\"autocannon -c 100 -d 30 -p 10 -i ./examples/benchmark/body.json -H \\\"content-type:application/jsoff\\\" -H \\\"content-length:123\\\" -m POST localhost:3000/\\\"\",\ndocs/Guides/Testing.md:183: // handle error\ndocs/Guides/Testing.md:193: // handle error\ndocs/Guides/Testing.md:57: server.log.error(err)\npackage.json:207: \"@fastify/error\": \"^4.0.0\",\ndocs/Guides/Testing.md:79: const app = build()\ndocs/Guides/Testing.md:128: const app = build()\ndocs/Guides/Testing.md:38: module.exports = build\ndocs/Guides/Testing.md:29: function build(opts={}) {\ndocs/Guides/Testing.md:76: const build = require('./app')\ndocs/Guides/Testing.md:124: const build = require('./app')\nlib/validation.js:256: error.statusCode = error.statusCode || 4"
+        },
+        {
+          "budget": 1600,
+          "durationMs": 99.41,
+          "selectedMode": "context_cleanup",
+          "telemetry": {
+            "internalStepCount": 1,
+            "externalCalls": 0,
+            "localFileInputCount": 1,
+            "localFileInputBytes": 167490
+          },
+          "tokenSavings": {
+            "rawEvidenceApproxTokens": 41857,
+            "compactReportApproxTokens": 1670,
+            "savedApproxTokens": 40187,
+            "reductionRatio": 96.01
+          },
+          "compactApproxTokens": 1670,
+          "rawApproxTokens": 41857,
+          "savedApproxTokens": 40187,
+          "reductionRatio": 96.01,
+          "score": {
+            "score": 1,
+            "coverage": 1,
+            "mustCoverage": 1,
+            "matched": [
+              "fastify",
+              "validation",
+              "error-handler",
+              "test:validator:integrity",
+              "test:typescript",
+              "lib/validation.js",
+              "lib/error-handler.js",
+              "test"
+            ],
+            "missing": [],
+            "mustMatched": [
+              "validation",
+              "test:validator:integrity",
+              "test:typescript"
+            ],
+            "mustMissing": [],
+            "pass": true
+          },
+          "actionability": {
+            "score": 1,
+            "passedChecks": 6,
+            "totalChecks": 6,
+            "pass": true,
+            "filePathCount": 28,
+            "testCommandCount": 8,
+            "hasSourceArea": true,
+            "hasTestArea": true,
+            "hasPackageSignal": true,
+            "riskSignalCount": 10,
+            "samplePaths": [
+              "package.json",
+              "lib/error-serializer.js",
+              "lib/config-validator.js",
+              "test/types/import.ts",
+              "build/build-error-serializer.js",
+              "build/build-validation.js",
+              "docs/Guides/Testing.md",
+              "examples/benchmark/parser.js"
+            ],
+            "sampleTestCommands": [
+              "test:validator:integrity",
+              "npm run build:validation",
+              "test:typescript",
+              "test:watch",
+              "npm run unit",
+              "npm run lint:eslint",
+              "npm run test:validator:integrity",
+              "npm run build:sync-version"
+            ],
+            "sampleRiskSignals": [
+              "validation",
+              "generated",
+              "integrity",
+              "TypeScript",
+              "typescript",
+              "parser",
+              "type",
+              "schema"
+            ]
+          },
+          "frontierReadiness": {
+            "score": 1,
+            "signalScore": 1,
+            "actionabilityScore": 1,
+            "pass": true,
+            "label": "orientation-ready"
+          },
+          "compactPreview": "Task: Complex task: A maintainer wants to change Fastify validation/error response behavior. Identify likely source files, generated/validator integrity checks, test command signals, TypeScript checks, and maintenance risks before editing. Return compact evidence for a frontier model to plan a patch.\nMode: context_cleanup\nHigh-signal lines:\npackage.json:25: \"test:validator:integrity\": \"npm run build:validation && git diff --quiet --ignore-all-space --ignore-blank-lines --ignore-cr-at-eol lib/error-serializer.js && git diff --quiet --ignore-all-space --ignore-blank-lines --ignore-cr-at-eol lib/config-validator.js\"\n\"test:validator:integrity\": \"npm run build:validation && git diff --quiet --ignore-all-space --ignore-blank-lines --ignore-cr-at-eol lib/error-serializer.js && git diff --quiet --ignore-all-space --ignore-blank-lines --ignore-cr-at-eol lib/config-validator.js\", [repeated 2x]\npackage.json:26: \"test:typescript\": \"tsc test/types/import.ts --target es2022 --moduleResolution node16 --module node16 --noEmit && tsd\",\npackage.json:27: \"test:watch\": \"npm run unit -- --watch --coverage-report=none --reporter=terse\",\npackage.json:13: \"build:validation\": \"node build/build-error-serializer.js && node build/build-validation.js\",\npackage.json:17: \"lint\": \"npm run lint:eslint\",\nTASK: Analyze this Fastify OSS codebase evidence. Identify project purpose, likely test command, major source/test areas, and any high-signal maintenance risks. Do not quote raw files; compact to actionable codebase evidence.\ndocs/Guides/Testing.md:149: }, (error, response) => {\npackage.json:12: \"benchmark:parser:error\": \"concurrently -k -s first \\\"node ./examples/benchmark/parser.js\\\" \\\"autocannon -c 100 -d 30 -p 10 -i ./examples/benchmark/body.json -H \\\"content-type:application/jsoff\\\" -H \\\"content-length:123\\\" -m POST localhost:3000/\\\"\",\ndocs/Guides/Testing.md:183: // handle error\ndocs/Guides/Testing.md:193: // handle error\ndocs/Guides/Testing.md:57: server.log.error(err)\npackage.json:207: \"@fastify/error\": \"^4.0.0\",\ndocs/Guides/Testing.md:79: const app = build()\ndocs/Guides/Testing.md:128: const app = build()\ndocs/Guides/Testing.md:38: module.exports = build\ndocs/Guides/Testing.md:29: function build(opts={}) {\ndocs/Guides/Testing.md:76: const build = require('./app')\ndocs/Guides/Testing.md:124: const build = require('./app')\nlib/validation.js:256: error.statusCode = error.statusCode || 4"
+        },
+        {
+          "budget": 3200,
+          "durationMs": 129.92,
+          "selectedMode": "context_cleanup",
+          "telemetry": {
+            "internalStepCount": 1,
+            "externalCalls": 0,
+            "localFileInputCount": 1,
+            "localFileInputBytes": 167490
+          },
+          "tokenSavings": {
+            "rawEvidenceApproxTokens": 41857,
+            "compactReportApproxTokens": 3268,
+            "savedApproxTokens": 38589,
+            "reductionRatio": 92.19
+          },
+          "compactApproxTokens": 3268,
+          "rawApproxTokens": 41857,
+          "savedApproxTokens": 38589,
+          "reductionRatio": 92.19,
+          "score": {
+            "score": 1,
+            "coverage": 1,
+            "mustCoverage": 1,
+            "matched": [
+              "fastify",
+              "validation",
+              "error-handler",
+              "test:validator:integrity",
+              "test:typescript",
+              "lib/validation.js",
+              "lib/error-handler.js",
+              "test"
+            ],
+            "missing": [],
+            "mustMatched": [
+              "validation",
+              "test:validator:integrity",
+              "test:typescript"
+            ],
+            "mustMissing": [],
+            "pass": true
+          },
+          "actionability": {
+            "score": 1,
+            "passedChecks": 6,
+            "totalChecks": 6,
+            "pass": true,
+            "filePathCount": 32,
+            "testCommandCount": 13,
+            "hasSourceArea": true,
+            "hasTestArea": true,
+            "hasPackageSignal": true,
+            "riskSignalCount": 11,
+            "samplePaths": [
+              "package.json",
+              "lib/error-serializer.js",
+              "lib/config-validator.js",
+              "test/types/import.ts",
+              "build/build-error-serializer.js",
+              "build/build-validation.js",
+              "docs/Guides/Testing.md",
+              "examples/benchmark/parser.js"
+            ],
+            "sampleTestCommands": [
+              "test:validator:integrity",
+              "npm run build:validation",
+              "test:typescript",
+              "test:watch",
+              "npm run unit",
+              "npm run lint:eslint",
+              "npm run test:validator:integrity",
+              "npm run build:sync-version"
+            ],
+            "sampleRiskSignals": [
+              "validation",
+              "generated",
+              "integrity",
+              "TypeScript",
+              "typescript",
+              "parser",
+              "type",
+              "schema"
+            ]
+          },
+          "frontierReadiness": {
+            "score": 1,
+            "signalScore": 1,
+            "actionabilityScore": 1,
+            "pass": true,
+            "label": "orientation-ready"
+          },
+          "compactPreview": "Task: Complex task: A maintainer wants to change Fastify validation/error response behavior. Identify likely source files, generated/validator integrity checks, test command signals, TypeScript checks, and maintenance risks before editing. Return compact evidence for a frontier model to plan a patch.\nMode: context_cleanup\nHigh-signal lines:\npackage.json:25: \"test:validator:integrity\": \"npm run build:validation && git diff --quiet --ignore-all-space --ignore-blank-lines --ignore-cr-at-eol lib/error-serializer.js && git diff --quiet --ignore-all-space --ignore-blank-lines --ignore-cr-at-eol lib/config-validator.js\"\n\"test:validator:integrity\": \"npm run build:validation && git diff --quiet --ignore-all-space --ignore-blank-lines --ignore-cr-at-eol lib/error-serializer.js && git diff --quiet --ignore-all-space --ignore-blank-lines --ignore-cr-at-eol lib/config-validator.js\", [repeated 2x]\npackage.json:26: \"test:typescript\": \"tsc test/types/import.ts --target es2022 --moduleResolution node16 --module node16 --noEmit && tsd\",\npackage.json:27: \"test:watch\": \"npm run unit -- --watch --coverage-report=none --reporter=terse\",\npackage.json:13: \"build:validation\": \"node build/build-error-serializer.js && node build/build-validation.js\",\npackage.json:17: \"lint\": \"npm run lint:eslint\",\nTASK: Analyze this Fastify OSS codebase evidence. Identify project purpose, likely test command, major source/test areas, and any high-signal maintenance risks. Do not quote raw files; compact to actionable codebase evidence.\ndocs/Guides/Testing.md:149: }, (error, response) => {\npackage.json:12: \"benchmark:parser:error\": \"concurrently -k -s first \\\"node ./examples/benchmark/parser.js\\\" \\\"autocannon -c 100 -d 30 -p 10 -i ./examples/benchmark/body.json -H \\\"content-type:application/jsoff\\\" -H \\\"content-length:123\\\" -m POST localhost:3000/\\\"\",\ndocs/Guides/Testing.md:183: // handle error\ndocs/Guides/Testing.md:193: // handle error\ndocs/Guides/Testing.md:57: server.log.error(err)\npackage.json:207: \"@fastify/error\": \"^4.0.0\",\ndocs/Guides/Testing.md:79: const app = build()\ndocs/Guides/Testing.md:128: const app = build()\ndocs/Guides/Testing.md:38: module.exports = build\ndocs/Guides/Testing.md:29: function build(opts={}) {\ndocs/Guides/Testing.md:76: const build = require('./app')\ndocs/Guides/Testing.md:124: const build = require('./app')\nlib/validation.js:256: error.statusCode = error.statusCode || 4"
+        }
+      ],
+      "targeted": null,
+      "recommended": {
+        "strategy": "single_800",
+        "score": 1,
+        "label": "orientation-ready",
+        "compactApproxTokens": 865,
+        "reductionRatio": 97.93
+      }
+    },
+    {
+      "id": "zod_schema_parser_change",
+      "project": "colinhacks/zod",
+      "category": "library API/type-surface change",
+      "evidencePath": "/Users/kuldeepsingh/MyProjects/qwen2.5-1.5b-turboquant-mlc-experiment/reports/localqa/opencode_oss_codebases_2026-05-05/colinhacks_zod/raw-codebase-evidence.txt",
+      "rawApproxTokens": 35140,
+      "expected": [
+        "zod",
+        "schema",
+        "test",
+        "typescript",
+        "package.json",
+        "packages",
+        "src"
+      ],
+      "mustHave": [
+        "zod",
+        "schema",
+        "test"
+      ],
+      "singlePasses": [
+        {
+          "budget": 800,
+          "durationMs": 98.94,
+          "selectedMode": "context_cleanup",
+          "telemetry": {
+            "internalStepCount": 1,
+            "externalCalls": 0,
+            "localFileInputCount": 1,
+            "localFileInputBytes": 140612
+          },
+          "tokenSavings": {
+            "rawEvidenceApproxTokens": 35149,
+            "compactReportApproxTokens": 879,
+            "savedApproxTokens": 34270,
+            "reductionRatio": 97.5
+          },
+          "compactApproxTokens": 879,
+          "rawApproxTokens": 35149,
+          "savedApproxTokens": 34270,
+          "reductionRatio": 97.5,
+          "score": {
+            "score": 1,
+            "coverage": 1,
+            "mustCoverage": 1,
+            "matched": [
+              "zod",
+              "schema",
+              "test",
+              "typescript",
+              "package.json",
+              "packages",
+              "src"
+            ],
+            "missing": [],
+            "mustMatched": [
+              "zod",
+              "schema",
+              "test"
+            ],
+            "mustMissing": [],
+            "pass": true
+          },
+          "actionability": {
+            "score": 1,
+            "passedChecks": 6,
+            "totalChecks": 6,
+            "pass": true,
+            "filePathCount": 15,
+            "testCommandCount": 6,
+            "hasSourceArea": true,
+            "hasTestArea": true,
+            "hasPackageSignal": true,
+            "riskSignalCount": 4,
+            "samplePaths": [
+              "packages/zod/package.json",
+              "packages/resolution/package.json",
+              "test-resolution.ts",
+              "packages/integration/package.json",
+              "types/tsconfig.bundler.json",
+              "types/tsconfig.nodenext.json",
+              "types/tsconfig.node16-cjs.json",
+              "packages/tsc/package.json"
+            ],
+            "sampleTestCommands": [
+              "pnpm vitest",
+              "test:watch",
+              "test:all",
+              "test:built",
+              "test:source",
+              "pnpm run -r"
+            ],
+            "sampleRiskSignals": [
+              "schema",
+              "type",
+              "TypeScript",
+              "migration"
+            ]
+          },
+          "frontierReadiness": {
+            "score": 1,
+            "signalScore": 1,
+            "actionabilityScore": 1,
+            "pass": true,
+            "label": "orientation-ready"
+          },
+          "compactPreview": "Task: Complex task: A maintainer wants to change Zod schema parsing behavior. Identify likely package/source areas, test/type-check command signals, TypeScript/type-surface risks, and docs or migration areas before editing. Return compact evidence for a frontier model to plan a patch.\nMode: context_cleanup\nHigh-signal lines:\npackages/zod/package.json:132: \"test\": \"pnpm vitest run\",\npackages/zod/package.json:131: \"test:watch\": \"pnpm vitest\",\npackages/resolution/package.json:19: \"test:all\": \"pnpm vitest run && tsx test-resolution.ts\"\npackages/integration/package.json:18: \"test:built\": \"tsc --project fixtures/internal-types/tsconfig.bundler.json && tsc --project fixtures/internal-types/tsconfig.nodenext.json && tsc --project fixtures/internal-types/tsconfig.node16-cjs.json\"\npackages/tsc/package.json:25: \"build\": \"tsc\",\npackages/docs/package.json:6: \"build\": \"next build\",\npackages/zod/package.json:129: \"build\": \"zshy --project tsconfig.build.json\",\npackages/integration/package.json:17: \"test:source\": \"tsc --project fixtures/drizzle-zod/tsconfig.json 2>&1 | (! grep -q 'excessively deep') && tsc --project fixtures/ai-sdk/tsconfig.json\",\npackage.json:76: \"test\": \"vitest run\",\npackage.json:75: \"test:watch\": \"vitest\",\npackage.json:74: \"build\": \"pnpm run -r --filter zod build\",\npackages/docs-v3/README.md:273: Build AI apps and workflows with <a href=\"https://retool.com/products/ai?utm_source=github&utm_medium=referral&utm_campaign=zod\">Retool AI</a>\npackages/zod/README.md:149: result.error; // ZodError instance\npackages/docs-v3/README.md:148: - [Error handling](#error-handling)\npackages/docs-v3/README.md:149: - [Error formatting](#error-formatting)\npackages/docs-v3/README.md:119: - [Customize error path](#customize-error-path)\nTASK: Analyze this Zod OSS codebase evidence. Identify project purpose, likely test command, major source/test areas, and any high-signal maintenance risks. Do not quote raw files; compact to actionable codebase evidence.\npackages/docs-v3/CONTRIBUTING.md:64: - runs all Jest tests and generates coverage badge\npackages/zod/src/v3/tests/error.test.ts:230: expect(error.confirm?._errors).toEqual([\"Invalid input\"]);\npackages/zod/src/v3/tests/error.test.ts:300: expect(error.inner?.name?._errors).toEqual([\"Invalid input\"]);\npackages/zod/src/v3/tests/error.test.ts:291: // expect(error.inner?.name?._errors).toEqual([\"Invalid input\"]);\npackages/zod/src/v3/"
+        },
+        {
+          "budget": 1600,
+          "durationMs": 97.54,
+          "selectedMode": "context_cleanup",
+          "telemetry": {
+            "internalStepCount": 1,
+            "externalCalls": 0,
+            "localFileInputCount": 1,
+            "localFileInputBytes": 140612
+          },
+          "tokenSavings": {
+            "rawEvidenceApproxTokens": 35149,
+            "compactReportApproxTokens": 1673,
+            "savedApproxTokens": 33476,
+            "reductionRatio": 95.24
+          },
+          "compactApproxTokens": 1673,
+          "rawApproxTokens": 35149,
+          "savedApproxTokens": 33476,
+          "reductionRatio": 95.24,
+          "score": {
+            "score": 1,
+            "coverage": 1,
+            "mustCoverage": 1,
+            "matched": [
+              "zod",
+              "schema",
+              "test",
+              "typescript",
+              "package.json",
+              "packages",
+              "src"
+            ],
+            "missing": [],
+            "mustMatched": [
+              "zod",
+              "schema",
+              "test"
+            ],
+            "mustMissing": [],
+            "pass": true
+          },
+          "actionability": {
+            "score": 1,
+            "passedChecks": 6,
+            "totalChecks": 6,
+            "pass": true,
+            "filePathCount": 23,
+            "testCommandCount": 12,
+            "hasSourceArea": true,
+            "hasTestArea": true,
+            "hasPackageSignal": true,
+            "riskSignalCount": 5,
+            "samplePaths": [
+              "packages/zod/package.json",
+              "packages/resolution/package.json",
+              "test-resolution.ts",
+              "packages/integration/package.json",
+              "types/tsconfig.bundler.json",
+              "types/tsconfig.nodenext.json",
+              "types/tsconfig.node16-cjs.json",
+              "packages/tsc/package.json"
+            ],
+            "sampleTestCommands": [
+              "pnpm vitest",
+              "test:watch",
+              "test:all",
+              "test:built",
+              "test:source",
+              "pnpm run -r",
+              "yarn build",
+              "npm run build"
+            ],
+            "sampleRiskSignals": [
+              "schema",
+              "type",
+              "TypeScript",
+              "migration",
+              "validation"
+            ]
+          },
+          "frontierReadiness": {
+            "score": 1,
+            "signalScore": 1,
+            "actionabilityScore": 1,
+            "pass": true,
+            "label": "orientation-ready"
+          },
+          "compactPreview": "Task: Complex task: A maintainer wants to change Zod schema parsing behavior. Identify likely package/source areas, test/type-check command signals, TypeScript/type-surface risks, and docs or migration areas before editing. Return compact evidence for a frontier model to plan a patch.\nMode: context_cleanup\nHigh-signal lines:\npackages/zod/package.json:132: \"test\": \"pnpm vitest run\",\npackages/zod/package.json:131: \"test:watch\": \"pnpm vitest\",\npackages/resolution/package.json:19: \"test:all\": \"pnpm vitest run && tsx test-resolution.ts\"\npackages/integration/package.json:18: \"test:built\": \"tsc --project fixtures/internal-types/tsconfig.bundler.json && tsc --project fixtures/internal-types/tsconfig.nodenext.json && tsc --project fixtures/internal-types/tsconfig.node16-cjs.json\"\npackages/tsc/package.json:25: \"build\": \"tsc\",\npackages/docs/package.json:6: \"build\": \"next build\",\npackages/zod/package.json:129: \"build\": \"zshy --project tsconfig.build.json\",\npackages/integration/package.json:17: \"test:source\": \"tsc --project fixtures/drizzle-zod/tsconfig.json 2>&1 | (! grep -q 'excessively deep') && tsc --project fixtures/ai-sdk/tsconfig.json\",\npackage.json:76: \"test\": \"vitest run\",\npackage.json:75: \"test:watch\": \"vitest\",\npackage.json:74: \"build\": \"pnpm run -r --filter zod build\",\npackages/docs-v3/README.md:273: Build AI apps and workflows with <a href=\"https://retool.com/products/ai?utm_source=github&utm_medium=referral&utm_campaign=zod\">Retool AI</a>\npackages/zod/README.md:149: result.error; // ZodError instance\npackages/docs-v3/README.md:148: - [Error handling](#error-handling)\npackages/docs-v3/README.md:149: - [Error formatting](#error-formatting)\npackages/docs-v3/README.md:119: - [Customize error path](#customize-error-path)\nTASK: Analyze this Zod OSS codebase evidence. Identify project purpose, likely test command, major source/test areas, and any high-signal maintenance risks. Do not quote raw files; compact to actionable codebase evidence.\npackages/docs-v3/CONTRIBUTING.md:64: - runs all Jest tests and generates coverage badge\npackages/zod/src/v3/tests/error.test.ts:230: expect(error.confirm?._errors).toEqual([\"Invalid input\"]);\npackages/zod/src/v3/tests/error.test.ts:300: expect(error.inner?.name?._errors).toEqual([\"Invalid input\"]);\npackages/zod/src/v3/tests/error.test.ts:291: // expect(error.inner?.name?._errors).toEqual([\"Invalid input\"]);\npackages/zod/src/v3/"
+        },
+        {
+          "budget": 3200,
+          "durationMs": 97.54,
+          "selectedMode": "context_cleanup",
+          "telemetry": {
+            "internalStepCount": 1,
+            "externalCalls": 0,
+            "localFileInputCount": 1,
+            "localFileInputBytes": 140612
+          },
+          "tokenSavings": {
+            "rawEvidenceApproxTokens": 35149,
+            "compactReportApproxTokens": 3279,
+            "savedApproxTokens": 31870,
+            "reductionRatio": 90.67
+          },
+          "compactApproxTokens": 3279,
+          "rawApproxTokens": 35149,
+          "savedApproxTokens": 31870,
+          "reductionRatio": 90.67,
+          "score": {
+            "score": 1,
+            "coverage": 1,
+            "mustCoverage": 1,
+            "matched": [
+              "zod",
+              "schema",
+              "test",
+              "typescript",
+              "package.json",
+              "packages",
+              "src"
+            ],
+            "missing": [],
+            "mustMatched": [
+              "zod",
+              "schema",
+              "test"
+            ],
+            "mustMissing": [],
+            "pass": true
+          },
+          "actionability": {
+            "score": 1,
+            "passedChecks": 6,
+            "totalChecks": 6,
+            "pass": true,
+            "filePathCount": 32,
+            "testCommandCount": 12,
+            "hasSourceArea": true,
+            "hasTestArea": true,
+            "hasPackageSignal": true,
+            "riskSignalCount": 6,
+            "samplePaths": [
+              "packages/zod/package.json",
+              "packages/resolution/package.json",
+              "test-resolution.ts",
+              "packages/integration/package.json",
+              "types/tsconfig.bundler.json",
+              "types/tsconfig.nodenext.json",
+              "types/tsconfig.node16-cjs.json",
+              "packages/tsc/package.json"
+            ],
+            "sampleTestCommands": [
+              "pnpm vitest",
+              "test:watch",
+              "test:all",
+              "test:built",
+              "test:source",
+              "pnpm run -r",
+              "yarn build",
+              "npm run build"
+            ],
+            "sampleRiskSignals": [
+              "schema",
+              "type",
+              "TypeScript",
+              "migration",
+              "validation",
+              "MIGRATION"
+            ]
+          },
+          "frontierReadiness": {
+            "score": 1,
+            "signalScore": 1,
+            "actionabilityScore": 1,
+            "pass": true,
+            "label": "orientation-ready"
+          },
+          "compactPreview": "Task: Complex task: A maintainer wants to change Zod schema parsing behavior. Identify likely package/source areas, test/type-check command signals, TypeScript/type-surface risks, and docs or migration areas before editing. Return compact evidence for a frontier model to plan a patch.\nMode: context_cleanup\nHigh-signal lines:\npackages/zod/package.json:132: \"test\": \"pnpm vitest run\",\npackages/zod/package.json:131: \"test:watch\": \"pnpm vitest\",\npackages/resolution/package.json:19: \"test:all\": \"pnpm vitest run && tsx test-resolution.ts\"\npackages/integration/package.json:18: \"test:built\": \"tsc --project fixtures/internal-types/tsconfig.bundler.json && tsc --project fixtures/internal-types/tsconfig.nodenext.json && tsc --project fixtures/internal-types/tsconfig.node16-cjs.json\"\npackages/tsc/package.json:25: \"build\": \"tsc\",\npackages/docs/package.json:6: \"build\": \"next build\",\npackages/zod/package.json:129: \"build\": \"zshy --project tsconfig.build.json\",\npackages/integration/package.json:17: \"test:source\": \"tsc --project fixtures/drizzle-zod/tsconfig.json 2>&1 | (! grep -q 'excessively deep') && tsc --project fixtures/ai-sdk/tsconfig.json\",\npackage.json:76: \"test\": \"vitest run\",\npackage.json:75: \"test:watch\": \"vitest\",\npackage.json:74: \"build\": \"pnpm run -r --filter zod build\",\npackages/docs-v3/README.md:273: Build AI apps and workflows with <a href=\"https://retool.com/products/ai?utm_source=github&utm_medium=referral&utm_campaign=zod\">Retool AI</a>\npackages/zod/README.md:149: result.error; // ZodError instance\npackages/docs-v3/README.md:148: - [Error handling](#error-handling)\npackages/docs-v3/README.md:149: - [Error formatting](#error-formatting)\npackages/docs-v3/README.md:119: - [Customize error path](#customize-error-path)\nTASK: Analyze this Zod OSS codebase evidence. Identify project purpose, likely test command, major source/test areas, and any high-signal maintenance risks. Do not quote raw files; compact to actionable codebase evidence.\npackages/docs-v3/CONTRIBUTING.md:64: - runs all Jest tests and generates coverage badge\npackages/zod/src/v3/tests/error.test.ts:230: expect(error.confirm?._errors).toEqual([\"Invalid input\"]);\npackages/zod/src/v3/tests/error.test.ts:300: expect(error.inner?.name?._errors).toEqual([\"Invalid input\"]);\npackages/zod/src/v3/tests/error.test.ts:291: // expect(error.inner?.name?._errors).toEqual([\"Invalid input\"]);\npackages/zod/src/v3/"
+        }
+      ],
+      "targeted": null,
+      "recommended": {
+        "strategy": "single_800",
+        "score": 1,
+        "label": "orientation-ready",
+        "compactApproxTokens": 879,
+        "reductionRatio": 97.5
+      }
+    }
+  ]
+}

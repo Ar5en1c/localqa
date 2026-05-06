@@ -1,0 +1,98 @@
+{
+  "id": "zod_schema_parser_agentic_plan",
+  "title": "Zod schema/parser investigation",
+  "evidencePath": "/Users/kuldeepsingh/MyProjects/qwen2.5-1.5b-turboquant-mlc-experiment/reports/localqa/opencode_oss_codebases_2026-05-05/colinhacks_zod/raw-codebase-evidence.txt",
+  "evidenceBytes": 140612,
+  "rawTokens": 35140,
+  "record": {
+    "ok": true,
+    "runtimeMs": 81.82,
+    "memoryWritten": true
+  },
+  "normalBaseline": {
+    "approxToolCalls": 3,
+    "rawContextApproxTokens": 35140,
+    "compactContextApproxTokens": 35140,
+    "savedApproxTokens": 0,
+    "reductionRatio": 0,
+    "memoryWritten": false,
+    "risk": "frontier model receives full raw evidence or must spend repeated tool calls finding source/test signals"
+  },
+  "localqaWorkflow": {
+    "approxToolCallsFromMainAgent": 1,
+    "internalLocalSteps": 3,
+    "baselineRawContextApproxTokens": 35140,
+    "internalLocalRawTokensProcessed": 70298,
+    "compactContextApproxTokens": 1900,
+    "savedApproxTokens": 33240,
+    "reductionRatio": 94.59,
+    "internalLocalProcessingReductionRatio": 97.3,
+    "memoryWritten": true,
+    "runtimeMs": 116.55
+  },
+  "signalScore": {
+    "score": 0.925,
+    "coverage": 0.875,
+    "mustCoverage": 1,
+    "matched": [
+      "zod",
+      "schema",
+      "parser",
+      "typescript",
+      "test",
+      "packages",
+      "package.json"
+    ],
+    "missing": [
+      "src"
+    ],
+    "mustMatched": [
+      "zod",
+      "schema",
+      "test"
+    ],
+    "mustMissing": []
+  },
+  "actionabilityScore": {
+    "score": 0.857,
+    "passed": 6,
+    "total": 7,
+    "paths": [
+      "packages/docs/package.json",
+      "packages/tsc/package.json",
+      "packages/zod/package.json",
+      "build.json",
+      "packages/resolution/package.json",
+      "test-resolution.ts",
+      "packages/integration/package.json",
+      "types/tsconfig.bundler.json",
+      "types/tsconfig.nodenext.json",
+      "types/tsconfig.node16-cjs.json"
+    ],
+    "commands": [
+      "pnpm vitest",
+      "test:watch",
+      "test:all",
+      "test:source",
+      "test:built",
+      "pnpm run -r"
+    ],
+    "riskSignals": [
+      "schema",
+      "type",
+      "migration",
+      "parser",
+      "TypeScript"
+    ],
+    "hasSource": true,
+    "hasTests": false,
+    "hasMemory": true,
+    "hasNextReads": true
+  },
+  "quality": {
+    "score": 0.894,
+    "label": "usable",
+    "pass": true
+  },
+  "compactPreview": "## Step 1: memory_query\nTask: Frontier agent task: plan a safe Zod schema parsing behavior change. Use local evidence to identify package/source areas, type-surface risks, tests, docs/migration areas, and next exact reads before implementation.\nMode: memory\nStatus: ok\nProject memory query: What has already been recorded for Zod schema/parser investigation? Memory dir: /Users/kuldeepsingh/MyProjects/qwen2.5-1.5b-turboquant-mlc-experiment/reports/localqa/agentic_workflows_2026-05-05/memory Matched entries: 12/59 1. 2026-05-05T21:39:53.209Z | directed_plan | completed | directed task: Frontier agent task: plan a safe Zod schema parsing behavior change. Use local evidence to identify package/source areas, type-surface risks, tests, docs/migration areas, and next exact reads before implementation. summary: ## Step 1: memory_query Task: Frontier agent task: plan a safe Zod schema parsing behavior change. Use local evidence to identify package/source areas, type-surface risks, tests, docs/migration areas, and next exact reads before implementation. Mode: memory Status: ok Project memory query: What has already been recorded for Zod schema/parser investigation? Memory dir: /Users/kuldeepsingh/MyProjects/qwen2.5-1.5b-turbo tokens: raw=70298 compact=1900 saved=68398 reduction=97.3% 2. 2026-05-05T21:25:18.786Z | directed_plan | completed | directed task: Frontier agent task: plan a safe Zod schema parsing behavior change. Use local evidence to identify package/source areas, type-surface risks, tests, docs/migration areas, and next exact reads before implementation. summary: ## Step 1: memory_query Task: Frontier agent task: plan a safe Zod schema parsing behavior change. Use local evidence to identify package/source areas, type-surface risks, tests, docs/migration areas, and next exact reads before implementation. Mode: memory Status: ok Project memory query: What has already been recorded for Zod schema/parser investigation? Memory dir: /Users/kuldeepsingh/MyProjects/qwen2.5-1.5b-turbo tokens: raw=70298 compact=1900 saved=68398 reduction=97.3%\n\n## Step 2: context_cleanup\nTask: Frontier agent task: plan a safe Zod schema parsing behavior change. Use local evidence to identify package/source areas, type-surface risks, tests, docs/migration areas, and next exact reads before implementation.\nMode: context_cleanup\nStatus: ok\nToken savings: raw=35149 compact=963 saved=34186 reduction=97.26%\nTask: Frontier agent task: plan a safe Zod schema parsing behavior change. Use local evidence to identify package/source areas, type-surface risks, tests, docs/migration areas, and n"
+}

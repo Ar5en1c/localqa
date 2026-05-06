@@ -1,0 +1,139 @@
+{
+  "info": {
+    "id": "ses_2091f087fffe2RjxRYpzenyCMh",
+    "slug": "mighty-panda",
+    "projectID": "global",
+    "directory": "/Users/kuldeepsingh/MyProjects/qwen2.5-1.5b-turboquant-mlc-experiment",
+    "title": "LocalQA provider telemetry probe",
+    "version": "1.2.6",
+    "summary": {
+      "additions": 0,
+      "deletions": 0,
+      "files": 0
+    },
+    "permission": [
+      {
+        "permission": "question",
+        "pattern": "*",
+        "action": "deny"
+      },
+      {
+        "permission": "plan_enter",
+        "pattern": "*",
+        "action": "deny"
+      },
+      {
+        "permission": "plan_exit",
+        "pattern": "*",
+        "action": "deny"
+      }
+    ],
+    "time": {
+      "created": 1777963431808,
+      "updated": 1777963433924
+    }
+  },
+  "messages": [
+    {
+      "info": {
+        "role": "user",
+        "time": {
+          "created": 1777963432592
+        },
+        "summary": {
+          "diffs": []
+        },
+        "agent": "build",
+        "model": {
+          "providerID": "openai",
+          "modelID": "gpt-5.3-codex"
+        },
+        "id": "msg_df6e0fa90001jrAuYBc5npjnRr",
+        "sessionID": "ses_2091f087fffe2RjxRYpzenyCMh"
+      },
+      "parts": [
+        {
+          "type": "text",
+          "text": "\"Reply with exactly LOCALQA_TELEMETRY_PROBE and nothing else.\"\n",
+          "id": "prt_df6e0fa9000249upnbpCIA6tZK",
+          "sessionID": "ses_2091f087fffe2RjxRYpzenyCMh",
+          "messageID": "msg_df6e0fa90001jrAuYBc5npjnRr"
+        }
+      ]
+    },
+    {
+      "info": {
+        "role": "assistant",
+        "time": {
+          "created": 1777963432601,
+          "completed": 1777963433927
+        },
+        "parentID": "msg_df6e0fa90001jrAuYBc5npjnRr",
+        "modelID": "gpt-5.3-codex",
+        "providerID": "openai",
+        "mode": "build",
+        "agent": "build",
+        "path": {
+          "cwd": "/Users/kuldeepsingh/MyProjects/qwen2.5-1.5b-turboquant-mlc-experiment",
+          "root": "/"
+        },
+        "cost": 0,
+        "tokens": {
+          "total": 9972,
+          "input": 9960,
+          "output": 12,
+          "reasoning": 0,
+          "cache": {
+            "read": 0,
+            "write": 0
+          }
+        },
+        "finish": "stop",
+        "id": "msg_df6e0fa99001J0tx0RMXAvCFbV",
+        "sessionID": "ses_2091f087fffe2RjxRYpzenyCMh"
+      },
+      "parts": [
+        {
+          "type": "step-start",
+          "id": "prt_df6e0fddd001d7NV9qDpvi7t24",
+          "sessionID": "ses_2091f087fffe2RjxRYpzenyCMh",
+          "messageID": "msg_df6e0fa99001J0tx0RMXAvCFbV"
+        },
+        {
+          "type": "text",
+          "text": "LOCALQA_TELEMETRY_PROBE",
+          "time": {
+            "start": 1777963433911,
+            "end": 1777963433911
+          },
+          "metadata": {
+            "openai": {
+              "itemId": "msg_0a30a7ac642548190169f991a9a5e88199aa5a35f661abf254"
+            }
+          },
+          "id": "prt_df6e0feed001nMTW6xfk5skKSu",
+          "sessionID": "ses_2091f087fffe2RjxRYpzenyCMh",
+          "messageID": "msg_df6e0fa99001J0tx0RMXAvCFbV"
+        },
+        {
+          "type": "step-finish",
+          "reason": "stop",
+          "cost": 0,
+          "tokens": {
+            "total": 9972,
+            "input": 9960,
+            "output": 12,
+            "reasoning": 0,
+            "cache": {
+              "read": 0,
+              "write": 0
+            }
+          },
+          "id": "prt_df6e0ffc2001wjr75RITSpLPs5",
+          "sessionID": "ses_2091f087fffe2RjxRYpzenyCMh",
+          "messageID": "msg_df6e0fa99001J0tx0RMXAvCFbV"
+        }
+      ]
+    }
+  ]
+}

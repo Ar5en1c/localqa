@@ -1,0 +1,23 @@
+node_modules/
+.DS_Store
+.env
+.env.*
+!.env.example
+
+# LocalQA runtime/private artifacts
+.localqa/
+.opencode/tmp/
+.opencode/vault-runs/
+reports/localqa/context-index/
+reports/localqa/**/raw*/
+reports/localqa/**/*.har
+reports/localqa/**/*.trace
+reports/localqa/**/*.zip
+reports/localqa/launch_assets_2026-05-06/*.mov
+
+# Local models and build output
+models/
+local-model-host/
+dist/
+reports/localqa/**/vault-runs/
+reports/localqa/**/memory/

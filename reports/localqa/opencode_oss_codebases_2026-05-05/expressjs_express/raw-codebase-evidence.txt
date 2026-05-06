@@ -1,0 +1,3469 @@
+OSS_CODEBASE_BENCHMARK_PROJECT: expressjs/express
+ARCHIVE_URL: https://codeload.github.com/expressjs/express/tar.gz/refs/heads/master
+TASK: Analyze this Express OSS codebase evidence. Identify project purpose, likely test command, major source/test areas, and any high-signal maintenance risks. Do not quote raw files; compact to actionable codebase evidence.
+
+SIMULATED_NON_MCP_AGENT_RAW_CONTEXT:
+- tool: find/list repo files
+- tool: cat package.json
+- tool: cat README/docs
+- tool: grep/rg for tests, TODOs, errors, build scripts
+- tool: read selected source/test files
+
+PACKAGE_SCRIPTS_JSON:
+{
+  "lint": "eslint .",
+  "lint:fix": "eslint . --fix",
+  "test": "mocha --require test/support/env --reporter spec --check-leaks test/ test/acceptance/",
+  "test-ci": "nyc --exclude examples --exclude test --exclude benchmarks --reporter=lcovonly --reporter=text npm test",
+  "test-cov": "nyc --exclude examples --exclude test --exclude benchmarks --reporter=html --reporter=text npm test",
+  "test-tap": "mocha --require test/support/env --reporter tap --check-leaks test/ test/acceptance/"
+}
+
+TOP_DEPENDENCIES:
+accepts, body-parser, content-disposition, content-type, cookie, cookie-signature, debug, depd, encodeurl, escape-html, etag, finalhandler, fresh, http-errors, merge-descriptors, mime-types, on-finished, once, parseurl, proxy-addr, qs, range-parser, router, send, serve-static, statuses, type-is, vary, after, connect-redis, cookie-parser, cookie-session, ejs, eslint, express-session, hbs, marked, method-override, mocha, morgan, nyc, pbkdf2-password, supertest, vhost
+
+FILE_TREE_HEAD:
+.editorconfig
+.eslintignore
+.eslintrc.yml
+.github/dependabot.yml
+.github/workflows/ci.yml
+.github/workflows/codeql.yml
+.github/workflows/legacy.yml
+.github/workflows/scorecard.yml
+.gitignore
+.npmrc
+examples/auth/index.js
+examples/auth/views/foot.ejs
+examples/auth/views/head.ejs
+examples/auth/views/login.ejs
+examples/content-negotiation/db.js
+examples/content-negotiation/index.js
+examples/content-negotiation/users.js
+examples/cookie-sessions/index.js
+examples/cookies/index.js
+examples/downloads/files/amazing.txt
+examples/downloads/files/CCTV大赛上海分赛区.txt
+examples/downloads/files/notes/groceries.txt
+examples/downloads/index.js
+examples/ejs/index.js
+examples/ejs/public/stylesheets/style.css
+examples/ejs/views/footer.html
+examples/ejs/views/header.html
+examples/ejs/views/users.html
+examples/error/index.js
+examples/error-pages/index.js
+examples/error-pages/views/404.ejs
+examples/error-pages/views/500.ejs
+examples/error-pages/views/error_header.ejs
+examples/error-pages/views/footer.ejs
+examples/error-pages/views/index.ejs
+examples/hello-world/index.js
+examples/markdown/index.js
+examples/markdown/views/index.md
+examples/multi-router/controllers/api_v1.js
+examples/multi-router/controllers/api_v2.js
+examples/multi-router/index.js
+examples/mvc/controllers/main/index.js
+examples/mvc/controllers/pet/index.js
+examples/mvc/controllers/pet/views/edit.ejs
+examples/mvc/controllers/pet/views/show.ejs
+examples/mvc/controllers/user/index.js
+examples/mvc/controllers/user/views/edit.hbs
+examples/mvc/controllers/user/views/list.hbs
+examples/mvc/controllers/user/views/show.hbs
+examples/mvc/controllers/user-pet/index.js
+examples/mvc/db.js
+examples/mvc/index.js
+examples/mvc/lib/boot.js
+examples/mvc/public/style.css
+examples/mvc/views/404.ejs
+examples/mvc/views/5xx.ejs
+examples/online/index.js
+examples/params/index.js
+examples/README.md
+examples/resource/index.js
+examples/route-map/index.js
+examples/route-middleware/index.js
+examples/route-separation/index.js
+examples/route-separation/post.js
+examples/route-separation/public/style.css
+examples/route-separation/site.js
+examples/route-separation/user.js
+examples/route-separation/views/footer.ejs
+examples/route-separation/views/header.ejs
+examples/route-separation/views/index.ejs
+examples/route-separation/views/posts/index.ejs
+examples/route-separation/views/users/edit.ejs
+examples/route-separation/views/users/index.ejs
+examples/route-separation/views/users/view.ejs
+examples/search/index.js
+examples/search/public/client.js
+examples/search/public/index.html
+examples/session/index.js
+examples/session/redis.js
+examples/static-files/index.js
+examples/static-files/public/css/style.css
+examples/static-files/public/hello.txt
+examples/static-files/public/js/app.js
+examples/vhost/index.js
+examples/view-constructor/github-view.js
+examples/view-constructor/index.js
+examples/view-locals/index.js
+examples/view-locals/user.js
+examples/view-locals/views/index.ejs
+examples/web-service/index.js
+History.md
+index.js
+lib/application.js
+lib/express.js
+lib/request.js
+lib/response.js
+lib/utils.js
+lib/view.js
+LICENSE
+package.json
+Readme.md
+test/acceptance/auth.js
+test/acceptance/content-negotiation.js
+test/acceptance/cookie-sessions.js
+test/acceptance/cookies.js
+test/acceptance/downloads.js
+test/acceptance/ejs.js
+test/acceptance/error-pages.js
+test/acceptance/error.js
+test/acceptance/hello-world.js
+test/acceptance/markdown.js
+test/acceptance/multi-router.js
+test/acceptance/mvc.js
+test/acceptance/params.js
+test/acceptance/resource.js
+test/acceptance/route-map.js
+test/acceptance/route-separation.js
+test/acceptance/vhost.js
+test/acceptance/web-service.js
+test/app.all.js
+test/app.engine.js
+test/app.head.js
+test/app.js
+test/app.listen.js
+test/app.locals.js
+test/app.options.js
+test/app.param.js
+test/app.render.js
+test/app.request.js
+test/app.response.js
+test/app.route.js
+test/app.router.js
+test/app.routes.error.js
+test/app.use.js
+test/config.js
+test/exports.js
+test/express.json.js
+test/express.raw.js
+test/express.static.js
+test/express.text.js
+test/express.urlencoded.js
+test/middleware.basic.js
+test/regression.js
+test/req.accepts.js
+test/req.acceptsCharsets.js
+test/req.acceptsEncodings.js
+test/req.acceptsLanguages.js
+test/req.baseUrl.js
+test/req.fresh.js
+test/req.get.js
+test/req.host.js
+test/req.hostname.js
+test/req.ip.js
+test/req.ips.js
+test/req.is.js
+test/req.path.js
+test/req.protocol.js
+test/req.query.js
+test/req.range.js
+test/req.route.js
+test/req.secure.js
+test/req.signedCookies.js
+test/req.stale.js
+test/req.subdomains.js
+test/req.xhr.js
+test/res.append.js
+test/res.attachment.js
+test/res.clearCookie.js
+test/res.cookie.js
+test/res.download.js
+test/res.format.js
+test/res.get.js
+test/res.json.js
+test/res.jsonp.js
+test/res.links.js
+test/res.locals.js
+test/res.location.js
+test/res.redirect.js
+test/res.render.js
+test/res.send.js
+test/res.sendFile.js
+test/res.sendStatus.js
+test/res.set.js
+test/res.status.js
+test/res.type.js
+test/res.vary.js
+test/Route.js
+test/Router.js
+test/support/env.js
+test/support/tmpl.js
+test/support/utils.js
+test/utils.js
+
+RG_LIKE_SIGNAL_LINES:
+examples/auth/index.js:31: var err = req.session.error;
+examples/auth/index.js:33: delete req.session.error;
+examples/auth/index.js:36: if (err) res.locals.message = '<p class="msg error">' + err + '</p>';
+examples/auth/index.js:79: req.session.error = 'Access denied!';
+examples/auth/index.js:122: req.session.error = 'Authentication failed, please check your '
+examples/downloads/index.js:29: if (err.status !== 404) return next(err); // non-404 error
+examples/error/index.js:14: // error handling middleware have an arity of 4
+examples/error/index.js:20: function error(err, req, res, next) {
+examples/error/index.js:22: if (!test) console.error(err.stack);
+examples/error/index.js:24: // respond with 500 "Internal Server Error".
+examples/error/index.js:26: res.send('Internal Server Error');
+examples/error/index.js:31: throw new Error('something broke!');
+examples/error/index.js:40: next(new Error('oh no!'));
+examples/error/index.js:44: // the error handler is placed after routes
+examples/error/index.js:47: app.use(error);
+examples/error-pages/index.js:23: // use $ NODE_ENV=production node examples/error-pages
+examples/error-pages/index.js:42: // trigger a 403 error
+examples/error-pages/index.js:43: var err = new Error('not allowed!');
+examples/error-pages/index.js:49: // trigger a generic (500) error
+examples/error-pages/index.js:50: next(new Error('keyboard cat!'));
+examples/error-pages/index.js:53: // Error handlers
+examples/error-pages/index.js:55: // Since this is the last non-error-handling
+examples/error-pages/index.js:71: res.json({ error: 'Not found' })
+examples/error-pages/index.js:79: // error-handling middleware, take the same form
+examples/error-pages/index.js:82: // when connect has an error, it will invoke ONLY error-handling
+examples/error-pages/index.js:85: // If we were to next() here any remaining non-error-handling
+examples/error-pages/index.js:87: // continue passing the error, only error-handling middleware
+examples/error-pages/index.js:89: // we simply respond with an error page.
+examples/error-pages/index.js:92: // we may use properties of the error object
+examples/error-pages/index.js:94: // we possibly recovered from the error, simply next().
+examples/error-pages/index.js:96: res.render('500', { error: err });
+examples/mvc/index.js:19: // set views for error and 404 pages
+examples/mvc/index.js:71: // don't build up
+examples/mvc/index.js:80: if (!module.parent) console.error(err.stack);
+examples/mvc/index.js:82: // error page
+examples/mvc/lib/boot.js:63: throw new Error('unrecognized route: ' + name + '.' + key);
+examples/README.md:11: - [error-pages](./error-pages) - Creating error pages
+examples/README.md:12: - [error](./error) - Working with error middleware
+examples/resource/index.js:46: res.send(users[req.params.id] || { error: 'Cannot find user' });
+examples/resource/index.js:72: // curl http://localhost:3000/users/4   -- responds with error
+examples/route-middleware/index.js:32: next(new Error('Failed to load user ' + req.params.id));
+examples/route-middleware/index.js:44: // can handle these can be special-cased in an error handler
+examples/route-middleware/index.js:46: next(new Error('Unauthorized'));
+examples/route-middleware/index.js:55: next(new Error('Unauthorized'));
+examples/route-separation/user.js:20: var err = new Error('cannot find user ' + id);
+examples/search/index.js:43: console.error('Error initializing Redis:', err);
+examples/search/index.js:57: console.error(`Redis error for query "${query}":`, err);
+examples/web-service/index.js:11: // create an error with .status. we
+examples/web-service/index.js:13: // custom error handler (Connect respects this prop as well)
+examples/web-service/index.js:15: function error(status, msg) {
+examples/web-service/index.js:16: var err = new Error(msg);
+examples/web-service/index.js:34: if (!key) return next(error(400, 'api key required'));
+examples/web-service/index.js:37: if (apiKeys.indexOf(key) === -1) return next(error(401, 'invalid api key'))
+examples/web-service/index.js:94: // error handling middleware. When you next(err)
+examples/web-service/index.js:102: res.send({ error: err.message });
+examples/web-service/index.js:110: res.send({ error: "Sorry, can't find that" })
+History.md:28: * A deprecation warning was added when using `res.redirect` with undefined arguments, Express now emits a warning to help detect calls that pass undefined as the status or URL and make them easier to fix.
+History.md:190: - Remove Express 3.x middleware error stubs
+History.md:294: - Fix strict json error message on Node.js 19+
+lib/application.js:146: * If no callback is provided, then default error handlers will respond
+lib/application.js:147: * in the event of an error bubbling through the stack.
+lib/application.js:296: throw new Error('callback function required');
+lib/application.js:507: * and a callback accepting an error and the
+lib/response.js:55: * Throws an error if the provided status code is not an integer or if it's outside the allowable range.
+lib/response.js:299: // the typeof check is just to reduce client error noise
+lib/response.js:335: * or when an error occurs. Be sure to check `res.headersSent`
+lib/response.js:420: * when the data transfer is complete, or when an error has
+lib/view.js:61: throw new Error('No default engine was specified and no extension was provided.');
+lib/view.js:84: throw new Error('Module "' + mod + '" does not provide a view engine.')
+package.json:70: "eslint": "8.47.0",
+package.json:75: "mocha": "^10.7.3",
+package.json:92: "lint": "eslint .",
+package.json:93: "lint:fix": "eslint . --fix",
+package.json:94: "test": "mocha --require test/support/env --reporter spec --check-leaks test/ test/acceptance/",
+package.json:97: "test-tap": "mocha --require test/support/env --reporter tap --check-leaks test/ test/acceptance/"
+Readme.md:29: [![Linux Build][github-actions-ci-image]][github-actions-ci-url]
+Readme.md:30: [![Test Coverage][coveralls-image]][coveralls-url]
+Readme.md:73: * Super-high test coverage
+test/acceptance/auth.js:25: it('should display login error for bad user', function (done) {
+test/acceptance/auth.js:40: it('should display login error for bad password', function (done) {
+test/acceptance/error-pages.js:2: var app = require('../../examples/error-pages')
+test/acceptance/error-pages.js:5: describe('error-pages', function(){
+test/acceptance/error-pages.js:55: .expect(404, { error: 'Not found' }, done)
+test/acceptance/error.js:2: var app = require('../../examples/error')
+test/acceptance/error.js:5: describe('error', function(){
+test/acceptance/markdown.js:15: it('should respond with an error', function(done){
+test/acceptance/mvc.js:96: it('should 500 on error', function(done){
+test/acceptance/resource.js:30: it('should respond with error', function(done){
+test/acceptance/resource.js:33: .expect('{"error":"Cannot find user"}', done)
+test/acceptance/web-service.js:102: .expect(404, '{"error":"Sorry, can\'t find that"}', done)
+test/app.all.js:30: if (n++) return done(new Error('DELETE called several times'));
+test/app.listen.js:33: // backlog isn’t directly inspectable, but if no error was thrown
+test/app.options.js:76: describe('when error occurs in response handler', function () {
+test/app.options.js:77: it('should pass error to callback', function (done) {
+test/app.param.js:145: next(new Error('invalid invocation'))
+test/app.param.js:179: it('should catch thrown error', function(done){
+test/app.param.js:183: throw new Error('err!');
+test/app.param.js:196: it('should catch thrown secondary error', function(done){
+test/app.param.js:204: throw new Error('err!');
+test/app.param.js:263: it('should not call when values differ on error', function(done) {
+test/app.param.js:270: if (user === 'foo') throw new Error('err!');
+test/app.render.js:61: it('should handle render error throws', function(done){
+test/app.render.js:70: throw new Error('err!');
+test/app.render.js:83: it('should provide a helpful error', function(done){
+test/app.render.js:95: describe('when an error occurs', function(){
+test/app.render.js:187: it('should error if file does not exist', function(done){
+test/app.route.js:55: it('should not error on empty routes', function(done){
+test/app.route.js:71: return Promise.reject(new Error('boom!'))
+test/app.route.js:120: done(new Error('Unexpected route invoke'))
+test/app.route.js:128: describe('error handling', function () {
+test/app.route.js:134: return Promise.reject(new Error('boom!'))
+test/app.route.js:138: return Promise.reject(new Error('caught: ' + err.message))
+test/app.route.js:156: return Promise.reject(new Error('boom!'))
+test/app.route.js:178: return Promise.reject(new Error('boom!'))
+test/app.route.js:188: done(new Error('Unexpected route invoke'))
+test/app.routes.error.js:9: it('should not get invoked without error handler on error', function(done) {
+test/app.routes.error.js:13: next(new Error('boom!'))
+test/app.routes.error.js:22: .expect(500, /Error: boom!/, done);
+test/app.routes.error.js:25: it('should only call an error handling routing callback when an error is propagated', function(done){
+test/app.routes.error.js:34: next(new Error('fabricated error'));
+test/app.routes.error.js:40: assert.strictEqual(err.message, 'fabricated error')
+test/app.routes.error.js:44: assert.strictEqual(err.message, 'fabricated error')
+test/express.json.js:43: // The old node error message modification in body parser is catching this
+test/express.json.js:111: it('should include original body on error object', function (done) {
+test/express.json.js:115: .set('X-Error-Property', 'body')
+test/express.json.js:186: it('should not error when inflating', function (done) {
+test/express.json.js:288: .set('X-Error-Property', 'stack')
+test/express.json.js:383: throw new Error('oops!')
+test/express.raw.js:149: it('should not error when inflating', function (done) {
+test/express.raw.js:269: throw new Error('oops!')
+test/express.raw.js:285: it('should error from verify', function (done) {
+test/express.raw.js:288: if (buf[0] === 0x00) throw new Error('no leading null')
+test/express.raw.js:302: var err = new Error('no leading null')
+test/express.raw.js:317: if (buf[0] === 0x00) throw new Error('no leading null')
+test/express.static.js:32: .get('/todo.txt')
+test/express.static.js:44: .get('/todo.txt')
+test/express.static.js:51: .get('/todo.txt')
+test/express.static.js:58: .get('/todo.txt')
+test/express.static.js:71: .get('//todo@txt')
+test/express.static.js:85: .get('/users/../todo.txt')
+test/express.static.js:91: .head('/todo.txt')
+test/express.static.js:99: .post('/todo.txt')
+test/express.static.js:107: .get('/todo.txt')
+test/express.static.js:111: .get('/todo.txt')
+test/express.static.js:119: .get('/todo.txt')
+test/express.static.js:145: .get('/' + dest + '/todo.txt')
+test/express.static.js:218: .get('/todo')
+test/express.static.js:224: .get('/todo')
+test/express.static.js:230: .get('/todo')
+test/express.static.js:236: .get('/todo')
+test/express.static.js:261: .options('/todo.txt')
+test/express.static.js:273: .get('/users/../../todo.txt')
+test/express.static.js:335: .options('/todo.txt')
+test/express.static.js:348: .get('/users/../../todo.txt')
+test/express.text.js:159: it('should not error when inflating', function (done) {
+test/express.text.js:285: throw new Error('oops!')
+test/express.text.js:301: it('should error from verify', function (done) {
+test/express.text.js:304: if (buf[0] === 0x20) throw new Error('no leading space')
+test/express.text.js:319: var err = new Error('no leading space')
+test/express.text.js:335: if (buf[0] === 0x20) throw new Error('no leading space')
+test/express.text.js:349: throw new Error('unexpected verify call')
+test/express.urlencoded.js:306: it('should not error when inflating', function (done) {
+test/regression.js:12: throw new Error('boom');
+test/res.cookie.js:174: it('should throw an error with invalid maxAge', function (done) {
+test/res.cookie.js:263: it('should throw an error', function(done){
+test/res.download.js:120: it('should persist store on error', function (done) {
+test/res.download.js:137: res.send(err ? 'got ' + err.status + ' error' : 'no error')
+test/res.download.js:145: .expect('got 404 error')
+test/res.format.js:90: test(app1);
+test/res.format.js:94: test(app2);
+test/res.format.js:113: test(app);
+test/res.format.js:155: test(app4);
+test/res.format.js:177: test(app)
+test/res.format.js:182: function test(app) {
+test/res.location.js:153: console.error('error', res.error, err);
+test/res.location.js:165: return done(new Error('Hosts do not match: ' + inputHost + " !== " +  locationHost));
+test/res.location.js:282: it('should work correctly despite using deprecated url.parse', function (done) {
+test/res.render.js:39: it('should error without "view engine" set and file extension to a non-engine module', function (done) {
+test/res.render.js:53: it('should error without "view engine" set and no file extension', function (done) {
+test/res.render.js:112: describe('when an error occurs', function(){
+test/res.render.js:123: res.status(500).send('got error: ' + err.name)
+test/res.render.js:128: .expect(500, 'got error: RenderError', done)
+test/res.render.js:339: describe('when an error occurs', function(){
+test/res.render.js:348: res.status(500).send('got error: ' + err.name)
+test/res.render.js:355: .expect(500, 'got error: RenderError', done)
+test/res.sendFile.js:17: it('should error missing path', function (done) {
+test/res.sendFile.js:25: it('should error for non-string path', function (done) {
+test/res.sendFile.js:33: it('should error for non-absolute path', function (done) {
+test/res.sendFile.js:147: it('should not error if the client aborts', function (done) {
+test/res.sendFile.js:150: var error = null
+test/res.sendFile.js:156: cb(error)
+test/res.sendFile.js:163: error = err
+test/res.sendFile.js:232: it('should invoke the callback without error when HEAD', function (done) {
+test/res.sendFile.js:245: it('should invoke the callback without error when 304', function (done) {
+test/res.sendFile.js:271: res.send(err ? 'got ' + err.status + ' error' : 'no error')
+test/res.sendFile.js:277: .expect(200, 'got 404 error', done)
+test/res.sendFile.js:308: it('should persist store on error', function (done) {
+test/res.sendFile.js:325: res.send(err ? 'got ' + err.status + ' error' : 'no error')
+test/res.sendFile.js:333: .expect('got 404 error')
+test/res.sendStatus.js:32: it('should raise error for invalid status code', function (done) {
+test/res.status.js:120: it('should raise error for status code below 100', function (done) {
+test/res.status.js:132: it('should raise error for status code above 999', function (done) {
+test/res.status.js:144: it('should raise error for non-integer status codes', function (done) {
+test/res.status.js:156: it('should raise error for undefined status code', function (done) {
+test/res.status.js:168: it('should raise error for null status code', function (done) {
+test/res.status.js:180: it('should raise error for string status code', function (done) {
+test/res.status.js:192: it('should raise error for NaN status code', function (done) {
+test/res.vary.js:9: it('should throw error', function (done) {
+test/Route.js:128: throw new Error('not me!');
+test/Route.js:176: next(new Error('foobar'));
+test/Route.js:202: throw new Error('foobar');
+test/Route.js:223: it('should handle throwing inside error handlers', function(done) {
+test/Route.js:228: throw new Error('boom!');
+test/Route.js:232: throw new Error('oops');
+test/Route.js:252: throw new Error('boom!');
+test/Route.js:262: it('should handle single error handler', function(done) {
+test/Route.js:268: throw new Error('should not be called')
+test/Router.js:48: throw new Error('should not be called')
+test/Router.js:58: throw new Error('should not be called')
+test/Router.js:70: route.post(function (req, res, next) { next(new Error('should not run')) })
+test/Router.js:75: route.get(function (req, res, next) { next(new Error('should not run')) })
+test/Router.js:77: router.get('/foo', function (req, res, next) { next(new Error('should not run')) })
+test/Router.js:94: var handler = function (req, res) { res.end(new Error('wrong handler')) };
+test/Router.js:208: describe('error', function () {
+test/Router.js:209: it('should skip non error middleware', function (done) {
+test/Router.js:213: next(new Error('foo'));
+test/Router.js:217: next(new Error('bar'));
+test/Router.js:236: throw new Error('foo');
+test/Router.js:262: throw new Error('oh no!');
+test/Router.js:273: it('should handle throwing inside error handlers', function (done) {
+test/Router.js:277: throw new Error('boom!');
+test/Router.js:281: throw new Error('oops');
+
+SELECTED_FILE_EXCERPTS:
+FILE: package.json
+{
+  "name": "express",
+  "description": "Fast, unopinionated, minimalist web framework",
+  "version": "5.2.1",
+  "author": "TJ Holowaychuk <tj@vision-media.ca>",
+  "contributors": [
+    "Aaron Heckmann <aaron.heckmann+github@gmail.com>",
+    "Ciaran Jessup <ciaranj@gmail.com>",
+    "Douglas Christopher Wilson <doug@somethingdoug.com>",
+    "Guillermo Rauch <rauchg@gmail.com>",
+    "Jonathan Ong <me@jongleberry.com>",
+    "Roman Shtylman <shtylman+expressjs@gmail.com>",
+    "Young Jae Sim <hanul@hanul.me>"
+  ],
+  "license": "MIT",
+  "repository": "expressjs/express",
+  "homepage": "https://expressjs.com/",
+  "funding": {
+    "type": "opencollective",
+    "url": "https://opencollective.com/express"
+  },
+  "keywords": [
+    "express",
+    "framework",
+    "sinatra",
+    "web",
+    "http",
+    "rest",
+    "restful",
+    "router",
+    "app",
+    "api"
+  ],
+  "dependencies": {
+    "accepts": "^2.0.0",
+    "body-parser": "^2.2.1",
+    "content-disposition": "^1.0.0",
+    "content-type": "^1.0.5",
+    "cookie": "^0.7.1",
+    "cookie-signature": "^1.2.1",
+    "debug": "^4.4.0",
+    "depd": "^2.0.0",
+    "encodeurl": "^2.0.0",
+    "escape-html": "^1.0.3",
+    "etag": "^1.8.1",
+    "finalhandler": "^2.1.0",
+    "fresh": "^2.0.0",
+    "http-errors": "^2.0.0",
+    "merge-descriptors": "^2.0.0",
+    "mime-types": "^3.0.0",
+    "on-finished": "^2.4.1",
+    "once": "^1.4.0",
+    "parseurl": "^1.3.3",
+    "proxy-addr": "^2.0.7",
+    "qs": "^6.14.2",
+    "range-parser": "^1.2.1",
+    "router": "^2.2.0",
+    "send": "^1.1.0",
+    "serve-static": "^2.2.0",
+    "statuses": "^2.0.1",
+    "type-is": "^2.0.1",
+    "vary": "^1.1.2"
+  },
+  "devDependencies": {
+    "after": "0.8.2",
+    "connect-redis": "^8.0.1",
+    "cookie-parser": "1.4.7",
+    "cookie-session": "2.1.1",
+    "ejs": "^3.1.10",
+    "eslint": "8.47.0",
+    "express-session": "^1.18.1",
+    "hbs": "4.2.0",
+    "marked": "^15.0.3",
+    "method-override": "3.0.0",
+    "mocha": "^10.7.3",
+    "morgan": "1.10.1",
+    "nyc": "^17.1.0",
+    "pbkdf2-password": "1.2.1",
+    "supertest": "^6.3.0",
+    "vhost": "~3.0.2"
+  },
+  "engines": {
+    "node": ">= 18"
+  },
+  "files": [
+    "LICENSE",
+    "Readme.md",
+    "index.js",
+    "lib/"
+  ],
+  "scripts": {
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "test": "mocha --require test/support/env --reporter spec --check-leaks test/ test/acceptance/",
+    "test-ci": "nyc --exclude examples --exclude test --exclude benchmarks --reporter=lcovonly --reporter=text npm test",
+    "test-cov": "nyc --exclude examples --exclude test --exclude benchmarks --reporter=html --reporter=text npm test",
+    "test-tap": "mocha --require test/support/env --reporter tap --check-leaks test/ test/acceptance/"
+  }
+}
+
+
+---
+
+FILE: examples/README.md
+# Express examples
+
+This page contains list of examples using Express.
+
+- [auth](./auth) - Authentication with login and password
+- [content-negotiation](./content-negotiation) - HTTP content negotiation
+- [cookie-sessions](./cookie-sessions) - Working with cookie-based sessions
+- [cookies](./cookies) - Working with cookies
+- [downloads](./downloads) - Transferring files to client
+- [ejs](./ejs) - Working with Embedded JavaScript templating (ejs)
+- [error-pages](./error-pages) - Creating error pages
+- [error](./error) - Working with error middleware
+- [hello-world](./hello-world) - Simple request handler
+- [markdown](./markdown) - Markdown as template engine
+- [multi-router](./multi-router) - Working with multiple Express routers
+- [mvc](./mvc) - MVC-style controllers
+- [online](./online) - Tracking online user activity with `online` and `redis` packages
+- [params](./params) - Working with route parameters
+- [resource](./resource) - Multiple HTTP operations on the same resource
+- [route-map](./route-map) - Organizing routes using a map
+- [route-middleware](./route-middleware) - Working with route middleware
+- [route-separation](./route-separation) - Organizing routes per each resource
+- [search](./search) - Search API
+- [session](./session) - User sessions
+- [static-files](./static-files) - Serving static files
+- [vhost](./vhost) - Working with virtual hosts
+- [view-constructor](./view-constructor) - Rendering views dynamically
+- [view-locals](./view-locals) - Saving data in request object between middleware calls
+- [web-service](./web-service) - Simple API service
+
+
+---
+
+FILE: Readme.md
+[![Express Logo](https://i.cloudup.com/zfY6lL7eFa-3000x3000.png)](https://expressjs.com/)
+
+**Fast, unopinionated, minimalist web framework for [Node.js](https://nodejs.org).**
+
+**This project has a [Code of Conduct].**
+
+## Table of contents
+
+- [Table of contents](#table-of-contents)
+- [Installation](#installation)
+- [Features](#features)
+- [Docs \& Community](#docs--community)
+- [Quick Start](#quick-start)
+- [Philosophy](#philosophy)
+- [Examples](#examples)
+- [Contributing](#contributing)
+  - [Security Issues](#security-issues)
+  - [Running Tests](#running-tests)
+- [Current project team members](#current-project-team-members)
+  - [TC (Technical Committee)](#tc-technical-committee)
+    - [TC emeriti members](#tc-emeriti-members)
+  - [Triagers](#triagers)
+    - [Emeritus Triagers](#emeritus-triagers)
+- [License](#license)
+
+
+[![NPM Version][npm-version-image]][npm-url]
+[![NPM Downloads][npm-downloads-image]][npm-downloads-url]
+[![Linux Build][github-actions-ci-image]][github-actions-ci-url]
+[![Test Coverage][coveralls-image]][coveralls-url]
+[![OpenSSF Scorecard Badge][ossf-scorecard-badge]][ossf-scorecard-visualizer]
+
+
+```js
+import express from 'express'
+
+const app = express()
+
+app.get('/', (req, res) => {
+  res.send('Hello World')
+})
+
+app.listen(3000, () => {
+  console.log('Server is running on http://localhost:3000')
+})
+```
+
+## Installation
+
+This is a [Node.js](https://nodejs.org/en/) module available through the
+[npm registry](https://www.npmjs.com/).
+
+Before installing, [download and install Node.js](https://nodejs.org/en/download/).
+Node.js 18 or higher is required.
+
+If this is a brand new project, make sure to create a `package.json` first with
+the [`npm init` command](https://docs.npmjs.com/creating-a-package-json-file).
+
+Installation is done using the
+[`npm install` command](https://docs.npmjs.com/downloading-and-installing-packages-locally):
+
+```bash
+npm install express
+```
+
+Follow [our installing guide](https://expressjs.com/en/starter/installing.html)
+for more information.
+
+## Features
+
+  * Robust routing
+  * Focus on high performance
+  * Super-high test coverage
+  * HTTP helpers (redirection, caching, etc)
+  * View system supporting 14+ template engines
+  * Content negotiation
+  * Executable for generating applications quickly
+
+## Docs & Community
+
+  * [Website and Documentation](https://expressjs.com/) - [[website repo](https://github.com/expressjs/expressjs.com)]
+  * [GitHub Organization](https://github.com/expressjs) for Official Middleware & Modules
+  * [Github Discussions](https://github.com/expressjs/discussions) for discussion on the development and usage of Express
+
+**PROTIP** Be sure to read the [migration guide to v5](https://expressjs.com/en/guide/migrating-5)
+
+## Quick Start
+
+  The quickest way to get started with express is to utilize the executable [`express(1)`](https://github.com/expressjs/generator) to generate an application as shown below:
+
+  Install the executable. The executable's major version will match Express's:
+
+```bash
+npm install -g express-generator@4
+```
+
+  Create the app:
+
+```bash
+express /tmp/foo && cd /tmp/foo
+```
+
+  Install dependencies:
+
+```bash
+npm install
+```
+
+  Start the server:
+
+```bash
+npm start
+```
+
+  View the website at: http://localhost:3000
+
+## Philosophy
+
+  The Express philosophy is to provide small, robust tooling for HTTP servers, making
+  it a great solution for single page applications, websites, hybrids, or public
+  HTTP APIs.
+
+  Express does not force you to use any specific ORM or template engine. With support for over
+  14 template engines via [@ladjs/consolidate](https://github.com/ladjs/consolidate),
+  you can quickly craft your perfect framework.
+
+## Examples
+
+  To view the examples, clone the Express repository:
+
+```bash
+git clone https://github.com/expressjs/express.git --depth 1 && cd express
+```
+
+  Then install the dependencies:
+
+```bash
+npm install
+```
+
+  Then run whichever example you want:
+
+```bash
+node examples/content-negotiation
+```
+
+## Contributing
+
+The Express.js project welcomes all constructive contributions. Contributions take many forms,
+from code for bug fixes and enhancements, to additions and fixes to documentation, additional
+tests, triaging incoming pull requests and issues, and more!
+
+See the [Contributing Guide] for more technical details on contributing.
+
+### Security Issues
+
+If you discover a security vulnerability in Express, please see [Security Policies and Procedures](https://github.com/expressjs/express/security/policy).
+
+### Running Tests
+
+To run the test suite, first install the dependencies:
+
+```bash
+npm install
+```
+
+Then run `npm test`:
+
+```bash
+npm test
+```
+
+## Current project team members
+
+For information about the governance of the express.js project, see [GOVERNANCE.md](https://github.com/expressjs/discussions/blob/HEAD/docs/GOVERNANCE.md).
+
+The original author of Express is [TJ Holowaychuk](https://github.com/tj)
+
+[List of all contributors](https://github.com/expressjs/express/graphs/contributors)
+
+### TC (Technical Committee)
+
+* [UlisesGascon](https://github.com/UlisesGascon) - **Ulises Gascón** (he/him)
+* [jonchurch](https://github.com/jonchurch) - **Jon Church**
+* [wesleytodd](https://github.com/wesleytodd) - **Wes Todd**
+* [LinusU](https://github.com/LinusU) - **Linus Unnebäck**
+* [blakeembrey](https://github.com/blakeembrey) - **Blake Embrey**
+* [sheplu](https://github.com/sheplu) - **Jean Burellier**
+* [crandmck](https://github.com/crandmck) - **Rand McKinney**
+* [ctcpip](https://github.com/ctcpip) - **Chris de Almeida**
+
+<details>
+<summary>TC emeriti members</summary>
+
+#### TC emeriti members
+
+  * [dougwilson](https://github.com/dougwilson) - **Douglas Wilson**
+  * [hacksparrow](https://github.com/hacksparrow) - **Hage Yaapa**
+  * [jonathanong](https://github.com/jonathanong) - **jongleberry**
+  * [niftylettuce](https://github.com/niftylettuce) - **niftylettuce**
+  * [troygoode](https://github.com/troygoode) - **Troy Goode**
+</details>
+
+
+### Triagers
+
+* [aravindvnair99](https://github.com/aravindvnair99) - **Aravind Nair**
+* [bjohansebas](https://github.com/bjohansebas) - **Sebastian Beltran**
+* [carpasse](https://github.com/carpasse) - **Carlos Serrano**
+* [CBID2](https://github.com/CBID2) - **Christine Belzie**
+* [UlisesGascon](https://github.com/UlisesGascon) - **Ulises Gascón** (he/him)
+* [IamLizu](https://github.com/IamLizu) - **S M Mahmudul Hasan** (he/him)
+* [Phillip9587](https://github.com/Phillip9587) - **Phillip Barta**
+* [efekrskl](https://github.com/efekrsk
+
+---
+
+FILE: examples/mvc/lib/boot.js
+'use strict'
+
+/**
+ * Module dependencies.
+ */
+
+var express = require('../../..');
+var fs = require('node:fs');
+var path = require('node:path');
+
+module.exports = function(parent, options){
+  var dir = path.join(__dirname, '..', 'controllers');
+  var verbose = options.verbose;
+  fs.readdirSync(dir).forEach(function(name){
+    var file = path.join(dir, name)
+    if (!fs.statSync(file).isDirectory()) return;
+    verbose && console.log('\n   %s:', name);
+    var obj = require(file);
+    var name = obj.name || name;
+    var prefix = obj.prefix || '';
+    var app = express();
+    var handler;
+    var method;
+    var url;
+
+    // allow specifying the view engine
+    if (obj.engine) app.set('view engine', obj.engine);
+    app.set('views', path.join(__dirname, '..', 'controllers', name, 'views'));
+
+    // generate routes based
+    // on the exported methods
+    for (var key in obj) {
+      // "reserved" exports
+      if (~['name', 'prefix', 'engine', 'before'].indexOf(key)) continue;
+      // route exports
+      switch (key) {
+        case 'show':
+          method = 'get';
+          url = '/' + name + '/:' + name + '_id';
+          break;
+        case 'list':
+          method = 'get';
+          url = '/' + name + 's';
+          break;
+        case 'edit':
+          method = 'get';
+          url = '/' + name + '/:' + name + '_id/edit';
+          break;
+        case 'update':
+          method = 'put';
+          url = '/' + name + '/:' + name + '_id';
+          break;
+        case 'create':
+          method = 'post';
+          url = '/' + name;
+          break;
+        case 'index':
+          method = 'get';
+          url = '/';
+          break;
+        default:
+          /* istanbul ignore next */
+          throw new Error('unrecognized route: ' + name + '.' + key);
+      }
+
+      // setup
+      handler = obj[key];
+      url = prefix + url;
+
+      // before middleware support
+      if (obj.before) {
+        app[method](url, obj.before, handler);
+        verbose && console.log('     %s %s -> before -> %s', method.toUpperCase(), url, key);
+      } else {
+        app[method](url, handler);
+        verbose && console.log('     %s %s -> %s', method.toUpperCase(), url, key);
+      }
+    }
+
+    // mount the app
+    parent.use(app);
+  });
+};
+
+
+---
+
+FILE: lib/application.js
+/*!
+ * express
+ * Copyright(c) 2009-2013 TJ Holowaychuk
+ * Copyright(c) 2013 Roman Shtylman
+ * Copyright(c) 2014-2015 Douglas Christopher Wilson
+ * MIT Licensed
+ */
+
+'use strict';
+
+/**
+ * Module dependencies.
+ * @private
+ */
+
+var finalhandler = require('finalhandler');
+var debug = require('debug')('express:application');
+var View = require('./view');
+var http = require('node:http');
+var methods = require('./utils').methods;
+var compileETag = require('./utils').compileETag;
+var compileQueryParser = require('./utils').compileQueryParser;
+var compileTrust = require('./utils').compileTrust;
+var resolve = require('node:path').resolve;
+var once = require('once')
+var Router = require('router');
+
+/**
+ * Module variables.
+ * @private
+ */
+
+var slice = Array.prototype.slice;
+var flatten = Array.prototype.flat;
+
+/**
+ * Application prototype.
+ */
+
+var app = exports = module.exports = {};
+
+/**
+ * Variable for trust proxy inheritance back-compat
+ * @private
+ */
+
+var trustProxyDefaultSymbol = '@@symbol:trust_proxy_default';
+
+/**
+ * Initialize the server.
+ *
+ *   - setup default configuration
+ *   - setup default middleware
+ *   - setup route reflection methods
+ *
+ * @private
+ */
+
+app.init = function init() {
+  var router = null;
+
+  this.cache = Object.create(null);
+  this.engines = Object.create(null);
+  this.settings = Object.create(null);
+
+  this.defaultConfiguration();
+
+  // Setup getting to lazily add base router
+  Object.defineProperty(this, 'router', {
+    configurable: true,
+    enumerable: true,
+    get: function getrouter() {
+      if (router === null) {
+        router = new Router({
+          caseSensitive: this.enabled('case sensitive routing'),
+          strict: this.enabled('strict routing')
+        });
+      }
+
+      return router;
+    }
+  });
+};
+
+/**
+ * Initialize application configuration.
+ * @private
+ */
+
+app.defaultConfiguration = function defaultConfiguration() {
+  var env = process.env.NODE_ENV || 'development';
+
+  // default settings
+  this.enable('x-powered-by');
+  this.set('etag', 'weak');
+  this.set('env', env);
+  this.set('query parser', 'simple')
+  this.set('subdomain offset', 2);
+  this.set('trust proxy', false);
+
+  // trust proxy inherit back-compat
+  Object.defineProperty(this.settings, trustProxyDefaultSymbol, {
+    configurable: true,
+    value: true
+  });
+
+  debug('booting in %s mode', env);
+
+  this.on('mount', function onmount(parent) {
+    // inherit trust proxy
+    if (this.settings[trustProxyDefaultSymbol] === true
+      && typeof parent.settings['trust proxy fn'] === 'function') {
+      delete this.settings['trust proxy'];
+      delete this.settings['trust proxy fn'];
+    }
+
+    // inherit protos
+    Object.setPrototypeOf(this.request, parent.request)
+    Object.setPrototypeOf(this.response, parent.response)
+    Object.setPrototypeOf(this.engines, parent.engines)
+    Object.setPrototypeOf(this.settings, parent.settings)
+  });
+
+  // setup locals
+  this.locals = Object.create(null);
+
+  // top-most app is mounted at /
+  this.mountpath = '/';
+
+  // default locals
+  this.locals.settings = this.settings;
+
+  // default configuration
+  this.set('view', View);
+  this.set('views', resolve('views'));
+  this.set('jsonp callback name', 'callback');
+
+  if (env === 'production') {
+    this.enable('view cache');
+  }
+};
+
+/**
+ * Dispatch a req, res pair into the application. Starts pipeline processing.
+ *
+ * If no callback is provided, then default error handlers will respond
+ * in the event of an error bubbling through the stack.
+ *
+ * @private
+ */
+
+app.handle = function handle(req, res, callback) {
+  // final handler
+  var done = callback || finalhandler(req, res, {
+    env: this.get('env'),
+    onerror: logerror.bind(this)
+  });
+
+  // set powered by header
+  if (this.enabled('x-powered-by')) {
+    res.setHeader('X-Powered-By', 'Express');
+  }
+
+  // set circular references
+  req.res = res;
+  res.req = req;
+
+  // alter the prototypes
+  Object.setPrototypeOf(req, this.request)
+  Object.setPrototypeOf(res, this.response)
+
+  // setup locals
+  if (!res.locals) {
+    res.locals = Object.create(null);
+  }
+
+  this.router.handle(req, res, done);
+};
+
+/**
+ * Proxy `Router#use()` to add middleware to the app router.
+ * See Router#use() documentation for details.
+ *
+ * If the _fn_ parameter is an express app, then it will be
+ * mounted at the _route_ specified.
+ *
+ * @public
+ */
+
+app.use = function use(fn) {
+  var offset = 0;
+  var path = '/';
+
+  // default path to '/'
+  // disambiguate app.use([fn])
+  if (typeof fn !== 'function') {
+    var arg = fn;
+
+    while (Array.isArray(arg) && arg.length !== 0) {
+      arg = arg[0];
+    }
+
+    // first arg is the path
+    if (typeof arg !== 'function') {
+      offset = 1;
+      path = fn;
+    }
+  }
+
+  var fns = flatten.call(slice.call(arguments, offset), Infinity);
+
+  if (fns.length === 0) {
+    throw new TypeError('app.use() requires a middleware function')
+  }
+
+  // get router
+  var router = this.router;
+
+  fns.forEach(function (fn) {
+    // non-express app
+    if (!fn || !fn.handle || !fn.set) {
+      return router.use(path, fn);
+    }
+
+    debug('.use app under %s', path);
+    fn.mountpath = path;
+    fn.parent = this;
+
+    // restore .app property on req and res
+    router.use(path, function mounted_app(req, res, next) {
+      var orig = req.app;
+      fn.handle(req, res, function (err) {
+        Object.setPrototypeOf(req, orig.request)
+        Object.setPrototypeOf(res, orig.response)
+        next(err);
+      });
+    });
+
+    // mounted an app
+    fn.emit('mount', this);
+  }, this);
+
+  return this;
+};
+
+/**
+ * Proxy to the app `Router#route()`
+ * Returns a new `Route` instance for the _path_.
+ *
+ * Routes are isolated middleware stacks for specific paths.
+ * See the Route api docs for details.
+ *
+ * @public
+ */
+
+app.route = function route(path) {
+  return this.router.route(path);
+};
+
+/**
+ * Register the given template engine callback `fn`
+ * as `ext`.
+ *
+ * By default will `require()` the engine based on the
+ * file extension. For example if you try to render
+ * a "foo.ejs" file Express will invoke the following internally:
+ *
+ *     app.engine('ejs', require('ejs').__express);
+ *
+ * For engines that do not provide `.__express` out of the box,
+ * or if you wish to "map" a different extension to the template engine
+ * you may use this method. For example mapping the EJS template engine to
+ * ".html" files:
+ *
+ *     app.engine('html', require('ejs').renderFile);
+ *
+ * In this case EJS provides a `.renderFile()` method with
+ * the same signa
+
+---
+
+FILE: lib/express.js
+/*!
+ * express
+ * Copyright(c) 2009-2013 TJ Holowaychuk
+ * Copyright(c) 2013 Roman Shtylman
+ * Copyright(c) 2014-2015 Douglas Christopher Wilson
+ * MIT Licensed
+ */
+
+'use strict';
+
+/**
+ * Module dependencies.
+ */
+
+var bodyParser = require('body-parser')
+var EventEmitter = require('node:events').EventEmitter;
+var mixin = require('merge-descriptors');
+var proto = require('./application');
+var Router = require('router');
+var req = require('./request');
+var res = require('./response');
+
+/**
+ * Expose `createApplication()`.
+ */
+
+exports = module.exports = createApplication;
+
+/**
+ * Create an express application.
+ *
+ * @return {Function}
+ * @api public
+ */
+
+function createApplication() {
+  var app = function(req, res, next) {
+    app.handle(req, res, next);
+  };
+
+  mixin(app, EventEmitter.prototype, false);
+  mixin(app, proto, false);
+
+  // expose the prototype that will get set on requests
+  app.request = Object.create(req, {
+    app: { configurable: true, enumerable: true, writable: true, value: app }
+  })
+
+  // expose the prototype that will get set on responses
+  app.response = Object.create(res, {
+    app: { configurable: true, enumerable: true, writable: true, value: app }
+  })
+
+  app.init();
+  return app;
+}
+
+/**
+ * Expose the prototypes.
+ */
+
+exports.application = proto;
+exports.request = req;
+exports.response = res;
+
+/**
+ * Expose constructors.
+ */
+
+exports.Route = Router.Route;
+exports.Router = Router;
+
+/**
+ * Expose middleware
+ */
+
+exports.json = bodyParser.json
+exports.raw = bodyParser.raw
+exports.static = require('serve-static');
+exports.text = bodyParser.text
+exports.urlencoded = bodyParser.urlencoded
+
+
+---
+
+FILE: lib/request.js
+/*!
+ * express
+ * Copyright(c) 2009-2013 TJ Holowaychuk
+ * Copyright(c) 2013 Roman Shtylman
+ * Copyright(c) 2014-2015 Douglas Christopher Wilson
+ * MIT Licensed
+ */
+
+'use strict';
+
+/**
+ * Module dependencies.
+ * @private
+ */
+
+var accepts = require('accepts');
+var isIP = require('node:net').isIP;
+var typeis = require('type-is');
+var http = require('node:http');
+var fresh = require('fresh');
+var parseRange = require('range-parser');
+var parse = require('parseurl');
+var proxyaddr = require('proxy-addr');
+
+/**
+ * Request prototype.
+ * @public
+ */
+
+var req = Object.create(http.IncomingMessage.prototype)
+
+/**
+ * Module exports.
+ * @public
+ */
+
+module.exports = req
+
+/**
+ * Return request header.
+ *
+ * The `Referrer` header field is special-cased,
+ * both `Referrer` and `Referer` are interchangeable.
+ *
+ * Examples:
+ *
+ *     req.get('Content-Type');
+ *     // => "text/plain"
+ *
+ *     req.get('content-type');
+ *     // => "text/plain"
+ *
+ *     req.get('Something');
+ *     // => undefined
+ *
+ * Aliased as `req.header()`.
+ *
+ * @param {String} name
+ * @return {String}
+ * @public
+ */
+
+req.get =
+req.header = function header(name) {
+  if (!name) {
+    throw new TypeError('name argument is required to req.get');
+  }
+
+  if (typeof name !== 'string') {
+    throw new TypeError('name must be a string to req.get');
+  }
+
+  var lc = name.toLowerCase();
+
+  switch (lc) {
+    case 'referer':
+    case 'referrer':
+      return this.headers.referrer
+        || this.headers.referer;
+    default:
+      return this.headers[lc];
+  }
+};
+
+/**
+ * Check if the given `type(s)` is acceptable, returning
+ * the best match when true, otherwise `false`, in which
+ * case you should respond with 406 "Not Acceptable".
+ *
+ * The `type` value may be a single MIME type string
+ * such as "application/json", an extension name
+ * such as "json", an argument list such as `"json", "html", "text/plain"`,
+ * or an array `["json", "html", "text/plain"]`. When a list
+ * or array is given, the _best_ match, if any is returned.
+ *
+ * Examples:
+ *
+ *     // Accept: text/html
+ *     req.accepts('html');
+ *     // => "html"
+ *
+ *     // Accept: text/*, application/json
+ *     req.accepts('html');
+ *     // => "html"
+ *     req.accepts('text/html');
+ *     // => "text/html"
+ *     req.accepts('json', 'text');
+ *     // => "json"
+ *     req.accepts('application/json');
+ *     // => "application/json"
+ *
+ *     // Accept: text/*, application/json
+ *     req.accepts('image/png');
+ *     req.accepts('png');
+ *     // => false
+ *
+ *     // Accept: text/*;q=.5, application/json
+ *     req.accepts(['html', 'json']);
+ *     req.accepts('html', 'json');
+ *     // => "json"
+ *
+ * @param {String|Array} type(s)
+ * @return {String|Array|Boolean}
+ * @public
+ */
+
+req.accepts = function(){
+  var accept = accepts(this);
+  return accept.types.apply(accept, arguments);
+};
+
+/**
+ * Check if the given `encoding`s are accepted.
+ *
+ * @param {String} ...encoding
+ * @return {String|Array}
+ * @public
+ */
+
+req.acceptsEncodings = function(){
+  var accept = accepts(this);
+  return accept.encodings.apply(accept, arguments);
+};
+
+/**
+ * Checks if the specified `charset`s are acceptable based on the request's `Accept-Charset` header.
+ * Returns the best matching charset or an array of acceptable charsets.
+ *
+ * The `charset` argument(s) can be:
+ * - A single charset string (e.g., "utf-8")
+ * - Multiple charset strings as arguments (e.g., `"utf-8", "iso-8859-1"`)
+ * - A comma-delimited list of charsets (e.g., `"utf-8, iso-8859-1"`)
+ *
+ * Examples:
+ *
+ *     // Accept-Charset: utf-8, iso-8859-1
+ *     req.acceptsCharsets('utf-8');
+ *     // => "utf-8"
+ *
+ *     req.acceptsCharsets('utf-8', 'iso-8859-1');
+ *     // => "utf-8"
+ *
+ *     req.acceptsCharsets('utf-8, utf-16');
+ *     // => "utf-8"
+ *
+ * @param {...String} charsets - The charset(s) to check against the `Accept-Charset` header.
+ * @return {String|Array} - The best matching charset, or an array of acceptable charsets.
+ * @public
+ */
+
+req.acceptsCharsets = function(...charsets) {
+  const accept = accepts(this);
+  return accept.charsets(...charsets);
+};
+
+/**
+ * Check if the given `lang`s are acceptable,
+ * otherwise you should respond with 406 "Not Acceptable".
+ *
+ * @param {String} ...lang
+ * @return {String|Array}
+ * @public
+ */
+
+req.acceptsLanguages = function(...languages) {
+  return accepts(this).languages(...languages);
+};
+
+/**
+ * Parse Range header field, capping to the given `size`.
+ *
+ * Unspecified ranges such as "0-" require knowledge of your resource length. In
+ * the case of a byte range this is of course the total number of bytes. If the
+ * Range header field is not given `undefined` is returned, `-1` when unsatisfiable,
+ * and `-2` when syntactically invalid.
+ *
+ * When ranges are returned, the array has a "type" property which is the type of
+ * range that is required (most commonly, "bytes"). Each array element is an object
+ * with a "start" and "end" property for the portion of the range.
+ *
+ * The "combine" option can be set to `true` and overlapping & adjacent ranges
+ * will be combined into a single range.
+ *
+ * NOTE: remember that ranges are inclusive, so for example "Range: users=0-3"
+ * should respond with 4 users when available, not 3.
+ *
+ * @param {number} size
+ * @param {object} [options]
+ * @param {boolean} [options.combine=false]
+ * @return {number|array}
+ * @public
+ */
+
+req.range = function range(size, options) {
+  var range = this.get('Range');
+  if (!range) return;
+  return parseRange(size, range, options);
+};
+
+/**
+ * Parse the query string of `req.url`.
+ *
+ * This uses the "query parser" setting to parse the raw
+ * string into an object.
+ *
+ * @return {String}
+ * @api public
+ */
+
+defineGetter(req, 'query', function query(){
+  var queryparse = this.app.get('query parser fn');
+
+  if (!queryparse) {
+    // parsing is disabled
+    return Object.create(null);
+  }
+
+  var querystring = parse(this).query;
+
+  return queryparse(querystring);
+});
+
+/**
+ * Check if the incoming request contains the "Content-Type"
+ * header field, and it contains the given mime `type`.
+ *
+ * Examples:
+ *
+ *      // With Content-Type: text/html; charset=utf-8
+ *      req.is('html');
+ *      req.is('text/html');
+ *      req.is('text/*');
+ *      // => true
+ *
+ *      // When Content-Type is application/json
+ *      req.is('json');
+ *      req.is('application/json');
+ *      req.is('application/*');
+ *      // => true
+ *
+ *      req.is('html');
+ *      // => false
+ *
+ * @param {String|Array} types...
+ * @return {Str
+
+---
+
+FILE: lib/response.js
+/*!
+ * express
+ * Copyright(c) 2009-2013 TJ Holowaychuk
+ * Copyright(c) 2014-2015 Douglas Christopher Wilson
+ * MIT Licensed
+ */
+
+'use strict';
+
+/**
+ * Module dependencies.
+ * @private
+ */
+
+var contentDisposition = require('content-disposition');
+var createError = require('http-errors')
+var deprecate = require('depd')('express');
+var encodeUrl = require('encodeurl');
+var escapeHtml = require('escape-html');
+var http = require('node:http');
+var onFinished = require('on-finished');
+var mime = require('mime-types')
+var path = require('node:path');
+var pathIsAbsolute = require('node:path').isAbsolute;
+var statuses = require('statuses')
+var sign = require('cookie-signature').sign;
+var normalizeType = require('./utils').normalizeType;
+var normalizeTypes = require('./utils').normalizeTypes;
+var setCharset = require('./utils').setCharset;
+var cookie = require('cookie');
+var send = require('send');
+var extname = path.extname;
+var resolve = path.resolve;
+var vary = require('vary');
+const { Buffer } = require('node:buffer');
+
+/**
+ * Response prototype.
+ * @public
+ */
+
+var res = Object.create(http.ServerResponse.prototype)
+
+/**
+ * Module exports.
+ * @public
+ */
+
+module.exports = res
+
+/**
+ * Set the HTTP status code for the response.
+ *
+ * Expects an integer value between 100 and 999 inclusive.
+ * Throws an error if the provided status code is not an integer or if it's outside the allowable range.
+ *
+ * @param {number} code - The HTTP status code to set.
+ * @return {ServerResponse} - Returns itself for chaining methods.
+ * @throws {TypeError} If `code` is not an integer.
+ * @throws {RangeError} If `code` is outside the range 100 to 999.
+ * @public
+ */
+
+res.status = function status(code) {
+  // Check if the status code is not an integer
+  if (!Number.isInteger(code)) {
+    throw new TypeError(`Invalid status code: ${JSON.stringify(code)}. Status code must be an integer.`);
+  }
+  // Check if the status code is outside of Node's valid range
+  if (code < 100 || code > 999) {
+    throw new RangeError(`Invalid status code: ${JSON.stringify(code)}. Status code must be greater than 99 and less than 1000.`);
+  }
+
+  this.statusCode = code;
+  return this;
+};
+
+/**
+ * Set Link header field with the given `links`.
+ *
+ * Examples:
+ *
+ *    res.links({
+ *      next: 'http://api.example.com/users?page=2',
+ *      last: 'http://api.example.com/users?page=5',
+ *      pages: [
+ *        'http://api.example.com/users?page=1',
+ *        'http://api.example.com/users?page=2'
+ *      ]
+ *    });
+ *
+ * @param {Object} links
+ * @return {ServerResponse}
+ * @public
+ */
+
+res.links = function(links) {
+  var link = this.get('Link') || '';
+  if (link) link += ', ';
+  return this.set('Link', link + Object.keys(links).map(function(rel) {
+    // Allow multiple links if links[rel] is an array
+    if (Array.isArray(links[rel])) {
+      return links[rel].map(function (singleLink) {
+        return `<${singleLink}>; rel="${rel}"`;
+      }).join(', ');
+    } else {
+      return `<${links[rel]}>; rel="${rel}"`;
+    }
+  }).join(', '));
+};
+
+/**
+ * Send a response.
+ *
+ * Examples:
+ *
+ *     res.send(Buffer.from('wahoo'));
+ *     res.send({ some: 'json' });
+ *     res.send('<p>some html</p>');
+ *
+ * @param {string|number|boolean|object|Buffer} body
+ * @public
+ */
+
+res.send = function send(body) {
+  var chunk = body;
+  var encoding;
+  var req = this.req;
+
+  // settings
+  var app = this.app;
+
+  switch (typeof chunk) {
+    // string defaulting to html
+    case 'string':
+      encoding = 'utf8';
+      const type = this.get('Content-Type');
+
+      if (typeof type === 'string') {
+        this.set('Content-Type', setCharset(type, 'utf-8'));
+      } else {
+        this.type('html');
+      }
+      break;
+    case 'boolean':
+    case 'number':
+    case 'object':
+      if (chunk === null) {
+        chunk = '';
+      } else if (ArrayBuffer.isView(chunk)) {
+        if (!this.get('Content-Type')) {
+          this.type('bin');
+        }
+      } else {
+        return this.json(chunk);
+      }
+      break;
+  }
+
+  // determine if ETag should be generated
+  var etagFn = app.get('etag fn')
+  var generateETag = !this.get('ETag') && typeof etagFn === 'function'
+
+  // populate Content-Length
+  var len
+  if (chunk !== undefined) {
+    if (Buffer.isBuffer(chunk)) {
+      // get length of Buffer
+      len = chunk.length
+    } else if (!generateETag && chunk.length < 1000) {
+      // just calculate length when no ETag + small chunk
+      len = Buffer.byteLength(chunk, encoding)
+    } else {
+      // convert chunk to Buffer and calculate
+      chunk = Buffer.from(chunk, encoding)
+      encoding = undefined;
+      len = chunk.length
+    }
+
+    this.set('Content-Length', len);
+  }
+
+  // populate ETag
+  var etag;
+  if (generateETag && len !== undefined) {
+    if ((etag = etagFn(chunk, encoding))) {
+      this.set('ETag', etag);
+    }
+  }
+
+  // freshness
+  if (req.fresh) this.status(304);
+
+  // strip irrelevant headers
+  if (204 === this.statusCode || 304 === this.statusCode) {
+    this.removeHeader('Content-Type');
+    this.removeHeader('Content-Length');
+    this.removeHeader('Transfer-Encoding');
+    chunk = '';
+  }
+
+  // alter headers for 205
+  if (this.statusCode === 205) {
+    this.set('Content-Length', '0')
+    this.removeHeader('Transfer-Encoding')
+    chunk = ''
+  }
+
+  if (req.method === 'HEAD') {
+    // skip body for HEAD
+    this.end();
+  } else {
+    // respond
+    this.end(chunk, encoding);
+  }
+
+  return this;
+};
+
+/**
+ * Send JSON response.
+ *
+ * Examples:
+ *
+ *     res.json(null);
+ *     res.json({ user: 'tj' });
+ *
+ * @param {string|number|boolean|object} obj
+ * @public
+ */
+
+res.json = function json(obj) {
+  // settings
+  var app = this.app;
+  var escape = app.get('json escape')
+  var replacer = app.get('json replacer');
+  var spaces = app.get('json spaces');
+  var body = stringify(obj, replacer, spaces, escape)
+
+  // content-type
+  if (!this.get('Content-Type')) {
+    this.set('Content-Type', 'application/json');
+  }
+
+  return this.send(body);
+};
+
+/**
+ * Send JSON response with JSONP callback support.
+ *
+ * Examples:
+ *
+ *     res.jsonp(null);
+ *     res.jsonp({ user: 'tj' });
+ *
+ * @param {string|number|boolean|object} obj
+ * @public
+ */
+
+res.jsonp = function jsonp(obj) {
+  // settings
+  var app = this.app;
+  var escape = app.get('json escape')
+  var replacer = app.get('json replacer');
+  var spaces = app.get('json spaces');
+  var body = stringify(obj, replacer, spaces, escape)
+  var callback = this.req.query[app.get('jsonp callback name')];
+
+  // co
+
+---
+
+FILE: lib/utils.js
+/*!
+ * express
+ * Copyright(c) 2009-2013 TJ Holowaychuk
+ * Copyright(c) 2014-2015 Douglas Christopher Wilson
+ * MIT Licensed
+ */
+
+'use strict';
+
+/**
+ * Module dependencies.
+ * @api private
+ */
+
+var { METHODS } = require('node:http');
+var contentType = require('content-type');
+var etag = require('etag');
+var mime = require('mime-types')
+var proxyaddr = require('proxy-addr');
+var qs = require('qs');
+var querystring = require('node:querystring');
+const { Buffer } = require('node:buffer');
+
+
+/**
+ * A list of lowercased HTTP methods that are supported by Node.js.
+ * @api private
+ */
+exports.methods = METHODS.map((method) => method.toLowerCase());
+
+/**
+ * Return strong ETag for `body`.
+ *
+ * @param {String|Buffer} body
+ * @param {String} [encoding]
+ * @return {String}
+ * @api private
+ */
+
+exports.etag = createETagGenerator({ weak: false })
+
+/**
+ * Return weak ETag for `body`.
+ *
+ * @param {String|Buffer} body
+ * @param {String} [encoding]
+ * @return {String}
+ * @api private
+ */
+
+exports.wetag = createETagGenerator({ weak: true })
+
+/**
+ * Normalize the given `type`, for example "html" becomes "text/html".
+ *
+ * @param {String} type
+ * @return {Object}
+ * @api private
+ */
+
+exports.normalizeType = function(type){
+  return ~type.indexOf('/')
+    ? acceptParams(type)
+    : { value: (mime.lookup(type) || 'application/octet-stream'), params: {} }
+};
+
+/**
+ * Normalize `types`, for example "html" becomes "text/html".
+ *
+ * @param {Array} types
+ * @return {Array}
+ * @api private
+ */
+
+exports.normalizeTypes = function(types) {
+  return types.map(exports.normalizeType);
+};
+
+
+/**
+ * Parse accept params `str` returning an
+ * object with `.value`, `.quality` and `.params`.
+ *
+ * @param {String} str
+ * @return {Object}
+ * @api private
+ */
+
+function acceptParams (str) {
+  var length = str.length;
+  var colonIndex = str.indexOf(';');
+  var index = colonIndex === -1 ? length : colonIndex;
+  var ret = { value: str.slice(0, index).trim(), quality: 1, params: {} };
+
+  while (index < length) {
+    var splitIndex = str.indexOf('=', index);
+    if (splitIndex === -1) break;
+
+    var colonIndex = str.indexOf(';', index);
+    var endIndex = colonIndex === -1 ? length : colonIndex;
+
+    if (splitIndex > endIndex) {
+      index = str.lastIndexOf(';', splitIndex - 1) + 1;
+      continue;
+    }
+
+    var key = str.slice(index, splitIndex).trim();
+    var value = str.slice(splitIndex + 1, endIndex).trim();
+
+    if (key === 'q') {
+      ret.quality = parseFloat(value);
+    } else {
+      ret.params[key] = value;
+    }
+
+    index = endIndex + 1;
+  }
+
+  return ret;
+}
+
+/**
+ * Compile "etag" value to function.
+ *
+ * @param  {Boolean|String|Function} val
+ * @return {Function}
+ * @api private
+ */
+
+exports.compileETag = function(val) {
+  var fn;
+
+  if (typeof val === 'function') {
+    return val;
+  }
+
+  switch (val) {
+    case true:
+    case 'weak':
+      fn = exports.wetag;
+      break;
+    case false:
+      break;
+    case 'strong':
+      fn = exports.etag;
+      break;
+    default:
+      throw new TypeError('unknown value for etag function: ' + val);
+  }
+
+  return fn;
+}
+
+/**
+ * Compile "query parser" value to function.
+ *
+ * @param  {String|Function} val
+ * @return {Function}
+ * @api private
+ */
+
+exports.compileQueryParser = function compileQueryParser(val) {
+  var fn;
+
+  if (typeof val === 'function') {
+    return val;
+  }
+
+  switch (val) {
+    case true:
+    case 'simple':
+      fn = querystring.parse;
+      break;
+    case false:
+      break;
+    case 'extended':
+      fn = parseExtendedQueryString;
+      break;
+    default:
+      throw new TypeError('unknown value for query parser function: ' + val);
+  }
+
+  return fn;
+}
+
+/**
+ * Compile "proxy trust" value to function.
+ *
+ * @param  {Boolean|String|Number|Array|Function} val
+ * @return {Function}
+ * @api private
+ */
+
+exports.compileTrust = function(val) {
+  if (typeof val === 'function') return val;
+
+  if (val === true) {
+    // Support plain true/false
+    return function(){ return true };
+  }
+
+  if (typeof val === 'number') {
+    // Support trusting hop count
+    return function(a, i){ return i < val };
+  }
+
+  if (typeof val === 'string') {
+    // Support comma-separated values
+    val = val.split(',')
+      .map(function (v) { return v.trim() })
+  }
+
+  return proxyaddr.compile(val || []);
+}
+
+/**
+ * Set the charset in a given Content-Type string.
+ *
+ * @param {String} type
+ * @param {String} charset
+ * @return {String}
+ * @api private
+ */
+
+exports.setCharset = function setCharset(type, charset) {
+  if (!type || !charset) {
+    return type;
+  }
+
+  // parse type
+  var parsed = contentType.parse(type);
+
+  // set charset
+  parsed.parameters.charset = charset;
+
+  // format type
+  return contentType.format(parsed);
+};
+
+/**
+ * Create an ETag generator function, generating ETags with
+ * the given options.
+ *
+ * @param {object} options
+ * @return {function}
+ * @private
+ */
+
+function createETagGenerator (options) {
+  return function generateETag (body, encoding) {
+    var buf = !Buffer.isBuffer(body)
+      ? Buffer.from(body, encoding)
+      : body
+
+    return etag(buf, options)
+  }
+}
+
+/**
+ * Parse an extended query string with qs.
+ *
+ * @param {String} str
+ * @return {Object}
+ * @private
+ */
+
+function parseExtendedQueryString(str) {
+  return qs.parse(str, {
+    allowPrototypes: true
+  });
+}
+
+
+---
+
+FILE: lib/view.js
+/*!
+ * express
+ * Copyright(c) 2009-2013 TJ Holowaychuk
+ * Copyright(c) 2013 Roman Shtylman
+ * Copyright(c) 2014-2015 Douglas Christopher Wilson
+ * MIT Licensed
+ */
+
+'use strict';
+
+/**
+ * Module dependencies.
+ * @private
+ */
+
+var debug = require('debug')('express:view');
+var path = require('node:path');
+var fs = require('node:fs');
+
+/**
+ * Module variables.
+ * @private
+ */
+
+var dirname = path.dirname;
+var basename = path.basename;
+var extname = path.extname;
+var join = path.join;
+var resolve = path.resolve;
+
+/**
+ * Module exports.
+ * @public
+ */
+
+module.exports = View;
+
+/**
+ * Initialize a new `View` with the given `name`.
+ *
+ * Options:
+ *
+ *   - `defaultEngine` the default template engine name
+ *   - `engines` template engine require() cache
+ *   - `root` root path for view lookup
+ *
+ * @param {string} name
+ * @param {object} options
+ * @public
+ */
+
+function View(name, options) {
+  var opts = options || {};
+
+  this.defaultEngine = opts.defaultEngine;
+  this.ext = extname(name);
+  this.name = name;
+  this.root = opts.root;
+
+  if (!this.ext && !this.defaultEngine) {
+    throw new Error('No default engine was specified and no extension was provided.');
+  }
+
+  var fileName = name;
+
+  if (!this.ext) {
+    // get extension from default engine name
+    this.ext = this.defaultEngine[0] !== '.'
+      ? '.' + this.defaultEngine
+      : this.defaultEngine;
+
+    fileName += this.ext;
+  }
+
+  if (!opts.engines[this.ext]) {
+    // load engine
+    var mod = this.ext.slice(1)
+    debug('require "%s"', mod)
+
+    // default engine export
+    var fn = require(mod).__express
+
+    if (typeof fn !== 'function') {
+      throw new Error('Module "' + mod + '" does not provide a view engine.')
+    }
+
+    opts.engines[this.ext] = fn
+  }
+
+  // store loaded engine
+  this.engine = opts.engines[this.ext];
+
+  // lookup path
+  this.path = this.lookup(fileName);
+}
+
+/**
+ * Lookup view by the given `name`
+ *
+ * @param {string} name
+ * @private
+ */
+
+View.prototype.lookup = function lookup(name) {
+  var path;
+  var roots = [].concat(this.root);
+
+  debug('lookup "%s"', name);
+
+  for (var i = 0; i < roots.length && !path; i++) {
+    var root = roots[i];
+
+    // resolve the path
+    var loc = resolve(root, name);
+    var dir = dirname(loc);
+    var file = basename(loc);
+
+    // resolve the file
+    path = this.resolve(dir, file);
+  }
+
+  return path;
+};
+
+/**
+ * Render with the given options.
+ *
+ * @param {object} options
+ * @param {function} callback
+ * @private
+ */
+
+View.prototype.render = function render(options, callback) {
+  var sync = true;
+
+  debug('render "%s"', this.path);
+
+  // render, normalizing sync callbacks
+  this.engine(this.path, options, function onRender() {
+    if (!sync) {
+      return callback.apply(this, arguments);
+    }
+
+    // copy arguments
+    var args = new Array(arguments.length);
+    var cntx = this;
+
+    for (var i = 0; i < arguments.length; i++) {
+      args[i] = arguments[i];
+    }
+
+    // force callback to be async
+    return process.nextTick(function renderTick() {
+      return callback.apply(cntx, args);
+    });
+  });
+
+  sync = false;
+};
+
+/**
+ * Resolve the file within the given directory.
+ *
+ * @param {string} dir
+ * @param {string} file
+ * @private
+ */
+
+View.prototype.resolve = function resolve(dir, file) {
+  var ext = this.ext;
+
+  // <path>.<ext>
+  var path = join(dir, file);
+  var stat = tryStat(path);
+
+  if (stat && stat.isFile()) {
+    return path;
+  }
+
+  // <path>/index.<ext>
+  path = join(dir, basename(file, ext), 'index' + ext);
+  stat = tryStat(path);
+
+  if (stat && stat.isFile()) {
+    return path;
+  }
+};
+
+/**
+ * Return a stat, maybe.
+ *
+ * @param {string} path
+ * @return {fs.Stats}
+ * @private
+ */
+
+function tryStat(path) {
+  debug('stat "%s"', path);
+
+  try {
+    return fs.statSync(path);
+  } catch (e) {
+    return undefined;
+  }
+}
+
+
+---
+
+FILE: test/acceptance/auth.js
+var app = require('../../examples/auth')
+var request = require('supertest')
+
+function getCookie(res) {
+  return res.headers['set-cookie'][0].split(';')[0];
+}
+
+describe('auth', function(){
+  describe('GET /',function(){
+    it('should redirect to /login', function(done){
+      request(app)
+      .get('/')
+      .expect('Location', '/login')
+      .expect(302, done)
+    })
+  })
+
+  describe('GET /login',function(){
+    it('should render login form', function(done){
+      request(app)
+      .get('/login')
+      .expect(200, /<form/, done)
+    })
+
+    it('should display login error for bad user', function (done) {
+      request(app)
+      .post('/login')
+      .type('urlencoded')
+      .send('username=not-tj&password=foobar')
+      .expect('Location', '/login')
+      .expect(302, function(err, res){
+        if (err) return done(err)
+        request(app)
+        .get('/login')
+        .set('Cookie', getCookie(res))
+        .expect(200, /Authentication failed/, done)
+      })
+    })
+
+    it('should display login error for bad password', function (done) {
+      request(app)
+        .post('/login')
+        .type('urlencoded')
+        .send('username=tj&password=nogood')
+        .expect('Location', '/login')
+        .expect(302, function (err, res) {
+          if (err) return done(err)
+          request(app)
+            .get('/login')
+            .set('Cookie', getCookie(res))
+            .expect(200, /Authentication failed/, done)
+        })
+    })
+  })
+
+  describe('GET /logout',function(){
+    it('should redirect to /', function(done){
+      request(app)
+      .get('/logout')
+      .expect('Location', '/')
+      .expect(302, done)
+    })
+  })
+
+  describe('GET /restricted',function(){
+    it('should redirect to /login without cookie', function(done){
+      request(app)
+      .get('/restricted')
+      .expect('Location', '/login')
+      .expect(302, done)
+    })
+
+    it('should succeed with proper cookie', function(done){
+      request(app)
+      .post('/login')
+      .type('urlencoded')
+      .send('username=tj&password=foobar')
+      .expect('Location', '/')
+      .expect(302, function(err, res){
+        if (err) return done(err)
+        request(app)
+        .get('/restricted')
+        .set('Cookie', getCookie(res))
+        .expect(200, done)
+      })
+    })
+  })
+
+  describe('POST /login', function(){
+    it('should fail without proper username', function(done){
+      request(app)
+      .post('/login')
+      .type('urlencoded')
+      .send('username=not-tj&password=foobar')
+      .expect('Location', '/login')
+      .expect(302, done)
+    })
+
+    it('should fail without proper password', function(done){
+      request(app)
+      .post('/login')
+      .type('urlencoded')
+      .send('username=tj&password=baz')
+      .expect('Location', '/login')
+      .expect(302, done)
+    })
+
+    it('should succeed with proper credentials', function(done){
+      request(app)
+      .post('/login')
+      .type('urlencoded')
+      .send('username=tj&password=foobar')
+      .expect('Location', '/')
+      .expect(302, done)
+    })
+  })
+})
+
+
+---
+
+FILE: test/acceptance/content-negotiation.js
+
+var request = require('supertest')
+  , app = require('../../examples/content-negotiation');
+
+describe('content-negotiation', function(){
+  describe('GET /', function(){
+    it('should default to text/html', function(done){
+      request(app)
+      .get('/')
+      .expect(200, '<ul><li>Tobi</li><li>Loki</li><li>Jane</li></ul>', done)
+    })
+
+    it('should accept to text/plain', function(done){
+      request(app)
+      .get('/')
+      .set('Accept', 'text/plain')
+      .expect(200, ' - Tobi\n - Loki\n - Jane\n', done)
+    })
+
+    it('should accept to application/json', function(done){
+      request(app)
+      .get('/')
+      .set('Accept', 'application/json')
+      .expect(200, '[{"name":"Tobi"},{"name":"Loki"},{"name":"Jane"}]', done)
+    })
+  })
+
+  describe('GET /users', function(){
+    it('should default to text/html', function(done){
+      request(app)
+      .get('/users')
+      .expect(200, '<ul><li>Tobi</li><li>Loki</li><li>Jane</li></ul>', done)
+    })
+
+    it('should accept to text/plain', function(done){
+      request(app)
+      .get('/users')
+      .set('Accept', 'text/plain')
+      .expect(200, ' - Tobi\n - Loki\n - Jane\n', done)
+    })
+
+    it('should accept to application/json', function(done){
+      request(app)
+      .get('/users')
+      .set('Accept', 'application/json')
+      .expect(200, '[{"name":"Tobi"},{"name":"Loki"},{"name":"Jane"}]', done)
+    })
+  })
+})
+
+
+---
+
+FILE: test/acceptance/cookie-sessions.js
+
+var app = require('../../examples/cookie-sessions')
+var request = require('supertest')
+
+describe('cookie-sessions', function () {
+  describe('GET /', function () {
+    it('should display no views', function (done) {
+      request(app)
+      .get('/')
+      .expect(200, 'viewed 1 times\n', done)
+    })
+
+    it('should set a session cookie', function (done) {
+      request(app)
+      .get('/')
+      .expect('Set-Cookie', /session=/)
+      .expect(200, done)
+    })
+
+    it('should display 1 view on revisit', function (done) {
+      request(app)
+      .get('/')
+      .expect(200, 'viewed 1 times\n', function (err, res) {
+        if (err) return done(err)
+        request(app)
+        .get('/')
+        .set('Cookie', getCookies(res))
+        .expect(200, 'viewed 2 times\n', done)
+      })
+    })
+  })
+})
+
+function getCookies(res) {
+  return res.headers['set-cookie'].map(function (val) {
+    return val.split(';')[0]
+  }).join('; ');
+}
+
+
+---
+
+FILE: test/acceptance/cookies.js
+
+var app = require('../../examples/cookies')
+  , request = require('supertest');
+var utils = require('../support/utils');
+
+describe('cookies', function(){
+  describe('GET /', function(){
+    it('should have a form', function(done){
+      request(app)
+      .get('/')
+      .expect(/<form/, done);
+    })
+
+    it('should respond with no cookies', function(done){
+      request(app)
+      .get('/')
+      .expect(utils.shouldNotHaveHeader('Set-Cookie'))
+      .expect(200, done)
+    })
+
+    it('should respond to cookie', function(done){
+      request(app)
+      .post('/')
+      .type('urlencoded')
+      .send({ remember: 1 })
+      .expect(302, function(err, res){
+        if (err) return done(err)
+        request(app)
+        .get('/')
+        .set('Cookie', res.headers['set-cookie'][0])
+        .expect(200, /Remembered/, done)
+      })
+    })
+  })
+
+  describe('GET /forget', function(){
+    it('should clear cookie', function(done){
+      request(app)
+      .post('/')
+      .type('urlencoded')
+      .send({ remember: 1 })
+      .expect(302, function(err, res){
+        if (err) return done(err)
+        request(app)
+        .get('/forget')
+        .set('Cookie', res.headers['set-cookie'][0])
+        .expect('Set-Cookie', /remember=;/)
+        .expect(302, done)
+      })
+    })
+  })
+
+  describe('POST /', function(){
+    it('should set a cookie', function(done){
+      request(app)
+      .post('/')
+      .type('urlencoded')
+      .send({ remember: 1 })
+      .expect('Set-Cookie', /remember=1/)
+      .expect(302, done)
+    })
+
+    it('should no set cookie w/o reminder', function(done){
+      request(app)
+      .post('/')
+      .send({})
+      .expect(utils.shouldNotHaveHeader('Set-Cookie'))
+      .expect(302, done)
+    })
+  })
+})
+
+
+---
+
+FILE: test/acceptance/downloads.js
+
+var app = require('../../examples/downloads')
+  , request = require('supertest');
+
+describe('downloads', function(){
+  describe('GET /', function(){
+    it('should have a link to amazing.txt', function(done){
+      request(app)
+      .get('/')
+      .expect(/href="\/files\/amazing.txt"/, done)
+    })
+  })
+
+  describe('GET /files/notes/groceries.txt', function () {
+    it('should have a download header', function (done) {
+      request(app)
+        .get('/files/notes/groceries.txt')
+        .expect('Content-Disposition', 'attachment; filename="groceries.txt"')
+        .expect(200, done)
+    })
+  })
+
+  describe('GET /files/amazing.txt', function(){
+    it('should have a download header', function(done){
+      request(app)
+      .get('/files/amazing.txt')
+      .expect('Content-Disposition', 'attachment; filename="amazing.txt"')
+      .expect(200, done)
+    })
+  })
+
+  describe('GET /files/missing.txt', function(){
+    it('should respond with 404', function(done){
+      request(app)
+      .get('/files/missing.txt')
+      .expect(404, done)
+    })
+  })
+
+  describe('GET /files/../index.js', function () {
+    it('should respond with 403', function (done) {
+      request(app)
+        .get('/files/../index.js')
+        .expect(403, done)
+    })
+  })
+})
+
+
+---
+
+FILE: test/acceptance/ejs.js
+
+var request = require('supertest')
+  , app = require('../../examples/ejs');
+
+describe('ejs', function(){
+  describe('GET /', function(){
+    it('should respond with html', function(done){
+      request(app)
+      .get('/')
+      .expect('Content-Type', 'text/html; charset=utf-8')
+      .expect(/<li>tobi &lt;tobi@learnboost\.com&gt;<\/li>/)
+      .expect(/<li>loki &lt;loki@learnboost\.com&gt;<\/li>/)
+      .expect(/<li>jane &lt;jane@learnboost\.com&gt;<\/li>/)
+      .expect(200, done)
+    })
+  })
+})
+
+
+---
+
+FILE: test/acceptance/error-pages.js
+
+var app = require('../../examples/error-pages')
+  , request = require('supertest');
+
+describe('error-pages', function(){
+  describe('GET /', function(){
+    it('should respond with page list', function(done){
+      request(app)
+      .get('/')
+      .expect(/Pages Example/, done)
+    })
+  })
+
+  describe('Accept: text/html',function(){
+    describe('GET /403', function(){
+      it('should respond with 403', function(done){
+        request(app)
+        .get('/403')
+        .expect(403, done)
+      })
+    })
+
+    describe('GET /404', function(){
+      it('should respond with 404', function(done){
+        request(app)
+        .get('/404')
+        .expect(404, done)
+      })
+    })
+
+    describe('GET /500', function(){
+      it('should respond with 500', function(done){
+        request(app)
+        .get('/500')
+        .expect(500, done)
+      })
+    })
+  })
+
+  describe('Accept: application/json',function(){
+    describe('GET /403', function(){
+      it('should respond with 403', function(done){
+        request(app)
+        .get('/403')
+        .set('Accept','application/json')
+        .expect(403, done)
+      })
+    })
+
+    describe('GET /404', function(){
+      it('should respond with 404', function(done){
+        request(app)
+        .get('/404')
+        .set('Accept','application/json')
+        .expect(404, { error: 'Not found' }, done)
+      })
+    })
+
+    describe('GET /500', function(){
+      it('should respond with 500', function(done){
+        request(app)
+        .get('/500')
+        .set('Accept', 'application/json')
+        .expect(500, done)
+      })
+    })
+  })
+
+
+  describe('Accept: text/plain',function(){
+    describe('GET /403', function(){
+      it('should respond with 403', function(done){
+        request(app)
+        .get('/403')
+        .set('Accept','text/plain')
+        .expect(403, done)
+      })
+    })
+
+    describe('GET /404', function(){
+      it('should respond with 404', function(done){
+        request(app)
+        .get('/404')
+        .set('Accept', 'text/plain')
+        .expect(404)
+        .expect('Not found', done);
+      })
+    })
+
+    describe('GET /500', function(){
+      it('should respond with 500', function(done){
+        request(app)
+        .get('/500')
+        .set('Accept','text/plain')
+        .expect(500, done)
+      })
+    })
+  })
+})
+
+
+---
+
+FILE: test/acceptance/error.js
+
+var app = require('../../examples/error')
+  , request = require('supertest');
+
+describe('error', function(){
+  describe('GET /', function(){
+    it('should respond with 500', function(done){
+      request(app)
+        .get('/')
+        .expect(500,done)
+    })
+  })
+
+  describe('GET /next', function(){
+    it('should respond with 500', function(done){
+      request(app)
+        .get('/next')
+        .expect(500,done)
+    })
+  })
+
+  describe('GET /missing', function(){
+    it('should respond with 404', function(done){
+      request(app)
+        .get('/missing')
+        .expect(404,done)
+    })
+  })
+})
+
+
+---
+
+FILE: test/acceptance/hello-world.js
+
+var app = require('../../examples/hello-world')
+var request = require('supertest')
+
+describe('hello-world', function () {
+  describe('GET /', function () {
+    it('should respond with hello world', function (done) {
+      request(app)
+        .get('/')
+        .expect(200, 'Hello World', done)
+    })
+  })
+
+  describe('GET /missing', function () {
+    it('should respond with 404', function (done) {
+      request(app)
+        .get('/missing')
+        .expect(404, done)
+    })
+  })
+})
+
+
+---
+
+FILE: test/acceptance/markdown.js
+
+var app = require('../../examples/markdown')
+var request = require('supertest')
+
+describe('markdown', function(){
+  describe('GET /', function(){
+    it('should respond with html', function(done){
+      request(app)
+        .get('/')
+        .expect(/<h1[^>]*>Markdown Example<\/h1>/,done)
+    })
+  })
+
+  describe('GET /fail',function(){
+    it('should respond with an error', function(done){
+      request(app)
+        .get('/fail')
+        .expect(500,done)
+    })
+  })
+})
+
+
+---
+
+FILE: test/acceptance/multi-router.js
+var app = require('../../examples/multi-router')
+var request = require('supertest')
+
+describe('multi-router', function(){
+  describe('GET /',function(){
+    it('should respond with root handler', function(done){
+      request(app)
+      .get('/')
+      .expect(200, 'Hello from root route.', done)
+    })
+  })
+
+  describe('GET /api/v1/',function(){
+    it('should respond with APIv1 root handler', function(done){
+      request(app)
+      .get('/api/v1/')
+      .expect(200, 'Hello from APIv1 root route.', done)
+    })
+  })
+
+  describe('GET /api/v1/users',function(){
+    it('should respond with users from APIv1', function(done){
+      request(app)
+      .get('/api/v1/users')
+      .expect(200, 'List of APIv1 users.', done)
+    })
+  })
+
+  describe('GET /api/v2/',function(){
+    it('should respond with APIv2 root handler', function(done){
+      request(app)
+      .get('/api/v2/')
+      .expect(200, 'Hello from APIv2 root route.', done)
+    })
+  })
+
+  describe('GET /api/v2/users',function(){
+    it('should respond with users from APIv2', function(done){
+      request(app)
+      .get('/api/v2/users')
+      .expect(200, 'List of APIv2 users.', done)
+    })
+  })
+})
+
+
+---
+
+FILE: test/acceptance/mvc.js
+
+var request = require('supertest')
+  , app = require('../../examples/mvc');
+
+describe('mvc', function(){
+  describe('GET /', function(){
+    it('should redirect to /users', function(done){
+      request(app)
+      .get('/')
+      .expect('Location', '/users')
+      .expect(302, done)
+    })
+  })
+
+  describe('GET /pet/0', function(){
+    it('should get pet', function(done){
+      request(app)
+      .get('/pet/0')
+      .expect(200, /Tobi/, done)
+    })
+  })
+
+  describe('GET /pet/0/edit', function(){
+    it('should get pet edit page', function(done){
+      request(app)
+      .get('/pet/0/edit')
+      .expect(/<form/)
+      .expect(200, /Tobi/, done)
+    })
+  })
+
+  describe('PUT /pet/2', function(){
+    it('should update the pet', function(done){
+      request(app)
+      .put('/pet/3')
+      .set('Content-Type', 'application/x-www-form-urlencoded')
+      .send({ pet: { name: 'Boots' } })
+      .expect(302, function (err, res) {
+        if (err) return done(err);
+        request(app)
+        .get('/pet/3/edit')
+        .expect(200, /Boots/, done)
+      })
+    })
+  })
+
+  describe('GET /users', function(){
+    it('should display a list of users', function(done){
+      request(app)
+      .get('/users')
+      .expect(/<h1>Users<\/h1>/)
+      .expect(/>TJ</)
+      .expect(/>Guillermo</)
+      .expect(/>Nathan</)
+      .expect(200, done)
+    })
+  })
+
+  describe('GET /user/:id', function(){
+    describe('when present', function(){
+      it('should display the user', function(done){
+        request(app)
+        .get('/user/0')
+        .expect(200, /<h1>TJ <a href="\/user\/0\/edit">edit/, done)
+      })
+
+      it('should display the users pets', function(done){
+        request(app)
+        .get('/user/0')
+        .expect(/\/pet\/0">Tobi/)
+        .expect(/\/pet\/1">Loki/)
+        .expect(/\/pet\/2">Jane/)
+        .expect(200, done)
+      })
+    })
+
+    describe('when not present', function(){
+      it('should 404', function(done){
+        request(app)
+        .get('/user/123')
+        .expect(404, done);
+      })
+    })
+  })
+
+  describe('GET /user/:id/edit', function(){
+    it('should display the edit form', function(done){
+      request(app)
+      .get('/user/1/edit')
+      .expect(/Guillermo/)
+      .expect(200, /<form/, done)
+    })
+  })
+
+  describe('PUT /user/:id', function(){
+    it('should 500 on error', function(done){
+      request(app)
+      .put('/user/1')
+      .send({})
+      .expect(500, done)
+    })
+
+    it('should update the user', function(done){
+      request(app)
+      .put('/user/1')
+      .set('Content-Type', 'application/x-www-form-urlencoded')
+      .send({ user: { name: 'Tobo' }})
+      .expect(302, function (err, res) {
+        if (err) return done(err);
+        request(app)
+        .get('/user/1/edit')
+        .expect(200, /Tobo/, done)
+      })
+    })
+  })
+
+  describe('POST /user/:id/pet', function(){
+    it('should create a pet for user', function(done){
+      request(app)
+      .post('/user/2/pet')
+      .set('Content-Type', 'application/x-www-form-urlencoded')
+      .send({ pet: { name: 'Snickers' }})
+      .expect('Location', '/user/2')
+      .expect(302, function(err, res){
+        if (err) return done(err)
+        request(app)
+        .get('/user/2')
+        .expect(200, /Snickers/, done)
+      })
+    })
+  })
+})
+
+
+---
+
+FILE: test/acceptance/params.js
+var app = require('../../examples/params')
+var request = require('supertest')
+
+describe('params', function(){
+  describe('GET /', function(){
+    it('should respond with instructions', function(done){
+      request(app)
+        .get('/')
+        .expect(/Visit/,done)
+    })
+  })
+
+  describe('GET /user/0', function(){
+    it('should respond with a user', function(done){
+      request(app)
+        .get('/user/0')
+        .expect(/user tj/,done)
+    })
+  })
+
+  describe('GET /user/9', function(){
+    it('should fail to find user', function(done){
+      request(app)
+      .get('/user/9')
+      .expect(404, /failed to find user/, done)
+    })
+  })
+
+  describe('GET /users/0-2', function(){
+    it('should respond with three users', function(done){
+      request(app)
+      .get('/users/0-2')
+      .expect(/users tj, tobi, loki/, done)
+    })
+  })
+
+  describe('GET /users/foo-bar', function(){
+    it('should fail integer parsing', function(done){
+      request(app)
+      .get('/users/foo-bar')
+      .expect(400, /failed to parseInt foo/, done)
+    })
+  })
+})
+
+
+---
+
+FILE: test/acceptance/resource.js
+var app = require('../../examples/resource')
+var request = require('supertest')
+
+describe('resource', function(){
+  describe('GET /', function(){
+    it('should respond with instructions', function(done){
+      request(app)
+        .get('/')
+        .expect(/^<h1>Examples:<\/h1>/,done)
+    })
+  })
+
+  describe('GET /users', function(){
+    it('should respond with all users', function(done){
+      request(app)
+        .get('/users')
+        .expect(/^\[{"name":"tj"},{"name":"ciaran"},{"name":"aaron"},{"name":"guillermo"},{"name":"simon"},{"name":"tobi"}\]/,done)
+    })
+  })
+
+  describe('GET /users/1', function(){
+    it('should respond with user 1', function(done){
+      request(app)
+        .get('/users/1')
+        .expect(/^{"name":"ciaran"}/,done)
+    })
+  })
+
+  describe('GET /users/9', function(){
+    it('should respond with error', function(done){
+      request(app)
+        .get('/users/9')
+        .expect('{"error":"Cannot find user"}', done)
+    })
+  })
+
+  describe('GET /users/1..3', function(){
+    it('should respond with users 1 through 3', function(done){
+      request(app)
+        .get('/users/1..3')
+        .expect(/^<ul><li>ciaran<\/li>\n<li>aaron<\/li>\n<li>guillermo<\/li><\/ul>/,done)
+    })
+  })
+
+  describe('DELETE /users/1', function(){
+    it('should delete user 1', function(done){
+      request(app)
+        .del('/users/1')
+        .expect(/^destroyed/,done)
+    })
+  })
+
+  describe('DELETE /users/9', function(){
+    it('should fail', function(done){
+      request(app)
+        .del('/users/9')
+        .expect('Cannot find user', done)
+    })
+  })
+
+  describe('GET /users/1..3.json', function(){
+    it('should respond with users 2 and 3 as json', function(done){
+      request(app)
+        .get('/users/1..3.json')
+        .expect(/^\[null,{"name":"aaron"},{"name":"guillermo"}\]/,done)
+    })
+  })
+})
+
+
+---
+
+FILE: test/acceptance/route-map.js
+
+var request = require('supertest')
+  , app = require('../../examples/route-map');
+
+describe('route-map', function(){
+  describe('GET /users', function(){
+    it('should respond with users', function(done){
+      request(app)
+      .get('/users')
+      .expect('user list', done);
+    })
+  })
+
+  describe('DELETE /users', function(){
+    it('should delete users', function(done){
+      request(app)
+      .del('/users')
+      .expect('delete users', done);
+    })
+  })
+
+  describe('GET /users/:id', function(){
+    it('should get a user', function(done){
+      request(app)
+      .get('/users/12')
+      .expect('user 12', done);
+    })
+  })
+
+  describe('GET /users/:id/pets', function(){
+    it('should get a users pets', function(done){
+      request(app)
+      .get('/users/12/pets')
+      .expect('user 12\'s pets', done);
+    })
+  })
+
+  describe('GET /users/:id/pets/:pid', function(){
+    it('should get a users pet', function(done){
+      request(app)
+      .del('/users/12/pets/2')
+      .expect('delete 12\'s pet 2', done);
+    })
+  })
+})
+
+
+---
+
+FILE: test/acceptance/route-separation.js
+
+var app = require('../../examples/route-separation')
+var request = require('supertest')
+
+describe('route-separation', function () {
+  describe('GET /', function () {
+    it('should respond with index', function (done) {
+      request(app)
+      .get('/')
+      .expect(200, /Route Separation Example/, done)
+    })
+  })
+
+  describe('GET /users', function () {
+    it('should list users', function (done) {
+      request(app)
+      .get('/users')
+      .expect(/TJ/)
+      .expect(/Tobi/)
+      .expect(200, done)
+    })
+  })
+
+  describe('GET /user/:id', function () {
+    it('should get a user', function (done) {
+      request(app)
+      .get('/user/0')
+      .expect(200, /Viewing user TJ/, done)
+    })
+
+    it('should 404 on missing user', function (done) {
+      request(app)
+      .get('/user/10')
+      .expect(404, done)
+    })
+  })
+
+  describe('GET /user/:id/view', function () {
+    it('should get a user', function (done) {
+      request(app)
+      .get('/user/0/view')
+      .expect(200, /Viewing user TJ/, done)
+    })
+
+    it('should 404 on missing user', function (done) {
+      request(app)
+      .get('/user/10/view')
+      .expect(404, done)
+    })
+  })
+
+  describe('GET /user/:id/edit', function () {
+    it('should get a user to edit', function (done) {
+      request(app)
+      .get('/user/0/edit')
+      .expect(200, /Editing user TJ/, done)
+    })
+  })
+
+  describe('PUT /user/:id/edit', function () {
+    it('should edit a user', function (done) {
+      request(app)
+      .put('/user/0/edit')
+      .set('Content-Type', 'application/x-www-form-urlencoded')
+      .send({ user: { name: 'TJ', email: 'tj-invalid@vision-media.ca' } })
+      .expect(302, function (err) {
+        if (err) return done(err)
+        request(app)
+        .get('/user/0')
+        .expect(200, /tj-invalid@vision-media\.ca/, done)
+      })
+    })
+  })
+
+  describe('POST /user/:id/edit?_method=PUT', function () {
+    it('should edit a user', function (done) {
+      request(app)
+      .post('/user/1/edit?_method=PUT')
+      .set('Content-Type', 'application/x-www-form-urlencoded')
+      .send({ user: { name: 'Tobi', email: 'tobi-invalid@vision-media.ca' } })
+      .expect(302, function (err) {
+        if (err) return done(err)
+        request(app)
+        .get('/user/1')
+        .expect(200, /tobi-invalid@vision-media\.ca/, done)
+      })
+    })
+  })
+
+  describe('GET /posts', function () {
+    it('should get a list of posts', function (done) {
+      request(app)
+      .get('/posts')
+      .expect(200, /Posts/, done)
+    })
+  })
+})
+
+
+---
+
+FILE: test/acceptance/vhost.js
+var app = require('../../examples/vhost')
+var request = require('supertest')
+
+describe('vhost', function(){
+  describe('example.com', function(){
+    describe('GET /', function(){
+      it('should say hello', function(done){
+        request(app)
+        .get('/')
+        .set('Host', 'example.com')
+        .expect(200, /hello/i, done)
+      })
+    })
+
+    describe('GET /foo', function(){
+      it('should say foo', function(done){
+        request(app)
+        .get('/foo')
+        .set('Host', 'example.com')
+        .expect(200, 'requested foo', done)
+      })
+    })
+  })
+
+  describe('foo.example.com', function(){
+    describe('GET /', function(){
+      it('should redirect to /foo', function(done){
+        request(app)
+        .get('/')
+        .set('Host', 'foo.example.com')
+        .expect(302, /Redirecting to http:\/\/example.com:3000\/foo/, done)
+      })
+    })
+  })
+
+  describe('bar.example.com', function(){
+    describe('GET /', function(){
+      it('should redirect to /bar', function(done){
+        request(app)
+        .get('/')
+        .set('Host', 'bar.example.com')
+        .expect(302, /Redirecting to http:\/\/example.com:3000\/bar/, done)
+      })
+    })
+  })
+})
+
+
+---
+
+FILE: test/acceptance/web-service.js
+
+var request = require('supertest')
+  , app = require('../../examples/web-service');
+
+describe('web-service', function(){
+  describe('GET /api/users', function(){
+    describe('without an api key', function(){
+      it('should respond with 400 bad request', function(done){
+        request(app)
+        .get('/api/users')
+        .expect(400, done);
+      })
+    })
+
+    describe('with an invalid api key', function(){
+      it('should respond with 401 unauthorized', function(done){
+        request(app)
+        .get('/api/users?api-key=rawr')
+        .expect(401, done);
+      })
+    })
+
+    describe('with a valid api key', function(){
+      it('should respond users json', function(done){
+        request(app)
+        .get('/api/users?api-key=foo')
+        .expect('Content-Type', 'application/json; charset=utf-8')
+        .expect(200, '[{"name":"tobi"},{"name":"loki"},{"name":"jane"}]', done)
+      })
+    })
+  })
+
+  describe('GET /api/repos', function(){
+    describe('without an api key', function(){
+      it('should respond with 400 bad request', function(done){
+        request(app)
+        .get('/api/repos')
+        .expect(400, done);
+      })
+    })
+
+    describe('with an invalid api key', function(){
+      it('should respond with 401 unauthorized', function(done){
+        request(app)
+        .get('/api/repos?api-key=rawr')
+        .expect(401, done);
+      })
+    })
+
+    describe('with a valid api key', function(){
+      it('should respond repos json', function(done){
+        request(app)
+        .get('/api/repos?api-key=foo')
+        .expect('Content-Type', 'application/json; charset=utf-8')
+        .expect(/"name":"express"/)
+        .expect(/"url":"https:\/\/github.com\/expressjs\/express"/)
+        .expect(200, done)
+      })
+    })
+  })
+
+  describe('GET /api/user/:name/repos', function(){
+    describe('without an api key', function(){
+      it('should respond with 400 bad request', function(done){
+        request(app)
+        .get('/api/user/loki/repos')
+        .expect(400, done);
+      })
+    })
+
+    describe('with an invalid api key', function(){
+      it('should respond with 401 unauthorized', function(done){
+        request(app)
+        .get('/api/user/loki/repos?api-key=rawr')
+        .expect(401, done);
+      })
+    })
+
+    describe('with a valid api key', function(){
+      it('should respond user repos json', function(done){
+        request(app)
+        .get('/api/user/loki/repos?api-key=foo')
+        .expect('Content-Type', 'application/json; charset=utf-8')
+        .expect(/"name":"stylus"/)
+        .expect(/"url":"https:\/\/github.com\/learnboost\/stylus"/)
+        .expect(200, done)
+      })
+
+      it('should 404 with unknown user', function(done){
+        request(app)
+        .get('/api/user/bob/repos?api-key=foo')
+        .expect(404, done)
+      })
+    })
+  })
+
+  describe('when requesting an invalid route', function(){
+    it('should respond with 404 json', function(done){
+      request(app)
+        .get('/api/something?api-key=bar')
+        .expect('Content-Type', /json/)
+        .expect(404, '{"error":"Sorry, can\'t find that"}', done)
+    })
+  })
+})

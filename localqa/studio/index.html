@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>LocalQA Studio</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <main class="shell">
+      <section class="hero">
+        <div>
+          <p class="eyebrow">LocalQA Studio</p>
+          <h1>Evidence-first QA for AI-built software.</h1>
+          <p class="lede">
+            Run Playwright checks, compress evidence for coding agents, and escalate to local models only when the bug needs reasoning or vision.
+          </p>
+        </div>
+        <aside class="status-card">
+          <span class="status-dot" id="healthDot"></span>
+          <div>
+            <strong id="healthTitle">Checking runtime</strong>
+            <p id="healthText">Playwright and Ollama status will appear here.</p>
+          </div>
+        </aside>
+      </section>
+
+      <section class="workspace">
+        <form class="panel run-panel" id="runForm">
+          <div class="panel-title">
+            <span>Run review</span>
+            <button type="submit" id="runButton">Run QA</button>
+          </div>
+
+          <label>
+            Target URL
+            <input name="url" type="url" value="https://youxai.app" required />
+          </label>
+
+          <label>
+            Goal
+            <textarea name="goal" rows="3">Review this website for launch-blocking UI, runtime, network, accessibility, and mobile issues.</textarea>
+          </label>
+
+          <div class="grid">
+            <label>
+              Run kind
+              <select name="runKind">
+                <option value="page">Single page</option>
+                <option value="site">Site crawl</option>
+              </select>
+            </label>
+            <label>
+              Review mode
+              <select name="reviewMode">
+                <option value="fast">Fast deterministic</option>
+                <option value="code_thinking">Code thinking</option>
+                <option value="vision">Vision screenshot</option>
+                <option value="vision_thinking">Vision + thinking</option>
+              </select>
+            </label>
+          </div>
+
+          <div class="grid">
+            <label>
+              Ollama model
+              <input name="ollamaModel" value="qwen2.5-coder:3b" placeholder="qwen2.5-coder:3b or qwen3.5:4b" />
+            </label>
+            <label>
+              Max site links
+              <input name="maxLinks" type="number" min="1" max="20" value="5" />
+            </label>
+          </div>
+
+          <label>
+            Expected text, one per line
+            <textarea name="expectedText" rows="3">YouxAI</textarea>
+          </label>
+
+          <div class="toggles">
+            <label><input name="screenshot" type="checkbox" checked /> screenshots</label>
+            <label><input name="sameOrigin" type="checkbox" checked /> same-origin only</label>
+          </div>
+        </form>
+
+        <section class="panel result-panel">
+          <div class="panel-title">
+            <span>Current result</span>
+            <small id="runMeta">No run yet</small>
+          </div>
+          <div id="summary" class="summary empty">Run a review to see findings.</div>
+          <div id="findings" class="findings"></div>
+          <details class="raw-box">
+            <summary>Raw JSON</summary>
+            <pre id="rawJson">{}</pre>
+          </details>
+        </section>
+      </section>
+
+      <section class="panel reports-panel">
+        <div class="panel-title">
+          <span>Recent reports</span>
+          <button type="button" id="refreshReports">Refresh</button>
+        </div>
+        <div id="reports" class="reports"></div>
+      </section>
+    </main>
+
+    <script src="/app.js"></script>
+  </body>
+</html>

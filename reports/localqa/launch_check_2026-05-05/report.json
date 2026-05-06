@@ -1,0 +1,339 @@
+{
+  "ok": true,
+  "generatedAt": "2026-05-05T21:55:26.904Z",
+  "outDir": "/Users/kuldeepsingh/MyProjects/qwen2.5-1.5b-turboquant-mlc-experiment/reports/localqa/launch_check_2026-05-05",
+  "commands": [
+    {
+      "name": "syntax",
+      "ok": true,
+      "cmd": "node --check localqa/core/project-memory-core.mjs",
+      "durationMs": 64.55,
+      "stdoutTail": "",
+      "stderrTail": ""
+    },
+    {
+      "name": "core syntax",
+      "ok": true,
+      "cmd": "node --check localqa/core/local-agent-core.mjs",
+      "durationMs": 62.98,
+      "stdoutTail": "",
+      "stderrTail": ""
+    },
+    {
+      "name": "runner syntax",
+      "ok": true,
+      "cmd": "node --check scripts/localqa-opencode-runner.mjs",
+      "durationMs": 56.9,
+      "stdoutTail": "",
+      "stderrTail": ""
+    },
+    {
+      "name": "agent benchmark syntax",
+      "ok": true,
+      "cmd": "node --check scripts/bench_localqa_agent_layer.mjs",
+      "durationMs": 57.74,
+      "stdoutTail": "",
+      "stderrTail": ""
+    },
+    {
+      "name": "opencode redaction",
+      "ok": true,
+      "cmd": "npm run localqa:opencode:redaction",
+      "durationMs": 640.09,
+      "stdoutTail": "\n> qwen2_5-1_5b-turboquant-mlc-experiment@0.1.0 localqa:opencode:redaction\n> node ./scripts/smoke_localqa_opencode_redaction.mjs\n\n{\n  \"ok\": true,\n  \"handle\": \"vault://9ae73484e932d403\",\n  \"runner\": {\n    \"selectedMode\": \"handoff_gate\",\n    \"blocked\": true,\n    \"allowedPayload\": \"none\",\n    \"sensitive\": true\n  },\n  \"query\": {\n    \"ok\": true,\n    \"answerContainsRedaction\": true\n  },\n  \"nonHandoffCleanup\": {\n    \"selectedMode\": \"context_cleanup\",\n    \"taskRedacted\": true,\n    \"compactTextRedacted\": true\n  }\n}\n",
+      "stderrTail": ""
+    },
+    {
+      "name": "mcp validation",
+      "ok": true,
+      "cmd": "npm run localqa:validate",
+      "durationMs": 1114.34,
+      "stdoutTail": "\n> qwen2_5-1_5b-turboquant-mlc-experiment@0.1.0 localqa:validate\n> node --check ./localqa/mcp-server-sdk.mjs && node --check ./localqa/core/qa-core.mjs && node --check ./localqa/core/context-core.mjs && npm run localqa:mcp:smoke && node ./scripts/check_docs_absolute_paths.mjs\n\n\n> qwen2_5-1_5b-turboquant-mlc-experiment@0.1.0 localqa:mcp:smoke\n> node ./localqa/smoke-mcp-client.mjs\n\n{\n  \"ok\": true,\n  \"server\": \"localqa\",\n  \"toolNames\": [\n    \"local_agent_run\"\n  ],\n  \"health\": null,\n  \"stderr\": \"\"\n}\nDocs path hygiene check passed (41 markdown files scanned).\n",
+      "stderrTail": ""
+    },
+    {
+      "name": "test suite",
+      "ok": true,
+      "cmd": "npm test",
+      "durationMs": 5135.55,
+      "stdoutTail": "68792ms)\n✔ buildLabUrl encodes single-token autorun query params (0.691042ms)\n✔ buildLabUrl encodes generate autorun query params (1.223791ms)\n✔ extractAutorun helpers decode dumped DOM payload (0.828125ms)\n✔ renderQwenChatPrompt emits Qwen-style assistant generation prompt (1.45875ms)\n✔ renderQwenChatPrompt wraps tool messages as tool responses (0.17375ms)\n✔ position-0 runtime executes the simplified single-token path (3.448666ms)\n✔ Qwen2Tokenizer encodes and decodes byte-level BPE text (3.440708ms)\n✔ Qwen2Tokenizer preserves special tokens during encode (0.964875ms)\n✔ createQwen2TokenizerFromReport builds a working tokenizer from GGUF metadata (134.2675ms)\n✔ applyHeadwiseRmsNorm normalizes each head independently (0.695584ms)\n✔ applyRotaryToFlat rotates each head using split-half RoPE (0.551291ms)\n✔ computeGroupedQueryAttention attends over shared KV heads (0.711792ms)\n✔ normalizeKvCacheMode accepts supported values and falls back safely (0.119042ms)\n✔ quantized KV cache keeps attention numerically close to fp32 (0.649375ms)\n✔ turboquant int8 mode stores compressed KV pages (0.205083ms)\n✔ turboquant int4/int3 modes are valid and compress more than int8 (0.246542ms)\n✔ mixed KV modes keep key precision high while compressing values (0.183875ms)\n✔ runQwen3AutoregressiveGeneration processes prompt tokens then generates (2.049167ms)\n✔ runQwen3AutoregressiveGeneration can ignore eos when requested (3.602542ms)\n✔ runQwen3AutoregressiveGeneration can block specific token ids (1.262833ms)\n✔ kv cache length tracks appended positions (0.183875ms)\n✔ rmsNorm keeps shape and scales by RMS (0.485542ms)\n✔ siluVector and swiglu produce expected values (0.381125ms)\n✔ repeatKvHeads expands grouped KV heads correctly (0.77325ms)\n✔ addVectors sums elementwise (0.948792ms)\n✔ repacked Bonsai artifact matches raw GGUF slice packing (485.440458ms)\n✔ BonsaiModelRuntime forwards batchRows into the v2 path (1.427ms)\n✔ BonsaiModelRuntime falls back to default batchRows for the v2 path (1.612834ms)\n✔ BonsaiModelRuntime forwards fused FFN flag into the v2 path (0.286625ms)\n✔ BonsaiModelRuntime forwards HD128 attention override into the v2 path (0.819125ms)\n✔ BonsaiModelRuntime forwards sampling penalty options into the v2 path (0.213791ms)\n✔ BonsaiModelRuntime no longer accepts speculative decode options (0.128625ms)\n✔ resolveGenerationWindow preserves requested max tokens inside context (2.013792ms)\n✔ resolveGenerationWindow clamps generation to remaining context (0.125958ms)\n✔ resolveGenerationWindow rejects prompts that already fill the context (1.185708ms)\n✔ v2 artifact packs multiple tensors into one binary and decodes slices (490.117416ms)\n✔ resolveV2AttentionPlan enables GPU attention only for full-fp32 requests within budget (0.54625ms)\n✔ resolveV2AttentionPlan disables GPU attention for mixed or compressed KV modes (0.102208ms)\n✔ resolveV2AttentionPlan disables GPU attention when total token budget exceeds kernel limit (0.287584ms)\n✔ BonsaiV2DataSource loads manifest and returns decoded packed slices (32.588333ms)\n✔ runV2DecodeStep batches GPU-attention layers into one submission and still emits layer progress (3.965875ms)\n✔ runV2DecodeStep uses fused output argmax path without full logits readback (1.278166ms)\n✔ runV2AutoregressiveGeneration uses batched prefill for multi-token prompts on GPU attention (5.339875ms)\n✔ runV2AutoregressiveGeneration uses argmax fast path and falls back only when blocked token is selected (2.405959ms)\n✔ shared Bonsai decoder keeps CPU fused and dequant parity (2.417542ms)\n✔ shared Bonsai multi-row helpers keep CPU fused and dequant parity (2.123542ms)\n✔ tiled matvec RPW variants partition packed rows correctly (1.936917ms)\n✔ generated RPW shaders avoid duplicate block accumulators (0.325084ms)\n✔ tiled matvec shaders keep vec4 shared input tiles (0.379291ms)\n✔ specialized attention shader uses 128-wide workgroups for headDim 128 (0.165791ms)\n✔ fused output argmax shaders are wired for per-slice partials and pair reduction (0.251834ms)\n✔ shared Bonsai helpers decode block and row layout from real report (113.182916ms)\n✔ shared Bonsai slice helpers work on real tensor bytes (103.1485ms)\n✔ applyQwen3ChatTemplate renders a simple assistant generation prompt (1.167625ms)\n✔ BonsaiCompatEngine returns a non-streaming chat completion (1.239083ms)\n✔ BonsaiCompatEngine streams delta chunks (0.64825ms)\n✔ CreateMLCEngine returns a loaded compat engine (0.196083ms)\n✔ compat runtime exports builtin Bonsai model records (0.450292ms)\n✔ getBuiltinBonsaiModelRecords returns a WebLLM-shaped Bonsai record (2.891875ms)\n✔ normalizeCompletionRequestMessages injects /no_think for disabled thinking (0.262667ms)\n✔ normalizeCompletionRequestMessages preserves existing /no_think system prompts (0.442625ms)\n✔ resolveBlockedControlTokenIds returns think control tokens when thinking is disabled (0.512083ms)\n✔ BonsaiCompatEngine forwards ignore_eos and blocked control tokens (2.220083ms)\n✔ BonsaiCompatEngine commits session prompt tokens after a v2 turn (1.043666ms)\n✔ full lab pipeline generates expected artifacts (4039.860958ms)\n✔ project stays scoped to Qwen2.5-1.5B target model (1.357708ms)\n✔ launch docs keep tested vs projected claim discipline (0.498458ms)\n✔ docs avoid machine-local absolute paths (75.738875ms)\n✔ extension lab scaffold is present (0.207625ms)\n✔ context cleanup does not inflate single-line DOM dumps (8.36225ms)\n✔ local agent routes stack traces to log_analysis from evidence content (17.824334ms)\n✔ local agent routes multi-source docs tasks with a query to research (0.355083ms)\n✔ local agent exposes handoff policy and savings on sensitive raw-send attempts (8.949458ms)\n✔ local agent reads local file paths without requiring pasted raw text (7.577167ms)\n✔ parseByteRangeHeader handles normal and suffix ranges (2.741042ms)\n✔ range server returns 206 for Bonsai GGUF partial reads (29.798542ms)\nℹ tests 81\nℹ suites 0\nℹ pass 81\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 4723.997667\n",
+      "stderrTail": ""
+    },
+    {
+      "name": "agent layer benchmark",
+      "ok": true,
+      "cmd": "npm run localqa:bench:agent-layer",
+      "durationMs": 804.86,
+      "stdoutTail": "\n> qwen2_5-1_5b-turboquant-mlc-experiment@0.1.0 localqa:bench:agent-layer\n> node ./scripts/bench_localqa_agent_layer.mjs\n\n{\n  \"ok\": true,\n  \"outDir\": \"/Users/kuldeepsingh/MyProjects/qwen2.5-1.5b-turboquant-mlc-experiment/reports/localqa/agent_layer_real_env_2026-05-05\",\n  \"evidenceApproxTokens\": 41848,\n  \"results\": [\n    {\n      \"name\": \"record_memory\",\n      \"ok\": true,\n      \"controlMode\": \"record\",\n      \"selectedMode\": \"record_work\",\n      \"durationMs\": 65.53,\n      \"tokenSavings\": null,\n      \"memoryWritten\": true,\n      \"note\": \"writes local daily memory\"\n    },\n    {\n      \"name\": \"directed_memory_plus_codebase_cleanup\",\n      \"ok\": true,\n      \"controlMode\": \"directed\",\n      \"selectedMode\": \"directed\",\n      \"durationMs\": 91.21,\n      \"tokenSavings\": {\n        \"rawEvidenceApproxTokens\": 41857,\n        \"compactReportApproxTokens\": 843,\n        \"savedApproxTokens\": 41014,\n        \"reductionRatio\": 97.99\n      },\n      \"memoryWritten\": true,\n      \"note\": \"frontier model specifies exact local steps\"\n    },\n    {\n      \"name\": \"strict_rejects_unknown_tool\",\n      \"ok\": false,\n      \"controlMode\": \"strict\",\n      \"selectedMode\": \"directed\",\n      \"durationMs\": 63.75,\n      \"tokenSavings\": null,\n      \"memoryWritten\": true,\n      \"note\": \"rejected as expected\"\n    },\n    {\n      \"name\": \"directed_handoff_redaction\",\n      \"ok\": true,\n      \"controlMode\": \"directed\",\n      \"selectedMode\": \"directed\",\n      \"durationMs\": 75.04,\n      \"tokenSavings\": {\n        \"rawEvidenceApproxTokens\": 35,\n        \"compactReportApproxTokens\": 65,\n        \"savedApproxTokens\": 0,\n        \"reductionRatio\": 0\n      },\n      \"memoryWritten\": true,\n      \"leakedSyntheticSecret\": false,\n      \"note\": \"no runner-output leak\"\n    },\n    {\n      \"name\": \"query_project_memory\",\n      \"ok\": true,\n      \"controlMode\": \"memory\",\n      \"selectedMode\": \"memory\",\n      \"durationMs\": 80.52,\n      \"tokenSavings\": {\n        \"rawEvidenceApproxTokens\": 14431,\n        \"compactReportApproxTokens\": 1042,\n        \"savedApproxTokens\": 13389,\n        \"reductionRatio\": 92.78\n      },\n      \"memoryWritten\": false,\n      \"note\": \"reads local memory ledger\"\n    }\n  ]\n}\n",
+      "stderrTail": ""
+    },
+    {
+      "name": "agentic workflow benchmark",
+      "ok": true,
+      "cmd": "npm run localqa:bench:agentic-workflows",
+      "durationMs": 974.53,
+      "stdoutTail": "\n> qwen2_5-1_5b-turboquant-mlc-experiment@0.1.0 localqa:bench:agentic-workflows\n> node ./scripts/bench_localqa_agentic_workflows.mjs\n\n{\n  \"ok\": true,\n  \"outDir\": \"/Users/kuldeepsingh/MyProjects/qwen2.5-1.5b-turboquant-mlc-experiment/reports/localqa/agentic_workflows_2026-05-05\",\n  \"aggregate\": {\n    \"rawTokens\": 100924,\n    \"compactTokens\": 5685,\n    \"savedTokens\": 95239,\n    \"reductionRatio\": 94.37,\n    \"avgQualityScore\": 0.927,\n    \"passingQuality\": 3\n  },\n  \"workflows\": [\n    {\n      \"id\": \"fastify_validation_error_agentic_plan\",\n      \"rawTokens\": 41848,\n      \"compactTokens\": 1912,\n      \"savedTokens\": 39936,\n      \"reductionRatio\": 95.43,\n      \"runtimeMs\": 104.4,\n      \"quality\": {\n        \"score\": 1,\n        \"label\": \"strong\",\n        \"pass\": true\n      },\n      \"signalScore\": 1,\n      \"actionabilityScore\": 1,\n      \"memoryWritten\": true\n    },\n    {\n      \"id\": \"express_router_middleware_agentic_plan\",\n      \"rawTokens\": 23936,\n      \"compactTokens\": 1873,\n      \"savedTokens\": 22063,\n      \"reductionRatio\": 92.17,\n      \"runtimeMs\": 115.72,\n      \"quality\": {\n        \"score\": 0.888,\n        \"label\": \"usable\",\n        \"pass\": true\n      },\n      \"signalScore\": 0.914,\n      \"actionabilityScore\": 0.857,\n      \"memoryWritten\": true\n    },\n    {\n      \"id\": \"zod_schema_parser_agentic_plan\",\n      \"rawTokens\": 35140,\n      \"compactTokens\": 1900,\n      \"savedTokens\": 33240,\n      \"reductionRatio\": 94.59,\n      \"runtimeMs\": 116.55,\n      \"quality\": {\n        \"score\": 0.894,\n        \"label\": \"usable\",\n        \"pass\": true\n      },\n      \"signalScore\": 0.925,\n      \"actionabilityScore\": 0.857,\n      \"memoryWritten\": true\n    }\n  ]\n}\n",
+      "stderrTail": ""
+    },
+    {
+      "name": "ab agent workflow benchmark",
+      "ok": true,
+      "cmd": "npm run localqa:bench:ab-agent-workflows",
+      "durationMs": 776.62,
+      "stdoutTail": "\n> qwen2_5-1_5b-turboquant-mlc-experiment@0.1.0 localqa:bench:ab-agent-workflows\n> node ./scripts/bench_localqa_ab_agent_workflows.mjs\n\n{\n  \"ok\": true,\n  \"outDir\": \"/Users/kuldeepsingh/MyProjects/qwen2.5-1.5b-turboquant-mlc-experiment/reports/localqa/ab_agent_workflows_2026-05-05\",\n  \"aggregate\": {\n    \"baselineTokens\": 25829,\n    \"localqaTokens\": 6704,\n    \"savedVsTargetedBaseline\": 19125,\n    \"reductionVsTargetedBaseline\": 74.04,\n    \"baselinePass\": 3,\n    \"localqaPass\": 3,\n    \"maintainedQuality\": 3,\n    \"toolCallReduction\": 15\n  },\n  \"cases\": [\n    {\n      \"id\": \"fastify_validation_error_contract\",\n      \"baselineTokens\": 9114,\n      \"localqaTokens\": 2258,\n      \"reductionVsTargetedBaseline\": 75.22,\n      \"baselineQuality\": 1,\n      \"localqaQuality\": 1,\n      \"qualityDelta\": 0,\n      \"bothPassQuality\": true,\n      \"toolCallReduction\": 5\n    },\n    {\n      \"id\": \"express_router_middleware\",\n      \"baselineTokens\": 7608,\n      \"localqaTokens\": 2223,\n      \"reductionVsTargetedBaseline\": 70.78,\n      \"baselineQuality\": 0.953,\n      \"localqaQuality\": 0.925,\n      \"qualityDelta\": -0.028,\n      \"bothPassQuality\": true,\n      \"toolCallReduction\": 5\n    },\n    {\n      \"id\": \"zod_schema_parser\",\n      \"baselineTokens\": 9107,\n      \"localqaTokens\": 2223,\n      \"reductionVsTargetedBaseline\": 75.59,\n      \"baselineQuality\": 1,\n      \"localqaQuality\": 1,\n      \"qualityDelta\": 0,\n      \"bothPassQuality\": true,\n      \"toolCallReduction\": 5\n    }\n  ]\n}\n",
+      "stderrTail": ""
+    },
+    {
+      "name": "long horizon 300k benchmark",
+      "ok": true,
+      "cmd": "npm run localqa:bench:long-horizon-300k",
+      "durationMs": 1371.7,
+      "stdoutTail": "\n> qwen2_5-1_5b-turboquant-mlc-experiment@0.1.0 localqa:bench:long-horizon-300k\n> node ./scripts/bench_localqa_long_horizon_300k.mjs\n\n{\n  \"ok\": true,\n  \"outDir\": \"/Users/kuldeepsingh/MyProjects/qwen2.5-1.5b-turboquant-mlc-experiment/reports/localqa/long_horizon_300k_2026-05-05\",\n  \"aggregate\": {\n    \"rawTokens\": 302772,\n    \"compactTokens\": 8842,\n    \"savedTokens\": 293930,\n    \"reductionRatio\": 97.08,\n    \"avgQualityScore\": 0.976,\n    \"passCount\": 9,\n    \"totalRuntimeMs\": 946.54,\n    \"avgRuntimeMs\": 105.17,\n    \"memoryWrittenCount\": 9\n  },\n  \"projectSummaries\": [\n    {\n      \"projectId\": \"fastify_validation_error_contract\",\n      \"projectTitle\": \"Fastify validation/error contract migration\",\n      \"phaseCount\": 3,\n      \"rawTokens\": 125544,\n      \"compactTokens\": 2979,\n      \"savedTokens\": 122565,\n      \"reductionRatio\": 97.63,\n      \"avgQualityScore\": 1,\n      \"passCount\": 3\n    },\n    {\n      \"projectId\": \"express_router_middleware\",\n      \"projectTitle\": \"Express router/middleware behavior change\",\n      \"phaseCount\": 3,\n      \"rawTokens\": 71808,\n      \"compactTokens\": 2938,\n      \"savedTokens\": 68870,\n      \"reductionRatio\": 95.91,\n      \"avgQualityScore\": 0.928,\n      \"passCount\": 3\n    },\n    {\n      \"projectId\": \"zod_schema_parser\",\n      \"projectTitle\": \"Zod schema/parser type-surface change\",\n      \"phaseCount\": 3,\n      \"rawTokens\": 105420,\n      \"compactTokens\": 2925,\n      \"savedTokens\": 102495,\n      \"reductionRatio\": 97.23,\n      \"avgQualityScore\": 1,\n      \"passCount\": 3\n    }\n  ]\n}\n",
+      "stderrTail": ""
+    },
+    {
+      "name": "complex code benchmark",
+      "ok": true,
+      "cmd": "npm run localqa:bench:complex-code-tasks",
+      "durationMs": 1295.34,
+      "stdoutTail": "\n> qwen2_5-1_5b-turboquant-mlc-experiment@0.1.0 localqa:bench:complex-code-tasks\n> node ./scripts/bench_localqa_complex_code_tasks.mjs\n\n{\n  \"ok\": true,\n  \"outDir\": \"/Users/kuldeepsingh/MyProjects/qwen2.5-1.5b-turboquant-mlc-experiment/reports/localqa/complex_code_tasks_2026-05-05\",\n  \"sourceOssBenchDir\": \"/Users/kuldeepsingh/MyProjects/qwen2.5-1.5b-turboquant-mlc-experiment/reports/localqa/opencode_oss_codebases_2026-05-05\",\n  \"tasks\": [\n    {\n      \"id\": \"express_router_middleware_change\",\n      \"project\": \"expressjs/express\",\n      \"recommended\": {\n        \"strategy\": \"single_800\",\n        \"score\": 1,\n        \"label\": \"orientation-ready\",\n        \"compactApproxTokens\": 862,\n        \"reductionRatio\": 96.4\n      },\n      \"singlePasses\": [\n        {\n          \"budget\": 800,\n          \"compactApproxTokens\": 862,\n          \"reductionRatio\": 96.4,\n          \"score\": 1,\n          \"pass\": true,\n          \"missing\": []\n        },\n        {\n          \"budget\": 1600,\n          \"compactApproxTokens\": 1666,\n          \"reductionRatio\": 93.04,\n          \"score\": 1,\n          \"pass\": true,\n          \"missing\": []\n        },\n        {\n          \"budget\": 3200,\n          \"compactApproxTokens\": 3270,\n          \"reductionRatio\": 86.34,\n          \"score\": 1,\n          \"pass\": true,\n          \"missing\": []\n        }\n      ],\n      \"targeted\": null\n    },\n    {\n      \"id\": \"fastify_validation_error_contract\",\n      \"project\": \"fastify/fastify\",\n      \"recommended\": {\n        \"strategy\": \"single_800\",\n        \"score\": 1,\n        \"label\": \"orientation-ready\",\n        \"compactApproxTokens\": 865,\n        \"reductionRatio\": 97.93\n      },\n      \"singlePasses\": [\n        {\n          \"budget\": 800,\n          \"compactApproxTokens\": 865,\n          \"reductionRatio\": 97.93,\n          \"score\": 1,\n          \"pass\": true,\n          \"missing\": []\n        },\n        {\n          \"budget\": 1600,\n          \"compactApproxTokens\": 1670,\n          \"reductionRatio\": 96.01,\n          \"score\": 1,\n          \"pass\": true,\n          \"missing\": []\n        },\n        {\n          \"budget\": 3200,\n          \"compactApproxTokens\": 3268,\n          \"reductionRatio\": 92.19,\n          \"score\": 1,\n          \"pass\": true,\n          \"missing\": []\n        }\n      ],\n      \"targeted\": null\n    },\n    {\n      \"id\": \"zod_schema_parser_change\",\n      \"project\": \"colinhacks/zod\",\n      \"recommended\": {\n        \"strategy\": \"single_800\",\n        \"score\": 1,\n        \"label\": \"orientation-ready\",\n        \"compactApproxTokens\": 879,\n        \"reductionRatio\": 97.5\n      },\n      \"singlePasses\": [\n        {\n          \"budget\": 800,\n          \"compactApproxTokens\": 879,\n          \"reductionRatio\": 97.5,\n          \"score\": 1,\n          \"pass\": true,\n          \"missing\": []\n        },\n        {\n          \"budget\": 1600,\n          \"compactApproxTokens\": 1673,\n          \"reductionRatio\": 95.24,\n          \"score\": 1,\n          \"pass\": true,\n          \"missing\": []\n        },\n        {\n          \"budget\": 3200,\n          \"compactApproxTokens\": 3279,\n          \"reductionRatio\": 90.67,\n          \"score\": 1,\n          \"pass\": true,\n          \"missing\": []\n        }\n      ],\n      \"targeted\": null\n    }\n  ]\n}\n",
+      "stderrTail": ""
+    }
+  ],
+  "complex": {
+    "taskCount": 3,
+    "profiles": [
+      {
+        "budget": 800,
+        "raw": 100952,
+        "compact": 2606,
+        "ready": 3,
+        "total": 3,
+        "saved": 98346,
+        "reductionRatio": 97.42
+      },
+      {
+        "budget": 1600,
+        "raw": 100952,
+        "compact": 5009,
+        "ready": 3,
+        "total": 3,
+        "saved": 95943,
+        "reductionRatio": 95.04
+      },
+      {
+        "budget": 3200,
+        "raw": 100952,
+        "compact": 9817,
+        "ready": 3,
+        "total": 3,
+        "saved": 91135,
+        "reductionRatio": 90.28
+      }
+    ],
+    "bestScout": {
+      "budget": 800,
+      "raw": 100952,
+      "compact": 2606,
+      "ready": 3,
+      "total": 3,
+      "saved": 98346,
+      "reductionRatio": 97.42
+    }
+  },
+  "agentLayer": {
+    "evidenceApproxTokens": 41848,
+    "directed": {
+      "name": "directed_memory_plus_codebase_cleanup",
+      "ok": true,
+      "controlMode": "directed",
+      "selectedMode": "directed",
+      "durationMs": 91.21,
+      "tokenSavings": {
+        "rawEvidenceApproxTokens": 41857,
+        "compactReportApproxTokens": 843,
+        "savedApproxTokens": 41014,
+        "reductionRatio": 97.99
+      },
+      "compactApproxTokens": 843,
+      "memoryWritten": true,
+      "memoryPath": "/Users/kuldeepsingh/MyProjects/qwen2.5-1.5b-turboquant-mlc-experiment/reports/localqa/agent_layer_real_env_2026-05-05/memory/2026-05-05.json",
+      "stepCount": 2,
+      "error": null,
+      "note": "frontier model specifies exact local steps"
+    },
+    "strictRejected": true,
+    "handoffNoLeak": true,
+    "memory": {
+      "name": "query_project_memory",
+      "ok": true,
+      "controlMode": "memory",
+      "selectedMode": "memory",
+      "durationMs": 80.52,
+      "tokenSavings": {
+        "rawEvidenceApproxTokens": 14431,
+        "compactReportApproxTokens": 1042,
+        "savedApproxTokens": 13389,
+        "reductionRatio": 92.78
+      },
+      "compactApproxTokens": 1042,
+      "memoryWritten": false,
+      "memoryPath": null,
+      "stepCount": 1,
+      "error": null,
+      "note": "reads local memory ledger"
+    }
+  },
+  "agentic": {
+    "aggregate": {
+      "rawTokens": 100924,
+      "compactTokens": 5685,
+      "savedTokens": 95239,
+      "reductionRatio": 94.37,
+      "avgQualityScore": 0.927,
+      "passingQuality": 3
+    },
+    "workflows": [
+      {
+        "id": "fastify_validation_error_agentic_plan",
+        "title": "Fastify validation/error contract investigation",
+        "rawTokens": 41848,
+        "compactTokens": 1912,
+        "savedTokens": 39936,
+        "reductionRatio": 95.43,
+        "runtimeMs": 104.4,
+        "qualityScore": 1,
+        "qualityLabel": "strong",
+        "qualityPass": true,
+        "memoryWritten": true
+      },
+      {
+        "id": "express_router_middleware_agentic_plan",
+        "title": "Express router/middleware investigation",
+        "rawTokens": 23936,
+        "compactTokens": 1873,
+        "savedTokens": 22063,
+        "reductionRatio": 92.17,
+        "runtimeMs": 115.72,
+        "qualityScore": 0.888,
+        "qualityLabel": "usable",
+        "qualityPass": true,
+        "memoryWritten": true
+      },
+      {
+        "id": "zod_schema_parser_agentic_plan",
+        "title": "Zod schema/parser investigation",
+        "rawTokens": 35140,
+        "compactTokens": 1900,
+        "savedTokens": 33240,
+        "reductionRatio": 94.59,
+        "runtimeMs": 116.55,
+        "qualityScore": 0.894,
+        "qualityLabel": "usable",
+        "qualityPass": true,
+        "memoryWritten": true
+      }
+    ]
+  },
+  "ab": {
+    "aggregate": {
+      "baselineTokens": 25829,
+      "localqaTokens": 6704,
+      "savedVsTargetedBaseline": 19125,
+      "reductionVsTargetedBaseline": 74.04,
+      "baselinePass": 3,
+      "localqaPass": 3,
+      "maintainedQuality": 3,
+      "toolCallReduction": 15
+    },
+    "cases": [
+      {
+        "id": "fastify_validation_error_contract",
+        "title": "Fastify validation/error contract pre-implementation plan",
+        "baselineTokens": 9114,
+        "localqaTokens": 2258,
+        "savedTokens": 6856,
+        "reductionRatio": 75.22,
+        "baselineQuality": 1,
+        "localqaQuality": 1,
+        "qualityDelta": 0,
+        "bothPassQuality": true,
+        "toolCallReduction": 5
+      },
+      {
+        "id": "express_router_middleware",
+        "title": "Express router/middleware pre-implementation plan",
+        "baselineTokens": 7608,
+        "localqaTokens": 2223,
+        "savedTokens": 5385,
+        "reductionRatio": 70.78,
+        "baselineQuality": 0.953,
+        "localqaQuality": 0.925,
+        "qualityDelta": -0.028,
+        "bothPassQuality": true,
+        "toolCallReduction": 5
+      },
+      {
+        "id": "zod_schema_parser",
+        "title": "Zod schema/parser pre-implementation plan",
+        "baselineTokens": 9107,
+        "localqaTokens": 2223,
+        "savedTokens": 6884,
+        "reductionRatio": 75.59,
+        "baselineQuality": 1,
+        "localqaQuality": 1,
+        "qualityDelta": 0,
+        "bothPassQuality": true,
+        "toolCallReduction": 5
+      }
+    ]
+  },
+  "longHorizon": {
+    "aggregate": {
+      "rawTokens": 302772,
+      "compactTokens": 8842,
+      "savedTokens": 293930,
+      "reductionRatio": 97.08,
+      "avgQualityScore": 0.976,
+      "passCount": 9,
+      "totalRuntimeMs": 946.54,
+      "avgRuntimeMs": 105.17,
+      "memoryWrittenCount": 9
+    },
+    "projectSummaries": [
+      {
+        "projectId": "fastify_validation_error_contract",
+        "projectTitle": "Fastify validation/error contract migration",
+        "phaseCount": 3,
+        "rawTokens": 125544,
+        "compactTokens": 2979,
+        "savedTokens": 122565,
+        "reductionRatio": 97.63,
+        "avgQualityScore": 1,
+        "passCount": 3
+      },
+      {
+        "projectId": "express_router_middleware",
+        "projectTitle": "Express router/middleware behavior change",
+        "phaseCount": 3,
+        "rawTokens": 71808,
+        "compactTokens": 2938,
+        "savedTokens": 68870,
+        "reductionRatio": 95.91,
+        "avgQualityScore": 0.928,
+        "passCount": 3
+      },
+      {
+        "projectId": "zod_schema_parser",
+        "projectTitle": "Zod schema/parser type-surface change",
+        "phaseCount": 3,
+        "rawTokens": 105420,
+        "compactTokens": 2925,
+        "savedTokens": 102495,
+        "reductionRatio": 97.23,
+        "avgQualityScore": 1,
+        "passCount": 3
+      }
+    ]
+  }
+}

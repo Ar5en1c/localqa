@@ -1,0 +1,86 @@
+{
+  "ok": true,
+  "generatedAt": "2026-05-05T06:46:53.775Z",
+  "outDir": "/Users/kuldeepsingh/MyProjects/qwen2.5-1.5b-turboquant-mlc-experiment/reports/localqa/provider_telemetry_2026-05-05",
+  "evidencePath": "/Users/kuldeepsingh/MyProjects/qwen2.5-1.5b-turboquant-mlc-experiment/reports/localqa/opencode_oss_codebases_2026-05-05/fastify_fastify/raw-codebase-evidence.txt",
+  "evidenceBytes": 167490,
+  "evidenceApproxTokens": 41848,
+  "runs": [
+    {
+      "name": "baseline_raw_attachment_fastify",
+      "ok": true,
+      "status": 0,
+      "durationMs": 11224.73,
+      "sessionID": "ses_2091cac14ffe5Q3hUD3SrH1M5d",
+      "eventPath": "/Users/kuldeepsingh/MyProjects/qwen2.5-1.5b-turboquant-mlc-experiment/reports/localqa/provider_telemetry_2026-05-05/baseline_raw_attachment_fastify-events.jsonl",
+      "exportPath": "/Users/kuldeepsingh/MyProjects/qwen2.5-1.5b-turboquant-mlc-experiment/reports/localqa/provider_telemetry_2026-05-05/baseline_raw_attachment_fastify-export.json",
+      "telemetry": {
+        "sessionID": "ses_2091cac14ffe5Q3hUD3SrH1M5d",
+        "eventCount": 3,
+        "stepFinishCount": 1,
+        "toolCallCount": 0,
+        "tokens": {
+          "total": 26289,
+          "input": 25850,
+          "output": 439,
+          "reasoning": 23,
+          "cacheRead": 0,
+          "cacheWrite": 0
+        },
+        "cost": 0,
+        "textPreview": "{\n  \"likely_files\": [\n    \"fastify.js\",\n    \"lib/route.js\",\n    \"lib/handle-request.js\",\n    \"lib/error-handler.js\",\n    \"lib/validation.js\",\n    \"lib/content-type-parser.js\",\n    \"lib/hooks.js\",\n    \"lib/server.js\",\n    \"lib/errors.js\",\n    \"lib/warnings.js\",\n    \"lib/config-validator.js\",\n    \"lib/error-serializer.js\",\n    \"test/internals/*.test.js\",\n    \"test/types/*.test-d.ts\",\n    \".github/workflows/ci.yml\"\n  ],\n  \"test_commands\": [\n    \"npm test\",\n    \"npm run test:ci\",\n    \"npm run unit\",\n    \"npm run test:typescript\",\n    \"npm run test:validator:integrity\",\n    \"npm run lint\",\n    \"npm run coverage:ci-check-coverage\"\n  ],\n  \"risks\": [\n    \"Generated artifacts drift risk (`lib/config-validator.js`, `lib/error-serializer.js`) guarded by integrity script; easy to break if build step skipped.\",\n    \"Broad error-path complexity across hooks/reply/route/validation can cause propagation regressions and inconsistent status/header behavior.\",\n    \"Deprecation surface is large (multiple FSTDEP/FSTWRN docs + warnings), increasing upgrade churn toward fastify@6.\",\n    \"Heavy cross-matrix CI/runtime/type coverage may hide environment-specific failures locally.\",\n    \"Strict coverage gate (`--check-coverage --lines 100`) can block merges on small behavior changes.\"\n  ],\n  \"next_reads\": [\n    \"README.md\",\n    \"docs/Guides/Contributing.md\",\n    \"docs/Guides/Testing.md\",\n    \"docs/Reference/Errors.md\",\n    \"docs/Reference/Validation-and-Serialization.md\",\n    \"package.json\",\n    \".borp.yaml\",\n    \"test/helper.js\",\n    \"test/internals/error*.test.js\",\n    \"test/internals/validation.test.js\"\n  ]\n}"
+      },
+      "exportAggregate": null,
+      "stderrTail": ""
+    },
+    {
+      "name": "localqa_directed_fastify",
+      "ok": true,
+      "status": 0,
+      "durationMs": 14911.97,
+      "sessionID": "ses_2091c7febffecBMBK7jaWV4qpq",
+      "eventPath": "/Users/kuldeepsingh/MyProjects/qwen2.5-1.5b-turboquant-mlc-experiment/reports/localqa/provider_telemetry_2026-05-05/localqa_directed_fastify-events.jsonl",
+      "exportPath": "/Users/kuldeepsingh/MyProjects/qwen2.5-1.5b-turboquant-mlc-experiment/reports/localqa/provider_telemetry_2026-05-05/localqa_directed_fastify-export.json",
+      "telemetry": {
+        "sessionID": "ses_2091c7febffecBMBK7jaWV4qpq",
+        "eventCount": 6,
+        "stepFinishCount": 2,
+        "toolCallCount": 1,
+        "tokens": {
+          "total": 22377,
+          "input": 12048,
+          "output": 601,
+          "reasoning": 31,
+          "cacheRead": 9728,
+          "cacheWrite": 0
+        },
+        "cost": 0,
+        "textPreview": "```json\n{\n  \"likely_files\": [\n    \"lib/validation.js\",\n    \"lib/error-handler.js\",\n    \"docs/Reference/Validation-and-Serialization.md\",\n    \"docs/Reference/Errors.md\",\n    \"docs/Reference/TypeScript.md\",\n    \"test/404s.test.js\",\n    \"package.json\"\n  ],\n  \"test_commands\": [\n    \"npm run test:validator:integrity\",\n    \"npm run build:validation\",\n    \"npm test\",\n    \"npm run test:typescript\"\n  ],\n  \"risks\": [\n    \"Changing validation error shape/status can break documented response contracts and TypeScript examples.\",\n    \"Error precedence between `error.status` and `error.statusCode` in `lib/error-handler.js` may alter non-validation errors.\",\n    \"Validator generated artifacts/integrity checks can fail if validation behavior changes without rebuilding snapshots.\",\n    \"Cross-doc inconsistency risk: errors, lifecycle, routes, and server timeout docs mention specific status/error payload behavior.\"\n  ],\n  \"next_reads\": [\n    \"Read `lib/validation.js` around `error.statusCode = error.statusCode || 400`.\",\n    \"Read `lib/error-handler.js` status/statusCode branching.\",\n    \"Read `docs/Reference/Validation-and-Serialization.md` sections on schema errors.\",\n    \"Read `package.json` scripts for validator/type checks before patching tests.\"\n  ],\n  \"LocalQA_tokenSavings\": {\n    \"rawEvidenceApproxTokens\": 41857,\n    \"compactReportApproxTokens\": 1440,\n    \"savedApproxTokens\": 40417,\n    \"reductionRatioPercent\": 96.56\n  }\n}\n```"
+      },
+      "exportAggregate": {
+        "tokens": {
+          "total": 22377,
+          "input": 12048,
+          "output": 601,
+          "reasoning": 31,
+          "cacheRead": 9728,
+          "cacheWrite": 0
+        },
+        "cost": 0,
+        "assistantMessageCount": 2,
+        "toolPartCount": 1
+      },
+      "stderrTail": ""
+    }
+  ],
+  "comparison": {
+    "baselineInputTokens": 25850,
+    "localqaInputTokens": 12048,
+    "inputTokensSaved": 13802,
+    "inputReductionRatio": 53.39,
+    "baselineTotalTokens": 26289,
+    "localqaTotalTokens": 22377,
+    "totalTokensSaved": 3912,
+    "totalReductionRatio": 14.88
+  }
+}

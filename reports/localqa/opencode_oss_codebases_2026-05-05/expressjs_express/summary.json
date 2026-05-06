@@ -1,0 +1,101 @@
+{
+  "name": "expressjs_express",
+  "project": "expressjs/express",
+  "archiveUrl": "https://codeload.github.com/expressjs/express/tar.gz/refs/heads/master",
+  "expectedSignals": [
+    "express",
+    "router",
+    "middleware",
+    "mocha"
+  ],
+  "evidencePath": "/Users/kuldeepsingh/MyProjects/qwen2.5-1.5b-turboquant-mlc-experiment/reports/localqa/opencode_oss_codebases_2026-05-05/expressjs_express/raw-codebase-evidence.txt",
+  "fileCount": 192,
+  "selectedFiles": [
+    "package.json",
+    "examples/README.md",
+    "Readme.md",
+    "examples/mvc/lib/boot.js",
+    "lib/application.js",
+    "lib/express.js",
+    "lib/request.js",
+    "lib/response.js",
+    "lib/utils.js",
+    "lib/view.js",
+    "test/acceptance/auth.js",
+    "test/acceptance/content-negotiation.js",
+    "test/acceptance/cookie-sessions.js",
+    "test/acceptance/cookies.js",
+    "test/acceptance/downloads.js",
+    "test/acceptance/ejs.js",
+    "test/acceptance/error-pages.js",
+    "test/acceptance/error.js",
+    "test/acceptance/hello-world.js",
+    "test/acceptance/markdown.js",
+    "test/acceptance/multi-router.js",
+    "test/acceptance/mvc.js",
+    "test/acceptance/params.js",
+    "test/acceptance/resource.js",
+    "test/acceptance/route-map.js",
+    "test/acceptance/route-separation.js",
+    "test/acceptance/vhost.js",
+    "test/acceptance/web-service.js"
+  ],
+  "selectedMode": "context_cleanup",
+  "bridgeDurationMs": 104.74,
+  "rawApproxTokens": 23936,
+  "compactApproxTokens": 1663,
+  "savedApproxTokens": 22273,
+  "reductionRatio": 93.05,
+  "signalCoverage": {
+    "matched": [
+      "express",
+      "router",
+      "middleware",
+      "mocha"
+    ],
+    "missing": [],
+    "score": 1
+  },
+  "compactPreview": "Task: Analyze this Express OSS codebase evidence. Identify project purpose, likely test command, major source/test areas, and any high-signal maintenance risks. Do not quote raw files; compact to actionable codebase evidence.\nMode: context_cleanup\nHigh-signal lines:\nTASK: Analyze this Express OSS codebase evidence. Identify project purpose, likely test command, major source/test areas, and any high-signal maintenance risks. Do not quote raw files; compact to actionable codebase evidence.\npackage.json:94: \"test\": \"mocha --require test/support/env --reporter spec --check-leaks test/ test/acceptance/\",\nexamples/README.md:12: - [error](./error) - Working with error middleware\npackage.json:92: \"lint\": \"eslint .\",\nexamples/README.md:11: - [error-pages](./error-pages) - Creating error pages\npackage.json:97: \"test-tap\": \"mocha --require test/support/env --reporter tap --check-leaks test/ test/acceptance/\"\n\"test\": \"mocha --require test/support/env --reporter spec --check-leaks test/ test/acceptance/\", [repeated 2x]\nexamples/web-service/index.js:34: if (!key) return next(error(400, 'api key required'));\nexamples/web-service/index.js:37: if (apiKeys.indexOf(key) === -1) return next(error(401, 'invalid api key'))\ntest/res.download.js:145: .expect('got 404 error')\ntest/res.sendFile.js:333: .expect('got 404 error')\ntest/res.sendFile.js:277: .expect(200, 'got 404 error', done)\ntest/app.routes.error.js:22: .expect(500, /Error: boom!/, done);\ntest/acceptance/mvc.js:96: it('should 500 on error', function(done){\ntest/res.render.js:128: .expect(500, 'got error: RenderError', done)\ntest/res.render.js:355: .expect(500, 'got error: RenderError', done)\ntest/res.render.js:123: res.status(500).send('got error: ' + err.name)\ntest/res.render.js:348: res.status(500).send('got error: ' + err.name)\ntest/acceptance/error-pages.js:55: .expect(404, { error: 'Not found' }, done)\ntest/acceptance/web-service.js:102: .expect(404, '{\"error\":\"Sorry, can\\'t find that\"}', done)\nReadme.md:73: * Super-high test coverage\nexamples/route-middleware/index.js:46: next(new Error('Unauthorized'));\nexamples/route-middleware/index.js:55: next(new Error('Unauthorized'));\ntest/Router.js:213: next(new Error('foo'));\ntest/Router.js:217: next(new Error('bar'));\ntest/Router.js:236: throw new Error('foo');\ntest/Router.js:281: throw new Error('oops');\ntest/Router.js:277: throw new Error('boom!');\ntest/Router.js:262: throw new Error('oh no!');\ntest/Router.js:208: describe('error', function () {\ntest/Router.js:48: throw new Error('should not be called')\ntest/Router.js:58: throw new Error('should not be called')\ntest/app.param.js:145: next(new Error('invalid invocation'))\ntest/res.sendFile.js:17: it('should error missing path', function (done) {\ntest/Router.js:209: it('should skip non error middleware', function (done) {\nexamples/error-pages/index.js:79: // error-handling middleware, take the same form\ntest/Router.js:273: it('should handle throwing inside error handlers', function (done) {\ntest/res.cookie.js:174: it('should throw an error with invalid maxAge', function (done) {\ntest/res.sendStatus.js:32: it('should raise error for invalid status code', function (done) {\ntest/Router.js:75: route.get(function (req, res, next) { next(new Error('should not run')) })\ntest/Router.js:94: var handler = function (req, res) { res.end(new Error('wrong handler')) };\ntest/Router.js:70: route.post(function (req, res, next) { next(new Error('should not run')) })\ntest/Router.js:77: router.get('/foo', function (req, res, next) { next(new Error('should not run')) })\nReadme.md:30: [![Test Coverage][coveralls-image]][coveralls-url]\ntest/express.json.js:43: // The old node error message modification in body parser is catching this\nexamples/error-pages/views/404.ejs\nexamples/error-pages/views/500.ejs\nexamples/error-pages/index.js:42: // trigger a 403 error\nexamples/mvc/index.js:19: // set views for error and 404 pages\nexamples/error-pages/index.js:49: // trigger a generic (500) error\nlib/application.js:507: * and a callback accepting an error and the\nexamples/error-pages/index.js:96: res.render('500', { error: err });\nexamples/error/index.js:24: // respond with 500 \"Internal Server Error\".\nlib/response.js:420: * when the data transfer is complete, or when an error has\nexamples/downloads/index.js:29: if (err.status !== 404) return next(err); // non-404 error\nOSS_CODEBASE_BENCHMARK_PROJECT: expressjs/express\ntest/express.raw.js:269: throw new Error('oops!')\ntest/express.json.js:383: throw new Error('oops!')\ntest/express.text.js:285: throw new Error('oops!')\ntest/express.json.js:115: .set('X-Error-Property', 'body')\ntest/express.json.js:288: .set('X-Error-Property', 'stack')\ntest/express.raw.js:302: var err = new Error('no leading null')\ntest/express.text.js:319: var err = new Error('no leading space')\ntest/express.text.js:349: throw new Error('unexpected verify call')\ntest/express.raw.js:285: it('should error from verify', function (done) {\ntest/express.text.js:301: it('should error from verify', function (done) {\ntest/acceptance/resource.js:33: .expect('{\"error\":\"Cannot find user\"}', done)\ntest/acceptance/resource.js:30: it('should respond with error', function(done){\ntest/express.raw.js:149: it('should not error when inflating', function (done) {\ntest/express.raw.js:288: if (buf[0] === 0x00) throw new Error('no leading null')\ntest/express.raw.js:317: if (buf[0] === 0x00) throw new Error('no leading null')\ntest/express.json.js:186: it('should not error when inflating', function (done) {\ntest/express.text.js:159: it('should not error when inflating', function (done) {\ntest/express.text.js:304: if (buf[0] === 0x20) throw new Error('no leading space')\ntest/express.text.js:335: if (buf[0] === 0x20) throw new Error('no leading space')\ntest/express.urlencoded.js:306: it('should not error when inflating', function (done) {\ntest/express.json.js:111: it('should include original body on error object', function (done) {\nlib/application.js:296: throw new Error('callback function required');\nexamples/error/index.js:14: // error handling middleware have an arity of 4\nexamples/web-service/index.js:94: // error handling middleware. When you next(err)\nARCHIVE_URL: https://codeload.github.com/expressjs/express/tar.gz/refs/heads/master\nexamples/resource/index.js:72: // curl http://localhost:3000/users/4 -- responds with error\nexamples/error-pages/index.js:87: // continue passing the error, only error-handling middleware\nexamples/route-middleware/index.js:32: next(new Error('Failed to load user ' + req.params.id));\nexamples/route-middleware/index.js:44: // can handle these can be special-cased in an error handler\nexamples/README.md",
+  "result": {
+    "ok": true,
+    "tool": "local_agent_run",
+    "selectedMode": "context_cleanup",
+    "task": "Analyze this Express OSS codebase evidence. Identify project purpose, likely test command, major source/test areas, and any high-signal maintenance risks. Do not quote raw files; compact to actionable codebase evidence.",
+    "handle": null,
+    "artifactPath": null,
+    "tokenSavings": {
+      "rawEvidenceApproxTokens": 23936,
+      "compactReportApproxTokens": 1663,
+      "savedApproxTokens": 22273,
+      "reductionRatio": 93.05
+    },
+    "enforcement": {
+      "requiresMcpFirst": true,
+      "destinationRequested": false,
+      "autoReroutedToHandoffGate": false,
+      "externalSendAttempted": false,
+      "sendPayloadKind": "unknown",
+      "blocked": false,
+      "allowedPayload": "unknown",
+      "reason": "No external destination requested.",
+      "handoffVerificationRequired": false,
+      "handoffProof": null
+    },
+    "policy": null,
+    "steps": [
+      {
+        "ok": true,
+        "name": "localqa_cleanup_context",
+        "durationMs": 16.8
+      }
+    ],
+    "telemetry": {
+      "internalStepCount": 1,
+      "externalCalls": 0,
+      "localFileInputCount": 0,
+      "localFileInputBytes": 0
+    },
+    "compactText": "Task: Analyze this Express OSS codebase evidence. Identify project purpose, likely test command, major source/test areas, and any high-signal maintenance risks. Do not quote raw files; compact to actionable codebase evidence.\nMode: context_cleanup\nHigh-signal lines:\nTASK: Analyze this Express OSS codebase evidence. Identify project purpose, likely test command, major source/test areas, and any high-signal maintenance risks. Do not quote raw files; compact to actionable codebase evidence.\npackage.json:94: \"test\": \"mocha --require test/support/env --reporter spec --check-leaks test/ test/acceptance/\",\nexamples/README.md:12: - [error](./error) - Working with error middleware\npackage.json:92: \"lint\": \"eslint .\",\nexamples/README.md:11: - [error-pages](./error-pages) - Creating error pages\npackage.json:97: \"test-tap\": \"mocha --require test/support/env --reporter tap --check-leaks test/ test/acceptance/\"\n\"test\": \"mocha --require test/support/env --reporter spec --check-leaks test/ test/acceptance/\", [repeated 2x]\nexamples/web-service/index.js:34: if (!key) return next(error(400, 'api key required'));\nexamples/web-service/index.js:37: if (apiKeys.indexOf(key) === -1) return next(error(401, 'invalid api key'))\ntest/res.download.js:145: .expect('got 404 error')\ntest/res.sendFile.js:333: .expect('got 404 error')\ntest/res.sendFile.js:277: .expect(200, 'got 404 error', done)\ntest/app.routes.error.js:22: .expect(500, /Error: boom!/, done);\ntest/acceptance/mvc.js:96: it('should 500 on error', function(done){\ntest/res.render.js:128: .expect(500, 'got error: RenderError', done)\ntest/res.render.js:355: .expect(500, 'got error: RenderError', done)\ntest/res.render.js:123: res.status(500).send('got error: ' + err.name)\ntest/res.render.js:348: res.status(500).send('got error: ' + err.name)\ntest/acceptance/error-pages.js:55: .expect(404, { error: 'Not found' }, done)\ntest/acceptance/web-service.js:102: .expect(404, '{\"error\":\"Sorry, can\\'t find that\"}', done)\nReadme.md:73: * Super-high test coverage\nexamples/route-middleware/index.js:46: next(new Error('Unauthorized'));\nexamples/route-middleware/index.js:55: next(new Error('Unauthorized'));\ntest/Router.js:213: next(new Error('foo'));\ntest/Router.js:217: next(new Error('bar'));\ntest/Router.js:236: throw new Error('foo');\ntest/Router.js:281: throw new Error('oops');\ntest/Router.js:277: throw new Error('boom!');\ntest/Router.js:262: throw new Error('oh no!');\ntest/Router.js:208: describe('error', function () {\ntest/Router.js:48: throw new Error('should not be called')\ntest/Router.js:58: throw new Error('should not be called')\ntest/app.param.js:145: next(new Error('invalid invocation'))\ntest/res.sendFile.js:17: it('should error missing path', function (done) {\ntest/Router.js:209: it('should skip non error middleware', function (done) {\nexamples/error-pages/index.js:79: // error-handling middleware, take the same form\ntest/Router.js:273: it('should handle throwing inside error handlers', function (done) {\ntest/res.cookie.js:174: it('should throw an error with invalid maxAge', function (done) {\ntest/res.sendStatus.js:32: it('should raise error for invalid status code', function (done) {\ntest/Router.js:75: route.get(function (req, res, next) { next(new Error('should not run')) })\ntest/Router.js:94: var handler = function (req, res) { res.end(new Error('wrong handler')) };\ntest/Router.js:70: route.post(function (req, res, next) { next(new Error('should not run')) })\ntest/Router.js:77: router.get('/foo', function (req, res, next) { next(new Error('should not run')) })\nReadme.md:30: [![Test Coverage][coveralls-image]][coveralls-url]\ntest/express.json.js:43: // The old node error message modification in body parser is catching this\nexamples/error-pages/views/404.ejs\nexamples/error-pages/views/500.ejs\nexamples/error-pages/index.js:42: // trigger a 403 error\nexamples/mvc/index.js:19: // set views for error and 404 pages\nexamples/error-pages/index.js:49: // trigger a generic (500) error\nlib/application.js:507: * and a callback accepting an error and the\nexamples/error-pages/index.js:96: res.render('500', { error: err });\nexamples/error/index.js:24: // respond with 500 \"Internal Server Error\".\nlib/response.js:420: * when the data transfer is complete, or when an error has\nexamples/downloads/index.js:29: if (err.status !== 404) return next(err); // non-404 error\nOSS_CODEBASE_BENCHMARK_PROJECT: expressjs/express\ntest/express.raw.js:269: throw new Error('oops!')\ntest/express.json.js:383: throw new Error('oops!')\ntest/express.text.js:285: throw new Error('oops!')\ntest/express.json.js:115: .set('X-Error-Property', 'body')\ntest/express.json.js:288: .set('X-Error-Property', 'stack')\ntest/express.raw.js:302: var err = new Error('no leading null')\ntest/express.text.js:319: var err = new Error('no leading space')\ntest/express.text.js:349: throw new Error('unexpected verify call')\ntest/express.raw.js:285: it('should error from verify', function (done) {\ntest/express.text.js:301: it('should error from verify', function (done) {\ntest/acceptance/resource.js:33: .expect('{\"error\":\"Cannot find user\"}', done)\ntest/acceptance/resource.js:30: it('should respond with error', function(done){\ntest/express.raw.js:149: it('should not error when inflating', function (done) {\ntest/express.raw.js:288: if (buf[0] === 0x00) throw new Error('no leading null')\ntest/express.raw.js:317: if (buf[0] === 0x00) throw new Error('no leading null')\ntest/express.json.js:186: it('should not error when inflating', function (done) {\ntest/express.text.js:159: it('should not error when inflating', function (done) {\ntest/express.text.js:304: if (buf[0] === 0x20) throw new Error('no leading space')\ntest/express.text.js:335: if (buf[0] === 0x20) throw new Error('no leading space')\ntest/express.urlencoded.js:306: it('should not error when inflating', function (done) {\ntest/express.json.js:111: it('should include original body on error object', function (done) {\nlib/application.js:296: throw new Error('callback function required');\nexamples/error/index.js:14: // error handling middleware have an arity of 4\nexamples/web-service/index.js:94: // error handling middleware. When you next(err)\nARCHIVE_URL: https://codeload.github.com/expressjs/express/tar.gz/refs/heads/master\nexamples/resource/index.js:72: // curl http://localhost:3000/users/4 -- responds with error\nexamples/error-pages/index.js:87: // continue passing the error, only error-handling middleware\nexamples/route-middleware/index.js:32: next(new Error('Failed to load user ' + req.params.id));\nexamples/route-middleware/index.js:44: // can handle these can be special-cased in an error handler\nexamples/README.md"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "plugin": [
+    "./.opencode/plugins/localqa.ts"
+  ],
+  "instructions": [
+    "./.opencode/LOCALQA_RULES.md"
+  ],
+  "permission": {
+    "local_agent_run": "allow",
+    "answer_from_handle": "allow"
+  },
+  "compaction": {
+    "auto": true,
+    "prune": true
+  }
+}
