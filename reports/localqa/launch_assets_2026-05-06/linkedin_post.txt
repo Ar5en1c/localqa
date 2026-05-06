@@ -20,6 +20,8 @@ Launch proof:
 - 74.04% reduction in controlled A/B workflow benchmark, 3/3 quality gates maintained
 - 302,772 -> 8,842 tokens in long-horizon benchmark, 9/9 quality gates, 9/9 memory writes
 
+Repo: https://github.com/Ar5en1c/localqa
+
 This does not replace frontier models. It makes them easier to use well by giving them cleaner local context and memory.
 
 Alpha caveats: it does not intercept data pasted directly into cloud chat, and compression benchmarks are not patch-correctness benchmarks.

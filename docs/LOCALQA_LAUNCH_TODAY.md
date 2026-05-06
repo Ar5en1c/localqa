@@ -18,6 +18,10 @@ reports/localqa/launch_assets_2026-05-06/localqa-alpha-launch-proof.mov
 
 3. Publish or share the repo/docs link.
 
+```text
+https://github.com/Ar5en1c/localqa
+```
+
 4. Post X and LinkedIn with the proof video.
 
 5. Post HN/Reddit only after the repo/docs are public-readable.
@@ -57,6 +61,8 @@ Launch proof:
 - 302,772 -> 8,842 tokens in long-horizon benchmark, 9/9 quality gates, 9/9 memory writes
 
 Not a frontier-model replacement. Not magic privacy. A practical local layer to help coding agents waste less context.
+
+Repo: https://github.com/Ar5en1c/localqa
 ```
 
 ## Freeze rule

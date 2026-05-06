@@ -11,4 +11,6 @@ Launch proof:
 - 74.04% reduction in controlled A/B workflow benchmark, 3/3 quality gates maintained
 - 302,772 -> 8,842 tokens in long-horizon benchmark, 9/9 quality gates, 9/9 memory writes
 
+Repo: https://github.com/Ar5en1c/localqa
+
 Not a frontier-model replacement. Not magic privacy. A practical local layer to help coding agents waste less context.

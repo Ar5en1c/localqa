@@ -1,5 +1,7 @@
 Show HN: LocalQA, a Bonsai-backed local evidence layer for frontier coding agents
 
+GitHub: https://github.com/Ar5en1c/localqa
+
 I built LocalQA because I kept seeing coding agents waste context on raw logs, repo scans, browser traces, repeated evidence collection, and forgotten prior work.
 
 The idea is simple: the frontier model should plan and implement. A local layer should collect, compress, remember, and verify evidence before it reaches the main model.
