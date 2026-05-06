@@ -1,37 +1,46 @@
-I’m launching LocalQA v0.1 alpha.
+Have you thought about giving your coding agent its own local assistant?
 
-Agent for your agents.
+Not a replacement for Claude, Codex, GPT, or OpenCode.
 
-LocalQA is a local Bonsai-backed sidecar that helps frontier coding agents handle logs, browser evidence, project memory, and context cleanup before spending cloud tokens.
+A helper agent for the boring but expensive work around them.
 
-The problem I kept running into: coding agents are powerful, but they waste a lot of expensive context on low-value evidence work: raw logs, repo scans, browser traces, DOM dumps, repeated terminal output, and rediscovering what was already tried yesterday.
+That is what I built with LocalQA.
 
-LocalQA adds a local layer between the frontier model and noisy evidence.
+The problem I kept running into: coding agents are powerful, but they burn context on low-value evidence work:
 
-The frontier model still plans and writes code. Bonsai handles noisy local evidence before the frontier model sees a compact verified report.
+- raw logs
+- repo scans
+- browser traces
+- DOM dumps
+- repeated terminal output
+- rediscovering what was already tried yesterday
 
-Launch surfaces:
-- MCP-first public interface
-- OpenCode plugin for deeper native workflows
+LocalQA acts as an agent for your agents.
 
-Current capabilities:
-- one local sidecar tool: local_agent_run
-- directed execution where the main model specifies exact steps
-- strict tool mode
-- local project memory
-- log/repo/browser evidence cleanup
-- handoff redaction
-- OpenCode vault-handle follow-up via answer_from_handle
+It is a local Bonsai-backed sidecar that collects, compresses, remembers, and verifies local evidence before the frontier model spends context on it.
 
-Launch proof:
+The model split is simple:
+
+- Frontier model: plans and writes code
+- Bonsai: handles local evidence triage and cleanup
+- LocalQA: connects logs, browser evidence, repo context, memory, and handoff cleanup into the agent workflow
+
+There are two ways to use it:
+
+1. MCP server
+Portable default. One strict tool: local_agent_run.
+
+2. OpenCode plugin
+Deeper workflow with native tools, rules, hooks, vault handles, and answer_from_handle.
+
+Launch proof from the current alpha:
+
 - 53.39% fewer fresh input tokens in one real OpenCode provider telemetry A/B test
 - 74.04% reduction in controlled A/B workflow benchmark, 3/3 quality gates maintained
 - 302,772 -> 8,842 tokens in long-horizon benchmark, 9/9 quality gates, 9/9 memory writes
 
 Repo: https://github.com/Ar5en1c/localqa
 
-This does not replace frontier models. It makes them easier to use well by giving them cleaner local context and memory.
+Important boundary: if you paste raw logs directly into cloud chat, they already went to the cloud. LocalQA works best when the agent is given paths, URLs, tasks, or evidence handles.
 
-Alpha caveats: it does not intercept data pasted directly into cloud chat, and compression benchmarks are not patch-correctness benchmarks.
-
-Agents need local context infrastructure, not just bigger models.
+My thesis: coding agents do not just need bigger models. They need local context infrastructure.

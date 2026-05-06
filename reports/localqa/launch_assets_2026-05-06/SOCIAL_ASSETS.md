@@ -2,6 +2,12 @@
 
 Use the comparison image first. It explains the product faster than the terminal recording.
 
+## Primary public hook
+
+```text
+Have you thought about giving Claude/Codex/OpenCode its own free local agent?
+```
+
 ## Primary image
 
 ```text
@@ -16,7 +22,7 @@ Use for X, LinkedIn, and HN/Reddit link previews when possible.
 assets/localqa-benchmark-chart.png
 ```
 
-Use in follow-up replies or comments when someone asks for numbers.
+Use as a reply/follow-up when someone asks for numbers.
 
 ## Video proof
 
@@ -30,7 +36,9 @@ reports/localqa/launch_assets_2026-05-06/localqa-alpha-launch-proof.mov
 
 ## Suggested post asset order
 
-1. `assets/localqa-agent-for-agents.png`
-2. Repo link: `https://github.com/Ar5en1c/localqa`
-3. Follow-up reply with `assets/localqa-benchmark-chart.png`
-4. Terminal video only if someone asks for raw proof
+1. X post with `assets/localqa-agent-for-agents.png`.
+2. X reply with `assets/localqa-benchmark-chart.png`.
+3. LinkedIn post with `assets/localqa-agent-for-agents.png`.
+4. LinkedIn first comment with repo link.
+5. HN/Reddit only after the social posts are live.
+6. Terminal video only if someone asks for raw proof.

@@ -2,16 +2,25 @@ Show HN: LocalQA - agent for your agents
 
 GitHub: https://github.com/Ar5en1c/localqa
 
-I built LocalQA because I kept seeing coding agents waste context on raw logs, repo scans, browser traces, repeated evidence collection, and forgotten prior work.
+I built LocalQA around a question I kept coming back to:
 
-The idea is simple: the frontier model should plan and implement. A local sidecar should collect, compress, remember, and verify evidence before it reaches the main model.
+What if your frontier coding agent had its own local assistant?
 
-For the initial alpha, LocalQA uses Bonsai as the local worker model for evidence triage, cleanup, memory, and handoff preparation. The claim is not that Bonsai replaces GPT/Claude/Codex. The claim is that Bonsai can handle noisy local evidence before the frontier model spends context on it.
+Not a smaller model trying to replace Claude/Codex/GPT.
 
-LocalQA has two launch surfaces:
+A local sidecar that handles evidence work before the main model spends context on it.
 
-1. MCP server: primary portable interface, exposing local_agent_run.
-2. OpenCode plugin: deeper native integration with rules, hooks, vault handles, and answer_from_handle.
+LocalQA uses Bonsai as the local worker model for evidence triage, cleanup, memory, and handoff preparation. The frontier model still plans and writes code.
+
+It has two launch surfaces:
+
+1. MCP server
+- primary portable interface
+- exposes one strict tool: local_agent_run
+
+2. OpenCode plugin
+- deeper native workflow
+- adds tools, rules, hooks, vault handles, and answer_from_handle
 
 Current benchmark results:
 
@@ -37,4 +46,4 @@ Important caveats:
 - It does not prove final patch correctness.
 - Browser QA can be environment-specific.
 
-I’m launching this as an alpha because I think coding agents need local context infrastructure: memory, evidence management, and tool-output compression.
+The thesis: coding agents need local context infrastructure, not just bigger context windows.

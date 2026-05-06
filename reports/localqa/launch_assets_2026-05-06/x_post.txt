@@ -1,19 +1,33 @@
-Launching LocalQA v0.1 alpha.
+Have you thought about giving Claude/Codex/OpenCode its own free local agent?
 
-Agent for your agents.
+Not another coding model.
+A helper agent for your main agent.
 
-A local Bonsai-backed sidecar that helps frontier coding agents handle logs, browser evidence, project memory, and context cleanup before spending cloud tokens.
+I built LocalQA for this.
 
-MCP-first, with an OpenCode plugin for deeper workflows.
+It is a local Bonsai-backed sidecar that handles the noisy work around coding agents:
+
+- logs
+- browser evidence
+- repo context
+- project memory
+- context cleanup
+- handoff redaction
 
 The frontier model still plans and writes code.
-Bonsai handles noisy local evidence and returns compact verified context.
+LocalQA handles local evidence and returns compact verified context.
+
+Two ways to use it:
+
+1. MCP server: portable default
+2. OpenCode plugin: deeper workflow with tools, rules, hooks, and vault handles
 
 Launch proof:
+
 - 53.39% fewer fresh input tokens in one real OpenCode provider telemetry A/B test
 - 74.04% reduction in controlled A/B workflow benchmark, 3/3 quality gates maintained
 - 302,772 -> 8,842 tokens in long-horizon benchmark, 9/9 quality gates, 9/9 memory writes
 
 Repo: https://github.com/Ar5en1c/localqa
 
-Not a frontier-model replacement. A local helper layer for better agent context.
+Boundary: this does not replace frontier models or intercept text pasted directly into cloud chat.

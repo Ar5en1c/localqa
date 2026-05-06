@@ -1,0 +1,10 @@
+Benchmark image + caveats.
+
+The strongest number is the provider telemetry A/B:
+
+25,850 input tokens -> 12,048 input tokens
+53.39% fewer fresh input tokens
+
+The 97.08% long-horizon number is a local evidence compression benchmark, not a provider billing claim.
+
+Chart: assets/localqa-benchmark-chart.png

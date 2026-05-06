@@ -21,7 +21,9 @@ Benchmark image: `assets/localqa-benchmark-chart.png`
 - `reports/localqa/launch_assets_2026-05-06/terminal_demo.sh`
 - `reports/localqa/launch_assets_2026-05-06/terminal_demo_transcript.txt`
 - `reports/localqa/launch_assets_2026-05-06/x_post.txt`
+- `reports/localqa/launch_assets_2026-05-06/x_reply_benchmark.txt`
 - `reports/localqa/launch_assets_2026-05-06/linkedin_post.txt`
+- `reports/localqa/launch_assets_2026-05-06/linkedin_first_comment.txt`
 - `reports/localqa/launch_assets_2026-05-06/hn_reddit_post.txt`
 - `reports/localqa/LAUNCH_FEEDBACK_2026-05-06.md`
 
@@ -29,8 +31,8 @@ Benchmark image: `assets/localqa-benchmark-chart.png`
 
 1. Run `npm run localqa:launch-check` once.
 2. Optional: run `reports/localqa/launch_assets_2026-05-06/terminal_demo.sh` for a live terminal demo.
-3. Post X with `assets/localqa-agent-for-agents.png`.
-4. Post LinkedIn with `assets/localqa-agent-for-agents.png`.
+3. Post X with `assets/localqa-agent-for-agents.png` and the curiosity hook from `x_post.txt`.
+4. Post LinkedIn with `assets/localqa-agent-for-agents.png`, then add `linkedin_first_comment.txt` as the first comment.
 5. Post HN/Reddit only if public repo/link is ready.
 6. Track replies in `reports/localqa/LAUNCH_FEEDBACK_2026-05-06.md`.
 

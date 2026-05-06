@@ -1,0 +1,8 @@
+Repo: https://github.com/Ar5en1c/localqa
+
+Best starting point: MCP mode.
+
+Power-user path: OpenCode plugin mode.
+
+Primary visual: assets/localqa-agent-for-agents.png
+Benchmark chart: assets/localqa-benchmark-chart.png
