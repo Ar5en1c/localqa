@@ -130,6 +130,10 @@ npm run localqa:launch-check
 | A/B workflow proxy | `25,829` tokens | `6,704` tokens | `19,125` | `74.04%` | `3/3` maintained |
 | Long-horizon 300k benchmark | `302,772` tokens | `8,842` tokens | `293,930` | `97.08%` | `9/9` quality gates, `9/9` memory writes |
 
+Read these rows with care. The first is one controlled run, not a universal average. The second and
+third are scripted comparisons, not provider billing telemetry. They are size ratios of evidence, not
+savings measured at a provider, and the 97.08% figure should not be read as a provider saving.
+
 More detailed reports:
 
 - [Benchmarks and claims](./docs/LOCALQA_BENCHMARKS_AND_CLAIMS.md)
@@ -158,7 +162,7 @@ Start MCP strict mode:
 LOCALQA_PUBLIC_SURFACE=agent-strict npm run localqa:mcp
 ```
 
-Optional Bonsai autostart environment:
+Optional Bonsai autostart environment. The llama.cpp build and the model file this expects are not part of this repository, so it will not start from a fresh clone:
 
 ```bash
 LOCALQA_DEFAULT_LLM=bonsai \
